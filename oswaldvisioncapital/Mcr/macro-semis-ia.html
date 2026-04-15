@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supercycle Semi-conducteurs IA, Oswald Vision Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa;--line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0;--gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2;--blue:#1e4faa;--blue-bg:#eef3ff;--green:#1a7a4a;--green-bg:#e8f5ee;--red:#c0392b;--red-bg:#fde8e8;--purple:#5e35b1;--purple-bg:#f0ebff;--shadow:0 2px 20px rgba(26,26,46,.08);--shadow-lg:0 8px 40px rgba(26,26,46,.14)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;justify-content:space-between;align-items:center}
+.lb-left{font-size:.68rem;color:rgba(255,255,255,.4)}.lb-left strong{color:var(--gold-l)}
+.lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700}
+nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}.nav-logo em{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none}.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important}
+.article-nav{padding:.9rem 5vw;background:var(--cream);border-bottom:1px solid var(--cream2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+.back-btn{font-size:.82rem;color:var(--body);text-decoration:none;display:flex;align-items:center;gap:.4rem}.back-btn:hover{color:var(--ink)}
+.art-lang{display:flex;gap:.4rem}
+.als-btn{font-size:.75rem;font-weight:600;padding:.32rem .8rem;border-radius:6px;border:1.5px solid;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s;display:inline-block;text-decoration:none}
+.als-btn.current{background:var(--ink);color:#fff;border-color:var(--ink)}.als-btn.other{background:transparent;color:var(--body);border-color:var(--line)}
+.als-btn.pdf{background:var(--gold-bg);color:var(--gold);border-color:rgba(201,131,42,.3)}.als-btn.pdf:hover{background:var(--gold);color:#fff}
+/* HERO — tech dark blue */
+.article-hero{background:linear-gradient(160deg,#080e1a 0%,#0d1a2e 50%,#0f2040 100%);color:#fff;padding:5vh 8vw 4vh;position:relative;overflow:hidden}
+.article-hero::before{content:'';position:absolute;top:0;right:0;width:60%;height:100%;background:radial-gradient(ellipse at 80% 30%,rgba(30,79,170,.15),transparent 60%)}
+.article-hero::after{content:'GPU';position:absolute;right:5vw;bottom:-15px;font-family:'Libre Baskerville',serif;font-size:8rem;font-weight:700;color:rgba(255,255,255,.03);pointer-events:none}
+.ah-breadcrumb{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:.4rem}
+.ah-breadcrumb a{color:var(--gold-l);text-decoration:none}
+.ah-badges{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.2rem}
+.badge{font-size:.65rem;font-weight:700;padding:.22rem .65rem;border-radius:100px}
+.b-sector{background:rgba(30,79,170,.4);color:#93c5fd;border:1px solid rgba(30,79,170,.35)}
+.b-tech{background:rgba(94,53,177,.35);color:#c4b5fd;border:1px solid rgba(94,53,177,.3)}
+.b-new{background:rgba(201,131,42,.8);color:#fff}
+h1.ah-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.7rem,3.3vw,2.7rem);font-weight:700;line-height:1.1;color:#fff;margin-bottom:.8rem}
+h1.ah-title em{color:var(--gold-l);font-style:italic}
+.ah-lede{font-size:1rem;color:rgba(255,255,255,.65);line-height:1.8;max-width:680px;margin-bottom:2rem}
+.stamp{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.si{padding:.9rem 1.1rem;background:rgba(255,255,255,.04)}
+.si-key{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.25rem}
+.si-val{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:#fff}
+.si-val.g{color:#4ade80}.si-val.r{color:#f87171}.si-val.au{color:var(--gold-l)}
+/* shared body styles */
+.reading-progress{position:fixed;top:60px;left:0;right:0;height:3px;z-index:90}
+.rp-bar{height:100%;background:var(--blue);width:0;transition:width .1s}
+.article-body{max-width:880px;margin:0 auto;padding:4vh 5vw 8vh}
+.toc{background:var(--cream);border:1px solid var(--cream2);border-radius:12px;padding:1.4rem 1.6rem;margin:2rem 0}
+.toc-title{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:.35rem}
+.toc-list a{font-size:.84rem;color:var(--body);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .2s}.toc-list a:hover{color:var(--gold)}
+.toc-num{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);width:20px;flex-shrink:0}
+.sec-wrap{margin:3rem 0 1.5rem;scroll-margin-top:80px}
+.sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.sec-eyebrow::after{content:'';width:20px;height:1px;background:var(--gold);display:inline-block}
+h2.sec-title{font-family:'Libre Baskerville',serif;font-size:1.25rem;font-weight:700;color:var(--ink);line-height:1.2}
+h2.sec-title em{color:var(--gold);font-style:italic}
+.body-p{font-size:.93rem;color:#3a3a52;line-height:1.95;margin-bottom:1.1rem}
+.body-p strong{color:var(--ink);font-weight:700}.body-p em{color:var(--gold);font-style:italic}
+.callout{padding:1.2rem 1.5rem;border-radius:10px;margin:1.5rem 0;font-size:.88rem;line-height:1.75}
+.c-gold{background:var(--gold-bg);border-left:3px solid var(--gold);color:var(--ink)}.c-gold strong{color:var(--ink)}
+.c-blue{background:var(--blue-bg);border-left:3px solid var(--blue);color:var(--ink)}
+.c-green{background:var(--green-bg);border-left:3px solid var(--green);color:var(--ink)}
+.c-red{background:var(--red-bg);border-left:3px solid var(--red);color:var(--ink)}
+.c-purple{background:var(--purple-bg);border-left:3px solid var(--purple);color:var(--ink)}
+.tbl-wrap{overflow-x:auto;margin:1.5rem 0}
+.tbl{width:100%;border-collapse:collapse;font-size:.84rem}
+.tbl th{background:var(--ink2);color:#fff;padding:.65rem 1rem;text-align:left;font-weight:700;font-size:.74rem;letter-spacing:.04em;white-space:nowrap}
+.tbl td{padding:.65rem 1rem;border-bottom:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.tbl tr:hover td{background:var(--cream)}
+.tbl td.pos{color:var(--green);font-weight:700;font-family:'JetBrains Mono',monospace}
+.tbl td.neg{color:var(--red);font-weight:700;font-family:'JetBrains Mono',monospace}
+.tbl td.neu{color:var(--gold);font-weight:700;font-family:'JetBrains Mono',monospace}
+.tbl td.mono{font-family:'JetBrains Mono',monospace}.tbl td.bold{font-weight:700;color:var(--ink)}
+.tbl .row-hdr{background:var(--cream);font-weight:700;font-size:.8rem}
+.tbl tr.highlighted td{background:var(--blue-bg)}
+.chart-2col{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:1.5rem 0}
+.chart-1col{margin:1.5rem 0}
+.chart-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:1.4rem;box-shadow:var(--shadow)}
+.chart-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.cht{font-family:'Libre Baskerville',serif;font-size:.92rem;font-weight:700;color:var(--ink)}
+.chs{font-size:.63rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:.1rem}
+.cbadge{font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:100px}
+.cbg{background:var(--green-bg);color:var(--green)}.cba{background:var(--gold-bg);color:var(--gold)}
+.cbr{background:var(--red-bg);color:var(--red)}.cbb{background:var(--blue-bg);color:var(--blue)}.cbp{background:var(--purple-bg);color:var(--purple)}
+.chart-wrap{position:relative}.h200{height:200px}.h240{height:240px}.h260{height:260px}
+.cnote{font-size:.63rem;color:var(--muted);margin-top:.55rem;font-family:'JetBrains Mono',monospace;font-style:italic;line-height:1.5}
+.insight{background:var(--cream);border-radius:8px;padding:.8rem 1rem;margin-top:.8rem}
+.insight-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--gold);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.22rem}
+.insight-txt{font-size:.82rem;color:var(--ink);line-height:1.7}.insight-txt strong{color:var(--ink)}
+/* CYCLE PHASES */
+.cycle-phases{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin:1.5rem 0}
+.cp{border-radius:10px;padding:1rem;border:1px solid var(--line);text-align:center}
+.cp-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);margin-bottom:.3rem}
+.cp-label{font-weight:700;font-size:.85rem;margin-bottom:.3rem}
+.cp-desc{font-size:.75rem;color:var(--body);line-height:1.5}
+.cp.active{border:2px solid var(--gold);background:var(--gold-bg)}
+.cp.active .cp-label{color:var(--gold)}
+.cp.past{background:var(--cream);opacity:.7}
+.cp.future{border-style:dashed;opacity:.6}
+/* OVC */
+.ovc-block{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:.8rem;display:flex;align-items:flex-start;gap:1rem}
+.ovc-ticker{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;color:var(--gold);background:var(--gold-bg);padding:.3rem .7rem;border-radius:6px;flex-shrink:0;margin-top:.1rem}
+.ovc-company{font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:.25rem}
+.ovc-text{font-size:.84rem;color:var(--ink);line-height:1.7}
+.ovc-signal{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;font-weight:700;padding:.18rem .55rem;border-radius:100px;margin-top:.4rem}
+.sig-pos{background:var(--green-bg);color:var(--green)}.sig-neu{background:var(--gold-bg);color:var(--gold)}.sig-neg{background:var(--red-bg);color:var(--red)}
+.conclusion-box{background:linear-gradient(135deg,#080e1a,#0f2040);color:#fff;border-radius:14px;padding:2rem 2.4rem;margin:3rem 0}
+.cb-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1rem}
+.cb-title{font-family:'Libre Baskerville',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:1rem;line-height:1.3}
+.cb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem}
+.cb-item{padding:.9rem;background:rgba(255,255,255,.06);border-radius:8px;border:1px solid rgba(255,255,255,.08)}
+.cb-item-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}
+.cb-item-val{font-size:.88rem;font-weight:700;color:#fff;line-height:1.4}
+.article-actions{display:flex;gap:.8rem;margin:2.5rem 0;flex-wrap:wrap}
+.btn-ink{background:var(--ink);color:#fff;padding:.78rem 1.6rem;border-radius:8px;font-weight:700;font-size:.84rem;text-decoration:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;display:inline-block}.btn-ink:hover{background:var(--blue)}
+.btn-blue-out{background:var(--blue-bg);color:var(--blue);padding:.78rem 1.6rem;border-radius:8px;border:1.5px solid rgba(30,79,170,.3);font-weight:700;font-size:.84rem;text-decoration:none;display:inline-block;cursor:pointer;font-family:'Outfit',sans-serif}.btn-blue-out:hover{background:var(--blue);color:#fff}
+.btn-out{background:transparent;color:var(--ink);padding:.78rem 1.6rem;border-radius:8px;border:1.5px solid var(--line);font-weight:600;font-size:.84rem;text-decoration:none;display:inline-block;cursor:pointer;font-family:'Outfit',sans-serif}.btn-out:hover{border-color:var(--gold);color:var(--gold)}
+.disclaimer{margin-top:3rem;padding:1.1rem 1.4rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2);font-size:.73rem;color:var(--muted);line-height:1.65}
+[data-fr],[data-en]{display:none}
+html[data-lang=fr] [data-fr]{display:revert}
+html[data-lang=en] [data-en]{display:revert}
+span[data-fr],span[data-en]{display:none}
+html[data-lang=fr] span[data-fr]{display:inline}
+html[data-lang=en] span[data-en]{display:inline}
+@media print{.lang-bar,nav,.article-nav,.article-actions,.reading-progress{display:none!important}.article-body{padding:0}.chart-2col{grid-template-columns:1fr!important}}
+/* ── MOBILE MENU ── */
+.mobile-nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1100}
+.mobile-nav-toggle span{display:block;width:24px;height:2px;background:var(--ink);transition:all .3s ease;border-radius:2px}
+
+.mobile-nav-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);z-index:1050;display:flex;flex-direction:column;padding:80px 8vw 40px;transform:translateX(100%);transition:transform .4s cubic-bezier(.77,0,.175,1);overflow-y:auto}
+.mobile-nav-overlay.open{transform:translateX(0)}
+.mno-links{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem}
+.mno-link{font-size:1.3rem;font-weight:700;color:var(--ink);text-decoration:none;font-family:'Libre Baskerville',serif}
+.mno-sublinks{padding-left:1.5rem;display:flex;flex-direction:column;gap:.6rem;margin-top:.4rem}
+.mno-sublink{font-size:.9rem;color:var(--body);text-decoration:none}
+.mno-cta{margin-top:2rem;text-align:center}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .stamp{grid-template-columns:repeat(3,1fr)}
+  .cycle-phases{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .mobile-nav-toggle{display:flex}
+  
+  .article-hero, .article-body, section, footer{padding-left:5vw;padding-right:5vw}
+  
+  .chart-2col{grid-template-columns:1fr}
+  .cb-grid{grid-template-columns:1fr}
+  .stamp{grid-template-columns:repeat(2,1fr)}
+  .cycle-phases{grid-template-columns:1fr}
+  
+  h1.ah-title{font-size:2rem}
+  
+  body.menu-open{overflow:hidden}
+  body.menu-open .mobile-nav-toggle span:nth-child(1){transform:rotate(45deg) translate(5px, 5px)}
+  body.menu-open .mobile-nav-toggle span:nth-child(2){opacity:0}
+  body.menu-open .mobile-nav-toggle span:nth-child(3){transform:rotate(-45deg) translate(5px, -5px)}
+}
+
+@media(max-width:480px){
+  .stamp{grid-template-columns:1fr}
+}
+
+
+/* Dropdown nav */
+.nav-item-dd{position:relative;display:flex;align-items:center}
+.nav-link-dd{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:.25rem;transition:color .2s}
+.nav-link-dd::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);margin-left:.25rem;transition:transform .2s}
+.nav-item-dd:hover .nav-link-dd::after{transform:rotate(225deg) translateY(-2px)}
+.nav-item-dd:hover .nav-link-dd,.nav-item-dd:hover .nav-link-dd{color:var(--ink)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-4px);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 40px rgba(26,26,46,.14);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:200}
+.nav-item-dd:hover .nav-dropdown{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown a{display:block;padding:.52rem .9rem;font-size:.8rem;color:var(--body);text-decoration:none;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown a:hover{background:var(--cream);color:var(--ink)}
+.dd-divider{height:1px;background:var(--line);margin:.3rem .5rem}
+</style>
+</head>
+<body>
+<div class="reading-progress"><div class="rp-bar" id="rp-bar"></div></div>
+<div class="lang-bar">
+<span class="lb-left"><strong>Oswald Vision Capital</strong>·<span data-fr>Analyse Sectorielle S-001</span><span data-en>Sector Analysis S-001</span></span>
+<div class="lang-btns"><button class="lbtn active" onclick="setLang('fr')">FR</button><button class="lbtn" onclick="setLang('en')">EN</button></div>
+</div>
+<nav>
+  <a href="../index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+  <div class="nav-links" id="main-nav-links">
+    <div class="nav-item-dd">
+      <a href="../analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+      <div class="nav-dropdown">
+        <a href="../Analyse/nvidia.html">NVIDIA (N°002)</a>
+        <a href="../Analyse/orange-ci.html">Orange CI (N°001)</a>
+        <div class="dd-divider"></div>
+        <a href="../analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+      </div>
+    </div>
+    <div class="nav-item-dd">
+      <a href="../macro.html" class="nav-link-dd">Macro</a>
+      <div class="nav-dropdown">
+        <a href="macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
+        <a href="macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+        <div class="dd-divider"></div>
+        <a href="macro-uemoa.html">UEMOA 2026 (A-001)</a>
+        <div class="dd-divider"></div>
+        <a href="macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+        <div class="dd-divider"></div>
+        <a href="../macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
+      </div>
+    </div>
+    <a href="../performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
+    <a href="../fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+  </div>
+  
+  <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Nav Overlay -->
+<div class="mobile-nav-overlay" id="mobile-menu">
+  <div class="mno-links">
+    <a href="../index.html" class="mno-link">Home</a>
+    <div class="mno-group">
+      <a href="../analyses.html" class="mno-link">Equity Research</a>
+      <div class="mno-sublinks">
+        <a href="../Analyse/nvidia.html" class="mno-sublink">NVIDIA</a>
+        <a href="../Analyse/orange-ci.html" class="mno-sublink">Orange CI</a>
+      </div>
+    </div>
+    <div class="mno-group">
+      <a href="../macro.html" class="mno-link">Macro</a>
+      <div class="mno-sublinks">
+        <a href="macro-iran-ormuz.html" class="mno-sublink">Détroit d'Ormuz</a>
+        <a href="macro-trump-tariffs.html" class="mno-sublink">Tarifs Trump 2025</a>
+      </div>
+    </div>
+    <a href="../performance.html" class="mno-link">Performance</a>
+    <a href="../fund-simulator.html" class="mno-link">Fonds OVC</a>
+    <div class="mno-cta">
+      <a href="../subscribe.html" class="btn-gold" style="display:block;text-align:center;padding:1rem;border-radius:12px;text-decoration:none;font-weight:700">
+        <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="article-nav">
+<a href="../macro.html" class="back-btn"><span data-fr>Retour aux analyses économiques</span><span data-en>Back to economic analyses</span></a>
+<div class="art-lang">
+<button class="als-btn current">FR</button>
+<button class="als-btn other">EN</button>
+<button class="als-btn pdf" onclick="window.print()">⬇ PDF</button>
+</div>
+</div><div class="article-hero">
+<div class="ah-breadcrumb"><a href="../macro.html">Macro</a><span>/</span><span><span data-fr>Sectorielle</span><span data-en>Sector</span></span><span>/</span><span><span data-fr>Semi-conducteurs</span><span data-en>Semiconductors</span></span></div>
+<div class="ah-badges">
+<span class="badge b-sector"><span data-fr>Semi-conducteurs</span><span data-en>Semiconductors</span></span>
+<span class="badge b-tech">S-001</span>
+<span class="badge b-new">*<span data-fr>Nouveau</span><span data-en>New</span></span>
+</div>
+<h1 class="ah-title">
+<span data-fr>Supercycle des semi-conducteurs IA,<br>Où en sommes-nous<em>dans le cycle ?</em></span>
+<span data-en>AI Semiconductor Supercycle,<br>Where are we<em>in the cycle?</em></span>
+</h1>
+<p class="ah-lede">
+<span data-fr>Le marché des GPU IA a été multiplié par 7 en 3 ans. Les hyperscalers ont engagé plus de $300 milliards de CapEx IA pour 2025-2026. Est-ce le début d'une révolution décennale ou le sommet d'un cycle classique d'investissement technologique ? Analyse de position dans le cycle, identification des winners et des risques de fin de cycle.</span>
+<span data-en>The AI GPU market has been multiplied by 7 in 3 years. Hyperscalers have committed more than $300 billion in AI CapEx for 2025-2026. Is this the beginning of a decade-long revolution or the peak of a classic technology investment cycle? Analysis of cycle position, identification of winners and end-of-cycle risks.</span>
+</p>
+<div class="stamp">
+<div class="si"><div class="si-key">Date</div><div class="si-val">10/04/2026</div></div>
+<div class="si"><div class="si-key"><span data-fr>Marché GPU IA</span><span data-en>AI GPU market</span></div><div class="si-val au">$230Mds</div></div>
+<div class="si"><div class="si-key">CapEx hyperscalers</div><div class="si-val g">$300Mds+</div></div>
+<div class="si"><div class="si-key"><span data-fr>NVDA market share</span><span data-en>NVDA market share</span></div><div class="si-val">~85%</div></div>
+<div class="si"><div class="si-key">Lecture</div><div class="si-val">16 min</div></div>
+</div>
+</div><div class="article-body"><div class="toc">
+<div class="toc-title"><span data-fr>Sommaire</span><span data-en>Table of contents</span></div>
+<ul class="toc-list">
+<li><a href="#s1"><span class="toc-num">01</span><span data-fr>Anatomie d'un supercycle, comparaisons historiques</span><span data-en>Anatomy of a supercycle, historical comparisons</span></a></li>
+<li><a href="#s2"><span class="toc-num">02</span><span data-fr>Où en sommes-nous ? Les 4 phases du cycle</span><span data-en>Where are we? The 4 cycle phases</span></a></li>
+<li><a href="#s3"><span class="toc-num">03</span><span data-fr>Cartographie de la chaîne de valeur semi-conducteurs IA</span><span data-en>AI semiconductor value chain mapping</span></a></li>
+<li><a href="#s4"><span class="toc-num">04</span><span data-fr>Entraînement vs Inférence, le prochain driver</span><span data-en>Training vs Inference, the next driver</span></a></li>
+<li><a href="#s5"><span class="toc-num">05</span><span data-fr>Risques de fin de cycle, ce qui déclencherait l'arrêt</span><span data-en>End-of-cycle risks, what would trigger a stop</span></a></li>
+<li><a href="#s6"><span class="toc-num">06</span><span data-fr>Implications pour le portefeuille OVC</span><span data-en>Implications for the OVC portfolio</span></a></li>
+<li><a href="#s7"><span class="toc-num">07</span><span data-fr>Analyse & conviction</span><span data-en>Analysis & conviction</span></a></li>
+</ul>
+</div><!-- S1 -->
+<div class="sec-wrap" id="s1">
+<div class="sec-eyebrow">01</div>
+<h2 class="sec-title"><span data-fr>Anatomie d'un supercycle,<em>Ce cycle ressemble-t-il à 1995 ou à 2000 ?</em></span><span data-en>Anatomy of a supercycle,<em>Does this cycle look like 1995 or 2000?</em></span></h2>
+</div>
+<p class="body-p"><span data-fr>Un supercycle technologique se caractérise par une demande qui excède structurellement l'offre sur une période multi-années, générant des marges et des rendements exceptionnels pour les leaders du secteur. L'histoire en compte peu : le PC dans les années 80, internet dans les années 90-2000, et le smartphone 2007-2015.<strong>Le cycle IA GPU 2023-2026 présente des caractéristiques qui le distinguent nettement de la bulle internet de 2000.</strong></span><span data-en>A technology supercycle is characterized by demand that structurally exceeds supply over a multi-year period, generating exceptional margins and returns for sector leaders. History counts few: the PC in the 1980s, internet in the 1990s-2000s, and the smartphone 2007-2015.<strong>The AI GPU cycle 2023-2026 has characteristics that clearly distinguish it from the 2000 internet bubble.</strong></span></p><div class="chart-2col">
+<div class="chart-card">
+<div class="chart-hdr"><div><div class="cht"><span data-fr>Taille du marché GPU IA 2020-2030E</span><span data-en>AI GPU market size 2020-2030E</span></div><div class="chs">Mds USD</div></div><span class="cbadge cbg">x7 en 3 ans</span></div>
+<div class="chart-wrap h240"><canvas id="chart-market"></canvas></div>
+<div class="cnote"><span data-fr>Source : IDC, Gartner, Goldman Sachs Research · 2026-2030 = estimations</span><span data-en>Source: IDC, Gartner, Goldman Sachs Research · 2026-2030 = estimates</span></div>
+<div class="insight"><div class="insight-lbl"><span data-fr>Différence vs bulle 2000</span><span data-en>Difference vs 2000 bubble</span></div><div class="insight-txt"><span data-fr>En 2000, les revenus des entreprises internet étaient quasi-nuls, c'était du pur espoir.<strong>NVIDIA a généré $120Mds de bénéfice net en FY2026.</strong>Ce cycle est ancré dans des cash flows réels, pas dans des P/E fictifs.</span><span data-en>In 2000, internet company revenues were near zero, it was pure hope.<strong>NVIDIA generated $120B in net income in FY2026.</strong>This cycle is anchored in real cash flows, not fictional P/Es.</span></div></div>
+</div>
+<div class="chart-card">
+<div class="chart-hdr"><div><div class="cht"><span data-fr>CapEx IA hyperscalers 2021-2026E</span><span data-en>Hyperscaler AI CapEx 2021-2026E</span></div><div class="chs">Mds USD</div></div><span class="cbadge cbg">$300Mds+ en 2025</span></div>
+<div class="chart-wrap h240"><canvas id="chart-capex"></canvas></div>
+<div class="cnote"><span data-fr>Source : rapports annuels Microsoft, Amazon, Google, Meta · 2026E = guidances publiées</span><span data-en>Source: Microsoft, Amazon, Google, Meta annual reports · 2026E = published guidance</span></div>
+<div class="insight"><div class="insight-lbl"><span data-fr>Ce qui est irreversible</span><span data-en>What is irreversible</span></div><div class="insight-txt"><span data-fr>Les CEOs de Microsoft, Amazon, Google et Meta ont tous affirmé publiquement que réduire les dépenses IA serait une<strong>erreur stratégique catastrophique</strong>. Ces engagements publics créent un coût de réputation élevé à une décélération brutale.</span><span data-en>The CEOs of Microsoft, Amazon, Google and Meta have all publicly stated that reducing AI spending would be a<strong>catastrophic strategic mistake</strong>. These public commitments create a high reputational cost to a brutal deceleration.</span></div></div>
+</div>
+</div><div class="callout c-blue">
+<strong><span data-fr>Bulle 2000 vs Cycle IA 2025, les 5 différences fondamentales :</span><span data-en>2000 Bubble vs AI Cycle 2025, 5 fundamental differences:</span></strong>
+<span data-fr>(1)<strong>Cash flows réels</strong>: NVIDIA $97B de FCF vs Amazon $7M en 2000. (2)<strong>Clients payants dès le jour 1</strong>: les hyperscalers payent cash, pas à crédit. (3)<strong>Barrières à l'entrée matérielles</strong>: le hardware GPU prend 2-3 ans à développer, pas un site web clonable en 3 mois. (4)<strong>Infrastructure critique</strong>: les GPU IA sont devenus une infrastructure d'État (militaire, souveraineté technologique). (5)<strong>ROI démontrable</strong>: GitHub Copilot, ChatGPT Enterprise, Gemini Pro, les clients ont un ROI mesurable.</span>
+<span data-en>(1)<strong>Real cash flows</strong>: NVIDIA $97B FCF vs Amazon $7M in 2000. (2)<strong>Paying customers from day 1</strong>: hyperscalers pay cash, not on credit. (3)<strong>Material entry barriers</strong>: GPU hardware takes 2-3 years to develop, not a website cloneable in 3 months. (4)<strong>Critical infrastructure</strong>: AI GPUs have become state infrastructure (military, technological sovereignty). (5)<strong>Demonstrable ROI</strong>: GitHub Copilot, ChatGPT Enterprise, Gemini Pro, customers have measurable ROI.</span>
+</div><!-- S2 -->
+<div class="sec-wrap" id="s2">
+<div class="sec-eyebrow">02</div>
+<h2 class="sec-title"><span data-fr>Les 4 phases du cycle,<em>Nous sommes en Phase 2</em></span><span data-en>The 4 cycle phases,<em>We are in Phase 2</em></span></h2>
+</div>
+<p class="body-p"><span data-fr>Tout supercycle technologique suit un schéma identifiable en 4 phases. Identifier notre position dans ce cycle est l'analyse la plus importante pour déterminer si le risque/rendement est encore favorable.</span><span data-en>Every technology supercycle follows an identifiable 4-phase pattern. Identifying our position in this cycle is the most important analysis to determine whether the risk/return is still favorable.</span></p><div class="cycle-phases">
+<div class="cp past">
+<div class="cp-num">Phase 1</div>
+<div class="cp-label" style="color:var(--body)"><span data-fr>Amorçage</span><span data-en>Bootstrap</span></div>
+<div class="cp-desc"><span data-fr>2020-2022 · R&D, premiers LLMs, investissements VC, ChatGPT 3.5</span><span data-en>2020-2022 · R&D, first LLMs, VC investments, ChatGPT 3.5</span></div>
+</div>
+<div class="cp active">
+<div class="cp-num">* Phase 2,<span data-fr>MAINTENANT</span><span data-en>NOW</span></div>
+<div class="cp-label"><span data-fr>Infrastructure</span><span data-en>Infrastructure</span></div>
+<div class="cp-desc"><span data-fr>2023-2026 · Déploiement massif GPU. Hyperscalers construisent la plomberie IA. NVIDIA domine.</span><span data-en>2023-2026 · Massive GPU deployment. Hyperscalers build AI plumbing. NVIDIA dominates.</span></div>
+</div>
+<div class="cp future">
+<div class="cp-num">Phase 3</div>
+<div class="cp-label" style="color:var(--body)"><span data-fr>Monétisation</span><span data-en>Monetization</span></div>
+<div class="cp-desc"><span data-fr>2026-2028E · Inférence IA au scale. Applications B2B. Première monétisation réelle de l'IA.</span><span data-en>2026-2028E · AI inference at scale. B2B applications. First real AI monetization.</span></div>
+</div>
+<div class="cp future">
+<div class="cp-num">Phase 4</div>
+<div class="cp-label" style="color:var(--body)"><span data-fr>Maturité</span><span data-en>Maturity</span></div>
+<div class="cp-desc"><span data-fr>2028-2030E+ · Consolidation, commoditisation GPU, marges normalisées. Fin du supercycle.</span><span data-en>2028-2030E+ · Consolidation, GPU commoditization, normalized margins. End of supercycle.</span></div>
+</div>
+</div><div class="callout c-gold"><strong><span data-fr>La Phase 2 est la plus profitable pour les équipementiers (NVIDIA, ASML, TSMC) :</span><span data-en>Phase 2 is the most profitable for equipment makers (NVIDIA, ASML, TSMC):</span></strong><span data-fr>C'est pendant la construction de l'infrastructure que les pickaxe sellers dominent, exactement comme les vendeurs de pioches pendant la ruée vers l'or. En Phase 3, le pouvoir se déplacera vers les applications (Microsoft Copilot, Salesforce Einstein, etc.).<strong>La fenêtre d'investissement optimale dans NVIDIA est la Phase 2, nous y sommes encore.</strong></span><span data-en>It's during infrastructure construction that pickaxe sellers dominate, exactly like pickaxe sellers during the gold rush. In Phase 3, power will shift to applications (Microsoft Copilot, Salesforce Einstein, etc.).<strong>The optimal NVIDIA investment window is Phase 2, we are still in it.</strong></span></div><!-- S3 -->
+<div class="sec-wrap" id="s3">
+<div class="sec-eyebrow">03</div>
+<h2 class="sec-title"><span data-fr>La chaîne de valeur,<em>Qui capture la valeur, et combien ?</em></span><span data-en>The value chain,<em>Who captures value, and how much?</em></span></h2>
+</div>
+<p class="body-p"><span data-fr>La chaîne de valeur des semi-conducteurs IA s'étend des fonderies (TSMC) aux logiciels (CUDA). Chaque maillon a un profil de marge et de risque différent.<strong>NVIDIA a réussi à capturer deux maillons simultanément, hardware premium + logiciel propriétaire, ce qui est structurellement unique.</strong></span><span data-en>The AI semiconductor value chain extends from foundries (TSMC) to software (CUDA). Each link has a different margin and risk profile.<strong>NVIDIA has managed to capture two links simultaneously, premium hardware + proprietary software, which is structurally unique.</strong></span></p><div class="tbl-wrap"><table class="tbl">
+<thead><tr>
+<th><span data-fr>Maillon</span><span data-en>Chain link</span></th>
+<th><span data-fr>Acteurs clés</span><span data-en>Key players</span></th>
+<th><span data-fr>Marge brute</span><span data-en>Gross margin</span></th>
+<th><span data-fr>Barrière entrée</span><span data-en>Entry barrier</span></th>
+<th><span data-fr>Pouvoir tarification</span><span data-en>Pricing power</span></th>
+<th><span data-fr>Risque disruptif</span><span data-en>Disruptive risk</span></th>
+<th>OVC</th>
+</tr></thead>
+<tbody>
+<tr><td class="bold"><span data-fr>Matériaux & EUV</span><span data-en>Materials & EUV</span></td><td class="mono">ASML, ZEISS, Air Products</td><td class="pos mono">55-65%</td><td class="pos"><span data-fr>Extrême</span><span data-en>Extreme</span></td><td class="pos"><span data-fr>Très élevé</span><span data-en>Very high</span></td><td class="pos mono">Faible</td><td class="neu">N°003E</td></tr>
+<tr class="highlighted"><td class="bold"><span data-fr>Fonderie (fab)</span><span data-en>Foundry (fab)</span></td><td class="mono">TSMC, Samsung, Intel</td><td class="neu mono">53-58%</td><td class="pos"><span data-fr>Maximale</span><span data-en>Maximum</span></td><td class="neu"><span data-fr>Élevé</span><span data-en>High</span></td><td class="pos mono">Très faible</td><td>n.d.</td></tr>
+<tr class="highlighted"><td class="bold">GPU Design *</td><td class="mono" style="color:var(--gold)">NVIDIA (85%), AMD (12%)</td><td class="pos mono">75%</td><td class="pos"><span data-fr>Très élevée</span><span data-en>Very high</span></td><td class="pos"><span data-fr>Absolu (CUDA)</span><span data-en>Absolute (CUDA)</span></td><td class="neu mono">Modéré (ASICs)</td><td class="neu">N°002</td></tr>
+<tr><td class="bold"><span data-fr>Mémoire HBM</span><span data-en>HBM Memory</span></td><td class="mono">SK Hynix, Samsung, Micron</td><td class="neu mono">45-55%</td><td class="neu"><span data-fr>Élevée</span><span data-en>High</span></td><td class="neu"><span data-fr>Élevé</span><span data-en>High</span></td><td class="neg mono"><span data-fr>Surcapacité risk</span><span data-en>Overcapacity risk</span></td><td>n.d.</td></tr>
+<tr><td class="bold">️<span data-fr>Systèmes & serveurs</span><span data-en>Systems & servers</span></td><td class="mono">Dell, HPE, Super Micro</td><td class="neg mono">20-30%</td><td class="neg"><span data-fr>Faible</span><span data-en>Low</span></td><td class="neg"><span data-fr>Faible</span><span data-en>Low</span></td><td class="neg mono"><span data-fr>Compétition prix</span><span data-en>Price competition</span></td><td>n.d.</td></tr>
+<tr><td class="bold"><span data-fr>Cloud / Inférence (as-a-service)</span><span data-en>Cloud / Inference (as-a-service)</span></td><td class="mono">AWS, Azure, Google Cloud</td><td class="pos mono">60-70%</td><td class="pos"><span data-fr>Élevée</span><span data-en>High</span></td><td class="neu"><span data-fr>Élevé</span><span data-en>High</span></td><td class="neu mono">Concurrence entre 3</td><td>n.d.</td></tr>
+</tbody>
+</table></div><!-- S4 -->
+<div class="sec-wrap" id="s4">
+<div class="sec-eyebrow">04</div>
+<h2 class="sec-title"><span data-fr>Entraînement vs Inférence,<em>Le prochain driver de croissance</em></span><span data-en>Training vs Inference,<em>The next growth driver</em></span></h2>
+</div>
+<p class="body-p"><span data-fr>Le marché GPU IA de 2023-2025 a été dominé par l'<strong>entraînement</strong>des modèles (GPT-4, Gemini, Llama). C'est un marché one-shot : on entraîne un modèle une fois, puis on arrête.<strong>Le marché suivant, l'inférence, est infiniment plus grand et récurrent.</strong></span><span data-en>The 2023-2025 AI GPU market has been dominated by model<strong>training</strong>(GPT-4, Gemini, Llama). It's a one-shot market: you train a model once, then stop.<strong>The next market, inference, is infinitely larger and recurring.</strong></span></p><div class="chart-2col">
+<div class="chart-card">
+<div class="chart-hdr"><div><div class="cht"><span data-fr>Marché Training vs Inference GPU IA</span><span data-en>Training vs Inference AI GPU market</span></div><div class="chs">Mds USD ·<span data-fr>estimations</span><span data-en>estimates</span></div></div><span class="cbadge cbp"><span data-fr>Inférence dépasse training</span><span data-en>Inference surpasses training</span></span></div>
+<div class="chart-wrap h240"><canvas id="chart-inference"></canvas></div>
+<div class="insight"><div class="insight-lbl"><span data-fr>La bascule 2026-2027</span><span data-en>The 2026-2027 tipping point</span></div><div class="insight-txt"><span data-fr>Dès 2027, le marché de l'inférence devrait dépasser le marché de l'entraînement.<strong>L'inférence est par nature récurrente</strong>, chaque requête ChatGPT, chaque appel à l'API Copilot génère une charge de calcul. Ce marché croît avec le nombre d'utilisateurs, pas avec le nombre de modèles entraînés.</span><span data-en>By 2027, the inference market should surpass the training market.<strong>Inference is inherently recurring</strong>, each ChatGPT request, each Copilot API call generates compute load. This market grows with the number of users, not the number of trained models.</span></div></div>
+</div>
+<div class="chart-card">
+<div class="chart-hdr"><div><div class="cht"><span data-fr>Parts de marché GPU IA 2025</span><span data-en>AI GPU market share 2025</span></div><div class="chs"><span data-fr>% revenus Data Center IA</span><span data-en>% AI Data Center revenues</span></div></div><span class="cbadge cbg">NVIDIA 85%</span></div>
+<div class="chart-wrap h240"><canvas id="chart-market-share"></canvas></div>
+<div class="insight"><div class="insight-lbl"><span data-fr>La question clé</span><span data-en>The key question</span></div><div class="insight-txt"><span data-fr>NVIDIA à 85% de part de marché GPU IA est-il soutenable à 5 ans ? La réponse est<strong>non pour 85%, oui pour 65-70%</strong>, les ASICs maison des hyperscalers grignoteraient 15-20 pts sur l'inférence spécifique. NVIDIA resterait leader, mais avec une part normalisée.</span><span data-en>Is NVIDIA at 85% AI GPU market share sustainable over 5 years? The answer is<strong>no for 85%, yes for 65-70%</strong>, hyperscaler in-house ASICs would erode 15-20 pts on specific inference. NVIDIA would remain leader, but with a normalized share.</span></div></div>
+</div>
+</div><!-- S5 -->
+<div class="sec-wrap" id="s5">
+<div class="sec-eyebrow">05</div>
+<h2 class="sec-title"><span data-fr>Risques de fin de cycle,<em>Les signaux à surveiller</em></span><span data-en>End-of-cycle risks,<em>Signals to monitor</em></span></h2>
+</div><div class="tbl-wrap"><table class="tbl">
+<thead><tr>
+<th><span data-fr>Signal de fin de cycle</span><span data-en>End-of-cycle signal</span></th>
+<th><span data-fr>Seuil critique</span><span data-en>Critical threshold</span></th>
+<th><span data-fr>Probabilité 18 mois</span><span data-en>18-month probability</span></th>
+<th><span data-fr>Impact NVIDIA</span><span data-en>NVIDIA impact</span></th>
+<th><span data-fr>Monitoring OVC</span><span data-en>OVC monitoring</span></th>
+</tr></thead>
+<tbody>
+<tr><td class="bold"><span data-fr>Réduction CapEx hyperscalers</span><span data-en>Hyperscaler CapEx reduction</span></td><td class="neg"><span data-fr>Guidance revenue< $70B</span><span data-en>Revenue guidance< $70B</span></td><td class="neu mono">15%</td><td class="neg">-40% à -60%</td><td class="mono"><span data-fr>Guidance trimestrielle</span><span data-en>Quarterly guidance</span></td></tr>
+<tr><td class="bold"><span data-fr>ROI IA non démontré</span><span data-en>AI ROI not demonstrated</span></td><td class="neg"><span data-fr>< 5 use cases à large scale</span><span data-en>< 5 use cases at large scale</span></td><td class="neu mono">20%</td><td class="neg">-25% à -40%</td><td class="mono"><span data-fr>Revenus GPT Enterprise</span><span data-en>GPT Enterprise revenues</span></td></tr>
+<tr><td class="bold"><span data-fr>Montée ASICs hyperscalers</span><span data-en>Hyperscaler ASIC rise</span></td><td class="neg"><span data-fr>CUDA market share< 70%</span><span data-en>CUDA market share< 70%</span></td><td class="neg mono">35%</td><td class="neg">-15% à -25%</td><td class="mono"><span data-fr>Déclarations CEO Azure/AWS</span><span data-en>Azure/AWS CEO statements</span></td></tr>
+<tr class="highlighted"><td class="bold"><span data-fr>Récession US profonde</span><span data-en>Deep US recession</span></td><td class="neg">PIB US< -1.5%</td><td class="neg mono">25%</td><td class="neg">-30% à -50%</td><td class="mono">Fed dot plot, PMI</td></tr>
+<tr><td class="bold"><span data-fr>Marge brute NVIDIA< 73%</span><span data-en>NVIDIA gross margin< 73%</span></td><td class="neg"><span data-fr>2 quarters consécutifs</span><span data-en>2 consecutive quarters</span></td><td class="neg mono">20%</td><td class="neg">-15% à -20%</td><td class="mono"><span data-fr>Résultats trimestriels</span><span data-en>Quarterly results</span></td></tr>
+</tbody>
+</table></div><div class="callout c-red"><strong><span data-fr>Le signal à surveiller en priorité, la marge brute :</span><span data-en>The signal to monitor first, gross margin:</span></strong><span data-fr>La marge brute NVIDIA est la variable la plus prédictive du pricing power. Si elle passe sous 73% sur deux quarters consécutifs, cela signifie qu'un des deux mécanismes de protection s'érode : soit TSMC augmente ses prix et NVIDIA ne répercute pas, soit les clients commencent à négocier les prix GPU.<strong>C'est le premier indicateur avancé d'une fin de Phase 2.</strong>Ce signal précède généralement de 2-3 quarters une correction significative du cours.</span><span data-en>NVIDIA gross margin is the most predictive variable of pricing power. If it falls below 73% for two consecutive quarters, it means one of the two protection mechanisms is eroding: either TSMC raises prices and NVIDIA doesn't pass them on, or customers start negotiating GPU prices.<strong>This is the first leading indicator of a Phase 2 end.</strong>This signal typically precedes a significant share price correction by 2-3 quarters.</span></div><!-- S6 -->
+<div class="sec-wrap" id="s6">
+<div class="sec-eyebrow">06</div>
+<h2 class="sec-title"><span data-fr>Implications pour le<em>portefeuille OVC</em></span><span data-en>Implications for the<em>OVC portfolio</em></span></h2>
+</div>
+<div class="ovc-block">
+<span class="ovc-ticker">NASDAQ: NVDA</span>
+<div>
+<div class="ovc-company">NVIDIA,<span data-fr>Positionnement Phase 2 confirmé</span><span data-en>Phase 2 positioning confirmed</span></div>
+<p class="ovc-text"><span data-fr>L'analyse sectorielle confirme le positionnement de notre thèse. NVIDIA est le leader absolu de la Phase 2, infrastructure GPU. La transition vers la Phase 3 (inférence) ne réduira pas ses revenus : elle les transformera.<strong>L'inférence demande des GPU différents (moins de HBM, plus d'unités) mais NVIDIA est également leader sur ce segment avec les H200 et B200 optimisés inférence.</strong>La guidance Q1 FY27 à $78B est cohérente avec un cycle encore en milieu de Phase 2. Aucune révision de thèse nécessaire.</span><span data-en>The sector analysis confirms our thesis positioning. NVIDIA is the absolute leader of Phase 2, GPU infrastructure. The transition to Phase 3 (inference) will not reduce its revenues: it will transform them.<strong>Inference requires different GPUs (less HBM, more units) but NVIDIA also leads this segment with inference-optimized H200 and B200.</strong>The Q1 FY27 guidance of $78B is consistent with a cycle still in mid-Phase 2. No thesis revision needed.</span></p>
+<span class="ovc-signal sig-pos"><span data-fr>Positionnement cycle confirmé, Thèse renforcée</span><span data-en>Cycle positioning confirmed, Thesis strengthened</span></span>
+</div>
+</div>
+<div class="ovc-block">
+<span class="ovc-ticker">NASDAQ: ASML</span>
+<div>
+<div class="ovc-company">ASML,<span data-fr>Candidat N°003 · Upstream du cycle</span><span data-en>Candidate N°003 · Upstream of the cycle</span></div>
+<p class="ovc-text"><span data-fr>ASML est le seul fournisseur mondial de machines EUV, indispensables pour graver les puces à 3nm et 2nm que TSMC utilise pour les GPU NVIDIA.<strong>ASML est encore plus en amont dans la chaîne que NVIDIA, avec un monopole encore plus solide.</strong>Chaque génération de GPU plus puissant nécessite des machines EUV plus avancées. La thèse N°003 ASML (mai 2026) devrait analyser si l'upside restant justifie une initiation à 700€.</span><span data-en>ASML is the sole global supplier of EUV machines, essential for engraving 3nm and 2nm chips that TSMC uses for NVIDIA GPUs.<strong>ASML is even further upstream in the chain than NVIDIA, with an even stronger monopoly.</strong>Each more powerful GPU generation requires more advanced EUV machines. The N°003 ASML thesis (May 2026) should analyze whether remaining upside justifies an initiation at €700.</span></p>
+<span class="ovc-signal sig-neu"><span data-fr>Candidat N°003 · Analyse en cours</span><span data-en>Candidate N°003 · Analysis underway</span></span>
+</div>
+</div><!-- S7 -->
+<div class="sec-wrap" id="s7">
+<div class="sec-eyebrow">07</div>
+<h2 class="sec-title"><span data-fr>Analyse &<em>Conviction</em></span><span data-en>Analysis &<em>Conviction</em></span></h2>
+</div>
+<div class="callout c-blue"><strong><span data-fr>Position dans le cycle :</span><span data-en>Cycle position:</span></strong><span data-fr>Nous sommes en milieu de Phase 2 (infrastructure GPU), avec 18-24 mois estimés avant le début de Phase 3 (inférence at scale).<strong>Ce n'est pas le début du cycle, mais ce n'est pas non plus la fin.</strong>La guidance NVIDIA Q1 FY27 à $78B, les déclarations de CapEx des hyperscalers pour 2026, et l'absence de surcapacité détectable confirment que la demande reste structurellement supérieure à l'offre. C'est la définition d'un cycle sain.</span><span data-en>We are in mid-Phase 2 (GPU infrastructure), with an estimated 18-24 months before the start of Phase 3 (inference at scale).<strong>This is not the beginning of the cycle, but it is not the end either.</strong>NVIDIA Q1 FY27 guidance of $78B, hyperscaler CapEx declarations for 2026, and the absence of detectable overcapacity confirm that demand remains structurally above supply. This is the definition of a healthy cycle.</span></div>
+<div class="callout c-gold"><strong><span data-fr>Ce qui distingue ce cycle de toutes les analyses consensuelles :</span><span data-en>What distinguishes this cycle from all consensus analyses:</span></strong><span data-fr>Le consensus s'inquiète de la valorisation NVIDIA (36x les bénéfices). C'est la mauvaise question. La bonne question est :<em>est-ce que la Phase 2 a encore 2 ans devant elle ?</em>Si oui, le PEG de 0.54x est encore attractif.<strong>Les thèses de baisse sur NVIDIA reposent toutes sur une hypothèse de fin de cycle imminente, une hypothèse que les données ne corroborent pas en avril 2026.</strong></span><span data-en>The consensus worries about NVIDIA valuation (36x earnings). That's the wrong question. The right question is:<em>does Phase 2 still have 2 years ahead?</em>If yes, the PEG of 0.54x is still attractive.<strong>Bear theses on NVIDIA all rest on an imminent end-of-cycle assumption, an assumption that data doesn't corroborate in April 2026.</strong></span></div>
+<div class="callout c-green"><strong><span data-fr>La hiérarchie des risques :</span><span data-en>Risk hierarchy:</span></strong><span data-fr>Par ordre décroissant de probabilité et d'impact : (1) Marge brute NVIDIA< 73% surveiller chaque trimestre. (2) Réduction CapEx hyperscalers surveiller guidances trimestrielles. (3) Récession US surveiller Fed et PMI mensuel. (4) Montée ASICs surveiller sur 3-5 ans.<strong>Ces risques sont tous surveillables avec les outils disponibles gratuitement, 8-K SEC, transcripts d'earnings, communiqués Fed.</strong>Aucun ne nécessite un terminal Bloomberg.</span><span data-en>In decreasing order of probability and impact: (1) NVIDIA gross margin< 73% monitor every quarter. (2) Hyperscaler CapEx reduction monitor quarterly guidance. (3) US recession monitor Fed and monthly PMI. (4) ASIC rise monitor over 3-5 years.<strong>These risks are all monitorable with freely available tools, SEC 8-Ks, earnings transcripts, Fed releases.</strong>None require a Bloomberg terminal.</span></div><div class="conclusion-box">
+<div class="cb-eyebrow">ANALYSE SECTORIELLE S-001 · OSWALD VISION CAPITAL · 10/04/2026</div>
+<div class="cb-title"><span data-fr>Verdict, Le supercycle GPU IA est en Phase 2 (infrastructure). Pas de signal de fin de cycle détectable en avril 2026. La fenêtre d'investissement NVIDIA reste ouverte.</span><span data-en>Verdict, The AI GPU supercycle is in Phase 2 (infrastructure). No detectable end-of-cycle signal in April 2026. The NVIDIA investment window remains open.</span></div>
+<div class="cb-grid">
+<div class="cb-item"><div class="cb-item-label"><span data-fr>Phase cycle</span><span data-en>Cycle phase</span></div><div class="cb-item-val" style="color:var(--gold-l)">Phase 2 ·<span data-fr>Milieu</span><span data-en>Mid</span></div></div>
+<div class="cb-item"><div class="cb-item-label"><span data-fr>Signal fin cycle</span><span data-en>End-of-cycle signal</span></div><div class="cb-item-val" style="color:#4ade80"><span data-fr>Absent · Pas détecté</span><span data-en>Absent · Not detected</span></div></div>
+<div class="cb-item"><div class="cb-item-label"><span data-fr>Conviction NVDA</span><span data-en>NVDA conviction</span></div><div class="cb-item-val" style="color:#4ade80">Maintenue · 7.9/10</div></div>
+</div>
+</div><div style="margin:2rem 0;padding:1.2rem 1.5rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2)">
+<div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.7rem">Sources</div>
+<div style="font-size:.8rem;color:var(--body);line-height:1.8;display:grid;grid-template-columns:1fr 1fr;gap:.3rem">
+<span>• NVIDIA Form 8-K FY2026 · SEC EDGAR</span><span>• Goldman Sachs, AI Infrastructure Report 2025</span>
+<span>• IDC Semiconductor Tracker Q1 2026</span><span>• Gartner Hype Cycle AI 2025</span>
+<span>• Microsoft / Amazon / Google / Meta 10-K 2025</span><span>• ASML Annual Report 2025</span>
+<span>• SemiAnalysis, GPU Market Dynamics 2025</span><span>• Bernstein, AI CapEx Tracker Q1 2026</span>
+</div>
+</div><div class="article-actions">
+<a href="../macro.html" class="btn-ink"><span data-fr>Retour analyses macro</span><span data-en>Back to macro</span></a>
+<a href="../Analyse/nvidia.html" class="btn-blue-out"><span data-fr>Thèse NVIDIA</span><span data-en>NVIDIA Thesis</span></a>
+<a href="macro-trump-tariffs.html" class="btn-out"><span data-fr>Analyse Tarifs Trump</span><span data-en>Trump Tariffs</span></a>
+<button class="btn-blue-out" onclick="window.print()">⬇ PDF</button>
+</div>
+<div class="disclaimer"><strong><span data-fr>Avertissement légal :</span><span data-en>Legal disclaimer:</span></strong><span data-fr>Analyse publiée à titre éducatif uniquement basée sur données publiques d'avril 2026. Aucune information ne constitue un conseil en investissement.</span><span data-en>Published for educational purposes only based on public data from April 2026. Nothing constitutes investment advice.</span><em>© Oswald Vision Capital · Sectorielle S-001 · 10 avril 2026</em></div>
+</div><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const body = document.body;
+  if (!menu) return;
+  menu.classList.toggle('open');
+  body.classList.toggle('menu-open');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const toggle = document.getElementById('mobile-toggle');
+  if (toggle) toggle.addEventListener('click', toggleMobileMenu);
+
+  document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
+    link.addEventListener('click', () => {
+      const menu = document.getElementById('mobile-menu');
+      if (menu) menu.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    });
+  });
+
+function setLang(l){document.documentElement.setAttribute('data-lang',l);document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));}
+
+setLang('fr');
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('rp-bar').style.width=Math.min(100,(window.scrollY/(d.scrollHeight-d.clientHeight))*100)+'%';});
+Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=10;Chart.defaults.color='#8a8aaa';
+const GOLD='#c9832a',BLUE='#1e4faa',GREEN='#1a7a4a',RED='#c0392b',PURPLE='#5e35b1';
+const TIP={backgroundColor:'#1a1a2e',titleColor:'#f0a84a',bodyColor:'#fff',padding:10,cornerRadius:6}; // GPU Market size
+new Chart(document.getElementById('chart-market'),{type:'bar',data:{ labels:['2020','2021','2022','2023','2024','2025','2026E','2027E','2028E','2030E'], datasets:[ {label:'GPU IA ($Mds)',data:[8,15,22,50,130,230,310,380,430,550], backgroundColor:['rgba(30,79,170,.4)','rgba(30,79,170,.4)','rgba(30,79,170,.4)','rgba(201,131,42,.55)','rgba(201,131,42,.65)','rgba(201,131,42,.75)','rgba(26,122,74,.6)','rgba(26,122,74,.6)','rgba(26,122,74,.55)','rgba(26,122,74,.45)'], borderColor:[BLUE,BLUE,BLUE,GOLD,GOLD,GOLD,GREEN,GREEN,GREEN,GREEN],borderWidth:1.5,borderRadius:4} ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...TIP,callbacks:{label:c=>` $${c.raw}Mds`}}},scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`$${v}B`}}}}}); // Hyperscaler CapEx
+new Chart(document.getElementById('chart-capex'),{type:'bar',data:{ labels:['2021','2022','2023','2024','2025','2026E'], datasets:[ {label:'Microsoft',data:[22,23,23,45,55,65],backgroundColor:'rgba(30,79,170,.65)',borderColor:BLUE,borderWidth:1,borderRadius:2}, {label:'Amazon (AWS)',data:[35,59,53,76,85,95],backgroundColor:'rgba(201,131,42,.55)',borderColor:GOLD,borderWidth:1,borderRadius:2}, {label:'Google',data:[24,32,32,52,58,66],backgroundColor:'rgba(26,122,74,.5)',borderColor:GREEN,borderWidth:1,borderRadius:2}, {label:'Meta',data:[19,32,28,37,42,50],backgroundColor:'rgba(94,53,177,.5)',borderColor:PURPLE,borderWidth:1,borderRadius:2}, ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: $${c.raw}Mds`}}},scales:{x:{grid:{display:false},stacked:true},y:{grid:{color:'rgba(0,0,0,.04)'},stacked:true,ticks:{callback:v=>`$${v}B`}}}}}); // Training vs Inference
+new Chart(document.getElementById('chart-inference'),{type:'bar',data:{ labels:['2023','2024','2025','2026E','2027E','2028E'], datasets:[ {label:'Training ($Mds)',data:[40,95,140,160,170,175],backgroundColor:'rgba(30,79,170,.6)',borderColor:BLUE,borderWidth:1.5,borderRadius:3}, {label:'Inference ($Mds)',data:[10,35,90,150,210,260],backgroundColor:'rgba(26,122,74,.65)',borderColor:GREEN,borderWidth:1.5,borderRadius:3}, ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:12}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: $${c.raw}Mds`}}},scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`$${v}B`}}}}}); // Market share donut
+new Chart(document.getElementById('chart-market-share'),{type:'doughnut',data:{ labels:['NVIDIA','AMD','Huawei Ascend','Intel Gaudi','ASICs maison','Autres'], datasets:[{data:[85,10,2,1,1,1],backgroundColor:['rgba(201,131,42,.85)','rgba(30,79,170,.6)','rgba(192,57,43,.55)','rgba(94,53,177,.5)','rgba(26,122,74,.5)','rgba(138,138,170,.4)'],borderWidth:2,borderColor:'#fff'}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{boxWidth:10,padding:10,font:{size:9}}},tooltip:{...TIP,callbacks:{label:c=>` ${c.label}: ${c.raw}%`}}}}});
+
+});
+</script>
+</body>
+</html>

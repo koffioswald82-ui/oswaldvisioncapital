@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analyses & Thèses, Oswald Vision Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#1a1a2e; --ink2:#2d3561; --body:#4a4a68; --muted:#8a8aaa; --line:#e8e4f0; --bg:#fafaf8; --white:#fff; --cream:#f5f2ec; --cream2:#eee9e0; --gold:#c9832a; --gold-l:#f0a84a; --gold-bg:#fef3e2; --blue:#1e4faa; --blue-bg:#eef3ff; --green:#1a7a4a; --green-bg:#e8f5ee; --red:#c0392b; --red-bg:#fde8e8; --purple:#5e35b1; --purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.6} /* ── LANG BAR */
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;align-items:center;justify-content:space-between}
+.lang-bar-left{font-size:.68rem;color:rgba(255,255,255,.4);letter-spacing:.06em}
+.lang-bar-left strong{color:var(--gold-l)}
+.lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:500;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer;transition:all .15s}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700} /* ── NAV */
+nav{background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 12px rgba(26,26,46,.06);position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-logo em{font-style:italic;color:var(--gold)}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}
+.nav-links a:hover,.nav-links a.active-page{color:var(--ink);font-weight:700}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important} /* ── PAGE HEADER */
+.page-header{background:var(--white);border-bottom:1px solid var(--line);padding:4vh 8vw 3vh}
+.ph-breadcrumb{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.8rem}
+.ph-breadcrumb a{color:var(--gold);text-decoration:none}
+.ph-breadcrumb span{margin:0 .4rem;color:var(--muted)}
+h1.ph-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-bottom:.7rem}
+h1.ph-title em{font-style:italic;color:var(--gold)}
+.ph-sub{font-size:.92rem;color:var(--body);line-height:1.8;max-width:640px}
+.ph-stats{display:flex;gap:2.5rem;margin-top:1.8rem;padding-top:1.8rem;border-top:1px solid var(--line);flex-wrap:wrap}
+.ph-stat-num{font-family:'Libre Baskerville',serif;font-size:1.9rem;font-weight:700;color:var(--ink);line-height:1}
+.ph-stat-num span{color:var(--gold)}
+.ph-stat-label{font-size:.72rem;color:var(--muted);margin-top:.2rem;line-height:1.4} /* ── LANG NOTICE */
+.lang-notice{background:var(--blue-bg);border-left:3px solid var(--blue);padding:.9rem 1.4rem;margin:2rem 8vw 0;border-radius:0 8px 8px 0;display:flex;align-items:flex-start;gap:.8rem}
+.ln-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.ln-text{font-size:.82rem;color:var(--blue);line-height:1.6}
+.ln-text strong{font-weight:700} /* ── FILTERS */
+.filters-bar{padding:1.5rem 8vw;background:var(--white);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.filter-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);flex-shrink:0;margin-right:.5rem} .filter-group{display:flex;gap:.4rem;flex-wrap:wrap}
+.fbtn{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;padding:.38rem .9rem;border-radius:100px;border:1.5px solid var(--line);background:transparent;color:var(--body);cursor:pointer;transition:all .2s;white-space:nowrap}
+.fbtn:hover{border-color:var(--gold);color:var(--gold)}
+.fbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fbtn-zone.africa.on{background:var(--purple);border-color:var(--purple);color:#fff}
+.fbtn-zone.americas.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.fbtn-zone.europe.on{background:var(--green);border-color:var(--green);color:#fff}
+.fbtn-zone.asia.on{background:var(--gold);border-color:var(--gold);color:#fff} .search-wrap{margin-left:auto}
+.search-input{padding:.42rem 1rem;border:1.5px solid var(--line);border-radius:8px;font-family:'Outfit',sans-serif;font-size:.82rem;color:var(--ink);background:var(--white);outline:none;width:220px;transition:border-color .2s}
+.search-input:focus{border-color:var(--gold)}
+.search-input::placeholder{color:var(--muted)} /* ── SORT & COUNT */
+.results-bar{padding:.8rem 8vw;display:flex;align-items:center;justify-content:space-between;background:var(--bg)}
+.results-count{font-size:.78rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.results-count span{color:var(--ink);font-weight:700}
+.sort-wrap{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--muted)}
+.sort-select{font-family:'Outfit',sans-serif;font-size:.75rem;padding:.3rem .6rem;border:1.5px solid var(--line);border-radius:6px;background:var(--white);color:var(--ink);cursor:pointer;outline:none} /* ── FEATURED ANALYSIS */
+.featured-wrap{padding:2rem 8vw 0}
+.featured-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem}
+.featured-label::after{content:'';display:inline-block;width:16px;height:1px;background:var(--gold)} .featured-card{background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;box-shadow:var(--shadow);transition:box-shadow .25s,transform .2s;text-decoration:none;color:inherit}
+.featured-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)} .fc-left{padding:2.5rem;background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);display:flex;flex-direction:column;justify-content:space-between;min-height:260px}
+.fc-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:.12em;margin-bottom:1.2rem}
+.fc-title{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:#fff;line-height:1.2;margin-bottom:.8rem}
+.fc-excerpt{font-size:.84rem;color:rgba(255,255,255,.6);line-height:1.7}
+.fc-meta{display:flex;align-items:center;gap:.6rem;margin-top:1.5rem;flex-wrap:wrap} .fc-right{padding:2.5rem;display:flex;flex-direction:column;justify-content:space-between}
+.fc-kpis{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.5rem}
+.fc-kpi{padding:.9rem 1rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2)}
+.fc-kpi-val{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--ink);line-height:1}
+.fc-kpi-label{font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.18rem}
+.fc-actions{display:flex;gap:.6rem;flex-wrap:wrap} /* ── ANALYSIS GRID */
+.analyses-wrap{padding:2rem 8vw 6vh}
+.analyses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem} /* ── ANALYSIS CARD */
+.ac{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .22s,transform .22s;position:relative}
+.ac:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.ac.hidden{display:none} .ac-top{padding:1.3rem 1.3rem .8rem;display:flex;justify-content:space-between;align-items:flex-start}
+.ac-badges{display:flex;gap:.4rem;flex-wrap:wrap}
+.ac-num{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted)} .tag{font-size:.62rem;font-weight:700;letter-spacing:.06em;padding:.18rem .55rem;border-radius:100px}
+.tag-macro{background:var(--blue-bg);color:var(--blue)}
+.tag-equity{background:var(--green-bg);color:var(--green)}
+.tag-africa{background:var(--purple-bg);color:var(--purple)}
+.tag-sector{background:var(--gold-bg);color:var(--gold)}
+.tag-value{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+.tag-growth{background:var(--green-bg);color:var(--green)} .zone-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;margin-top:3px}
+.zd-africa{background:var(--purple)}
+.zd-americas{background:var(--blue)}
+.zd-europe{background:var(--green)}
+.zd-asia{background:var(--gold)} .ac-body{padding:.2rem 1.3rem 1rem;flex:1}
+.ac-company{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gold);letter-spacing:.06em;margin-bottom:.3rem}
+.ac-title{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:.5rem}
+.ac-excerpt{font-size:.78rem;color:var(--body);line-height:1.65} .ac-verdict{margin:0 1.3rem .8rem;padding:.4rem .8rem;border-radius:6px;font-size:.72rem;font-weight:700;display:inline-flex;align-items:center;gap:.4rem;width:fit-content}
+.verdict-buy{background:var(--green-bg);color:var(--green)}
+.verdict-hold{background:var(--gold-bg);color:var(--gold)}
+.verdict-watch{background:var(--blue-bg);color:var(--blue)} .ac-metrics{padding:.6rem 1.3rem;background:var(--cream);border-top:1px solid var(--cream2);display:flex;gap:1rem}
+.acm-item{text-align:center;flex:1}
+.acm-val{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);line-height:1}
+.acm-key{font-size:.58rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.1rem}
+.acm-item.positive .acm-val{color:var(--green)}
+.acm-item.negative .acm-val{color:var(--red)} .ac-footer{padding:.9rem 1.3rem;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.ac-date{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted)}
+.ac-lang-btns{display:flex;gap:.3rem}
+.ac-lang-btn{font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:4px;border:1px solid;cursor:pointer;text-decoration:none;transition:all .15s;font-family:'JetBrains Mono',monospace}
+.ac-lang-btn.fr{color:var(--blue);border-color:rgba(30,79,170,.25);background:var(--blue-bg)}
+.ac-lang-btn.fr:hover{background:var(--blue);color:#fff}
+.ac-lang-btn.en{color:var(--green);border-color:rgba(26,122,74,.25);background:var(--green-bg)}
+.ac-lang-btn.en:hover{background:var(--green);color:#fff}
+.ac-pdf-btn{font-size:.62rem;font-weight:600;padding:.2rem .55rem;border-radius:4px;border:1px solid var(--line);color:var(--muted);background:transparent;cursor:pointer;text-decoration:none;transition:all .15s;font-family:'JetBrains Mono',monospace}
+.ac-pdf-btn:hover{border-color:var(--gold);color:var(--gold)} /* ── COMING SOON CARD */
+.ac-soon{background:var(--cream);border:1.5px dashed var(--cream2)}
+.ac-soon:hover{box-shadow:none;transform:none}
+.soon-inner{padding:2rem 1.3rem;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:220px;text-align:center;gap:.6rem}
+.soon-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)}
+.soon-title{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--muted);line-height:1.3}
+.soon-badge{font-size:.65rem;font-weight:600;padding:.2rem .6rem;background:var(--cream2);color:var(--muted);border-radius:100px;margin-top:.2rem} /* ── SINGLE ANALYSIS PAGE */
+.article-page{display:none;padding:3vh 0 0}
+.article-nav{padding:1rem 8vw;background:var(--cream);border-bottom:1px solid var(--cream2);display:flex;align-items:center;justify-content:space-between}
+.back-btn{font-size:.8rem;color:var(--body);text-decoration:none;display:flex;align-items:center;gap:.4rem;cursor:pointer;background:none;border:none;font-family:'Outfit',sans-serif;font-weight:500}
+.back-btn:hover{color:var(--ink)}
+.article-lang-switch{display:flex;gap:.4rem}
+.als-btn{font-size:.75rem;font-weight:600;padding:.35rem .8rem;border-radius:6px;border:1.5px solid;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s}
+.als-btn.current{background:var(--ink);color:#fff;border-color:var(--ink)}
+.als-btn.other{background:transparent;color:var(--body);border-color:var(--line)}
+.als-btn.other:hover{border-color:var(--ink);color:var(--ink)} .article-content{max-width:760px;margin:0 auto;padding:4vh 8vw 8vh} .article-header{margin-bottom:3rem}
+.article-meta-row{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.article-stamp{background:var(--cream);border:1px solid var(--cream2);border-radius:8px;padding:1rem 1.3rem;margin:1.5rem 0;display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.stamp-item{}
+.stamp-key{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.15rem}
+.stamp-val{font-size:.85rem;font-weight:700;color:var(--ink)}
+.stamp-val.gold{color:var(--gold)}
+.stamp-val.green{color:var(--green)} .article-h1{font-family:'Libre Baskerville',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin-bottom:.8rem}
+.article-lede{font-size:1.05rem;color:var(--body);line-height:1.8;border-left:3px solid var(--gold);padding-left:1.2rem;margin:1.5rem 0 2rem} .article-section-h{font-family:'Libre Baskerville',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin:2.5rem 0 .8rem;padding-bottom:.5rem;border-bottom:1px solid var(--line)}
+.article-section-h .sec-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gold);letter-spacing:.12em;display:block;margin-bottom:.2rem} .article-p{font-size:.93rem;color:var(--body);line-height:1.85;margin-bottom:1rem}
+.article-p strong{color:var(--ink);font-weight:700} .data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.84rem}
+.data-table th{background:var(--ink2);color:#fff;padding:.6rem .9rem;text-align:left;font-weight:700;font-size:.75rem;letter-spacing:.04em}
+.data-table td{padding:.6rem .9rem;border-bottom:1px solid var(--line);color:var(--body)}
+.data-table tr:hover td{background:var(--cream)}
+.data-table td:nth-child(3),.data-table th:nth-child(3){color:var(--green);font-weight:700}
+.data-table td.positive{color:var(--green);font-weight:700}
+.data-table td.negative{color:var(--red);font-weight:700}
+.data-table td.gold{color:var(--gold);font-weight:700} .catalyst-item{padding:1rem 1.2rem;background:var(--cream);border-radius:10px;border-left:3px solid var(--green);margin-bottom:.7rem}
+.ci-title{font-weight:700;font-size:.87rem;color:var(--ink);margin-bottom:.25rem}
+.ci-text{font-size:.8rem;color:var(--body);line-height:1.65}
+.ci-prob{font-size:.7rem;color:var(--green);font-weight:700;margin-top:.3rem;font-family:'JetBrains Mono',monospace} .risk-item{padding:1rem 1.2rem;background:var(--red-bg);border-radius:10px;border-left:3px solid var(--red);margin-bottom:.7rem}
+.ri-title{font-weight:700;font-size:.87rem;color:var(--red);margin-bottom:.25rem}
+.ri-text{font-size:.8rem;color:var(--body);line-height:1.65} .verdict-box{background:var(--ink);color:#fff;border-radius:12px;padding:1.8rem 2rem;margin:2.5rem 0;font-family:'JetBrains Mono',monospace}
+.vb-title{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1rem}
+.vb-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.vb-item .vb-key{font-size:.6rem;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem}
+.vb-item .vb-val{font-size:.95rem;font-weight:700;color:#fff}
+.vb-item .vb-val.gold{color:var(--gold-l)}
+.vb-item .vb-val.green{color:#4ade80} .score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:1.5rem 0}
+.score-item{background:var(--cream);border:1px solid var(--cream2);border-radius:10px;padding:1rem;text-align:center}
+.score-val{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:var(--gold)}
+.score-label{font-size:.62rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem} .article-actions{display:flex;gap:.8rem;margin:2rem 0;flex-wrap:wrap}
+.btn-primary{background:var(--ink);color:#fff;padding:.75rem 1.6rem;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .2s}
+.btn-primary:hover{background:var(--blue)}
+.btn-secondary{background:transparent;color:var(--ink);padding:.75rem 1.6rem;border-radius:8px;border:1.5px solid var(--line);font-weight:600;font-size:.85rem;text-decoration:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:border-color .2s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.btn-pdf{background:var(--gold-bg);color:var(--gold);padding:.75rem 1.6rem;border-radius:8px;border:1.5px solid rgba(201,131,42,.25);font-weight:700;font-size:.85rem;text-decoration:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .2s}
+.btn-pdf:hover{background:var(--gold);color:#fff} .disclaimer{margin-top:3rem;padding:1.2rem 1.5rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2);font-size:.75rem;color:var(--muted);line-height:1.65}
+.disclaimer strong{color:var(--body)} /* ── EMPTY STATE */
+.empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem}
+.es-icon{font-size:2.5rem;margin-bottom:1rem}
+.es-title{font-family:'Libre Baskerville',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:.5rem}
+.es-sub{font-size:.85rem;color:var(--muted)} /* ── FOOTER */
+footer{background:var(--white);border-top:1px solid var(--line);padding:3vh 8vw 2vh;text-align:center}
+.ft-logo{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--ink)}
+.ft-logo em{color:var(--gold);font-style:italic}
+.ft-copy{font-size:.72rem;color:var(--muted);margin-top:.4rem} /* ── RESPONSIVE */
+} /* ── MOBILE MENU ── */
+.mobile-nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1100}
+.mobile-nav-toggle span{display:block;width:24px;height:2px;background:var(--ink);transition:all .3s ease;border-radius:2px}
+
+.mobile-nav-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);z-index:1050;display:flex;flex-direction:column;padding:80px 8vw 40px;transform:translateX(100%);transition:transform .4s cubic-bezier(.77,0,.175,1);overflow-y:auto}
+.mobile-nav-overlay.open{transform:translateX(0)}
+.mno-links{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem}
+.mno-link{font-size:1.3rem;font-weight:700;color:var(--ink);text-decoration:none;font-family:'Libre Baskerville',serif}
+.mno-sublinks{padding-left:1.5rem;display:flex;flex-direction:column;gap:.6rem;margin-top:.4rem}
+.mno-sublink{font-size:.9rem;color:var(--body);text-decoration:none}
+.mno-cta{margin-top:2rem;text-align:center}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .analyses-grid{grid-template-columns:repeat(2,1fr)}
+  .featured-card{grid-template-columns:1fr}
+  .fc-left{min-height:auto}
+  .score-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .mobile-nav-toggle{display:flex}
+  
+  .page-header{padding:4vh 5vw 3vh}
+  .filters-bar{padding:1.5rem 5vw;gap:.6rem}
+  .search-wrap{width:100%;margin-left:0;margin-top:.5rem}
+  .search-input{width:100%}
+  .results-bar{padding:.8rem 5vw}
+  
+  .featured-wrap{padding:2rem 5vw 0}
+  .analyses-wrap{padding:2rem 5vw 6vh}
+  .analyses-grid{grid-template-columns:1fr}
+  
+  .fc-left, .fc-right{padding:1.5rem}
+  .fc-title{font-size:1.3rem}
+  .score-grid{grid-template-columns:1fr 1fr}
+  .vb-grid{grid-template-columns:1fr}
+  
+  body.menu-open{overflow:hidden}
+  body.menu-open .mobile-nav-toggle span:nth-child(1){transform:rotate(45deg) translate(5px, 5px)}
+  body.menu-open .mobile-nav-toggle span:nth-child(2){opacity:0}
+  body.menu-open .mobile-nav-toggle span:nth-child(3){transform:rotate(-45deg) translate(5px, -5px)}
+}
+ /* ── LANG */
+[data-fr],[data-en]{display:none}
+html[data-lang=fr] [data-fr]{display:revert}
+html[data-lang=en] [data-en]{display:revert}
+span[data-fr],span[data-en]{display:none}
+html[data-lang=fr] span[data-fr]{display:inline}
+html[data-lang=en] span[data-en]{display:inline} /* ── ANIMATIONS */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:translateY(0)} /* ── PRINT / PDF */
+@media print{ .lang-bar,.nav,.filters-bar,.results-bar,.analyses-wrap,footer,.article-actions,.ac-lang-btns,.ac-pdf-btn,.back-btn,.article-nav{display:none!important} .article-page{display:block!important} .article-content{max-width:100%;padding:0} body{font-size:12pt}
+}
+
+/* Dropdown nav */
+.nav-item-dd{position:relative;display:flex;align-items:center}
+.nav-link-dd{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:.25rem;transition:color .2s}
+.nav-link-dd::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);margin-left:.25rem;transition:transform .2s}
+.nav-item-dd:hover .nav-link-dd::after{transform:rotate(225deg) translateY(-2px)}
+.nav-item-dd:hover .nav-link-dd,.nav-item-dd:hover .nav-link-dd{color:var(--ink)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-4px);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 40px rgba(26,26,46,.14);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:200}
+.nav-item-dd:hover .nav-dropdown{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown a{display:block;padding:.52rem .9rem;font-size:.8rem;color:var(--body);text-decoration:none;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown a:hover{background:var(--cream);color:var(--ink)}
+.dd-divider{height:1px;background:var(--line);margin:.3rem .5rem}
+</style>
+</head>
+<body><!-- LANG BAR -->
+<div class="lang-bar">
+<span class="lang-bar-left"><strong>Oswald Vision Capital</strong>·<span data-fr>Recherche financière indépendante</span><span data-en>Independent financial research</span></span>
+<div class="lang-btns">
+<button class="lbtn active" onclick="setLang('fr')">FR</button>
+<button class="lbtn" onclick="setLang('en')">EN</button>
+</div>
+</div><!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+  <div class="nav-links">
+    <div class="nav-item-dd">
+      <a href="analyses.html" class="nav-link-dd active-page"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+      <div class="nav-dropdown">
+        <a href="Analyse/nvidia.html">NVIDIA (N°002)</a>
+        <a href="Analyse/orange-ci.html">Orange CI (N°001)</a>
+        <div class="dd-divider"></div>
+        <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+      </div>
+    </div>
+    <div class="nav-item-dd">
+      <a href="macro.html" class="nav-link-dd">Macro</a>
+      <div class="nav-dropdown">
+        <a href="Mcr/macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
+        <a href="Mcr/macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+        <div class="dd-divider"></div>
+        <a href="Mcr/macro-uemoa.html">UEMOA 2026 (A-001)</a>
+        <div class="dd-divider"></div>
+        <a href="Mcr/macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+        <div class="dd-divider"></div>
+        <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
+      </div>
+    </div>
+    <a href="performance.html">Performance</a>
+    <a href="fund-simulator.html">OVC Fund</a>
+    <a href="subscribe.html" class="nav-cta">Subscribe</a>
+  </div>
+  
+  <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Nav Overlay -->
+<div class="mobile-nav-overlay" id="mobile-menu">
+  <div class="mno-links">
+    <a href="index.html" class="mno-link">Home</a>
+    <div class="mno-group">
+      <a href="analyses.html" class="mno-link">Equity Research</a>
+      <div class="mno-sublinks">
+        <a href="Analyse/nvidia.html" class="mno-sublink">NVIDIA</a>
+        <a href="Analyse/orange-ci.html" class="mno-sublink">Orange CI</a>
+      </div>
+    </div>
+    <div class="mno-group">
+      <a href="macro.html" class="mno-link">Macro</a>
+      <div class="mno-sublinks">
+        <a href="Mcr/macro-iran-ormuz.html" class="mno-sublink">Détroit d'Ormuz</a>
+        <a href="Mcr/macro-trump-tariffs.html" class="mno-sublink">Tarifs Trump 2025</a>
+      </div>
+    </div>
+    <a href="performance.html" class="mno-link">Performance</a>
+    <a href="fund-simulator.html" class="mno-link">Fonds OVC</a>
+    <div class="mno-cta">
+      <a href="subscribe.html" class="btn-gold" style="display:block;text-align:center;padding:1rem;border-radius:12px;text-decoration:none;font-weight:700">
+        <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LIST VIEW ═══ -->
+<div id="list-view"><!-- PAGE HEADER -->
+<div class="page-header">
+<div class="ph-breadcrumb">
+<a href="index.html">Oswald Vision Capital</a>
+<span>/</span>
+<span data-fr>Analyses & Thèses</span><span data-en>Research & Theses</span>
+</div>
+<h1 class="ph-title">
+<span data-fr>Analyses &<em>Thèses d'investissement</em></span>
+<span data-en>Research &<em>Investment Theses</em></span>
+</h1>
+<p class="ph-sub">
+<span data-fr>Chaque thèse est horodatée, sourcée, et suivie publiquement dans le temps. Disponibles en français et en anglais. Capital virtuel de référence : 100 000 USD.</span>
+<span data-en>Every thesis is timestamped, sourced, and publicly tracked over time. Available in French and English. Reference virtual capital: USD 100,000.</span>
+</p>
+<div class="ph-stats">
+<div><div class="ph-stat-num" id="published-count">2<span>/30</span></div><div class="ph-stat-label"><span data-fr>Thèses publiées</span><span data-en>Published theses</span></div></div>
+<div><div class="ph-stat-num">4</div><div class="ph-stat-label"><span data-fr>Zones géo.</span><span data-en>Regions</span></div></div>
+<div><div class="ph-stat-num">2</div><div class="ph-stat-label"><span data-fr>Langues</span><span data-en>Languages</span></div></div>
+<div><div class="ph-stat-num">100<span>%</span></div><div class="ph-stat-label"><span data-fr>Horodatées</span><span data-en>Timestamped</span></div></div>
+</div>
+</div><!-- LANG NOTICE -->
+<div class="lang-notice">
+<span class="ln-icon"></span>
+<p class="ln-text">
+<span data-fr><strong>Disponible en 2 langues.</strong>Chaque analyse est publiée en français et en anglais le même jour. Utilisez les boutons FR / EN sur chaque carte pour basculer entre les versions.</span>
+<span data-en><strong>Available in 2 languages.</strong>Each analysis is published in French and English on the same day. Use the FR / EN buttons on each card to switch between versions.</span>
+</p>
+</div><!-- FILTERS -->
+<div class="filters-bar">
+<span class="filter-label"><span data-fr>Filtrer</span><span data-en>Filter</span></span><div class="filter-group">
+<button class="fbtn on" onclick="filterBy('all',this)"><span data-fr>Tout</span><span data-en>All</span></button>
+</div><div class="filter-group">
+<button class="fbtn fbtn-zone africa" onclick="filterBy('africa',this)"><span data-fr>Afrique</span><span data-en>Africa</span></button>
+<button class="fbtn fbtn-zone americas" onclick="filterBy('americas',this)"><span data-fr>Amériques</span><span data-en>Americas</span></button>
+<button class="fbtn fbtn-zone europe" onclick="filterBy('europe',this)">Europe</button>
+<button class="fbtn fbtn-zone asia" onclick="filterBy('asia',this)">Asie / Asia</button>
+</div><div class="filter-group">
+<button class="fbtn" onclick="filterBy('growth',this)">Growth</button>
+<button class="fbtn" onclick="filterBy('value',this)">Value</button>
+<button class="fbtn" onclick="filterBy('macro',this)">Macro</button>
+</div><div class="search-wrap">
+<input type="text" class="search-input" id="search-input" placeholder=" Rechercher / Search…" oninput="searchAnalyses(this.value)">
+</div>
+</div><!-- RESULTS BAR -->
+<div class="results-bar">
+<div class="results-count"><span data-fr>Affichage :</span><span data-en>Showing:</span><span id="count-display">2</span><span data-fr>thèses</span><span data-en>theses</span></div>
+<div class="sort-wrap">
+<span data-fr>Trier par</span><span data-en>Sort by</span>
+<select class="sort-select" onchange="sortAnalyses(this.value)">
+<option value="newest"><span data-fr>Plus récent</span><span data-en>Newest</span></option>
+<option value="zone"><span data-fr>Zone géo.</span><span data-en>Region</span></option>
+<option value="score"><span data-fr>Score</span><span data-en>Score</span></option>
+</select>
+</div>
+</div><!-- FEATURED -->
+<div class="featured-wrap reveal">
+<div class="featured-label"><span data-fr>Analyse à la une</span><span data-en>Featured analysis</span></div>
+<a class="featured-card" href="Analyse/nvidia.html">
+<div class="fc-left">
+<div>
+<div class="fc-num">N°002 · NASDAQ: NVDA · 10 avr. 2026</div>
+<div class="fc-title">
+<span data-fr>NVIDIA, À 36x les bénéfices, le roi de l'IA est-il encore une opportunité ?</span>
+<span data-en>NVIDIA, At 36x earnings, is the AI king still an opportunity?</span>
+</div>
+<div class="fc-excerpt">
+<span data-fr>FY2026 historique : $215,9 Mds de revenus (+65%), $120 Mds de bénéfice net. Blackwell vendu à rupture jusqu'à mi-2026. Cours actuel $177,64, sous la moyenne historique de valorisation.</span>
+<span data-en>Historic FY2026: $215.9B revenue (+65%), $120B net income. Blackwell sold out through mid-2026. Current price $177.64, below historical valuation average.</span>
+</div>
+</div>
+<div class="fc-meta">
+<span class="tag tag-equity">Equity</span>
+<span class="tag tag-growth">Growth</span>
+<span class="tag" style="background:var(--blue-bg);color:var(--blue)">Amériques</span>
+</div>
+</div>
+<div class="fc-right">
+<div class="fc-kpis">
+<div class="fc-kpi"><div class="fc-kpi-val">$177.64</div><div class="fc-kpi-label"><span data-fr>Cours d'entrée</span><span data-en>Entry price</span></div></div>
+<div class="fc-kpi"><div class="fc-kpi-val" style="color:var(--green)">+27%</div><div class="fc-kpi-label"><span data-fr>Cible 12M</span><span data-en>12M target</span></div></div>
+<div class="fc-kpi"><div class="fc-kpi-val">9.5/10</div><div class="fc-kpi-label"><span data-fr>Score Perf.</span><span data-en>Perf. score</span></div></div>
+<div class="fc-kpi"><div class="fc-kpi-val" style="color:var(--gold)"> FORTE</div><div class="fc-kpi-label">Conviction</div></div>
+</div>
+<div class="fc-actions">
+<a href="Analyse/nvidia.html" class="btn-primary">
+<span data-fr>Lire la thèse</span><span data-en>Read thesis</span>
+</a>
+<a class="btn-pdf" href="#" onclick="printArticle('nvidia');event.stopPropagation();return false">⬇ PDF</a>
+</div>
+</div>
+</a>
+</div><!-- GRID -->
+<div class="analyses-wrap">
+<div class="analyses-grid" id="analyses-grid"><!-- CARD 001, Orange CI -->
+<div class="ac reveal" data-zone="africa" data-strategy="value" data-type="equity" data-name="orange ci" data-date="2026-04-10" data-score="7.4">
+<div class="ac-top">
+<div class="ac-badges">
+<span class="zone-dot zd-africa"></span>
+<span class="tag tag-africa"><span data-fr>Afrique</span><span data-en>Africa</span></span>
+<span class="tag tag-value">Value</span>
+<span class="tag tag-equity">Equity</span>
+</div>
+<span class="ac-num">N°001</span>
+</div>
+<div class="ac-body">
+<div class="ac-company"><a href="Analyse/orange-ci.html" style="color:inherit;text-decoration:none">Orange CI · BRVM: ORAC</a></div>
+<a href="Analyse/orange-ci.html" style="color:inherit;text-decoration:none" class="ac-title">
+<span data-fr>Le dividende le plus fiable de la BRVM cache une histoire de croissance sous-estimée</span>
+<span data-en>The BRVM's most reliable dividend conceals an underestimated growth story</span>
+</a>
+<p class="ac-excerpt">
+<span data-fr>CA 2025 : 1 197 Mds FCFA (+10,4%). Dividende 800 FCFA (+11%). Orange Money en accélération. Prix cible 12M : 17 000 XOF (+17%).</span>
+<span data-en>FY2025 revenue: XOF 1,197B (+10.4%). Dividend: 800 FCFA (+11%). Orange Money accelerating. 12M target: 17,000 XOF (+17%).</span>
+</p>
+</div>
+<div class="ac-verdict verdict-buy"><span data-fr>INITIATION, ACHAT</span><span data-en>INITIATION, BUY</span></div>
+<div class="ac-metrics">
+<div class="acm-item"><div class="acm-val">14 500</div><div class="acm-key">XOF</div></div>
+<div class="acm-item positive"><div class="acm-val">+17%</div><div class="acm-key"><span data-fr>Cible 12M</span><span data-en>12M target</span></div></div>
+<div class="acm-item"><div class="acm-val">5.5%</div><div class="acm-key"><span data-fr>Rend. div.</span><span data-en>Div. yield</span></div></div>
+<div class="acm-item"><div class="acm-val">7.4</div><div class="acm-key">Score</div></div>
+</div>
+<div class="ac-footer">
+<span class="ac-date">10 avr. 2026</span>
+<div class="ac-lang-btns">
+<a class="ac-lang-btn fr" href="Analyse/orange-ci.html">FR</a>
+<a class="ac-lang-btn en" href="Analyse/orange-ci.html">EN</a>
+<a class="ac-pdf-btn" href="#" onclick="printArticle('orangeci');return false">PDF</a>
+</div>
+</div>
+</div><!-- CARD 002, NVIDIA -->
+<div class="ac reveal" data-zone="americas" data-strategy="growth" data-type="equity" data-name="nvidia" data-date="2026-04-10" data-score="7.9">
+<div class="ac-top">
+<div class="ac-badges">
+<span class="zone-dot zd-americas"></span>
+<span class="tag" style="background:var(--blue-bg);color:var(--blue)"><span data-fr>Amériques</span><span data-en>Americas</span></span>
+<span class="tag tag-growth">Growth</span>
+<span class="tag tag-equity">Equity</span>
+</div>
+<span class="ac-num">N°002</span>
+</div>
+<div class="ac-body">
+<div class="ac-company"><a href="Analyse/nvidia.html" style="color:inherit;text-decoration:none">NVIDIA · NASDAQ: NVDA</a></div>
+<a href="Analyse/nvidia.html" style="color:inherit;text-decoration:none" class="ac-title">
+<span data-fr>À 36x les bénéfices, le roi de l'IA est-il encore une opportunité ?</span>
+<span data-en>At 36x earnings, is the AI king still an opportunity?</span>
+</a>
+<p class="ac-excerpt">
+<span data-fr>FY2026 : $215,9 Mds revenues (+65%). Net income $120 Mds. FCF $97 Mds. Blackwell soldé. P/E 36x vs moy. hist. 55x.</span>
+<span data-en>FY2026: $215.9B revenue (+65%). Net income $120B. FCF $97B. Blackwell sold out. P/E 36x vs 55x hist. avg.</span>
+</p>
+</div>
+<div class="ac-verdict verdict-buy"><span data-fr>INITIATION, ACHAT</span><span data-en>INITIATION, BUY</span></div>
+<div class="ac-metrics">
+<div class="acm-item"><div class="acm-val">$177.64</div><div class="acm-key">USD</div></div>
+<div class="acm-item positive"><div class="acm-val">+27%</div><div class="acm-key"><span data-fr>Cible 12M</span><span data-en>12M target</span></div></div>
+<div class="acm-item"><div class="acm-val">36x</div><div class="acm-key">P/E TTM</div></div>
+<div class="acm-item"><div class="acm-val">7.9</div><div class="acm-key">Score</div></div>
+</div>
+<div class="ac-footer">
+<span class="ac-date">10 avr. 2026</span>
+<div class="ac-lang-btns">
+<a class="ac-lang-btn fr" href="Analyse/nvidia.html">FR</a>
+<a class="ac-lang-btn en" href="Analyse/nvidia.html">EN</a>
+<a class="ac-pdf-btn" href="#" onclick="printArticle('nvidia');return false">PDF</a>
+</div>
+</div>
+</div><!-- COMING SOON, 28 remaining -->
+<div class="ac ac-soon" data-zone="europe" data-strategy="growth" data-type="equity" data-name="asml" data-date="2026-05-01" data-score="0">
+<div class="soon-inner">
+<div class="soon-num">N°003 · Europe</div>
+<div class="soon-title">ASML,<span data-fr>Monopole EUV & souveraineté tech mondiale</span><span data-en>EUV monopoly & global tech sovereignty</span></div>
+<span class="soon-badge"><span data-fr>Publication prévue, Mai 2026</span><span data-en>Coming, May 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-zone="americas" data-strategy="value" data-type="equity" data-name="microsoft" data-date="2026-05-01" data-score="0">
+<div class="soon-inner">
+<div class="soon-num">N°004 · Amériques</div>
+<div class="soon-title">Microsoft,<span data-fr>Azure + Copilot IA, le compound compounder</span><span data-en>Azure + Copilot AI, the compound compounder</span></div>
+<span class="soon-badge"><span data-fr>Publication prévue, Mai 2026</span><span data-en>Coming, May 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-zone="africa" data-strategy="value" data-type="equity" data-name="mtn" data-date="2026-05-01" data-score="0">
+<div class="soon-inner">
+<div class="soon-num">N°005 · Afrique</div>
+<div class="soon-title">MTN Group,<span data-fr>La grande transformation Mobile Money</span><span data-en>The great Mobile Money transformation</span></div>
+<span class="soon-badge"><span data-fr>Publication prévue, Mai 2026</span><span data-en>Coming, May 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-zone="europe" data-strategy="value" data-type="equity" data-name="loreal" data-date="2026-06-01" data-score="0">
+<div class="soon-inner">
+<div class="soon-num">N°006 · Europe</div>
+<div class="soon-title">L'Oréal,<span data-fr>Leader mondial beauté, Afrique & Asie émergents</span><span data-en>Global beauty leader, emerging Africa & Asia</span></div>
+<span class="soon-badge"><span data-fr>Publication prévue, Juin 2026</span><span data-en>Coming, June 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-zone="africa" data-strategy="value" data-type="equity" data-name="sifca" data-date="2026-06-01" data-score="0">
+<div class="soon-inner">
+<div class="soon-num">N°007 · Afrique · BRVM</div>
+<div class="soon-title">SIFCA,<span data-fr>L'agro-industrie ivoirienne sous-valorisée</span><span data-en>Undervalued Ivorian agribusiness</span></div>
+<span class="soon-badge"><span data-fr>Publication prévue, Juin 2026</span><span data-en>Coming, June 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-zone="americas" data-strategy="value" data-type="equity" data-name="cocacola" data-date="2026-06-01" data-score="0">
+<div class="soon-inner">
+<div class="soon-num">N°008 · Amériques</div>
+<div class="soon-title">Coca-Cola,<span data-fr>60 ans de dividende, pricing power absolu</span><span data-en>60 years of dividends, absolute pricing power</span></div>
+<span class="soon-badge"><span data-fr>Publication prévue, Juin 2026</span><span data-en>Coming, June 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-zone="asia" data-strategy="growth" data-type="equity" data-name="samsung" data-date="2026-07-01" data-score="0">
+<div class="soon-inner">
+<div class="soon-num">N°009 · Asie</div>
+<div class="soon-title">Samsung Electronics,<span data-fr>HBM3 pour l'IA et smartphone premium</span><span data-en>HBM3 for AI and premium smartphones</span></div>
+<span class="soon-badge"><span data-fr>Publication prévue, Juil. 2026</span><span data-en>Coming, July 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-zone="americas" data-strategy="growth" data-type="macro" data-name="tarifs trump" data-date="2026-07-01" data-score="0">
+<div class="soon-inner">
+<div class="soon-num">N°010 · Macro Global</div>
+<div class="soon-title"><span data-fr>Tarifs Trump 2025, Impact sur les marchés africains</span><span data-en>Trump Tariffs 2025, Impact on African markets</span></div>
+<span class="soon-badge"><span data-fr>Publication prévue, Juil. 2026</span><span data-en>Coming, July 2026</span></span>
+</div>
+</div></div>
+</div></div><!-- end list-view --><!-- ═══ ARTICLE VIEW, ORANGE CI (FR) ═══ -->
+<div id="article-orangeci-fr" class="article-page">
+<div class="article-nav">
+<button class="back-btn" onclick="closeArticle()"><span data-fr>Retour aux analyses</span><span data-en>Back to research</span></button>
+<div class="article-lang-switch">
+<button class="als-btn current">Français</button>
+<button class="als-btn other" onclick="openArticle('orangeci','en')">English</button>
+<button class="als-btn other" onclick="printArticle('orangeci')" style="margin-left:.3rem">⬇ PDF</button>
+</div>
+</div>
+<div class="article-content" id="print-orangeci">
+<div class="article-header">
+<div class="article-meta-row">
+<span class="tag tag-africa">Afrique · BRVM</span>
+<span class="tag tag-value">Value</span>
+<span class="tag tag-equity">Equity</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)">N°001 · 10 avril 2026 · 12 min</span>
+</div>
+<h1 class="article-h1">Orange CI, Le dividende le plus fiable de la BRVM cache une histoire de croissance sous-estimée</h1>
+<div class="article-lede">Orange CI combine la solidité d'un monopole de facto sur la fibre et la 4G ivoirienne avec le potentiel d'Orange Money. À 14 500 XOF, le marché ne paie pas encore la valeur de la franchise Mobile Money.</div>
+<div class="article-stamp">
+<div class="stamp-item"><div class="stamp-key">Ticker</div><div class="stamp-val gold">BRVM : ORAC</div></div>
+<div class="stamp-item"><div class="stamp-key">Date officielle</div><div class="stamp-val">10 avril 2026</div></div>
+<div class="stamp-item"><div class="stamp-key">Cours d'entrée</div><div class="stamp-val">14 500 XOF</div></div>
+<div class="stamp-item"><div class="stamp-key">Capital alloué</div><div class="stamp-val">3 333 USD · 3,3%</div></div>
+<div class="stamp-item"><div class="stamp-key">Prix cible 12M</div><div class="stamp-val green">17 000 XOF (+17%)</div></div>
+<div class="stamp-item"><div class="stamp-key">Verdict</div><div class="stamp-val green">INITIATION, ACHAT</div></div>
+</div>
+</div><div class="article-section-h"><span class="sec-num">01</span>Thèse en 3 lignes</div>
+<p class="article-p">Orange CI est le leader absolu des télécoms en Côte d'Ivoire, avec un chiffre d'affaires de<strong>1 197 milliards FCFA en 2025 (+10,4%)</strong>et un dividende de 800 FCFA par action, soit un rendement de 5,5% au cours actuel. L'entreprise combine la solidité d'un monopole de facto sur la fibre et la 4G ivoirienne avec le potentiel de croissance d'<strong>Orange Money</strong>, son service de paiement mobile en pleine accélération. À 14 500 XOF, le marché ne paie pas encore la valeur de la franchise Orange Money.</p><div class="article-section-h"><span class="sec-num">02</span>Contexte macro, L'UEMOA, un moteur structurel</div>
+<p class="article-p">La Côte d'Ivoire est la première économie de l'UEMOA avec un PIB supérieur à 70 milliards USD et une croissance annuelle de 6-7%. La pénétration internet mobile reste inférieure à 45%, contre 90% en Europe. La jeunesse de la population (âge médian : 19 ans) et l'urbanisation accélérée sont des moteurs structurels qui bénéficieront directement à Orange CI dans les 5 à 10 prochaines années.</p>
+<p class="article-p">Les tarifs douaniers Trump 2025 ont provoqué une réallocation partielle des capitaux vers les marchés africains, perçus comme moins exposés aux tensions US-Chine. Orange CI, valeur défensive à haut dividende, profite de cet appétit croissant pour les actifs africains.</p><div class="article-section-h"><span class="sec-num">03</span>Analyse fondamentale, Résultats 2025</div>
+<table class="data-table">
+<thead><tr><th>Indicateur</th><th>2025</th><th>Variation</th></tr></thead>
+<tbody>
+<tr><td>Chiffre d'affaires</td><td>1 197 Mds FCFA</td><td class="positive">+10,4%</td></tr>
+<tr><td>EBITDAaL</td><td>424 Mds FCFA</td><td class="positive">+8,7%</td></tr>
+<tr><td>Résultat net</td><td>167,8 Mds FCFA</td><td class="positive">+6,1%</td></tr>
+<tr><td>Cash-flow opérationnel</td><td>335,5 Mds FCFA</td><td class="positive">+15,7%</td></tr>
+<tr><td>Dividende brut proposé</td><td><strong>800 FCFA/action</strong></td><td class="positive">+11,1%</td></tr>
+<tr><td>Rendement dividende</td><td><strong>5,5%</strong></td><td>n.d.</td></tr>
+<tr><td>P/E estimé</td><td>~13,5x</td><td class="positive">Sous les comparables</td></tr>
+</tbody>
+</table><div class="article-section-h"><span class="sec-num">04</span>Avantage concurrentiel</div>
+<p class="article-p"><strong>Infrastructure :</strong>Orange CI exploite le réseau fibre et 4G le plus étendu de Côte d'Ivoire. Construire une infrastructure équivalente coûterait plusieurs centaines de milliards FCFA et prendrait 5 à 10 ans à un concurrent.<strong>Orange Money</strong>est le véritable actif caché, un service fintech qui permet à des millions de non-bancarisés d'effectuer paiements et transferts. Le marché valorise encore Orange CI comme un simple opérateur télécom, pas comme une fintech hybride.</p><div class="article-section-h"><span class="sec-num">05</span>Catalyseurs</div>
+<div class="catalyst-item"><div class="ci-title">Accélération Orange Money (horizon 12-24 mois)</div><div class="ci-text">Si Orange Money atteint 40% des revenus, le marché devra réévaluer le titre comme une fintech hybride.</div><div class="ci-prob">Probabilité : 65% · Impact : +20 à 30% sur la valorisation</div></div>
+<div class="catalyst-item"><div class="ci-title">Déploiement fibre & 5G (horizon 24-36 mois)</div><div class="ci-text">Hausse CapEx +15,5% en 2025 revenus data en hausse, marges améliorées mécaniquement.</div><div class="ci-prob">Probabilité : 70% · Impact : +15% sur les marges</div></div>
+<div class="catalyst-item"><div class="ci-title">Dividende en hausse continue</div><div class="ci-text">+11% en 2025. Si la tendance se maintient, rendement sur prix d'achat actuel 6-7% en 2027-2028.</div><div class="ci-prob">Probabilité : 75% · Impact : attirera les fonds income-focused</div></div><div class="article-section-h"><span class="sec-num">06</span>Risques</div>
+<div class="risk-item"><div class="ri-title">Concurrence Mobile Money (Wave, MTN CI)</div><div class="ri-text">Wave pratique des tarifs très agressifs. Risque de pression sur les parts de marché Orange Money.</div></div>
+<div class="risk-item"><div class="ri-title">Pression réglementaire ARTCI</div><div class="ri-text">Risque de baisses tarifaires imposées ou de taxes supplémentaires sur les services mobiles.</div></div>
+<div class="risk-item"><div class="ri-title">Liquidité BRVM limitée</div><div class="ri-text">Volumes d'échange quotidiens faibles, risque de volatilité sur les entrées/sorties importantes.</div></div><div class="article-section-h"><span class="sec-num">07</span>Valorisation, Prix cible</div>
+<table class="data-table">
+<thead><tr><th>Horizon</th><th>Prix cible</th><th>Upside</th></tr></thead>
+<tbody>
+<tr><td>12 mois</td><td><strong>17 000 XOF</strong></td><td class="positive">+17%</td></tr>
+<tr><td>36 mois</td><td><strong>21 000 XOF</strong></td><td class="positive">+45%</td></tr>
+<tr><td>Rendement total 3 ans (+ dividendes)</td><td>n.d.</td><td class="positive">+62%</td></tr>
+<tr><td>Stop loss suggéré</td><td>11 500 XOF</td><td class="negative">-20%</td></tr>
+</tbody>
+</table><div class="article-section-h"><span class="sec-num">08</span>Scoring & Conviction</div>
+<div class="score-grid">
+<div class="score-item"><div class="score-val">7.0</div><div class="score-label">Performance</div></div>
+<div class="score-item"><div class="score-val">4.0</div><div class="score-label">Risque</div></div>
+<div class="score-item"><div class="score-val">7.5</div><div class="score-label">ESG</div></div>
+<div class="score-item"><div class="score-val" style="color:var(--ink)">7.4</div><div class="score-label">Score Global</div></div>
+</div><div class="verdict-box" id="verdict-orangeci">
+<div class="vb-title">VERDICT OFFICIEL · OSWALD VISION CAPITAL · N°001</div>
+<div class="vb-grid">
+<div class="vb-item"><div class="vb-key">Verdict</div><div class="vb-val green">INITIATION, ACHAT</div></div>
+<div class="vb-item"><div class="vb-key">Cours d'entrée</div><div class="vb-val gold">14 500 XOF</div></div>
+<div class="vb-item"><div class="vb-key">Prix cible 12M</div><div class="vb-val green">17 000 XOF (+17%)</div></div>
+<div class="vb-item"><div class="vb-key">Stop loss</div><div class="vb-val">11 500 XOF (-20%)</div></div>
+<div class="vb-item"><div class="vb-key">Horizon</div><div class="vb-val">3 à 5 ans</div></div>
+<div class="vb-item"><div class="vb-key">Conviction</div><div class="vb-val gold"> FORTE · 7.4/10</div></div>
+</div>
+</div><div class="article-actions">
+<button class="btn-primary" onclick="closeArticle()">Retour aux analyses</button>
+<a class="btn-pdf" href="#" onclick="printArticle('orangeci');return false">⬇ Télécharger en PDF</a>
+<button class="btn-secondary" onclick="openArticle('orangeci','en')">Read in English</button>
+</div><div class="disclaimer"><strong>Avertissement légal :</strong>Ce document est publié à titre éducatif uniquement. Le portefeuille est entièrement fictif (capital virtuel de 100 000 USD). L'auteur est étudiant en finance et n'est pas gérant de fonds agréé. Aucune information ne constitue un conseil en investissement.<em>© Oswald Vision Capital · N°001 · 10 avril 2026</em></div>
+</div>
+</div><!-- ═══ ARTICLE VIEW, NVIDIA (FR) ═══ -->
+<div id="article-nvidia-fr" class="article-page">
+<div class="article-nav">
+<button class="back-btn" onclick="closeArticle()"><span data-fr>Retour aux analyses</span><span data-en>Back to research</span></button>
+<div class="article-lang-switch">
+<button class="als-btn current">Français</button>
+<button class="als-btn other" onclick="openArticle('nvidia','en')">English</button>
+<button class="als-btn other" onclick="printArticle('nvidia')" style="margin-left:.3rem">⬇ PDF</button>
+</div>
+</div>
+<div class="article-content" id="print-nvidia">
+<div class="article-header">
+<div class="article-meta-row">
+<span class="tag" style="background:var(--blue-bg);color:var(--blue)">Amériques</span>
+<span class="tag tag-growth">Growth</span>
+<span class="tag tag-equity">Equity</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)">N°002 · 10 avril 2026 · 15 min</span>
+</div>
+<h1 class="article-h1">NVIDIA, À 36x les bénéfices, le roi de l'IA est-il encore une opportunité ?</h1>
+<div class="article-lede">FY2026 historique : $215,9 Mds de revenus (+65%), $120 Mds de bénéfice net, $97 Mds de free cash flow. Blackwell vendu à rupture jusqu'à mi-2026. À 36x les bénéfices, contre 55x en moyenne historique, la valorisation est à son niveau le plus raisonnable depuis des années.</div>
+<div class="article-stamp">
+<div class="stamp-item"><div class="stamp-key">Ticker</div><div class="stamp-val gold">NASDAQ : NVDA</div></div>
+<div class="stamp-item"><div class="stamp-key">Date officielle</div><div class="stamp-val">10 avril 2026</div></div>
+<div class="stamp-item"><div class="stamp-key">Cours d'entrée</div><div class="stamp-val">$177,64</div></div>
+<div class="stamp-item"><div class="stamp-key">Capital alloué</div><div class="stamp-val">$5 000 · 5,0%</div></div>
+<div class="stamp-item"><div class="stamp-key">Prix cible 12M</div><div class="stamp-val green">$225 (+27%)</div></div>
+<div class="stamp-item"><div class="stamp-key">Verdict</div><div class="stamp-val green">INITIATION, ACHAT</div></div>
+</div>
+</div><div class="article-section-h"><span class="sec-num">01</span>Thèse en 3 lignes</div>
+<p class="article-p">NVIDIA vient de publier des résultats FY2026 historiques,<strong>$215,9 milliards de chiffre d'affaires (+65%)</strong>, $120 milliards de bénéfice net et $97 milliards de free cash flow. L'architecture Blackwell est vendue à rupture jusqu'à mi-2026, et l'entreprise guide vers $78 milliards pour le seul Q1 FY2027. À<strong>36x les bénéfices TTM</strong>, contre une moyenne historique de 55x sur 10 ans, le titre se traite à sa valorisation la plus raisonnée depuis des années.</p><div class="article-section-h"><span class="sec-num">02</span>Résultats FY2026, Les chiffres qui parlent</div>
+<table class="data-table">
+<thead><tr><th>Indicateur</th><th>FY2026</th><th>Variation YoY</th></tr></thead>
+<tbody>
+<tr><td>Chiffre d'affaires total</td><td>$215,9 Mds</td><td class="positive">+65%</td></tr>
+<tr><td>Revenus Data Center</td><td>$193,7 Mds</td><td class="positive">+68%</td></tr>
+<tr><td>Résultat net (GAAP)</td><td>$120,1 Mds</td><td class="positive">+65%</td></tr>
+<tr><td>BPA dilué</td><td>$4,90</td><td class="positive">+67%</td></tr>
+<tr><td>Free Cash Flow</td><td>$96,7 Mds</td><td class="positive">Record</td></tr>
+<tr><td>Marge brute</td><td>75,0%</td><td>Stable</td></tr>
+<tr><td>Q1 FY2027 Guidance</td><td><strong>$78 Mds</strong></td><td class="positive">+15% séquentiel</td></tr>
+</tbody>
+</table><div class="article-section-h"><span class="sec-num">03</span>Le moat CUDA, Pourquoi personne ne peut rattraper NVIDIA</div>
+<p class="article-p">CUDA est le langage de programmation propriétaire de NVIDIA, avec<strong>18 ans d'existence</strong>. Des millions de développeurs, des milliers de bibliothèques, et tous les grands frameworks d'IA (PyTorch, TensorFlow) y sont optimisés en priorité. Migrer vers un concurrent signifie réécrire du code et reformer des équipes, pour des performances inférieures. L'architecture<strong>Blackwell GB200</strong>offre 30x les performances d'inférence de la génération H100 pour les grands modèles. Aucun concurrent n'est proche.</p><div class="article-section-h"><span class="sec-num">04</span>Catalyseurs</div>
+<div class="catalyst-item"><div class="ci-title">Blackwell Ultra (GB300/B300), Prochain supercycle (6-18 mois)</div><div class="ci-text">Expéditions GB300 : +129% YoY attendu. Microsoft, Amazon, Meta et Google sont acheteurs.</div><div class="ci-prob">Probabilité : 80% · Impact : maintien croissance +30-40%/an</div></div>
+<div class="catalyst-item"><div class="ci-title">Marché de l'inférence IA (12-36 mois)</div><div class="ci-text">Encore plus grand que l'entraînement. Commence seulement à décoller. NVIDIA parfaitement positionné sur les deux segments.</div><div class="ci-prob">Probabilité : 75% · Impact : +20 à 40% sur les revenus Data Center</div></div>
+<div class="catalyst-item"><div class="ci-title">Rerating valorisation, P/E 36x vs fair value 49x</div><div class="ci-text">Selon Simply Wall St, le P/E fair value estimé est 49x. Décote actuelle de 27% par rapport à la fair value.</div><div class="ci-prob">Probabilité : 60% · Impact : +20 à 35% sur le cours</div></div><div class="article-section-h"><span class="sec-num">05</span>Risques</div>
+<div class="risk-item"><div class="ri-title">ASICs maison des hyperscalers (risque principal, 2-4 ans)</div><div class="ri-text">Google (Trillium), Amazon (Trainium), Microsoft (Maia), tentent de commoditiser l'inférence. Jusqu'à ce que l'expérience développeur égale CUDA, le moat tient.</div></div>
+<div class="risk-item"><div class="ri-title">Restrictions export vers la Chine (tarifs Trump 2025)</div><div class="ri-text">Escalades potentielles dans le contexte tarifaire. NVIDIA a créé des versions "bridées" (H20) mais moins rentables.</div></div>
+<div class="risk-item"><div class="ri-title">Concentration revenues (91% Data Center)</div><div class="ri-text">Décélération des dépenses CapEx des hyperscalers = impact massif sur les revenus.</div></div><div class="article-section-h"><span class="sec-num">06</span>Valorisation</div>
+<table class="data-table">
+<thead><tr><th>Horizon</th><th>Prix cible</th><th>Upside</th></tr></thead>
+<tbody>
+<tr><td>12 mois</td><td><strong>$225</strong></td><td class="positive">+27%</td></tr>
+<tr><td>36 mois</td><td><strong>$300</strong></td><td class="positive">+69%</td></tr>
+<tr><td>Scénario baissier</td><td>$130</td><td class="negative">-27%</td></tr>
+<tr><td>Consensus analystes (moy.)</td><td>$265,97</td><td class="positive">+49,9%</td></tr>
+</tbody>
+</table><div class="article-section-h"><span class="sec-num">07</span>Scoring & Conviction</div>
+<div class="score-grid">
+<div class="score-item"><div class="score-val">9.5</div><div class="score-label">Performance</div></div>
+<div class="score-item"><div class="score-val">7.0</div><div class="score-label">Risque</div></div>
+<div class="score-item"><div class="score-val">7.0</div><div class="score-label">ESG</div></div>
+<div class="score-item"><div class="score-val" style="color:var(--ink)">7.9</div><div class="score-label">Score Global</div></div>
+</div><div class="verdict-box">
+<div class="vb-title">VERDICT OFFICIEL · OSWALD VISION CAPITAL · N°002</div>
+<div class="vb-grid">
+<div class="vb-item"><div class="vb-key">Verdict</div><div class="vb-val green">INITIATION, ACHAT</div></div>
+<div class="vb-item"><div class="vb-key">Cours d'entrée</div><div class="vb-val gold">$177,64</div></div>
+<div class="vb-item"><div class="vb-key">Prix cible 12M</div><div class="vb-val green">$225 (+27%)</div></div>
+<div class="vb-item"><div class="vb-key">Stop loss</div><div class="vb-val">$130 (-27%)</div></div>
+<div class="vb-item"><div class="vb-key">Horizon</div><div class="vb-val">3 à 5 ans</div></div>
+<div class="vb-item"><div class="vb-key">Conviction</div><div class="vb-val gold"> FORTE · 7.9/10</div></div>
+</div>
+</div><div class="article-actions">
+<button class="btn-primary" onclick="closeArticle()">Retour aux analyses</button>
+<a class="btn-pdf" href="#" onclick="printArticle('nvidia');return false">⬇ Télécharger en PDF</a>
+<button class="btn-secondary" onclick="openArticle('nvidia','en')">Read in English</button>
+</div>
+<div class="disclaimer"><strong>Avertissement légal :</strong>Ce document est publié à titre éducatif uniquement. Le portefeuille est entièrement fictif. L'auteur est étudiant en finance et n'est pas gérant de fonds agréé.<em>© Oswald Vision Capital · N°002 · 10 avril 2026</em></div>
+</div>
+</div><!-- ═══ ENGLISH VERSIONS (simplified, same structure) ═══ -->
+<div id="article-orangeci-en" class="article-page">
+<div class="article-nav">
+<button class="back-btn" onclick="closeArticle()">Back to research</button>
+<div class="article-lang-switch">
+<button class="als-btn other" onclick="openArticle('orangeci','fr')">Français</button>
+<button class="als-btn current">English</button>
+<button class="als-btn other" onclick="printArticle('orangeci')" style="margin-left:.3rem">⬇ PDF</button>
+</div>
+</div>
+<div class="article-content">
+<div class="article-header">
+<div class="article-meta-row">
+<span class="tag tag-africa">Africa · BRVM</span>
+<span class="tag tag-value">Value</span>
+<span class="tag tag-equity">Equity</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)">N°001 · April 10, 2026 · 12 min</span>
+</div>
+<h1 class="article-h1">Orange CI, The BRVM's most reliable dividend conceals an underestimated growth story</h1>
+<div class="article-lede">Orange CI combines the solidity of a de facto monopoly on Ivory Coast fibre and 4G with the growth potential of Orange Money, its fast-accelerating mobile payments service. At 14,500 XOF, the market has not yet priced in the Orange Money franchise value.</div>
+<div class="article-stamp">
+<div class="stamp-item"><div class="stamp-key">Ticker</div><div class="stamp-val gold">BRVM : ORAC</div></div>
+<div class="stamp-item"><div class="stamp-key">Official date</div><div class="stamp-val">April 10, 2026</div></div>
+<div class="stamp-item"><div class="stamp-key">Entry price</div><div class="stamp-val">14,500 XOF</div></div>
+<div class="stamp-item"><div class="stamp-key">Capital allocated</div><div class="stamp-val">USD 3,333 · 3.3%</div></div>
+<div class="stamp-item"><div class="stamp-key">12M price target</div><div class="stamp-val green">17,000 XOF (+17%)</div></div>
+<div class="stamp-item"><div class="stamp-key">Verdict</div><div class="stamp-val green">INITIATION, BUY</div></div>
+</div>
+</div>
+<div class="article-section-h"><span class="sec-num">01</span>Thesis in 3 sentences</div>
+<p class="article-p">Orange CI is the undisputed telecom leader in Ivory Coast with<strong>FY2025 revenue of XOF 1,197B (+10.4%)</strong>and a dividend of 800 FCFA per share, a 5.5% yield at today's price. The company combines defensive characteristics (recurring revenue, strong cash flow) with the growth optionality of<strong>Orange Money</strong>, its fintech-like mobile payment arm. At 14,500 XOF, the market still prices Orange CI as a plain telecom, the Orange Money re-rating has not happened yet.</p>
+<div class="article-section-h"><span class="sec-num">02</span>Key Financials, FY2025</div>
+<table class="data-table">
+<thead><tr><th>Metric</th><th>FY2025</th><th>Change</th></tr></thead>
+<tbody>
+<tr><td>Revenue</td><td>XOF 1,197B</td><td class="positive">+10.4%</td></tr>
+<tr><td>EBITDAaL</td><td>XOF 424B</td><td class="positive">+8.7%</td></tr>
+<tr><td>Net income</td><td>XOF 167.8B</td><td class="positive">+6.1%</td></tr>
+<tr><td>Operating cash flow</td><td>XOF 335.5B</td><td class="positive">+15.7%</td></tr>
+<tr><td>Proposed gross dividend</td><td><strong>800 FCFA/share</strong></td><td class="positive">+11.1%</td></tr>
+<tr><td>Dividend yield</td><td><strong>5.5%</strong></td><td>n.d.</td></tr>
+</tbody>
+</table>
+<div class="article-section-h"><span class="sec-num">03</span>Verdict</div>
+<div class="verdict-box">
+<div class="vb-title">OFFICIAL VERDICT · OSWALD VISION CAPITAL · N°001</div>
+<div class="vb-grid">
+<div class="vb-item"><div class="vb-key">Verdict</div><div class="vb-val green">INITIATION, BUY</div></div>
+<div class="vb-item"><div class="vb-key">Entry price</div><div class="vb-val gold">14,500 XOF</div></div>
+<div class="vb-item"><div class="vb-key">12M target</div><div class="vb-val green">17,000 XOF (+17%)</div></div>
+<div class="vb-item"><div class="vb-key">Stop loss</div><div class="vb-val">11,500 XOF (-20%)</div></div>
+<div class="vb-item"><div class="vb-key">Horizon</div><div class="vb-val">3 to 5 years</div></div>
+<div class="vb-item"><div class="vb-key">Conviction</div><div class="vb-val gold"> HIGH · 7.4/10</div></div>
+</div>
+</div>
+<div class="article-actions">
+<button class="btn-primary" onclick="closeArticle()">Back to research</button>
+<a class="btn-pdf" href="#" onclick="printArticle('orangeci');return false">⬇ Download PDF</a>
+<button class="btn-secondary" onclick="openArticle('orangeci','fr')">Lire en français</button>
+</div>
+<div class="disclaimer"><strong>Legal disclaimer:</strong>This document is published for educational purposes only. The portfolio is entirely fictitious (virtual capital of USD 100,000). The author is a finance student and is not a licensed fund manager. Nothing herein constitutes investment advice.<em>© Oswald Vision Capital · N°001 · April 10, 2026</em></div>
+</div>
+</div><div id="article-nvidia-en" class="article-page">
+<div class="article-nav">
+<button class="back-btn" onclick="closeArticle()">Back to research</button>
+<div class="article-lang-switch">
+<button class="als-btn other" onclick="openArticle('nvidia','fr')">Français</button>
+<button class="als-btn current">English</button>
+<button class="als-btn other" onclick="printArticle('nvidia')" style="margin-left:.3rem">⬇ PDF</button>
+</div>
+</div>
+<div class="article-content">
+<div class="article-header">
+<div class="article-meta-row">
+<span class="tag" style="background:var(--blue-bg);color:var(--blue)">Americas</span>
+<span class="tag tag-growth">Growth</span>
+<span class="tag tag-equity">Equity</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)">N°002 · April 10, 2026 · 15 min</span>
+</div>
+<h1 class="article-h1">NVIDIA, At 36x earnings, is the AI king still an opportunity?</h1>
+<div class="article-lede">Historic FY2026: $215.9B revenue (+65%), $120B net income, $97B free cash flow. Blackwell sold out through mid-2026. At 36x TTM earnings, vs a 55x 10-year historical average, the valuation is at its most reasonable in years.</div>
+<div class="article-stamp">
+<div class="stamp-item"><div class="stamp-key">Ticker</div><div class="stamp-val gold">NASDAQ : NVDA</div></div>
+<div class="stamp-item"><div class="stamp-key">Official date</div><div class="stamp-val">April 10, 2026</div></div>
+<div class="stamp-item"><div class="stamp-key">Entry price</div><div class="stamp-val">$177.64</div></div>
+<div class="stamp-item"><div class="stamp-key">Capital allocated</div><div class="stamp-val">$5,000 · 5.0%</div></div>
+<div class="stamp-item"><div class="stamp-key">12M price target</div><div class="stamp-val green">$225 (+27%)</div></div>
+<div class="stamp-item"><div class="stamp-key">Verdict</div><div class="stamp-val green">INITIATION, BUY</div></div>
+</div>
+</div>
+<div class="article-section-h"><span class="sec-num">01</span>Thesis in 3 sentences</div>
+<p class="article-p">NVIDIA just reported historic FY2026 results,<strong>$215.9B revenue (+65%)</strong>, $120B net income and $97B free cash flow. The Blackwell architecture is sold out through mid-2026, and the company guides to $78B for Q1 FY2027 alone. At<strong>36x TTM earnings</strong>, vs a 10-year historical average of 55x, the stock trades at its most reasonable valuation in years.</p>
+<div class="article-section-h"><span class="sec-num">02</span>FY2026 Key Financials</div>
+<table class="data-table">
+<thead><tr><th>Metric</th><th>FY2026</th><th>Change YoY</th></tr></thead>
+<tbody>
+<tr><td>Total Revenue</td><td>$215.9B</td><td class="positive">+65%</td></tr>
+<tr><td>Data Center Revenue</td><td>$193.7B</td><td class="positive">+68%</td></tr>
+<tr><td>GAAP Net Income</td><td>$120.1B</td><td class="positive">+65%</td></tr>
+<tr><td>Diluted EPS</td><td>$4.90</td><td class="positive">+67%</td></tr>
+<tr><td>Free Cash Flow</td><td>$96.7B</td><td class="positive">Record</td></tr>
+<tr><td>Gross Margin</td><td>75.0%</td><td>Stable</td></tr>
+<tr><td>Q1 FY2027 Guidance</td><td><strong>$78B</strong></td><td class="positive">+15% seq.</td></tr>
+</tbody>
+</table>
+<div class="article-section-h"><span class="sec-num">03</span>Verdict</div>
+<div class="verdict-box">
+<div class="vb-title">OFFICIAL VERDICT · OSWALD VISION CAPITAL · N°002</div>
+<div class="vb-grid">
+<div class="vb-item"><div class="vb-key">Verdict</div><div class="vb-val green">INITIATION, BUY</div></div>
+<div class="vb-item"><div class="vb-key">Entry price</div><div class="vb-val gold">$177.64</div></div>
+<div class="vb-item"><div class="vb-key">12M target</div><div class="vb-val green">$225 (+27%)</div></div>
+<div class="vb-item"><div class="vb-key">Stop loss</div><div class="vb-val">$130 (-27%)</div></div>
+<div class="vb-item"><div class="vb-key">Horizon</div><div class="vb-val">3 to 5 years</div></div>
+<div class="vb-item"><div class="vb-key">Conviction</div><div class="vb-val gold"> HIGH · 7.9/10</div></div>
+</div>
+</div>
+<div class="article-actions">
+<button class="btn-primary" onclick="closeArticle()">Back to research</button>
+<a class="btn-pdf" href="#" onclick="printArticle('nvidia');return false">⬇ Download PDF</a>
+<button class="btn-secondary" onclick="openArticle('nvidia','fr')">Lire en français</button>
+</div>
+<div class="disclaimer"><strong>Legal disclaimer:</strong>For educational purposes only. Virtual portfolio (USD 100,000 fictitious capital). The author is a finance student, not a licensed fund manager.<em>© Oswald Vision Capital · N°002 · April 10, 2026</em></div>
+</div>
+</div><!-- FOOTER -->
+<footer>
+<div class="ft-logo">Oswald<em>Vision</em>Capital</div>
+<div class="ft-copy">© 2026 ·<span data-fr>Recherche financière indépendante</span><span data-en>Independent financial research</span>·<a href="index.html" style="color:var(--gold);text-decoration:none"><span data-fr>Retour à l'accueil</span><span data-en>Back to home</span></a></div>
+</footer><script>
+// ── LANG
+function setLang(l){ document.documentElement.setAttribute('data-lang',l); document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+}
+setLang('fr'); // ── ARTICLE NAVIGATION
+let currentLang = 'fr'; function openArticle(id, lang) { lang = lang || currentLang; currentLang = lang; document.getElementById('list-view').style.display = 'none'; document.querySelectorAll('.article-page').forEach(p => p.style.display = 'none'); const el = document.getElementById('article-' + id + '-' + lang); if (el) { el.style.display = 'block'; window.scrollTo(0,0); }
+} function closeArticle() { document.getElementById('list-view').style.display = 'block'; document.querySelectorAll('.article-page').forEach(p => p.style.display = 'none'); window.scrollTo(0,0);
+} // ── PDF PRINT
+function printArticle(id) { const printEl = document.getElementById('print-' + id); const orig = document.body.innerHTML; if (!printEl) { window.print(); return; } const content = printEl.innerHTML; const header = `
+<div style="text-align:center;margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid #c9832a"><div style="font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700"> Oswald <em style="color:#c9832a">Vision</em> Capital
+</div><div style="font-size:.75rem;color:#888;margin-top:.3rem">www.oswaldvisioncapital.com · Independent Investment Research</div></div>`; document.body.innerHTML = header + content; window.print(); document.body.innerHTML = orig; location.reload();
+} // ── FILTERS
+let activeFilters = new Set(['all']);
+const cards = () => document.querySelectorAll('.ac:not(.ac-soon)'); function filterBy(type, btn) { // Toggle button styles document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('on')); btn.classList.add('on'); // Apply filter cards().forEach(card => { if (type === 'all') { card.classList.remove('hidden'); } else { const zone = card.dataset.zone; const strategy = card.dataset.strategy; const t = card.dataset.type; const match = zone === type || strategy === type || t === type; card.classList.toggle('hidden', !match); } }); updateCount();
+} // ── SEARCH
+function searchAnalyses(query) { const q = query.toLowerCase().trim(); document.querySelectorAll('.ac:not(.ac-soon)').forEach(card => { const name = card.dataset.name || ''; card.classList.toggle('hidden', q && !name.includes(q)); }); updateCount();
+} // ── SORT
+function sortAnalyses(method) { const grid = document.getElementById('analyses-grid'); const cardArray = Array.from(grid.querySelectorAll('.ac:not(.ac-soon)')); cardArray.sort((a, b) => { if (method === 'newest') return b.dataset.date.localeCompare(a.dataset.date); if (method === 'zone') return (a.dataset.zone||'').localeCompare(b.dataset.zone||''); if (method === 'score') return parseFloat(b.dataset.score||0) - parseFloat(a.dataset.score||0); return 0; }); cardArray.forEach(c => grid.insertBefore(c, grid.firstChild));
+} // ── COUNT
+function updateCount() { const visible = document.querySelectorAll('.ac:not(.ac-soon):not(.hidden)').length; const el = document.getElementById('count-display'); if (el) el.textContent = visible;
+} // ── SCROLL REVEAL
+const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:.08});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const body = document.body;
+  
+  if (!menu) return;
+  menu.classList.toggle('open');
+  body.classList.toggle('menu-open');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('mobile-toggle');
+  if (toggle) toggle.addEventListener('click', toggleMobileMenu);
+
+  document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
+    link.addEventListener('click', () => {
+      const menu = document.getElementById('mobile-menu');
+      if (menu) menu.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    });
+  });
+});
+</script>
+
+</body>
+</html>

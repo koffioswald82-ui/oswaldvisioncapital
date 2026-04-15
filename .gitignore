@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Dependencies
+node_modules/
+/dist
+/build
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific
+*.xlsx
+*.xlsm
+*.csv
+!template*.xlsx
