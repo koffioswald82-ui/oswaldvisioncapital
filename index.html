@@ -225,6 +225,106 @@ span[data-fr],span[data-en]{display:none}
 html[data-lang=fr] span[data-fr]{display:inline}
 html[data-lang=en] span[data-en]{display:inline}
 
+/* ── MODAL SYSTEM ── */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,15,30,.85);backdrop-filter:blur(10px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .35s ease}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:var(--bg);width:94%;max-width:680px;max-height:92vh;border-radius:24px;position:relative;overflow-y:auto;box-shadow:var(--shadow-lg);transform:translateY(30px);transition:transform .4s cubic-bezier(.2,.8,.2,1.1)}
+.modal-overlay.open .modal-box{transform:translateY(0)}
+.modal-close{position:absolute;top:1.5rem;right:1.5rem;width:36px;height:36px;border-radius:50%;border:none;background:var(--white);color:var(--ink);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:var(--shadow);transition:transform .2s}
+.modal-close:hover{transform:rotate(90deg);color:var(--gold)}
+
+.modal-header{background:linear-gradient(135deg,var(--ink),var(--ink2));padding:3rem 2.5rem 2.5rem;color:#fff;text-align:center}
+.mh-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gold-l);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.8rem}
+.mh-title{font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:700;line-height:1.2;margin-bottom:.5rem}
+.mh-title em{color:var(--gold-l);font-style:italic}
+.mh-sub{font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:2rem}
+
+.modal-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.1);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+.mk{background:rgba(255,255,255,0.03);padding:1.2rem .8rem;text-align:center}
+.mk-v{font-family:'Libre Baskerville',serif;font-size:1.2rem;font-weight:700;color:#fff;line-height:1}
+.mk-k{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-top:.4rem}
+
+.modal-body{padding:2.5rem;background:var(--white)}
+
+/* PROGRESS BAR */
+.mini-steps{display:flex;align-items:center;margin-bottom:2.5rem;gap:.5rem}
+.ms-item{display:flex;align-items:center;gap:.7rem;flex-shrink:0}
+.ms-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;transition:all .3s}
+.ms-dot.active{background:var(--gold);color:#fff;box-shadow:0 0 0 5px rgba(201,131,42,.12)}
+.ms-dot.done{background:var(--green);color:#fff}
+.ms-dot.idle{background:var(--bg);color:var(--muted);border:1.5px solid var(--line)}
+.ms-lbl{font-size:.68rem;font-weight:700;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.ms-lbl.active{color:var(--gold)}.ms-lbl.done{color:var(--green)}
+.ms-line{flex:1;height:2px;background:var(--line);transition:all .4s}
+.ms-line.done{background:var(--green)}
+
+/* STEPS */
+.m-step{display:none}.m-step.on{display:block;animation:mIn .4s ease}
+@keyframes mIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.m-field{margin-bottom:1.5rem}
+.m-field label{display:block;font-size:.8rem;font-weight:700;color:var(--ink);margin-bottom:.5rem}
+.m-req{color:var(--gold);margin-left:.2rem}
+.m-field input,.m-field select{width:100%;padding:.85rem 1.1rem;border:1.8px solid var(--line);border-radius:10px;font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;transition:border-color .25s,box-shadow .25s}
+.m-field input:focus,.m-field select:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,131,42,.08)}
+.m-field input.merr{border-color:var(--red)}
+
+.m-pills{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:.7rem}
+.m-pill{padding:.7rem;border:1.5px solid var(--line);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;background:#fff;cursor:pointer;transition:all .2s;text-align:center}
+.m-pill:hover{border-color:var(--gold);color:var(--gold)}
+.m-pill.sel{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+
+.m-obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.m-obj-card{border:1.5px solid var(--line);padding:1.2rem;border-radius:12px;cursor:pointer;transition:all .2s;position:relative}
+.m-obj-card:hover{border-color:var(--gold);background:rgba(201,131,42,.02)}
+.m-obj-card.sel{background:var(--gold-bg);border-color:var(--gold)}
+.m-obj-card.sel::after{content:'✓';position:absolute;top:.8rem;right:.8rem;width:20px;height:20px;background:var(--gold);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.m-obj-title{font-weight:700;font-size:.9rem;margin-bottom:.3rem;color:var(--ink)}
+.m-obj-desc{font-size:.72rem;color:var(--body);line-height:1.5}
+
+.m-risk-row{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem}
+.m-risk{padding:.7rem .2rem;border:1.5px solid var(--line);border-radius:8px;text-align:center;font-size:.65rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--muted)}
+.m-risk:hover{border-color:var(--gold)}
+.m-risk.r1{background:#e8f5ee;color:#1a7a4a;border-color:#1a7a4a}
+.m-risk.r3{background:#fef3e2;color:#c9832a;border-color:#c9832a}
+.m-risk.r5{background:#fde8e8;color:#c0392b;border-color:#c0392b}
+
+.m-row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.mferr{font-size:.72rem;color:var(--red);margin-top:.4rem;font-weight:500;display:none}
+.mferr.show{display:block}
+
+.m-summary{background:var(--bg);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid var(--line)}
+.m-sum-head{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1.2rem}
+.m-sum-row{display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid rgba(0,0,0,0.05)}
+.m-sum-k{font-size:.8rem;color:var(--muted)}
+.m-sum-v{font-size:.85rem;font-weight:700;color:var(--ink)}
+
+.m-check-item{display:flex;gap:.8rem;align-items:flex-start;margin-bottom:1rem;cursor:pointer}
+.m-check-item input{width:18px;height:18px;margin-top:.2rem;accent-color:var(--gold)}
+.m-check-item span{font-size:.78rem;color:var(--body);line-height:1.6}
+
+.m-btn-row{display:flex;gap:1rem;margin-top:2rem}
+.m-btn-fwd{flex:1;background:var(--ink);color:#fff;padding:1rem;border-radius:10px;border:none;font-weight:700;font-size:.9rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.m-btn-fwd:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,79,170,.2)}
+.m-btn-fwd.gold{background:var(--gold)}.m-btn-fwd.gold:hover{background:#b5721e;box-shadow:0 4px 12px rgba(201,131,42,.2)}
+.m-btn-bck{background:transparent;color:var(--body);padding:1rem;border-radius:10px;border:1.8px solid var(--line);font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s}
+.m-btn-bck:hover{border-color:var(--ink);color:var(--ink)}
+
+.m-success{display:none;padding:2rem 1rem;text-align:center}
+.m-success.show{display:block;animation:mIn .5s ease}
+.m-suc-icon{width:64px;height:64px;background:#e8f5ee;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+.m-suc-title{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;margin-bottom:.8rem;color:var(--ink)}
+.m-suc-sub{font-size:.9rem;color:var(--body);line-height:1.7;margin-bottom:1.8rem;max-width:400px;margin-left:auto;margin-right:auto}
+.m-suc-ref{font-family:'JetBrains Mono',monospace;font-size:.75rem;background:var(--bg);padding:.6rem 1.2rem;border-radius:8px;color:var(--muted);display:inline-block;margin-bottom:2rem}
+.m-hint{font-size:.75rem;color:var(--muted);margin-top:2rem}
+.m-hint a{color:var(--gold);font-weight:700;text-decoration:none}
+@media(max-width:600px){
+  .modal-box{width:100%;height:100%;border-radius:0;max-height:100vh}
+  .mini-steps{display:none}
+  .m-obj-grid{grid-template-columns:1fr}
+  .m-row2{grid-template-columns:1fr}
+}
+
 /* ── DROPDOWN NAV */
 .nav-item-dd{position:relative;display:flex;align-items:center}
 .nav-link-dd{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s;cursor:pointer;display:flex;align-items:center;gap:.25rem}
@@ -328,7 +428,7 @@ html[data-lang=en] span[data-en]{display:inline}
 </div>
 <a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
 <a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
-<a href="#newsletter" class="nav-cta">Newsletter</a>
+<button onclick="openModal()" class="nav-cta btn-gold" style="border:none;cursor:pointer"><span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span></button>
 </div>
 </nav>
 <!-- SECTION NAV -->
@@ -706,10 +806,11 @@ Every project, every reflection, every piece of content published here is part o
 <div class="eyebrow"><span data-fr>Newsletter gratuite</span><span data-en>Free newsletter</span></div>
 <h2 class="nl-h"><span data-fr>Les meilleures analyses,<br>dans votre boîte mail.</span><span data-en>The best analyses,<br>straight to your inbox.</span></h2>
 <p class="nl-sub reveal"><span data-fr>Chaque semaine : une analyse de fond, un graphique macro, et le suivi des 4 zones géographiques. Lu par des étudiants, des professionnels et des investisseurs curieux.</span><span data-en>Every week: a deep-dive analysis, one macro chart, and tracking across all 4 regions. Read by students, professionals and curious investors.</span></p>
-<div class="nl-form reveal">
-<input type="email" placeholder="votre@email.com">
-<button><span data-fr>Je m'abonne</span><span data-en>Subscribe</span></button>
-</div>
+<form class="nl-form reveal" action="https://formspree.io/f/mvzdzvko" method="POST">
+<input type="hidden" name="source" value="newsletter_index">
+<input type="email" name="email" placeholder="votre@email.com" required>
+<button type="submit"><span data-fr>Je m'abonne</span><span data-en>Subscribe</span></button>
+</form>
 <div class="nl-feats reveal">
 <span class="nl-feat"><span data-fr>100% gratuit</span><span data-en>100% free</span></span>
 <span class="nl-feat"><span data-fr>Zéro spam</span><span data-en>Zero spam</span></span>
@@ -754,8 +855,310 @@ Every project, every reflection, every piece of content published here is part o
 <p class="ft-copy">© 2026 Oswald Vision Capital</p>
 <p class="ft-disc"><span data-fr>Ce site est à but éducatif et ne constitue pas un conseil en investissement. Les analyses reflètent une opinion personnelle indépendante.</span><span data-en>This site is for educational purposes only and does not constitute investment advice. Analyses reflect independent personal opinion.</span></p>
 </div>
-</footer><script>
+</footer>
+
+<!-- SUBSCRIBE MODAL -->
+<div class="modal-overlay" id="subscribe-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()" aria-label="Fermer">&#x2715;</button>
+
+    <div class="modal-header">
+      <div class="mh-eyebrow"><span data-fr>Fonds de recherche indépendant</span><span data-en>Independent research fund</span></div>
+      <div class="mh-title"><span data-fr>Souscrire au fonds <em>Oswald Vision Capital</em></span><span data-en>Subscribe to <em>Oswald Vision Capital</em></span></div>
+      <div class="mh-sub"><span data-fr>Fonds virtuel de recherche — capital non engagé</span><span data-en>Research virtual fund — no capital committed</span></div>
+      <div class="modal-kpis">
+        <div class="mk"><div class="mk-v">100 EUR</div><div class="mk-k"><span data-fr>Valeur de part</span><span data-en>Unit NAV</span></div></div>
+        <div class="mk"><div class="mk-v">500 EUR</div><div class="mk-k"><span data-fr>Ticket minimum</span><span data-en>Min. ticket</span></div></div>
+        <div class="mk"><div class="mk-v">30 <span data-fr>entreprises</span><span data-en>companies</span></div><div class="mk-k">4 zones</div></div>
+      </div>
+    </div>
+
+    <div class="modal-body">
+      <!-- MINI STEPS -->
+      <div class="mini-steps" id="m-steps">
+        <div class="ms-item"><div class="ms-dot active" id="msc1">1</div><span class="ms-lbl active" id="msl1"><span data-fr>Investissement</span><span data-en>Investment</span></span></div>
+        <div class="ms-line" id="mln1"></div>
+        <div class="ms-item"><div class="ms-dot idle" id="msc2">2</div><span class="ms-lbl idle" id="msl2"><span data-fr>Profil</span><span data-en>Profile</span></span></div>
+        <div class="ms-line" id="mln2"></div>
+        <div class="ms-item"><div class="ms-dot idle" id="msc3">3</div><span class="ms-lbl idle" id="msl3">Contact</span></div>
+        <div class="ms-line" id="mln3"></div>
+        <div class="ms-item"><div class="ms-dot idle" id="msc4">4</div><span class="ms-lbl idle" id="msl4"><span data-fr>Confirmation</span><span data-en>Confirm</span></span></div>
+      </div>
+
+      <form id="m-form" action="https://formspree.io/f/mvzdzvko" method="POST">
+        <input type="hidden" name="_subject" id="mf-subject" value="OVC Souscription">
+        <input type="hidden" name="langue" id="mf-lang" value="fr">
+        <input type="hidden" name="source" value="modal_index">
+        <input type="hidden" name="objectif" id="mf-obj" value="">
+        <input type="hidden" name="risque_score" id="mf-risk" value="3">
+        <input type="hidden" name="horizon_ans" id="mf-horizon" value="3">
+
+        <!-- M-STEP 1 -->
+        <div class="m-step on" id="m-step-1">
+          <div class="m-field">
+            <label><span data-fr>Montant simulé</span><span data-en>Simulated amount</span> <span class="m-req">*</span></label>
+            <div class="m-pills">
+              <button type="button" class="m-pill" onclick="mPickAmt(500)">500</button>
+              <button type="button" class="m-pill" onclick="mPickAmt(1000)">1 000</button>
+              <button type="button" class="m-pill" onclick="mPickAmt(2500)">2 500</button>
+              <button type="button" class="m-pill" onclick="mPickAmt(5000)">5 000</button>
+            </div>
+            <input type="number" id="mf-amount" name="montant_simule" min="500" step="100" placeholder="Autre montant EUR (min. 500)" oninput="mOnAmt()">
+            <div class="mferr" id="me-amount"><span data-fr>Minimum 500 EUR</span><span data-en>Minimum 500 EUR</span></div>
+          </div>
+          <div class="m-field">
+            <label><span data-fr>Date souhaitée</span><span data-en>Desired date</span> <span class="m-req">*</span></label>
+            <input type="date" id="mf-date" name="date_souscription">
+            <div class="mferr" id="me-date"><span data-fr>Veuillez choisir une date</span><span data-en>Please choose a date</span></div>
+          </div>
+          <div class="m-btn-row">
+            <button type="button" class="m-btn-fwd" onclick="mNext(2)"><span data-fr>Continuer</span><span data-en>Continue</span> &rarr;</button>
+          </div>
+        </div>
+
+        <!-- M-STEP 2 -->
+        <div class="m-step" id="m-step-2">
+          <div class="m-field">
+            <label><span data-fr>Objectif principal</span><span data-en>Primary objective</span> <span class="m-req">*</span></label>
+            <div class="m-obj-grid" id="m-obj-grid">
+              <div class="m-obj-card" data-v="croissance" onclick="mPickObj(this)">
+                <div class="m-obj-title">Growth</div>
+                <div class="m-obj-desc"><span data-fr>Maximiser le capital, tech et émergents</span><span data-en>Maximize capital, tech and emerging</span></div>
+              </div>
+              <div class="m-obj-card" data-v="revenu" onclick="mPickObj(this)">
+                <div class="m-obj-title">Income</div>
+                <div class="m-obj-desc"><span data-fr>Dividendes réguliers, BRVM, stabilité</span><span data-en>Regular dividends, BRVM, stability</span></div>
+              </div>
+              <div class="m-obj-card" data-v="equilibre" onclick="mPickObj(this)">
+                <div class="m-obj-title">Balanced</div>
+                <div class="m-obj-desc"><span data-fr>Mix Growth + Value, 4 zones géographiques</span><span data-en>Growth + Value mix, 4 geographic zones</span></div>
+              </div>
+              <div class="m-obj-card" data-v="afrique" onclick="mPickObj(this)">
+                <div class="m-obj-title">Africa</div>
+                <div class="m-obj-desc"><span data-fr>Focus BRVM, décorrélation, UEMOA</span><span data-en>BRVM focus, decorrelation, UEMOA</span></div>
+              </div>
+            </div>
+            <div class="mferr" id="me-obj"><span data-fr>Veuillez choisir un objectif</span><span data-en>Please select an objective</span></div>
+          </div>
+          <div class="m-field">
+            <label><span data-fr>Tolérance au risque</span><span data-en>Risk tolerance</span></label>
+            <div class="m-risk-row" id="m-risk-row">
+              <div class="m-risk" data-r="1" onclick="mPickRisk(1)"><span data-fr>Très faible</span><span data-en>Very low</span></div>
+              <div class="m-risk" data-r="2" onclick="mPickRisk(2)"><span data-fr>Faible</span><span data-en>Low</span></div>
+              <div class="m-risk" data-r="3" onclick="mPickRisk(3)"><span data-fr>Modéré</span><span data-en>Moderate</span></div>
+              <div class="m-risk" data-r="4" onclick="mPickRisk(4)"><span data-fr>Élevé</span><span data-en>High</span></div>
+              <div class="m-risk" data-r="5" onclick="mPickRisk(5)"><span data-fr>Très élevé</span><span data-en>Very high</span></div>
+            </div>
+          </div>
+          <div class="m-btn-row">
+            <button type="button" class="m-btn-bck" onclick="mNext(1)"><span data-fr>Retour</span><span data-en>Back</span></button>
+            <button type="button" class="m-btn-fwd" onclick="mNext(3)"><span data-fr>Continuer</span><span data-en>Continue</span> &rarr;</button>
+          </div>
+        </div>
+
+        <!-- M-STEP 3 -->
+        <div class="m-step" id="m-step-3">
+          <div class="m-row2">
+            <div class="m-field">
+              <label><span data-fr>Prénom</span><span data-en>First name</span> <span class="m-req">*</span></label>
+              <input type="text" id="mf-first" name="prenom" placeholder="Jean" autocomplete="given-name">
+              <div class="mferr" id="me-first"><span data-fr>Requis</span><span data-en>Required</span></div>
+            </div>
+            <div class="m-field">
+              <label><span data-fr>Nom</span><span data-en>Last name</span> <span class="m-req">*</span></label>
+              <input type="text" id="mf-last" name="nom" placeholder="Dupont" autocomplete="family-name">
+              <div class="mferr" id="me-last"><span data-fr>Requis</span><span data-en>Required</span></div>
+            </div>
+          </div>
+          <div class="m-field">
+            <label>Email <span class="m-req">*</span></label>
+            <input type="email" id="mf-email" name="email" placeholder="votre@email.com" autocomplete="email">
+            <div class="mferr" id="me-email"><span data-fr>Email invalide</span><span data-en>Invalid email</span></div>
+          </div>
+          <div class="m-field">
+            <label><span data-fr>Pays</span><span data-en>Country</span></label>
+            <select id="mf-country" name="pays">
+              <option value="france">France</option>
+              <option value="belgique">Belgique</option>
+              <option value="suisse">Suisse</option>
+              <option value="cote_ivoire">Côte d'Ivoire</option>
+              <option value="senegal">Sénégal</option>
+              <option value="cameroun">Cameroun</option>
+              <option value="maroc">Maroc</option>
+              <option value="canada">Canada</option>
+              <option value="autres">Autres</option>
+            </select>
+          </div>
+          <div class="m-btn-row">
+            <button type="button" class="m-btn-bck" onclick="mNext(2)"><span data-fr>Retour</span><span data-en>Back</span></button>
+            <button type="button" class="m-btn-fwd" onclick="mNext(4)"><span data-fr>Vérifier</span><span data-en>Review</span> &rarr;</button>
+          </div>
+        </div>
+
+        <!-- M-STEP 4 -->
+        <div class="m-step" id="m-step-4">
+          <div class="m-summary">
+            <div class="m-sum-head"><span data-fr>Récapitulatif</span><span data-en>Summary</span></div>
+            <div class="m-sum-row"><span class="m-sum-k"><span data-fr>Montant</span><span data-en>Amount</span></span><span class="m-sum-v" id="ms-amount">n.d.</span></div>
+            <div class="m-sum-row"><span class="m-sum-k"><span data-fr>Parts</span><span data-en>Units</span></span><span class="m-sum-v" id="ms-units">n.d.</span></div>
+            <div class="m-sum-row"><span class="m-sum-k"><span data-fr>Objectif</span><span data-en>Objective</span></span><span class="m-sum-v" id="ms-obj">n.d.</span></div>
+            <div class="m-sum-row"><span class="m-sum-k">Email</span><span class="m-sum-v" id="ms-email">n.d.</span></div>
+            <div class="m-sum-row"><span class="m-sum-k"><span data-fr>Nom</span><span data-en>Name</span></span><span class="m-sum-v" id="ms-name">n.d.</span></div>
+          </div>
+          <div class="m-checks">
+            <label class="m-check-item">
+              <input type="checkbox" id="mck1" name="accord_educatif" value="oui">
+              <span><span data-fr>Je comprends que ce fonds opère sur capital virtuel à des fins de recherche et de suivi analytique.</span><span data-en>I understand this fund operates on virtual capital for research and analytical tracking purposes.</span></span>
+            </label>
+            <label class="m-check-item">
+              <input type="checkbox" id="mck2" name="accord_email" value="oui">
+              <span><span data-fr>J'accepte de recevoir le suivi hebdomadaire et les analyses OVC par email.</span><span data-en>I agree to receive the weekly update and OVC analyses by email.</span></span>
+            </label>
+          </div>
+          <div class="mferr" id="me-ck"><span data-fr>Veuillez cocher les cases</span><span data-en>Please check all boxes</span></div>
+          <div class="m-btn-row">
+            <button type="button" class="m-btn-bck" onclick="mNext(3)"><span data-fr>Modifier</span><span data-en>Edit</span></button>
+            <button type="submit" class="m-btn-fwd gold" id="m-btn-submit"><span data-fr>Envoyer</span><span data-en>Submit</span></button>
+          </div>
+        </div>
+      </form>
+
+      <!-- M-SUCCESS -->
+      <div class="m-success" id="m-success">
+        <div class="m-suc-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M4 12l5 5L20 7" stroke="#1a7a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="m-suc-title"><span data-fr>Souscription enregistrée</span><span data-en>Subscription registered</span></h3>
+        <p class="m-suc-sub"><span data-fr>Bienvenue dans le fonds OVC. Vous recevrez une confirmation par email et votre premier rapport de portefeuille vendredi prochain.</span><span data-en>Welcome to the OVC fund. You will receive a confirmation email and your first portfolio report next Friday.</span></p>
+        <div class="m-suc-ref" id="m-suc-ref">REF: OVC-2026-XXXX</div>
+        <button onclick="closeModal()" class="m-btn-fwd" style="max-width:200px;margin:0 auto"><span data-fr>Fermer</span><span data-en>Close</span></button>
+        <div class="m-hint"><span data-fr>Accédez à la page complète :</span><span data-en>Access the full page:</span> <a href="subscribe.html"><span data-fr>formulaire complet</span><span data-en>full form</span></a></div>
+      </div>
+    </div>
+  </div>
+</div><script>
+// ── MODAL LOGIC
+var mCurStep = 1;
+var mSelAmt  = 0;
+var mSelObj  = '';
+var mSelRisk = 3;
+var mNAV     = 100;
+
+window.openModal = function() {
+  document.getElementById('subscribe-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+window.closeModal = function() {
+  document.getElementById('subscribe-modal').classList.remove('open');
+  document.body.style.overflow = '';
+};
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+// Init modal date
+(function() {
+  var t = new Date(); t.setDate(t.getDate() + 1);
+  var el = document.getElementById('mf-date');
+  if (el) el.min = t.toISOString().split('T')[0];
+})();
+
+window.mPickAmt = function(v) {
+  document.getElementById('mf-amount').value = v; mSelAmt = v;
+  document.querySelectorAll('.m-pill').forEach(function(p) {
+    p.classList.toggle('sel', parseInt(p.textContent.replace(/\D/g,'')) === v);
+  });
+};
+window.mOnAmt = function() {
+  mSelAmt = parseFloat(document.getElementById('mf-amount').value) || 0;
+  document.querySelectorAll('.m-pill').forEach(function(p) {
+    p.classList.toggle('sel', parseInt(p.textContent.replace(/\D/g,'')) === mSelAmt);
+  });
+};
+window.mPickObj = function(card) {
+  document.querySelectorAll('.m-obj-card').forEach(function(c) { c.classList.remove('sel'); });
+  card.classList.add('sel'); mSelObj = card.dataset.v;
+  document.getElementById('mf-obj').value = mSelObj;
+};
+window.mPickRisk = function(v) {
+  mSelRisk = v; document.getElementById('mf-risk').value = v;
+  document.querySelectorAll('.m-risk').forEach(function(c) {
+    c.className = 'm-risk';
+    if (parseInt(c.dataset.r) === v) c.classList.add('r'+v);
+  });
+};
+mPickRisk(3);
+
+function mValidate(step) {
+  var ok = true;
+  function se(id,bad){document.getElementById(id).classList.toggle('show',bad);}
+  function mi(id,bad){var e=document.getElementById(id);if(e)e.classList.toggle('merr',bad);}
+  if (step===1){var a=mSelAmt<500;se('me-amount',a);mi('mf-amount',a);if(a)ok=false;var d=!document.getElementById('mf-date').value;se('me-date',d);mi('mf-date',d);if(d)ok=false;}
+  if (step===2){var b=!mSelObj;se('me-obj',b);if(b)ok=false;}
+  if (step===3){var fn=document.getElementById('mf-first').value.trim();se('me-first',!fn);mi('mf-first',!fn);if(!fn)ok=false;var ln=document.getElementById('mf-last').value.trim();se('me-last',!ln);mi('mf-last',!ln);if(!ln)ok=false;var em=document.getElementById('mf-email').value.trim();var be=!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);se('me-email',be);mi('mf-email',be);if(be)ok=false;}
+  return ok;
+}
+
+function mUpdateBar(step) {
+  for (var i=1;i<=4;i++){
+    var c=document.getElementById('msc'+i); var l=document.getElementById('msl'+i);
+    if(i<step){c.className='ms-dot done';c.textContent='OK';l.className='ms-lbl done';}
+    else if(i===step){c.className='ms-dot active';c.textContent=i;l.className='ms-lbl active';}
+    else{c.className='ms-dot idle';c.textContent=i;l.className='ms-lbl idle';}
+    if(i<4){document.getElementById('mln'+i).className='ms-line'+(i<step?' done':'');}
+  }
+}
+
+function mBuildSummary() {
+  var lang = document.documentElement.getAttribute('data-lang')||'fr';
+  var amt  = parseFloat(document.getElementById('mf-amount').value)||0;
+  var units= (amt/mNAV).toFixed(2);
+  var objMap={croissance:{fr:'Croissance',en:'Growth'},revenu:{fr:'Revenu',en:'Income'},equilibre:{fr:'Équilibre',en:'Balanced'},afrique:{fr:'Marchés africains',en:'African markets'}};
+  document.getElementById('ms-amount').textContent = amt.toLocaleString('fr-FR')+' EUR';
+  document.getElementById('ms-units').textContent  = units+' parts';
+  document.getElementById('ms-obj').textContent    = mSelObj?(objMap[mSelObj][lang]||mSelObj):'n.d.';
+  document.getElementById('ms-email').textContent  = document.getElementById('mf-email').value||'n.d.';
+  document.getElementById('ms-name').textContent   = (document.getElementById('mf-first').value+' '+document.getElementById('mf-last').value).trim()||'n.d.';
+  document.getElementById('mf-subject').value      = 'OVC Modal - '+document.getElementById('mf-first').value+' '+document.getElementById('mf-last').value;
+}
+
+window.mNext = function(target) {
+  if (target>mCurStep && !mValidate(mCurStep)) return;
+  if (target===4) mBuildSummary();
+  document.getElementById('m-step-'+mCurStep).classList.remove('on');
+  mCurStep=target;
+  document.getElementById('m-step-'+mCurStep).classList.add('on');
+  mUpdateBar(mCurStep);
+  document.querySelector('.modal-box').scrollTo(0,0);
+};
+
+document.getElementById('m-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var ok=['mck1','mck2'].every(function(id){return document.getElementById(id).checked;});
+  if(!ok){document.getElementById('me-ck').classList.add('show');return;}
+  document.getElementById('me-ck').classList.remove('show');
+  var btn=document.getElementById('m-btn-submit');
+  var lang=document.documentElement.getAttribute('data-lang')||'fr';
+  btn.disabled=true; btn.textContent=lang==='fr'?'Envoi...':'Sending...';
+  var fd=new FormData(this);
+  fetch(this.action,{method:'POST',body:fd,headers:{Accept:'application/json'}})
+    .then(function(r){
+      if(r.ok){
+        document.getElementById('m-form').style.display='none';
+        document.getElementById('m-steps').style.display='none';
+        var ref='OVC-'+new Date().getFullYear()+'-'+Math.floor(1000+Math.random()*9000);
+        document.getElementById('m-suc-ref').textContent='REF: '+ref;
+        document.getElementById('m-success').classList.add('show');
+      } else {btn.disabled=false;btn.textContent=lang==='fr'?'Réessayer':'Try again';}
+    })
+    .catch(function(){btn.disabled=false;btn.textContent=lang==='fr'?'Réessayer':'Try again';});
+});
+mUpdateBar(1);
+
 function setLang(l){ document.documentElement.setAttribute('data-lang',l); document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+document.getElementById('mf-lang').value = l;
 }
 setLang('fr');
 function swPf(id,btn){ document.querySelectorAll('.pf-panel').forEach(p=>p.classList.remove('on')); document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('on')); document.getElementById('pf-'+id).classList.add('on'); btn.classList.add('on');
