@@ -164,7 +164,8 @@ h2.sh em{font-style:italic;color:var(--gold)}
 .about-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:4vw;align-items:start}
 .about-card{background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
 .ac-top{background:linear-gradient(135deg,var(--ink),var(--ink2));padding:2.2rem 1.8rem;text-align:center}
-.ac-av{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--purple));display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin:0 auto .9rem;border:3px solid rgba(255,255,255,.15)}
+.ac-av{width:80px;height:80px;border-radius:50%;overflow:hidden;margin:0 auto .9rem;border:3px solid rgba(255,255,255,.15);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.ac-av img{width:100%;height:100%;object-fit:cover}
 .ac-name{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;color:#fff}
 .ac-role{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:.18rem;letter-spacing:.06em}
 .ac-tags{padding:1.3rem;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.45rem}
@@ -654,9 +655,9 @@ html[data-lang=en] span[data-en]{display:inline}
 <div class="about-grid">
 <div class="about-card reveal-l">
 <div class="ac-top">
-<div class="ac-av"></div>
-<div class="ac-name"><span data-fr>Votre Nom</span><span data-en>Your Name</span></div>
-<div class="ac-role"><span data-fr>Analyste · Étudiant Finance · Alternant</span><span data-en>Analyst · Finance Student · Work-Study</span></div>
+<div class="ac-av"><img src="img/oswald.jpg" alt="Oswald Jaurès KOFFI"></div>
+<div class="ac-name">Oswald Jaurès KOFFI</div>
+<div class="ac-role"><span data-fr>Analyste · Passionné de Finance & Économie</span><span data-en>Analyst · Finance & Economics Enthusiast</span></div>
 </div>
 <div class="ac-tags">
 <span class="ac-tag"><span data-fr>Étudiant Finance</span><span data-en>Finance Student</span></span>
@@ -673,9 +674,23 @@ html[data-lang=en] span[data-en]{display:inline}
 </div>
 </div>
 <div class="reveal">
-<h2 class="sh"><span data-fr>Un étudiant qui pense<br>comme un<em>gérant de fonds.</em></span><span data-en>A student who thinks<br>like a<em>fund manager.</em></span></h2>
-<p class="about-p"><span data-fr>Je suis<strong>étudiant en finance en alternance</strong>, et je construis Oswald Vision Capital comme ma salle de marché personnelle. Mon objectif à long terme : lancer mon propre fonds d'investissement. Chaque analyse publiée ici est une brique de mon track record.</span><span data-en>I am a<strong>finance student in a work-study program</strong>, and I build Oswald Vision Capital as my personal trading room. My long-term goal: launch my own investment fund. Every analysis here is a building block of my track record.</span></p>
-<p class="about-p"><span data-fr>Ma spécialité : les<strong>marchés africains</strong>(BRVM, JSE, NSE) structurellement sous-analysés, et les entreprises à<strong>avantage concurrentiel durable</strong>à l'échelle mondiale.</span><span data-en>My specialty:<strong>African markets</strong>(BRVM, JSE, NSE) structurally under-researched, and companies with<strong>durable competitive advantages</strong>on a global scale.</span></p>
+<h2 class="sh"><span data-fr>Comprendre le monde pour mieux le<em>transformer.</em></span><span data-en>Understanding the world to better<em>transform it.</em></span></h2>
+<div class="about-p">
+<span data-fr>
+Je suis animé par une conviction profonde : comprendre le monde pour mieux le transformer. Depuis toujours, ma passion pour la finance, l’économie et la gestion guide mes choix, structure ma réflexion et nourrit mon ambition. Ces disciplines ne sont pas pour moi de simples domaines d’étude, mais de véritables leviers d’impact, capables d’influencer des trajectoires de vie, de soutenir des entreprises et de contribuer au développement des sociétés.
+<br><br>
+À travers ce site, je partage une vision exigeante et engagée : analyser avec rigueur, penser avec hauteur et agir avec responsabilité. Mon objectif est clair : décrypter les enjeux économiques contemporains, explorer les dynamiques financières et proposer des perspectives concrètes, à la croisée de la stratégie, de l’innovation et de la durabilité.
+<br><br>
+Chaque projet, chaque réflexion, chaque contenu publié ici s’inscrit dans une même logique : créer de la valeur, donner du sens et participer activement à un monde plus équilibré, plus intelligent et plus juste.
+</span>
+<span data-en>
+I am driven by a deep conviction: understanding the world to better transform it. Since forever, my passion for finance, economics, and management has guided my choices, structured my thinking, and fueled my ambition. These disciplines are not simple fields of study for me, but real levers of impact, capable of influencing life trajectories, supporting businesses, and contributing to the development of societies.
+<br><br>
+Through this site, I share a demanding and committed vision: to analyze with rigor, to think with perspective, and to act with responsibility. My goal is clear: to decipher contemporary economic issues, explore financial dynamics, and propose concrete perspectives at the intersection of strategy, innovation, and sustainability.
+<br><br>
+Every project, every reflection, every piece of content published here is part of the same logic: creating value, giving meaning, and actively participating in a more balanced, intelligent, and fair world.
+</span>
+</div>
 <ul class="pl">
 <li class="pl-item"><span class="pl-icon"></span><span data-fr><strong>Track record transparent</strong>, chaque thèse horodatée, suivie et révisée publiquement.</span><span data-en><strong>Transparent track record</strong>, every thesis timestamped, tracked and publicly revised.</span></li>
 <li class="pl-item"><span class="pl-icon"></span><span data-fr><strong>Rigueur académique + terrain</strong>, alternance finance active, frameworks institutionnels.</span><span data-en><strong>Academic rigor + field experience</strong>, active finance work-study, institutional frameworks.</span></li>
