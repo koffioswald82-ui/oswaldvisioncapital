@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orange CI, Note d'Initiation · Oswald Vision Capital</title>
+<meta name="description" content="Analyse complète Orange CI (BRVM: ORAC), CA 1197 Mds FCFA, dividende 5.5%, Orange Money, prix cible 17000 XOF. Thèse Value Afrique, Oswald Vision Capital">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Reprend le même CSS que nvidia.html ── */
+:root{ --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa; --line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0; --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2; --blue:#1e4faa;--blue-bg:#eef3ff; --green:#1a7a4a;--green-bg:#e8f5ee; --red:#c0392b;--red-bg:#fde8e8; --purple:#5e35b1;--purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;justify-content:space-between;align-items:center}
+.lb-left{font-size:.68rem;color:rgba(255,255,255,.4)}.lb-left strong{color:var(--gold-l)}
+.lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700}
+nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(26,26,46,.06)}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-logo em{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important}
+.article-nav{padding:.9rem 5vw;background:var(--cream);border-bottom:1px solid var(--cream2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+.back-btn{font-size:.82rem;color:var(--body);text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.back-btn:hover{color:var(--ink)}
+.lang-switch{display:flex;gap:.4rem}
+.ls-btn{font-size:.75rem;font-weight:600;padding:.32rem .8rem;border-radius:6px;border:1.5px solid;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s;text-decoration:none;display:inline-block}
+.ls-btn.current{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ls-btn.other{background:transparent;color:var(--body);border-color:var(--line)}
+.ls-btn.other:hover{border-color:var(--ink);color:var(--ink)}
+.ls-btn.pdf{background:var(--gold-bg);color:var(--gold);border-color:rgba(201,131,42,.3)}
+.ls-btn.pdf:hover{background:var(--gold);color:#fff} /* HERO AFRIQUE — thème différent du NVIDIA */
+.article-hero{ background:linear-gradient(135deg,#0f2419 0%,#1a3a2a 45%,#1e4a30 100%); color:#fff;padding:5vh 8vw 4vh;position:relative;overflow:hidden
+}
+.article-hero::before{content:'';position:absolute;top:-20%;right:-5%;width:500px;height:500px;background:radial-gradient(ellipse,rgba(201,131,42,.15),transparent 65%);pointer-events:none}
+.article-hero::after{content:'BRVM';position:absolute;right:6vw;bottom:-20px;font-family:'Libre Baskerville',serif;font-size:7rem;font-weight:700;color:rgba(255,255,255,.03);letter-spacing:-.04em;pointer-events:none}
+.ah-breadcrumb{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.ah-breadcrumb a{color:var(--gold-l);text-decoration:none}
+.ah-breadcrumb span{opacity:.4}
+.ah-badges{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.4rem}
+.badge{font-size:.65rem;font-weight:700;letter-spacing:.06em;padding:.22rem .65rem;border-radius:100px}
+.badge-africa{background:rgba(94,53,177,.35);color:#c4b5fd;border:1px solid rgba(94,53,177,.4)}
+.badge-value{background:rgba(201,131,42,.3);color:var(--gold-l);border:1px solid rgba(201,131,42,.35)}
+.badge-equity{background:rgba(26,122,74,.35);color:#86efac;border:1px solid rgba(26,122,74,.4)}
+.badge-buy{background:rgba(26,122,74,.8);color:#fff;border:1px solid #1a7a4a;font-size:.72rem;padding:.28rem .8rem}
+h1.ah-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.6rem,3.2vw,2.6rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:.9rem}
+h1.ah-title em{font-style:italic;color:var(--gold-l)}
+.ah-lede{font-size:1rem;color:rgba(255,255,255,.7);line-height:1.8;max-width:680px;margin-bottom:2rem}
+.stamp{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(255,255,255,.08);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.stamp-item{padding:1rem 1.2rem;background:rgba(255,255,255,.04)}
+.stamp-key{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem}
+.stamp-val{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:#fff;line-height:1.1}
+.stamp-val.green{color:#4ade80}.stamp-val.gold{color:var(--gold-l)} /* ARTICLE */
+.article-body{max-width:900px;margin:0 auto;padding:4vh 5vw 8vh}
+.sec-wrap{margin:3rem 0 1.5rem}
+.sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.sec-eyebrow::after{content:'';width:20px;height:1px;background:var(--gold);display:inline-block}
+h2.sec-title{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--ink);line-height:1.2}
+h2.sec-title em{color:var(--gold);font-style:italic}
+.body-p{font-size:.93rem;color:#3a3a52;line-height:1.95;margin-bottom:1.1rem}
+.body-p strong{color:var(--ink);font-weight:700}
+.callout{padding:1.2rem 1.5rem;border-radius:10px;margin:1.5rem 0;font-size:.88rem;line-height:1.75}
+.callout-key{background:var(--gold-bg);border-left:3px solid var(--gold);color:var(--ink)}
+.callout-key strong{color:var(--ink);font-weight:700}
+.callout-warn{background:var(--red-bg);border-left:3px solid var(--red);color:var(--ink)}
+.callout-info{background:var(--blue-bg);border-left:3px solid var(--blue);color:var(--ink)}
+.callout-green{background:var(--green-bg);border-left:3px solid var(--green);color:var(--ink)}
+.callout-purple{background:var(--purple-bg);border-left:3px solid var(--purple);color:var(--ink)}
+.data-table-wrap{overflow-x:auto;margin:1.5rem 0}
+.data-table{width:100%;border-collapse:collapse;font-size:.84rem}
+.data-table th{background:var(--ink2);color:#fff;padding:.65rem 1rem;text-align:left;font-weight:700;font-size:.75rem;letter-spacing:.04em;white-space:nowrap}
+.data-table td{padding:.65rem 1rem;border-bottom:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.data-table tr:hover td{background:var(--cream)}
+.data-table td.hi{color:var(--green);font-weight:700;font-family:'JetBrains Mono',monospace}
+.data-table td.lo{color:var(--red);font-weight:700;font-family:'JetBrains Mono',monospace}
+.data-table td.gold{color:var(--gold);font-weight:700;font-family:'JetBrains Mono',monospace}
+.data-table td.mono{font-family:'JetBrains Mono',monospace}
+.data-table td.bold{font-weight:700;color:var(--ink)}
+.data-table .row-hdr{background:var(--cream);font-weight:700;color:var(--ink);font-size:.8rem} .chart-section{margin:2.5rem 0}
+.charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:1.2rem 0}
+.charts-1col{margin:1.2rem 0}
+.chart-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:1.4rem;box-shadow:var(--shadow);transition:box-shadow .2s}
+.chart-card:hover{box-shadow:var(--shadow-lg)}
+.chart-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.chart-title-text{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink)}
+.chart-sub-text{font-size:.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:.12rem}
+.chart-badge{font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:100px}
+.chart-badge-green{background:var(--green-bg);color:var(--green)}
+.chart-badge-gold{background:var(--gold-bg);color:var(--gold)}
+.chart-badge-purple{background:var(--purple-bg);color:var(--purple)}
+.chart-badge-red{background:var(--red-bg);color:var(--red)}
+.chart-container{position:relative}
+.chart-container.h200{height:200px}.chart-container.h220{height:220px}.chart-container.h250{height:250px}
+.chart-note{font-size:.65rem;color:var(--muted);font-style:italic;margin-top:.6rem;font-family:'JetBrains Mono',monospace;line-height:1.5}
+.chart-insight{background:var(--cream);border-radius:8px;padding:.8rem 1rem;margin-top:.8rem;font-size:.78rem;color:var(--body);line-height:1.6}
+.chart-insight strong{color:var(--ink)}
+.chart-insight .insight-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--gold);font-weight:700;display:block;margin-bottom:.25rem;letter-spacing:.08em;text-transform:uppercase} .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.kpi-item{background:var(--white);padding:1.2rem 1rem;text-align:center;transition:background .2s}
+.kpi-item:hover{background:var(--cream)}
+.kpi-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.kpi-val{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1}
+.kpi-val.g{color:var(--green)}.kpi-val.au{color:var(--gold)}.kpi-val.b{color:var(--blue)}.kpi-val.p{color:var(--purple)}
+.kpi-sub{font-size:.65rem;color:var(--muted);margin-top:.2rem} .catalyst{padding:1rem 1.2rem;border-radius:10px;border-left:3px solid var(--green);background:var(--green-bg);margin-bottom:.7rem}
+.catalyst-title{font-weight:700;font-size:.88rem;color:var(--ink);margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.catalyst-prob{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--green);font-weight:700;background:rgba(26,122,74,.12);padding:.15rem .5rem;border-radius:100px}
+.catalyst-text{font-size:.84rem;color:var(--ink);line-height:1.7}
+.risk{padding:1rem 1.2rem;border-radius:10px;border-left:3px solid var(--red);background:var(--red-bg);margin-bottom:.7rem}
+.risk-title{font-weight:700;font-size:.88rem;color:var(--red);margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.risk-lvl{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--red);font-weight:700;background:rgba(192,57,43,.12);padding:.15rem .5rem;border-radius:100px}
+.risk-text{font-size:.84rem;color:var(--ink);line-height:1.7} .verdict-box{background:linear-gradient(135deg,#0f2419,#1a3a2a);color:#fff;border-radius:14px;padding:2rem 2.4rem;margin:2.5rem 0}
+.vb-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.vb-eyebrow::after{content:'';width:20px;height:1px;background:var(--gold-l);display:inline-block}
+.vb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.vb-item .vb-key{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem}
+.vb-item .vb-val{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:#fff}
+.vb-item .vb-val.g{color:#4ade80}.vb-item .vb-val.au{color:var(--gold-l)}.vb-item .vb-val.r{color:#f87171}
+.vb-main{text-align:center;padding:1.2rem;background:rgba(255,255,255,.06);border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+.vb-main-verdict{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:#4ade80;margin-bottom:.3rem}
+.vb-main-price{font-size:.88rem;color:rgba(255,255,255,.5)}
+.scores-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:1.5rem 0}
+.score-item{background:var(--cream);border:1px solid var(--cream2);border-radius:10px;padding:1.1rem;text-align:center}
+.score-val{font-family:'Libre Baskerville',serif;font-size:1.6rem;font-weight:700;color:var(--gold)}
+.score-val.global{color:var(--ink)}
+.score-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.18rem}
+.article-actions{display:flex;gap:.8rem;margin:2.5rem 0;flex-wrap:wrap}
+.btn-primary{background:var(--ink);color:#fff;padding:.8rem 1.8rem;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .2s;display:inline-block}
+.btn-primary:hover{background:var(--blue)}
+.btn-pdf{background:var(--gold-bg);color:var(--gold);padding:.8rem 1.8rem;border-radius:8px;border:1.5px solid rgba(201,131,42,.3);font-weight:700;font-size:.85rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;display:inline-block}
+.btn-pdf:hover{background:var(--gold);color:#fff}
+.btn-secondary{background:transparent;color:var(--ink);padding:.8rem 1.8rem;border-radius:8px;border:1.5px solid var(--line);font-weight:600;font-size:.85rem;text-decoration:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:border-color .2s;display:inline-block}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.disclaimer{margin-top:3rem;padding:1.2rem 1.5rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2);font-size:.74rem;color:var(--muted);line-height:1.65}
+[data-fr],[data-en]{display:none}
+html[data-lang=fr] [data-fr]{display:revert}
+html[data-lang=en] [data-en]{display:revert}
+span[data-fr],span[data-en]{display:none}
+html[data-lang=fr] span[data-fr]{display:inline}
+html[data-lang=en] span[data-en]{display:inline}
+@media print{.lang-bar,nav,.article-nav,.article-actions,footer{display:none!important}.article-body{max-width:100%;padding:1rem}.charts-2col{grid-template-columns:1fr!important}}
+@media(max-width:760px){.charts-2col{grid-template-columns:1fr}.stamp{grid-template-columns:repeat(3,1fr)}.kpi-strip{grid-template-columns:1fr 1fr}.vb-grid{grid-template-columns:1fr 1fr}.scores-grid{grid-template-columns:1fr 1fr}.nav-links{display:none}}
+
+/* Dropdown nav */
+.nav-item-dd{position:relative;display:flex;align-items:center}
+.nav-link-dd{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:.25rem;transition:color .2s}
+.nav-link-dd::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);margin-left:.25rem;transition:transform .2s}
+.nav-item-dd:hover .nav-link-dd::after{transform:rotate(225deg) translateY(-2px)}
+.nav-item-dd:hover .nav-link-dd,.nav-item-dd:hover .nav-link-dd{color:var(--ink)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-4px);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 40px rgba(26,26,46,.14);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:200}
+.nav-item-dd:hover .nav-dropdown{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown a{display:block;padding:.52rem .9rem;font-size:.8rem;color:var(--body);text-decoration:none;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown a:hover{background:var(--cream);color:var(--ink)}
+.dd-divider{height:1px;background:var(--line);margin:.3rem .5rem}
+</style>
+</head>
+<body><div class="lang-bar">
+<span class="lb-left"><strong>Oswald Vision Capital</strong>·<span data-fr>Recherche financière indépendante</span><span data-en>Independent financial research</span></span>
+<div class="lang-btns">
+<button class="lbtn active" onclick="setLang('fr')">FR</button>
+<button class="lbtn" onclick="setLang('en')">EN</button>
+</div>
+</div><nav>
+<a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+<div class="nav-links" id="main-nav-links">
+<div class="nav-item-dd">
+  <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+  <div class="nav-dropdown">
+    <a href="nvidia.html">NVIDIA (N°002)</a>
+    <a href="orange-ci.html">Orange CI (N°001)</a>
+    <div class="dd-divider"></div>
+    <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+  </div>
+</div>
+<div class="nav-item-dd">
+  <a href="macro.html" class="nav-link-dd">Macro</a>
+  <div class="nav-dropdown">
+    <a href="macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
+    <a href="macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro-uemoa.html">UEMOA 2026 (A-001)</a>
+    <div class="dd-divider"></div>
+    <a href="macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
+  </div>
+</div>
+<a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
+<a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+</div>
+</nav><div class="article-nav">
+<a href="analyses.html" class="back-btn"><span data-fr>Retour aux analyses</span><span data-en>Back to research</span></a>
+<div class="lang-switch">
+<button class="ls-btn current">Français</button>
+<button class="ls-btn other">English</button>
+<button class="ls-btn pdf" onclick="window.print()">⬇ PDF</button>
+</div>
+</div><!-- HERO -->
+<div class="article-hero">
+<div class="ah-breadcrumb">
+<a href="analyses.html">Analyses</a>
+<span>/</span>
+<span>Afrique · BRVM</span>
+<span>/</span>
+<span>Orange CI</span>
+</div>
+<div class="ah-badges">
+<span class="badge badge-africa"><span data-fr>Afrique · BRVM</span><span data-en>Africa · BRVM</span></span>
+<span class="badge badge-value">Value</span>
+<span class="badge badge-equity">Equity</span>
+<span class="badge badge-buy"><span data-fr>ACHAT</span><span data-en>BUY</span></span>
+</div>
+<h1 class="ah-title">
+<span data-fr>Orange CI, Le dividende le plus fiable de la BRVM<br>cache une<em>histoire de croissance sous-estimée</em></span>
+<span data-en>Orange CI, The BRVM's most reliable dividend<br>conceals an<em>underestimated growth story</em></span>
+</h1>
+<p class="ah-lede">
+<span data-fr>CA 2025 : 1 197 Mds FCFA (+10,4%). Dividende 800 FCFA/action (+11%), rendement 5,5%. Le marché valorise Orange CI comme un simple opérateur télécom. Il ne paie pas encore le potentiel d'Orange Money, la fintech cachée dans les comptes.</span>
+<span data-en>FY2025 revenue: XOF 1,197B (+10.4%). Dividend 800 FCFA/share (+11%), 5.5% yield. The market values Orange CI as a simple telecom operator. It is not yet pricing in Orange Money's potential, the fintech hidden in the accounts.</span>
+</p>
+<div class="stamp">
+<div class="stamp-item"><div class="stamp-key">Ticker</div><div class="stamp-val gold">BRVM: ORAC</div></div>
+<div class="stamp-item"><div class="stamp-key"><span data-fr>Cours d'entrée</span><span data-en>Entry price</span></div><div class="stamp-val">14 500 XOF</div></div>
+<div class="stamp-item"><div class="stamp-key"><span data-fr>Cible 12M</span><span data-en>12M target</span></div><div class="stamp-val green">17 000 +17%</div></div>
+<div class="stamp-item"><div class="stamp-key"><span data-fr>Rend. dividende</span><span data-en>Div. yield</span></div><div class="stamp-val gold">5.5%</div></div>
+<div class="stamp-item"><div class="stamp-key">Conviction</div><div class="stamp-val gold"> 7.4/10</div></div>
+<div class="stamp-item"><div class="stamp-key"><span data-fr>Date officielle</span><span data-en>Official date</span></div><div class="stamp-val">10/04/2026</div></div>
+</div>
+</div><!-- ARTICLE BODY -->
+<div class="article-body"><!-- KPIs -->
+<div class="kpi-strip">
+<div class="kpi-item">
+<div class="kpi-label"><span data-fr>Revenus 2025</span><span data-en>FY2025 Revenue</span></div>
+<div class="kpi-val">1 197B</div>
+<div class="kpi-sub" style="color:var(--green)">FCFA +10.4%</div>
+</div>
+<div class="kpi-item">
+<div class="kpi-label">EBITDAaL</div>
+<div class="kpi-val g">424B</div>
+<div class="kpi-sub" style="color:var(--green)">FCFA +8.7%</div>
+</div>
+<div class="kpi-item">
+<div class="kpi-label"><span data-fr>Dividende / action</span><span data-en>Dividend / share</span></div>
+<div class="kpi-val au">800 FCFA</div>
+<div class="kpi-sub" style="color:var(--green)">+11.1% · Rdt 5.5%</div>
+</div>
+<div class="kpi-item">
+<div class="kpi-label">P/E<span data-fr>estimé</span><span data-en>estimated</span></div>
+<div class="kpi-val p">~13.5x</div>
+<div class="kpi-sub"><span data-fr>Sous les comparables</span><span data-en>Below peers</span></div>
+</div>
+</div><!-- SECTION 1, THÈSE -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">01</div>
+<h2 class="sec-title"><span data-fr>La thèse en 3 lignes,<em>Horodatée le 10 avril 2026</em></span><span data-en>The thesis in 3 sentences,<em>Timestamped April 10, 2026</em></span></h2>
+</div><div class="callout callout-key">
+<strong><span data-fr>Thèse officielle :</span><span data-en>Official thesis:</span></strong>
+<span data-fr>Orange CI est le leader incontestable des télécoms en Côte d'Ivoire avec +10,4% de croissance des revenus en 2025 et un dividende en hausse de 11%. À 14 500 XOF, le marché valorise l'entreprise comme un simple opérateur télécom défensif. Il ne paie pas encore la valeur de la franchise<strong>Orange Money</strong>, un service fintech qui dessert des millions de non-bancarisés en Afrique de l'Ouest et qui représente le véritable moteur de création de valeur des prochains 5 ans. C'est une opportunité d'entrée dans un actif africain de qualité institutionnelle avec un dividende de 5,5% + optionalité fintech non valorisée.</span>
+<span data-en>Orange CI is the undisputed telecom leader in Ivory Coast with +10.4% revenue growth in 2025 and an 11% dividend increase. At 14,500 XOF, the market values the company as a simple defensive telecom operator. It is not yet pricing the value of the<strong>Orange Money</strong>franchise, a fintech service serving millions of unbanked people in West Africa, and the true value creation engine for the next 5 years. This is an entry opportunity in an institutional-quality African asset with a 5.5% dividend + unpriced fintech optionality.</span>
+</div><!-- SECTION 2, CONTEXTE MACRO AFRIQUE -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">02</div>
+<h2 class="sec-title"><span data-fr>Contexte macro,<em>L'UEMOA, un moteur structurel sous-estimé</em></span><span data-en>Macro context,<em>UEMOA, an underestimated structural engine</em></span></h2>
+</div><p class="body-p">
+<span data-fr>La Côte d'Ivoire est la<strong>première économie de l'UEMOA</strong>avec un PIB dépassant 70 milliards USD et une croissance annuelle de 6-7%, parmi les plus élevées au monde. L'âge médian de la population est de<strong>19 ans</strong>, contre 42 ans en France. La pénétration internet mobile reste inférieure à 45%, contre 90% en Europe : le marché télécoms ivoirien a encore 15-20 ans de croissance structurelle devant lui.</span>
+<span data-en>Ivory Coast is the<strong>leading economy of the UEMOA</strong>with a GDP exceeding $70 billion and annual growth of 6-7%, among the highest in the world. The median age of the population is<strong>19 years</strong>, compared to 42 in France. Mobile internet penetration remains below 45%, vs 90% in Europe: the Ivorian telecom market still has 15-20 years of structural growth ahead of it.</span>
+</p><div class="callout callout-purple">
+<strong><span data-fr>Avantage compétitif OVC :</span><span data-en>OVC competitive advantage:</span></strong>
+<span data-fr>La BRVM n'est pas couverte par les grandes banques d'investissement.<strong>Bloomberg, Goldman Sachs et JPMorgan n'analysent pas Orange CI.</strong>Cette absence de couverture institutionnelle crée des inefficiences de valorisation que nous pouvons exploiter. C'est notre avantage informationnel sur les marchés africains.</span>
+<span data-en>The BRVM is not covered by major investment banks.<strong>Bloomberg, Goldman Sachs and JPMorgan do not analyze Orange CI.</strong>This lack of institutional coverage creates valuation inefficiencies we can exploit. This is our informational edge on African markets.</span>
+</div><!-- SECTION 3, RÉSULTATS 2025 -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">03</div>
+<h2 class="sec-title"><span data-fr>Résultats 2025,<em>Une croissance régulière et prévisible</em></span><span data-en>FY2025 Results,<em>Regular, predictable growth</em></span></h2>
+</div><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Indicateur</span><span data-en>Metric</span></th>
+<th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>Var. YoY</th><th>2026E</th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-hdr"><td colspan="7">A, COMPTE DE RÉSULTAT (Mds FCFA)</td></tr>
+<tr><td><span data-fr>Chiffre d'affaires</span><span data-en>Revenue</span></td><td class="mono">988</td><td class="mono">1 063</td><td class="mono">1 084</td><td class="bold mono">1 197</td><td class="hi">+10.4%</td><td class="gold mono">~1 305</td></tr>
+<tr><td>EBITDAaL</td><td class="mono">339</td><td class="mono">363</td><td class="mono">390</td><td class="bold mono">424</td><td class="hi">+8.7%</td><td class="gold mono">~458</td></tr>
+<tr><td>Marge EBITDAaL %</td><td class="mono">34.3%</td><td class="mono">34.2%</td><td class="mono">36.0%</td><td class="bold mono">35.4%</td><td class="lo">-60bp</td><td class="gold mono">~35.1%</td></tr>
+<tr><td>Résultat net</td><td class="mono">128</td><td class="mono">145</td><td class="mono">158</td><td class="bold mono">167.8</td><td class="hi">+6.1%</td><td class="gold mono">~178</td></tr>
+<tr><td>Marge nette %</td><td class="mono">13.0%</td><td class="mono">13.6%</td><td class="mono">14.6%</td><td class="bold mono">14.0%</td><td class="lo">-60bp</td><td class="gold mono">~13.6%</td></tr>
+<tr class="row-hdr"><td colspan="7">B, CASH FLOW & DIVIDENDE *</td></tr>
+<tr><td>Cash-flow opérationnel</td><td class="mono">256</td><td class="mono">278</td><td class="mono">290</td><td class="bold mono">335.5</td><td class="hi">+15.7%</td><td class="gold mono">~360</td></tr>
+<tr><td>CapEx</td><td class="mono">(98)</td><td class="mono">(110)</td><td class="mono">(118)</td><td class="bold mono">(136.4)</td><td class="lo">+15.5%</td><td class="gold mono">~(145)</td></tr>
+<tr><td class="bold">Free Cash Flow</td><td class="mono">158</td><td class="mono">168</td><td class="mono">172</td><td class="bold mono">199.1</td><td class="hi">+15.8%</td><td class="gold mono">~215</td></tr>
+<tr><td class="bold">Net Income FCF % *</td><td class="mono">123%</td><td class="mono">116%</td><td class="mono">109%</td><td class="bold gold">119%</td><td class="hi">+10pp</td><td>n.d.</td></tr>
+<tr><td>Dividende / action (FCFA)</td><td class="mono">600</td><td class="mono">680</td><td class="mono">720</td><td class="bold mono">800</td><td class="hi">+11.1%</td><td class="gold mono">~880E</td></tr>
+<tr><td class="bold">Rendement dividende (au prix 14 500)</td><td class="mono">4.1%</td><td class="mono">4.7%</td><td class="mono">5.0%</td><td class="bold gold">5.5%</td><td class="hi">+50bp</td><td class="gold">~6.1%E</td></tr>
+</tbody>
+</table>
+</div><div class="callout callout-green">
+<strong>* Net Income FCF % = 119% en 2025.</strong>
+<span data-fr>Cela signifie que le FCF est<strong>supérieur au résultat net</strong>, grâce aux dotations aux amortissements importantes (infrastructure télécom). Orange CI génère plus de cash qu'elle ne déclare de bénéfices comptables. C'est un signe de<strong>solidité financière exceptionnelle</strong>pour un marché émergent.</span>
+<span data-en>This means FCF is<strong>above net income</strong>, thanks to significant D&A (telecom infrastructure). Orange CI generates more cash than it reports in accounting profits. This is a sign of<strong>exceptional financial strength</strong>for an emerging market.</span>
+</div><!-- GRAPHIQUES -->
+<div class="chart-section">
+<div class="charts-2col">
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Revenus & Dividende</span><span data-en>Revenue & Dividend</span></div>
+<div class="chart-sub-text">2020 2025 · Mds FCFA / FCFA</div>
+</div>
+<span class="chart-badge chart-badge-green">CA +21% en 5 ans</span>
+</div>
+<div class="chart-container h220"><canvas id="chart-revenue"></canvas></div>
+<div class="chart-note">Source : Rapport Annuel Intégré Orange CI 2025 · brvm.org · Sikafinance.com</div>
+<div class="chart-insight">
+<span class="insight-label">Lecture</span>
+<span data-fr><strong>Croissance régulière et prévisible</strong>, Orange CI n'a jamais réduit son dividende en 5 ans. Hausse du dividende de +11% en 2025 malgré les CapEx élevés. C'est la définition d'un<strong>actif de revenu de qualité</strong>.</span>
+<span data-en><strong>Regular, predictable growth</strong>, Orange CI has never cut its dividend in 5 years. +11% dividend increase in 2025 despite high CapEx. This is the definition of a<strong>quality income asset</strong>.</span>
+</div>
+</div><div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Marges sur 5 ans</span><span data-en>5-year margins</span></div>
+<div class="chart-sub-text">2021 2025 · %</div>
+</div>
+<span class="chart-badge chart-badge-gold">EBITDAaL 35%</span>
+</div>
+<div class="chart-container h220"><canvas id="chart-margins"></canvas></div>
+<div class="chart-note"><span data-fr>Marges stables dans un marché concurrentiel, signe de pricing power</span><span data-en>Stable margins in a competitive market, sign of pricing power</span></div>
+<div class="chart-insight">
+<span class="insight-label">Lecture</span>
+<span data-fr>La marge EBITDAaL stable autour de 35% depuis 5 ans démontre la<strong>capacité à maintenir les prix</strong>malgré Wave et MTN CI. La légère compression en 2025 (-60bp) est due aux CapEx 5G/fibre, non à une détérioration compétitive.</span>
+<span data-en>Stable EBITDAaL margin around 35% for 5 years demonstrates<strong>ability to maintain prices</strong>despite Wave and MTN CI. Slight compression in 2025 (-60bp) is due to 5G/fibre CapEx, not competitive deterioration.</span>
+</div>
+</div>
+</div><div class="charts-2col">
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Cash Flow Analysis *</span><span data-en>Cash Flow Analysis *</span></div>
+<div class="chart-sub-text"><span data-fr>FCF · CapEx · Net IncFCF%</span><span data-en>FCF · CapEx · Net IncFCF%</span></div>
+</div>
+<span class="chart-badge chart-badge-purple">NIFCF 119%</span>
+</div>
+<div class="chart-container h220"><canvas id="chart-cashflow"></canvas></div>
+<div class="chart-note"><span data-fr>* NIFCF% >100% = les amortissements D&A >besoin de réinvestissement net</span><span data-en>* NIFCF% >100% = D&A exceeds net reinvestment needs</span></div>
+<div class="chart-insight">
+<span class="insight-label">* Explication NIFCF >100%</span>
+<span data-fr>Orange CI amortit une infrastructure télécom ancienne (investie avant 2015) au-delà de ce qu'elle réinvestit aujourd'hui. Le FCF comptable est<strong>supérieur au bénéfice net</strong>, rare pour un opérateur télécom. C'est un actif de<strong>très haute qualité cash</strong>.</span>
+<span data-en>Orange CI depreciates older telecom infrastructure (invested before 2015) beyond what it reinvests today. Reported FCF is<strong>above net income</strong>, rare for a telecom operator. This is a<strong>very high cash quality</strong>asset.</span>
+</div>
+</div><div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Dividende, Track record 5 ans</span><span data-en>Dividend, 5-year track record</span></div>
+<div class="chart-sub-text"><span data-fr>FCFA/action · Rendement sur prix d'entrée</span><span data-en>FCFA/share · Yield on entry price</span></div>
+</div>
+<span class="chart-badge chart-badge-gold">+33% en 5 ans</span>
+</div>
+<div class="chart-container h220"><canvas id="chart-dividend"></canvas></div>
+<div class="chart-note"><span data-fr>* Rendement calculé sur le prix d'achat initial de 14 500 XOF</span><span data-en>* Yield calculated on initial purchase price of 14,500 XOF</span></div>
+<div class="chart-insight">
+<span class="insight-label">* Yield on cost</span>
+<span data-fr>Si le dividende continue de croître à +10%/an, le<strong>rendement sur ton prix d'achat (14 500 XOF) atteindra 7,2% en 2028</strong>. C'est le principe du "yield on cost", plus tu détiens longtemps, plus le rendement effectif augmente.</span>
+<span data-en>If the dividend keeps growing at +10%/year, the<strong>yield on your purchase price (14,500 XOF) will reach 7.2% by 2028</strong>. This is the "yield on cost" principle, the longer you hold, the higher your effective yield.</span>
+</div>
+</div>
+</div><div class="charts-2col">
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Valorisation vs Comparables Afrique</span><span data-en>Valuation vs Africa Peers</span></div>
+<div class="chart-sub-text"><span data-fr>EV/EBITDAaL · P/E · Rdt Dividende</span><span data-en>EV/EBITDAaL · P/E · Div. Yield</span></div>
+</div>
+<span class="chart-badge chart-badge-green"><span data-fr>Sous-valorisé</span><span data-en>Undervalued</span></span>
+</div>
+<div class="chart-container h220"><canvas id="chart-valuation"></canvas></div>
+<div class="chart-note"><span data-fr>Comparables : Safaricom (Kenya), MTN CI, Sonatel (Sénégal), Airtel Africa</span><span data-en>Peers: Safaricom (Kenya), MTN CI, Sonatel (Senegal), Airtel Africa</span></div>
+<div class="chart-insight">
+<span class="insight-label"><span data-fr>Orange CI vs comparables</span><span data-en>Orange CI vs peers</span></span>
+<span data-fr>Orange CI se traite à<strong>13.5x les bénéfices</strong>, soit une décote de 20-25% sur ses comparables africains cotés. Cette décote s'explique par la<strong>faible liquidité de la BRVM</strong>, pas par des fondamentaux inférieurs. C'est l'opportunité.</span>
+<span data-en>Orange CI trades at<strong>13.5x earnings</strong>, a 20-25% discount to its listed African peers. This discount is explained by<strong>BRVM's low liquidity</strong>, not inferior fundamentals. That's the opportunity.</span>
+</div>
+</div><div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Scoring Multi-Critères, Orange CI</span><span data-en>Multi-Criteria Score, Orange CI</span></div>
+<div class="chart-sub-text"><span data-fr>Note /10 OVC</span><span data-en>OVC Score /10</span></div>
+</div>
+<span class="chart-badge chart-badge-gold">Score 7.4/10</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:center">
+<div class="chart-container" style="height:220px"><canvas id="chart-radar"></canvas></div>
+<div>
+<div style="display:flex;flex-direction:column;gap:.5rem">
+<div style="display:flex;justify-content:space-between;padding:.5rem .8rem;background:var(--green-bg);border-radius:8px">
+<span style="font-size:.8rem;font-weight:600;color:var(--ink)"><span data-fr>Qualité FCF *</span><span data-en>FCF Quality *</span></span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--green)">9.0/10</span>
+</div>
+<div style="display:flex;justify-content:space-between;padding:.5rem .8rem;background:var(--green-bg);border-radius:8px">
+<span style="font-size:.8rem;font-weight:600;color:var(--ink)"><span data-fr>Dividende fiable</span><span data-en>Reliable dividend</span></span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--green)">9.0/10</span>
+</div>
+<div style="display:flex;justify-content:space-between;padding:.5rem .8rem;background:var(--gold-bg);border-radius:8px">
+<span style="font-size:.8rem;font-weight:600;color:var(--ink)">ESG</span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold)">7.5/10</span>
+</div>
+<div style="display:flex;justify-content:space-between;padding:.5rem .8rem;background:var(--gold-bg);border-radius:8px">
+<span style="font-size:.8rem;font-weight:600;color:var(--ink)">ROE</span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold)">7.0/10</span>
+</div>
+<div style="display:flex;justify-content:space-between;padding:.5rem .8rem;background:var(--blue-bg);border-radius:8px">
+<span style="font-size:.8rem;font-weight:600;color:var(--ink)"><span data-fr>Liquidité BRVM</span><span data-en>BRVM Liquidity</span></span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue)">4.0/10</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><!-- SECTION 4, DÉCOMPOSITION CROISSANCE ORANGE CI -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">04</div>
+<h2 class="sec-title"><span data-fr>Décomposition de la croissance,<em>Comprendre le +10,4% en profondeur</em></span><span data-en>Growth decomposition,<em>Understanding the +10.4% in depth</em></span></h2>
+</div><p class="body-p">
+<span data-fr>Le +10,4% de croissance d'Orange CI en 2025 peut sembler modeste comparé aux hypercroissances tech américaines.<strong>Mais ce chiffre doit être lu dans son contexte africain</strong>, et décomposé pour comprendre pourquoi il est en réalité exceptionnel et défendable.</span>
+<span data-en>Orange CI's +10.4% growth in 2025 may seem modest compared to US tech hypergrowth.<strong>But this figure must be read in its African context</strong>, and decomposed to understand why it is actually exceptional and defensible.</span>
+</p><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Driver de croissance</span><span data-en>Growth driver</span></th>
+<th><span data-fr>Contribution au +10,4%</span><span data-en>Contribution to +10.4%</span></th>
+<th><span data-fr>Mécanisme</span><span data-en>Mechanism</span></th>
+<th><span data-fr>Durabilité</span><span data-en>Durability</span></th>
+<th><span data-fr>Signal</span><span data-en>Signal</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="bold"><span data-fr>Volume, croissance du parc abonnés</span><span data-en>Volume, subscriber base growth</span></td>
+<td class="hi mono">~+4,2 pts</td>
+<td><span data-fr>Parc mobile : 42,1M 44,7M abonnés (+6,2%). Urbanisation + jeunesse de la population (âge médian 19 ans) = croissance structurelle long terme.</span><span data-en>Mobile base: 42.1M 44.7M subscribers (+6.2%). Urbanization + young population (median age 19) = structural long-term growth.</span></td>
+<td><span style="color:var(--green);font-weight:700"><span data-fr>Très forte · 10-15 ans</span><span data-en>Very strong · 10-15 yrs</span></span></td>
+<td class="hi"></td>
+</tr>
+<tr>
+<td class="bold"><span data-fr>Prix, hausse de l'ARPU Data</span><span data-en>Price, Data ARPU increase</span></td>
+<td class="hi mono">~+3,8 pts</td>
+<td><span data-fr>ARPU data mobile +12% grâce au déploiement 4G étendu et à la montée en consommation vidéo/streaming. L'internet mobile passe de service "luxe" à nécessité quotidienne.</span><span data-en>Mobile data ARPU +12% thanks to extended 4G rollout and growing video/streaming consumption. Mobile internet moves from "luxury" to daily necessity.</span></td>
+<td><span style="color:var(--green);font-weight:700"><span data-fr>Forte · 5-8 ans</span><span data-en>Strong · 5-8 yrs</span></span></td>
+<td class="hi"></td>
+</tr>
+<tr>
+<td class="bold"><span data-fr>Mix, montée en puissance Orange Money</span><span data-en>Mix, Orange Money ramp-up</span></td>
+<td class="hi mono">~+2,1 pts</td>
+<td><span data-fr>Orange Money progresse plus vite que la téléphonie classique. Le segment fintech représente ~18% des revenus (vs ~12% en 2021). Mix favorable car marges supérieures.</span><span data-en>Orange Money grows faster than classic telephony. The fintech segment represents ~18% of revenues (vs ~12% in 2021). Favorable mix as margins are higher.</span></td>
+<td><span style="color:var(--gold);font-weight:700"><span data-fr>Forte · optionalité</span><span data-en>Strong · optionality</span></span></td>
+<td class="gold"></td>
+</tr>
+<tr>
+<td class="bold"><span data-fr>Prix, effet tarifs voix (résiduel)</span><span data-en>Price, voice tariff effect (residual)</span></td>
+<td class="lo mono">~+0,3 pts</td>
+<td><span data-fr>Légère hausse des tarifs voix fixe en 2025. Contribution marginale et non récurrente, ne pas extrapoler.</span><span data-en>Slight increase in fixed voice tariffs in 2025. Marginal and non-recurring contribution, do not extrapolate.</span></td>
+<td><span style="color:var(--red);font-weight:700"><span data-fr>Faible · one-off</span><span data-en>Low · one-off</span></span></td>
+<td class="lo"></td>
+</tr>
+</tbody>
+</table>
+</div><div class="callout callout-key">
+<strong><span data-fr>Conclusion analyste :</span><span data-en>Analyst conclusion:</span></strong>
+<span data-fr><strong>10,1 pts sur 10,4 pts de croissance sont structurels et récurrents.</strong>Cette croissance est 100% organique, pas d'acquisition, pas d'effet change (revenus en XOF dans un pays UEMOA à taux fixe EUR/XOF, risque change nul pour un investisseur zone euro). C'est l'un des profils de croissance les plus propres que l'on puisse trouver dans le secteur télécom mondial. À titre de comparaison, Orange France (maison-mère) croît à +1,5%/an, soit 7x moins vite. Le marché africain est structurellement supérieur.</span>
+<span data-en><strong>10.1 of 10.4 growth points are structural and recurring.</strong>This growth is 100% organic, no acquisition, no FX effect (revenues in XOF in a UEMOA country with fixed EUR/XOF rate, zero FX risk for a eurozone investor). This is one of the cleanest growth profiles you can find in the global telecom sector. For comparison, Orange France (parent) grows at +1.5%/year, 7x slower. The African market is structurally superior.</span>
+</div><!-- SECTION 5, STRUCTURE DE COÛTS ORANGE CI -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">05</div>
+<h2 class="sec-title"><span data-fr>Structure de coûts,<em>Le levier opérationnel d'un monopole de fait</em></span><span data-en>Cost structure,<em>The operating leverage of a de facto monopoly</em></span></h2>
+</div><p class="body-p">
+<span data-fr>Orange CI a une structure de coûts typique d'un opérateur télécom intégré :<strong>coûts fixes élevés</strong>(infrastructure réseau amortie, équipes techniques) et<strong>coûts variables faibles</strong>(coût marginal d'un abonné supplémentaire quasi nul une fois le réseau déployé). C'est ce qui explique la résistance des marges malgré la concurrence Wave.</span>
+<span data-en>Orange CI has a typical integrated telecom operator cost structure:<strong>high fixed costs</strong>(depreciated network infrastructure, technical teams) and<strong>low variable costs</strong>(marginal cost of an additional subscriber near zero once the network is deployed). This explains margin resilience despite Wave competition.</span>
+</p><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Poste de coût</span><span data-en>Cost item</span></th>
+<th>2021</th><th>2023</th><th>2025</th>
+<th><span data-fr>Nature</span><span data-en>Nature</span></th>
+<th><span data-fr>Analyse</span><span data-en>Analysis</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-hdr"><td colspan="6"><span data-fr>En % des revenus</span><span data-en>As % of revenue</span></td></tr>
+<tr>
+<td class="bold">Coûts réseau & interconnexion</td>
+<td class="mono">22.0%</td><td class="mono">21.5%</td><td class="bold mono">20.8%</td>
+<td><span style="font-size:.75rem;color:var(--red)"><span data-fr>Fixe</span><span data-en>Fixed</span></span></td>
+<td><span data-fr>Légère dilution grâce à la croissance des revenus. Infrastructure amortie coût marginal décroissant.</span><span data-en>Slight dilution thanks to revenue growth. Depreciated infrastructure declining marginal cost.</span></td>
+</tr>
+<tr>
+<td class="bold">Amortissements (D&A)</td>
+<td class="mono">16.5%</td><td class="mono">15.8%</td><td class="bold mono">16.2%</td>
+<td><span style="font-size:.75rem;color:var(--red)"><span data-fr>Fixe</span><span data-en>Fixed</span></span></td>
+<td><span data-fr>Hausse légère due aux CapEx 4G/fibre 2024-2025. C'est pourquoi NIFCF% >100% : l'amortissement comptable dépasse le réinvestissement net réel.</span><span data-en>Slight increase due to 2024-2025 4G/fibre CapEx. This is why NIFCF% >100%: accounting depreciation exceeds real net reinvestment.</span></td>
+</tr>
+<tr>
+<td class="bold">Commercial & Marketing</td>
+<td class="mono">9.5%</td><td class="mono">9.2%</td><td class="bold mono">8.8%</td>
+<td><span style="font-size:.75rem;color:var(--purple)"><span data-fr>Semi-fixe</span><span data-en>Semi-fixed</span></span></td>
+<td><span data-fr>Légère dilution. Signal : Orange CI n'a pas besoin d'augmenter massivement ses dépenses marketing pour croître, l'infrastructure crée la fidélité.</span><span data-en>Slight dilution. Signal: Orange CI doesn't need to massively increase marketing spend to grow, infrastructure creates loyalty.</span></td>
+</tr>
+<tr>
+<td class="bold">Frais généraux & Admin</td>
+<td class="mono">6.0%</td><td class="mono">5.8%</td><td class="bold mono">5.6%</td>
+<td><span style="font-size:.75rem;color:var(--red)"><span data-fr>Fixe</span><span data-en>Fixed</span></span></td>
+<td><span data-fr>Dilution constante = levier opérationnel sain. Les frais fixes absorbés par une base de revenus croissante.</span><span data-en>Constant dilution = healthy operating leverage. Fixed costs absorbed by growing revenue base.</span></td>
+</tr>
+<tr style="background:var(--green-bg)">
+<td class="bold" style="color:var(--green)">Marge EBITDAaL</td>
+<td class="mono">34.8%</td><td class="mono">34.2%</td><td class="bold" style="color:var(--green)">35.4%</td>
+<td>n.d.</td>
+<td><span data-fr><strong>Stable à 34-36% sur 5 ans</strong>malgré la guerre des prix Wave. C'est la preuve que le moat infrastructure protège les marges, même sous pression concurrentielle.</span><span data-en><strong>Stable at 34-36% over 5 years</strong>despite Wave price war. This proves the infrastructure moat protects margins, even under competitive pressure.</span></td>
+</tr>
+</tbody>
+</table>
+</div><div class="callout callout-info">
+<strong><span data-fr>Implication clé, le paradoxe de l'amortissement :</span><span data-en>Key implication, the depreciation paradox:</span></strong>
+<span data-fr>Orange CI génère un FCF<strong>supérieur à son résultat net</strong>(NIFCF% = 119%). C'est contre-intuitif mais s'explique simplement : l'entreprise amortit comptablement une infrastructure construite il y a 10-15 ans (charge non-cash), dont le<em>replacement cost</em>réel est nettement inférieur grâce aux progrès technologiques.<strong>Les bénéfices comptables sous-estiment la vraie génération de cash.</strong>Un analyste M&A en due diligence ajusterait le EBITDA normalisé à la hausse pour refléter cet écart, ce qui rendrait la valorisation encore plus attractive.</span>
+<span data-en>Orange CI generates FCF<strong>above its net income</strong>(NIFCF% = 119%). This is counterintuitive but simply explained: the company depreciates infrastructure built 10-15 years ago (non-cash charge), whose real<em>replacement cost</em>is significantly lower thanks to technological progress.<strong>Accounting profits understate true cash generation.</strong>An M&A analyst in due diligence would adjust normalized EBITDA upward to reflect this gap, making the valuation even more attractive.</span>
+</div><!-- SECTION 6, BENCHMARK CONCURRENTIEL ORANGE CI -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">06</div>
+<h2 class="sec-title"><span data-fr>Benchmark concurrentiel,<em>Orange CI vs les meilleurs opérateurs africains</em></span><span data-en>Competitive benchmark,<em>Orange CI vs best African operators</em></span></h2>
+</div><p class="body-p">
+<span data-fr>Pour évaluer correctement Orange CI, il faut la comparer à ses pairs africains cotés, pas aux opérateurs européens dont les marchés sont saturés.<strong>Le tableau ci-dessous révèle une décote structurelle injustifiée.</strong></span>
+<span data-en>To properly value Orange CI, it must be compared to listed African peers, not European operators whose markets are saturated.<strong>The table below reveals an unjustified structural discount.</strong></span>
+</p><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Opérateur</span><span data-en>Operator</span></th>
+<th><span data-fr>Pays / Bourse</span><span data-en>Country / Exchange</span></th>
+<th><span data-fr>Croissance CA</span><span data-en>Rev. growth</span></th>
+<th>Marge EBITDAaL</th>
+<th>NIFCF%</th>
+<th><span data-fr>Rdt Div.</span><span data-en>Div. Yield</span></th>
+<th>EV/EBITDAaL</th>
+<th>P/E</th>
+<th><span data-fr>Couverture analystes</span><span data-en>Analyst coverage</span></th>
+<th><span data-fr>Verdict</span><span data-en>Verdict</span></th>
+</tr>
+</thead>
+<tbody>
+<tr style="background:var(--gold-bg)">
+<td class="bold" style="color:var(--gold)">Orange CI *</td>
+<td class="mono">CI / BRVM</td>
+<td class="hi mono">+10.4%</td>
+<td class="hi mono">35.4%</td>
+<td class="hi mono">119%</td>
+<td class="hi mono">5.5%</td>
+<td class="gold mono">5.5x</td>
+<td class="gold mono">13.5x</td>
+<td class="lo mono"><span data-fr>Aucune</span><span data-en>None</span></td>
+<td><span style="color:var(--gold);font-weight:700"><span data-fr>Sous-valorisée</span><span data-en>Undervalued</span></span></td>
+</tr>
+<tr>
+<td class="bold">Safaricom</td>
+<td class="mono">Kenya / NSE</td>
+<td class="mono">+8.2%</td>
+<td class="mono">38.0%</td>
+<td class="mono">85%</td>
+<td class="mono">5.8%</td>
+<td class="mono">8.0x</td>
+<td class="mono">22.0x</td>
+<td class="mono">12 analystes</td>
+<td><span style="color:var(--blue)"><span data-fr>Référence premium</span><span data-en>Premium reference</span></span></td>
+</tr>
+<tr>
+<td class="bold">Sonatel</td>
+<td class="mono">Sénégal / BRVM</td>
+<td class="mono">+7.5%</td>
+<td class="mono">36.0%</td>
+<td class="mono">92%</td>
+<td class="mono">6.2%</td>
+<td class="mono">7.5x</td>
+<td class="mono">18.0x</td>
+<td class="mono">4 analystes</td>
+<td><span style="color:var(--green)"><span data-fr>Comparable direct</span><span data-en>Direct comparable</span></span></td>
+</tr>
+<tr>
+<td class="bold">MTN CI</td>
+<td class="mono">CI / BRVM</td>
+<td class="mono">+6.8%</td>
+<td class="mono">29.0%</td>
+<td class="mono">72%</td>
+<td class="mono">4.1%</td>
+<td class="mono">7.0x</td>
+<td class="mono">16.0x</td>
+<td class="mono">2 analystes</td>
+<td><span style="color:var(--body)"><span data-fr>Concurrent affaibli</span><span data-en>Weakened competitor</span></span></td>
+</tr>
+<tr>
+<td class="bold">Airtel Africa</td>
+<td class="mono">Multi / LSE</td>
+<td class="mono">+9.1%</td>
+<td class="mono">31.5%</td>
+<td class="mono">68%</td>
+<td class="mono">3.2%</td>
+<td class="mono">6.5x</td>
+<td class="mono">14.0x</td>
+<td class="mono">18 analystes</td>
+<td><span style="color:var(--blue)">Diversifié</span></td>
+</tr>
+<tr style="background:var(--cream)">
+<td class="bold"><span data-fr>Médiane pairs africains</span><span data-en>African peers median</span></td>
+<td class="mono">n.d.</td>
+<td class="mono">+8.0%</td>
+<td class="mono">33.8%</td>
+<td class="mono">80%</td>
+<td class="mono">5.0%</td>
+<td class="mono">7.3x</td>
+<td class="mono">17.0x</td>
+<td>n.d.</td>
+<td>n.d.</td>
+</tr>
+</tbody>
+</table>
+</div><p class="body-p">
+<span data-fr><strong>L'anomalie est flagrante :</strong>Orange CI a une marge EBITDAaL (35.4%) et une NIFCF% (119%) supérieures à la médiane de ses pairs, une croissance plus élevée (+10.4% vs +8.0%), et pourtant elle se traite à<strong>EV/EBITDAaL de 5.5x vs 7.3x pour la médiane, soit une décote de 25%</strong>. Son P/E de 13.5x est également inférieur à Sonatel (18x) et Safaricom (22x) qui sont des entreprises comparables ou inférieures en qualité.<strong>La seule explication rationnelle : la prime de liquidité BRVM.</strong>Ce n'est pas une explication fondamentale, c'est une inefficience de marché.</span>
+<span data-en><strong>The anomaly is glaring:</strong>Orange CI has EBITDAaL margin (35.4%) and NIFCF% (119%) above its peer median, higher growth (+10.4% vs +8.0%), yet trades at<strong>EV/EBITDAaL of 5.5x vs 7.3x for the median, a 25% discount</strong>. Its P/E of 13.5x is also below Sonatel (18x) and Safaricom (22x) which are comparable or inferior quality companies.<strong>The only rational explanation: the BRVM liquidity premium.</strong>This is not a fundamental explanation, it's a market inefficiency.</span>
+</div><!-- SECTION 7, SO WHAT ORANGE CI -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">07</div>
+<h2 class="sec-title"><span data-fr>Analyse &<em>Conviction</em></span><span data-en>Analysis &<em>Conviction</em></span></h2>
+</div><p class="body-p">
+<span data-fr>Les données précédentes établissent le diagnostic. Ce qui suit en tire les implications concrètes, en termes de valorisation, de pilotage des indicateurs clés, et de gestion du risque de portefeuille.</span>
+<span data-en>The preceding data establishes the diagnosis. What follows draws concrete implications, in terms of valuation, key indicator monitoring, and portfolio risk management.</span>
+</p><div class="callout callout-key" style="border-left-color:var(--gold)">
+<strong><span data-fr>Valorisation & attractivité transactionnelle</span><span data-en>Valuation & transactional attractiveness</span></strong>
+<span data-fr>La décote de 25% vs les comparables africains n'est pas justifiée par les fondamentaux, c'est une prime de liquidité BRVM, donc une inefficience exploitable. Orange CI coche toutes les cases d'une cible défensive attractive : FCF solide, capex de maintenance faible, revenus 100% récurrents.<strong>Dans une structure LBO théorique à 60% de dette (8%) avec un multiple de sortie de 7x EBITDAaL dans 5 ans, la TRI ressort à 22-28%.</strong>L'obstacle n'est pas les fondamentaux mais la liquidité de sortie BRVM. Un acquéreur stratégique, Safaricom, MTN Group ou Axian, qui paierait 7x EBITDAaL (soit 17 800 XOF par action) réaliserait un gain de valeur immédiat de 32% vs le cours actuel, en appliquant simplement la médiane sectorielle.</span>
+<span data-en>The 25% discount vs African comparables is not justified by fundamentals, it's a BRVM liquidity premium, therefore an exploitable inefficiency. Orange CI checks all the boxes of an attractive defensive target: solid FCF, low maintenance capex, 100% recurring revenues.<strong>In a theoretical LBO structure with 60% debt (8%) and 7x EBITDAaL exit multiple in 5 years, the IRR comes out at 22-28%.</strong>The obstacle is not fundamentals but BRVM exit liquidity. A strategic acquirer, Safaricom, MTN Group or Axian, paying 7x EBITDAaL (i.e. 17,800 XOF per share) would realize an immediate 32% value gain vs current price, simply by applying the sector median.</span>
+</div><div class="callout callout-info">
+<strong><span data-fr>Indicateurs de pilotage et seuils d'alerte</span><span data-en>Monitoring indicators and alert thresholds</span></strong>
+<span data-fr>Le KPI prioritaire n'est pas la croissance globale du CA, c'est le<strong>différentiel ARPU Data (hausse) vs ARPU Voix (érosion)</strong>. La voix est en déclin structurel mondial. Si Orange CI ne compense pas assez vite par la data et Orange Money, la marge EBITDAaL entrera en compression dès 2027-2028.<strong>Le seuil d'alerte critique : Orange Money doit représenter 25%+ des revenus d'ici fin 2027 pour que la thèse de re-rating fintech se matérialise.</strong>Trois métriques à suivre mensuellement, ARPU Data (FCFA/mois), part Orange Money dans les revenus (%), taux de churn mensuel (%), suffisent à anticiper l'évolution de la marge EBITDAaL avec 6 mois d'avance.</span>
+<span data-en>The priority KPI is not overall revenue growth, it's the<strong>Data ARPU differential (rising) vs Voice ARPU (eroding)</strong>. Voice is in structural global decline. If Orange CI doesn't compensate fast enough through data and Orange Money, EBITDAaL margin will start compressing from 2027-2028.<strong>Critical alert threshold: Orange Money must represent 25%+ of revenues by end 2027 for the fintech re-rating thesis to materialize.</strong>Three monthly metrics, Mobile Data ARPU (FCFA/month), Orange Money revenue share (%), monthly churn rate (%), are sufficient to anticipate EBITDAaL margin evolution 6 months in advance.</span>
+</div><div class="callout callout-green">
+<strong><span data-fr>Risque/récompense et dimensionnement de position</span><span data-en>Risk/reward and position sizing</span></strong>
+<span data-fr>Orange CI présente un profil rare dans un portefeuille global : un dividende de 5.5% en croissance structurelle, un upside de +17% vers la valeur fondamentale, et une corrélation quasi-nulle avec les cycles US et européens. Cette décorrélation est un atout de diversification réel, pas théorique.<strong>Le sizing recommandé est de 3-4% maximum, en raison de la faible liquidité BRVM (la position doit être construite progressivement sur 2-3 séances pour ne pas déplacer le cours) et du risque réglementaire ivoirien.</strong>La contrainte de liquidité à l'entrée et à la sortie est un paramètre opérationnel non négociable pour tout fonds UCITS ou mandataire institutionnel. C'est précisément pourquoi la décote existe, et pourquoi elle est exploitable pour un portefeuille privé ou semi-institutionnel sans contrainte de liquidité quotidienne.</span>
+<span data-en>Orange CI presents a rare profile in a global portfolio: a 5.5% structurally growing dividend, +17% upside to fundamental value, and near-zero correlation with US and European cycles. This decorrelation is a real diversification asset, not theoretical.<strong>Recommended sizing is 3-4% maximum, due to low BRVM liquidity (the position must be built progressively over 2-3 trading sessions to avoid moving the price) and Ivorian regulatory risk.</strong>The entry and exit liquidity constraint is a non-negotiable operational parameter for any UCITS fund or institutional mandatary. This is precisely why the discount exists, and why it is exploitable for a private or semi-institutional portfolio without daily liquidity constraints.</span>
+</div><!-- SECTION 8, ORANGE MONEY (ancienne section 4, renumérotée) -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">08</div>
+<h2 class="sec-title"><span data-fr>Orange Money,<em>L'actif caché que le marché ne valorise pas</em></span><span data-en>Orange Money,<em>The hidden asset the market doesn't price</em></span></h2>
+</div><p class="body-p">
+<span data-fr>Orange Money est le service de paiement et de transfert d'argent mobile d'Orange CI. En Côte d'Ivoire,<strong>plus de 60% de la population adulte est non-bancarisée</strong>. Orange Money leur permet d'envoyer de l'argent, payer des factures, accéder à du crédit, sans compte bancaire. Le marché valorise encore Orange CI comme un "simple" opérateur télécom. Il ne tient pas compte du fait qu'Orange Money est en réalité une<strong>fintech déguisée en opérateur</strong>.</span>
+<span data-en>Orange Money is Orange CI's mobile payment and money transfer service. In Ivory Coast,<strong>more than 60% of the adult population is unbanked</strong>. Orange Money allows them to send money, pay bills, access credit, without a bank account. The market still values Orange CI as a "simple" telecom operator. It doesn't account for the fact that Orange Money is actually a<strong>fintech disguised as an operator</strong>.</span>
+</p><div class="callout callout-info">
+<strong><span data-fr>Comparaison :</span><span data-en>Comparison:</span></strong>
+<span data-fr>M-Pesa (Kenya), le modèle équivalent de Safaricom, représente aujourd'hui<strong>40% des revenus et 60% de la valorisation boursière</strong>de Safaricom. Si Orange Money atteint ce niveau chez Orange CI, le titre devrait théoriquement se traiter à<strong>18 000-22 000 XOF</strong>au lieu de 14 500 XOF.</span>
+<span data-en>M-Pesa (Kenya), the equivalent model at Safaricom, today represents<strong>40% of revenues and 60% of Safaricom's market cap</strong>. If Orange Money reaches this level at Orange CI, the stock should theoretically trade at<strong>18,000-22,000 XOF</strong>instead of 14,500 XOF.</span>
+</div><!-- SECTION 5, CATALYSEURS -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">09</div>
+<h2 class="sec-title"><span data-fr>Catalyseurs,<em>Ce qui peut déverrouiller la valeur</em></span><span data-en>Catalysts,<em>What can unlock value</em></span></h2>
+</div><div class="catalyst">
+<div class="catalyst-title"><span data-fr>Re-rating Orange Money comme fintech</span><span data-en>Orange Money re-rating as fintech</span><span class="catalyst-prob">Prob. 65% · Horizon 12-24 mois</span></div>
+<p class="catalyst-text"><span data-fr>Si Orange Money atteint 30-40% des revenus d'Orange CI, les analystes devront revaloriser le titre en appliquant un multiple fintech (15-25x) plutôt qu'un multiple télécom (8-12x). Impact potentiel : +20 à 30% sur la valorisation.</span><span data-en>If Orange Money reaches 30-40% of Orange CI's revenues, analysts will need to revalue the stock applying a fintech multiple (15-25x) rather than a telecom multiple (8-12x). Potential impact: +20 to 30% on valuation.</span></p>
+</div><div class="catalyst">
+<div class="catalyst-title"><span data-fr>Déploiement fibre & 5G, Hausse de marge</span><span data-en>Fibre & 5G rollout, Margin improvement</span><span class="catalyst-prob">Prob. 70% · Horizon 24-36 mois</span></div>
+<p class="catalyst-text"><span data-fr>CapEx +15.5% en 2025 = investissement dans l'infrastructure fibre et 4G+ avancée. Une fois amortie (3-4 ans), cette infrastructure génère des revenus data à très haute marge. Les revenus data croissent déjà +18% par an.</span><span data-en>CapEx +15.5% in 2025 = investment in fibre and advanced 4G+ infrastructure. Once depreciated (3-4 years), this infrastructure generates very high-margin data revenues. Data revenues are already growing +18% per year.</span></p>
+</div><div class="catalyst">
+<div class="catalyst-title"><span data-fr>Dividende croissant, Yield on cost 6%+ dès 2027</span><span data-en>Growing dividend, 6%+ yield on cost by 2027</span><span class="catalyst-prob">Prob. 75% · Horizon 12M</span></div>
+<p class="catalyst-text"><span data-fr>Si le dividende croît à +10%/an (tendance des 5 dernières années), le rendement sur prix d'achat de 14 500 XOF atteindra 6,0% en 2027 et 6,6% en 2028. Les fonds "income" étrangers qui découvrent la BRVM achèteront massivement ce profil de rendement en hausse.</span><span data-en>If the dividend grows at +10%/year (last 5-year trend), the yield on purchase price of 14,500 XOF will reach 6.0% in 2027 and 6.6% in 2028. Foreign "income" funds discovering the BRVM will massively buy this rising yield profile.</span></p>
+</div><!-- SECTION 6, RISQUES -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">10</div>
+<h2 class="sec-title"><span data-fr>Risques,<em>Ce qui peut invalider la thèse</em></span><span data-en>Risks,<em>What can invalidate the thesis</em></span></h2>
+</div><div class="risk">
+<div class="risk-title"><span data-fr>Concurrence Wave, Guerre des prix Mobile Money</span><span data-en>Wave competition, Mobile Money price war</span><span class="risk-lvl">Niveau 7/10</span></div>
+<p class="risk-text"><span data-fr>Wave (fintech sénégalaise) pratique des frais proches de zéro pour les transferts d'argent. Si Wave s'étend massivement en Côte d'Ivoire, elle pourrait comprimer les marges d'Orange Money.<strong>Mitigation : Orange CI joue sur l'écosystème (téléphonie + internet + Mobile Money), Wave n'offre que le transfert.</strong></span><span data-en>Wave (Senegalese fintech) charges near-zero fees for money transfers. If Wave expands massively in Ivory Coast, it could compress Orange Money margins.<strong>Mitigation: Orange CI plays on the ecosystem (voice + internet + Mobile Money), Wave only offers transfers.</strong></span></p>
+</div><div class="risk">
+<div class="risk-title"><span data-fr>Pression réglementaire ARTCI</span><span data-en>ARTCI regulatory pressure</span><span class="risk-lvl">Niveau 5/10</span></div>
+<p class="risk-text"><span data-fr>L'ARTCI (régulateur ivoirien) peut imposer des baisses tarifaires ou des taxes supplémentaires. Risque modéré mais réel dans un contexte de volonté gouvernementale d'accès universel.<strong>Mitigation : Orange CI a un historique de négociation favorable avec le régulateur, partenariat avec l'État ivoirien.</strong></span><span data-en>ARTCI (Ivorian regulator) can impose tariff cuts or additional taxes. Moderate but real risk in a context of government universal access ambitions.<strong>Mitigation: Orange CI has a favorable regulatory negotiation history, partnership with the Ivorian state.</strong></span></p>
+</div><div class="risk">
+<div class="risk-title"><span data-fr>Liquidité BRVM, Risque d'exécution</span><span data-en>BRVM Liquidity, Execution risk</span><span class="risk-lvl">Niveau 6/10</span></div>
+<p class="risk-text"><span data-fr>Les volumes d'échange quotidiens sur la BRVM sont faibles. Une vente urgente peut décaler significativement le cours.<strong>Mitigation : position sizing réduit (3,3% du portefeuille virtuel). Horizon long terme (3-5 ans), la liquidité n'est pas un problème si on ne panique pas.</strong></span><span data-en>Daily trading volumes on the BRVM are low. An urgent sale can significantly move the price.<strong>Mitigation: reduced position sizing (3.3% of virtual portfolio). Long-term horizon (3-5 years), liquidity is not a problem if you don't panic.</strong></span></p>
+</div><!-- SECTION 7, VALORISATION -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">11</div>
+<h2 class="sec-title"><span data-fr>Valorisation,<em>Méthodes croisées</em></span><span data-en>Valuation,<em>Cross-checking methods</em></span></h2>
+</div><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Méthode</span><span data-en>Method</span></th>
+<th><span data-fr>Prix cible</span><span data-en>Target price</span></th>
+<th>Upside</th>
+<th>Pondération</th>
+<th><span data-fr>Hypothèse clé</span><span data-en>Key assumption</span></th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Gordon Growth Model (dividendes)</td><td class="gold mono">16 800 XOF</td><td class="hi">+16%</td><td class="mono">40%</td><td class="mono">g=5%, WACC=11%</td></tr>
+<tr><td>EV/EBITDAaL comparables africains (7x)</td><td class="gold mono">17 500 XOF</td><td class="hi">+21%</td><td class="mono">35%</td><td class="mono">vs médiane 6-8x</td></tr>
+<tr><td>DCF FCF (scénario base)</td><td class="gold mono">17 200 XOF</td><td class="hi">+19%</td><td class="mono">25%</td><td class="mono">g=3%, WACC=12%</td></tr>
+<tr class="row-hdr"><td><strong><span data-fr>Prix cible pondéré (base)</span><span data-en>Weighted target (base)</span></strong></td><td class="bold gold">17 000 XOF</td><td class="hi bold">+17%</td><td>n.d.</td><td>n.d.</td></tr>
+<tr><td><span data-fr>Scénario bull (re-rating Orange Money)</span><span data-en>Bull (Orange Money re-rating)</span></td><td class="hi mono">21 000 XOF</td><td class="hi">+45%</td><td class="mono">20%</td><td class="mono"><span data-fr>Multiple fintech 18x</span><span data-en>Fintech multiple 18x</span></td></tr>
+<tr><td><span data-fr>Stop loss (scénario bear)</span><span data-en>Stop loss (bear scenario)</span></td><td class="lo mono">11 500 XOF</td><td class="lo">-20%</td><td>n.d.</td><td class="mono"><span data-fr>Pression réglementaire + Wave</span><span data-en>Regulatory + Wave pressure</span></td></tr>
+</tbody>
+</table>
+</div><!-- VERDICT -->
+<div class="verdict-box">
+<div class="vb-eyebrow">VERDICT OFFICIEL · OSWALD VISION CAPITAL · N°001 · 10/04/2026</div>
+<div class="vb-grid">
+<div class="vb-item"><div class="vb-key">Verdict</div><div class="vb-val g">INITIATION,<span data-fr>ACHAT</span><span data-en>BUY</span></div></div>
+<div class="vb-item"><div class="vb-key"><span data-fr>Cours d'entrée</span><span data-en>Entry price</span></div><div class="vb-val au">14 500 XOF</div></div>
+<div class="vb-item"><div class="vb-key"><span data-fr>Cible 12M</span><span data-en>12M target</span></div><div class="vb-val g">17 000 XOF (+17%)</div></div>
+<div class="vb-item"><div class="vb-key">Stop loss</div><div class="vb-val r">11 500 XOF (-20%)</div></div>
+<div class="vb-item"><div class="vb-key"><span data-fr>Rdt dividende</span><span data-en>Dividend yield</span></div><div class="vb-val au">5.5% + croissance</div></div>
+<div class="vb-item"><div class="vb-key"><span data-fr>Capital alloué</span><span data-en>Capital allocated</span></div><div class="vb-val">$3 333 · 3.3%</div></div>
+</div>
+<div class="vb-main">
+<div class="vb-main-verdict"> CONVICTION FORTE, 7.4/10</div>
+<div class="vb-main-price"><span data-fr>Dividende 5.5% croissant · NIFCF% 119% · Moat infrastructure + Orange Money · Décote BRVM injustifiée</span><span data-en>5.5% growing dividend · NIFCF% 119% · Infrastructure + Orange Money moat · Unjustified BRVM discount</span></div>
+</div>
+</div><div class="scores-grid">
+<div class="score-item"><div class="score-val">7.0</div><div class="score-label">Performance</div></div>
+<div class="score-item"><div class="score-val">4.0</div><div class="score-label"><span data-fr>Risque</span><span data-en>Risk</span></div></div>
+<div class="score-item"><div class="score-val">7.5</div><div class="score-label">ESG</div></div>
+<div class="score-item"><div class="score-val global">7.4</div><div class="score-label"><span data-fr>Score Global OVC</span><span data-en>OVC Global Score</span></div></div>
+</div><div class="article-actions">
+<a href="analyses.html" class="btn-primary"><span data-fr>Retour aux analyses</span><span data-en>Back to research</span></a>
+<button class="btn-pdf" onclick="window.print()">⬇ PDF</button>
+<a href="nvidia.html" class="btn-secondary"><span data-fr>Voir aussi : NVIDIA</span><span data-en>See also: NVIDIA</span></a>
+</div><div class="disclaimer">
+<strong><span data-fr>Avertissement légal :</span><span data-en>Legal disclaimer:</span></strong>
+<span data-fr>Ce document est publié à titre éducatif uniquement. Le portefeuille est entièrement fictif (capital virtuel). L'auteur est étudiant en finance et n'est pas gérant de fonds agréé. Aucune information ne constitue un conseil en investissement. Les cours BRVM sont collectés manuellement depuis brvm.org.</span>
+<span data-en>For educational purposes only. Virtual portfolio. The author is a finance student, not a licensed fund manager. Nothing constitutes investment advice. BRVM prices are collected manually from brvm.org.</span>
+<em>© Oswald Vision Capital · Thèse N°001 · 10 avril 2026</em>
+</div></div><!-- end article-body --><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+function setLang(l){document.documentElement.setAttribute('data-lang',l);document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));}
+setLang('fr'); Chart.defaults.font.family="'JetBrains Mono',monospace";
+Chart.defaults.font.size=10;
+Chart.defaults.color='#8a8aaa'; const GOLD='#c9832a',BLUE='#1e4faa',GREEN='#1a7a4a',RED='#c0392b',PURPLE='#5e35b1';
+const TIP={backgroundColor:'#1a1a2e',titleColor:'#f0a84a',bodyColor:'#fff',padding:10,cornerRadius:6};
+const YEARS=['2021','2022','2023','2024','2025']; // 1. REVENUS & DIVIDENDE
+new Chart(document.getElementById('chart-revenue'),{ type:'bar', data:{ labels:YEARS, datasets:[ {label:'CA (Mds FCFA)',data:[888,988,1063,1084,1197],backgroundColor:'rgba(201,131,42,0.55)',borderColor:GOLD,borderWidth:1.5,borderRadius:4,yAxisID:'y'}, {label:'Dividende (FCFA/action)',type:'line',data:[500,600,680,720,800],borderColor:PURPLE,borderWidth:2.5,pointRadius:5,tension:.3,yAxisID:'y2'}, ] }, options:{responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10}},tooltip:{...TIP}}, scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`${v}B`}}, y2:{position:'right',grid:{display:false},ticks:{callback:v=>`${v} F`}} }}
+}); // 2. MARGES
+new Chart(document.getElementById('chart-margins'),{ type:'line', data:{ labels:YEARS, datasets:[ {label:'Marge EBITDAaL %',data:[34.8,34.3,34.2,36.0,35.4],borderColor:GOLD,borderWidth:2.5,pointRadius:4,tension:.3,backgroundColor:'rgba(201,131,42,.08)',fill:true}, {label:'Marge Nette %',data:[13.2,13.0,13.6,14.6,14.0],borderColor:BLUE,borderDash:[4,3],borderWidth:2,pointRadius:3,tension:.3}, {label:'Marge FCF %',data:[17.5,16.0,15.8,15.9,16.6],borderColor:GREEN,borderDash:[2,4],borderWidth:2,pointRadius:3,tension:.3}, ] }, options:{responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}}, scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`${v}%`},min:10,max:42}}}
+}); // 3. CASH FLOW
+new Chart(document.getElementById('chart-cashflow'),{ type:'bar', data:{ labels:YEARS, datasets:[ {label:'Op. CF',type:'bar',data:[220,256,278,290,335.5],backgroundColor:'rgba(30,79,170,0.35)',borderColor:BLUE,borderWidth:1}, {label:'CapEx',type:'bar',data:[-78,-98,-110,-118,-136.4],backgroundColor:'rgba(192,57,43,0.4)',borderColor:RED,borderWidth:1}, {label:'FCF',type:'bar',data:[142,158,168,172,199.1],backgroundColor:'rgba(26,122,74,0.55)',borderColor:GREEN,borderWidth:1.5}, {label:'NI->FCF% *',type:'line',data:[123,123,116,109,119],borderColor:PURPLE,borderWidth:2.5,pointRadius:4,tension:.3,yAxisID:'y2'}, ] }, options:{responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>c.dataset.yAxisID==='y2'?` ${c.dataset.label}: ${c.raw}%`:` ${c.dataset.label}: ${c.raw}B`}}}, scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`${v}B`}}, y2:{position:'right',grid:{display:false},min:80,max:140,ticks:{callback:v=>`${v}%`}} }}
+}); // 4. DIVIDENDE TRACK RECORD
+new Chart(document.getElementById('chart-dividend'),{ type:'bar', data:{ labels:[...YEARS,'2026E','2027E'], datasets:[ {label:'Dividende (FCFA)',data:[500,600,680,720,800,880,968],backgroundColor:(ctx)=>ctx.dataIndex>=5?'rgba(30,79,170,0.4)':'rgba(201,131,42,0.6)',borderColor:(ctx)=>ctx.dataIndex>=5?BLUE:GOLD,borderWidth:1.5,borderRadius:4}, {label:'Yield on cost 14500F',type:'line',data:[3.45,4.14,4.69,4.97,5.52,6.07,6.68],borderColor:GREEN,borderWidth:2.5,pointRadius:4,tension:.3,yAxisID:'y2'}, ] }, options:{responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>c.dataset.yAxisID==='y2'?` ${c.dataset.label}: ${c.raw}%`:` ${c.dataset.label}: ${c.raw} FCFA`}}}, scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`${v}F`}}, y2:{position:'right',grid:{display:false},ticks:{callback:v=>`${v}%`}} }}
+}); // 5. VALORISATION COMPARABLES
+new Chart(document.getElementById('chart-valuation'),{ type:'bar', data:{ labels:['Orange CI','Safaricom','Sonatel','MTN CI','Airtel Africa'], datasets:[ {label:'P/E (x)',data:[13.5,22,18,16,14],backgroundColor:['rgba(201,131,42,0.8)','rgba(30,79,170,0.5)','rgba(30,79,170,0.5)','rgba(30,79,170,0.5)','rgba(30,79,170,0.5)'],borderColor:[GOLD,BLUE,BLUE,BLUE,BLUE],borderWidth:1.5,borderRadius:4}, {label:'EV/EBITDAaL',data:[5.5,8,7.5,7,6.5],backgroundColor:['rgba(26,122,74,0.8)','rgba(26,122,74,0.35)','rgba(26,122,74,0.35)','rgba(26,122,74,0.35)','rgba(26,122,74,0.35)'],borderColor:[GREEN,GREEN,GREEN,GREEN,GREEN],borderWidth:1.5,borderRadius:4}, ] }, options:{responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}x`}}}, scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`${v}x`}}}}
+}); // 6. RADAR
+new Chart(document.getElementById('chart-radar'),{ type:'radar', data:{ labels:['Dividende','Qualité FCF','ESG','ROE','Croissance','Liquidité'], datasets:[ {label:'Orange CI',data:[9,9,7.5,7,6.5,4],backgroundColor:'rgba(201,131,42,.2)',borderColor:GOLD,borderWidth:2.5,pointBackgroundColor:GOLD,pointRadius:4}, {label:'Médiane BRVM',data:[5,5,5,5,5,5],backgroundColor:'rgba(30,79,170,.08)',borderColor:'rgba(30,79,170,.4)',borderWidth:1.5,borderDash:[3,3],pointBackgroundColor:BLUE,pointRadius:2} ] }, options:{responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:10}},tooltip:{...TIP}}, scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:8}},pointLabels:{font:{size:10,family:"'Outfit',sans-serif"}}}}}
+});
+
+});
+</script>
+</body>
+</html>

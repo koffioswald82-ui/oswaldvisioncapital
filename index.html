@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oswald Vision Capital, Independent Investment Research</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{ --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa; --line:#e8e4f0;--bg:#fafaf8;--white:#ffffff;--cream:#f5f2ec;--cream2:#eee9e0; --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2; --blue:#1e4faa;--blue-bg:#eef3ff; --green:#1a7a4a;--green-bg:#e8f5ee; --red:#c0392b; --purple:#5e35b1;--purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.6} /* ── LANG BAR */
+.lang-bar{position:fixed;top:0;left:0;right:0;z-index:300;background:var(--ink);padding:.3rem 5vw;display:flex;align-items:center;justify-content:space-between}
+.lang-bar-left{font-size:.68rem;color:rgba(255,255,255,.4);letter-spacing:.06em}
+.lang-bar-left strong{color:var(--gold-l)}
+.lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:500;letter-spacing:.1em;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer;transition:all .15s}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700} /* ── NAV */
+nav{position:fixed;top:28px;left:0;right:0;z-index:200;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 12px rgba(26,26,46,.06)}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.nav-logo em{font-style:italic;color:var(--gold)}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important}
+.nav-cta:hover{background:var(--blue)!important} /* ── HERO */
+.hero{padding-top:88px;min-height:100vh;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;background:var(--white);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;right:0;width:52%;height:100%;background:linear-gradient(135deg,var(--cream) 0%,#e8e0d0 100%);clip-path:polygon(10% 0,100% 0,100% 100%,0% 100%);z-index:0}
+.hero-left{padding:6vh 4vw 6vh 8vw;position:relative;z-index:1}
+.hero-right{position:relative;z-index:1;padding:4vh 7vw 4vh 2vw;display:flex;flex-direction:column;gap:.9rem} .badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.8rem}
+.badge{display:inline-flex;align-items:center;gap:.35rem;padding:.28rem .75rem;border-radius:100px;font-size:.7rem;font-weight:600}
+.badge-live{background:var(--green-bg);color:var(--green);border:1px solid #b8e0ca}
+.badge-live::before{content:'';width:5px;height:5px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.6)}}
+.badge-g{background:var(--blue-bg);color:var(--blue);border:1px solid #c0d4f5}
+.badge-a{background:var(--purple-bg);color:var(--purple);border:1px solid #d4c8f5} .hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem} h1.hero-h{font-family:'Libre Baskerville',serif;font-size:clamp(2.2rem,4.2vw,3.8rem);font-weight:700;line-height:1.08;letter-spacing:-.03em;margin-bottom:1.4rem}
+h1.hero-h em{font-style:italic;color:var(--gold)}
+h1.hero-h .u{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:5px;text-decoration-thickness:2px} .hero-desc{font-size:.95rem;color:var(--body);line-height:1.8;max-width:490px;margin-bottom:2.2rem} .hero-btns{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.btn-gold{background:var(--gold);color:#fff;padding:.8rem 1.8rem;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(201,131,42,.3)}
+.btn-gold:hover{background:#b5721e;transform:translateY(-2px)}
+.btn-out{background:transparent;color:var(--ink);padding:.8rem 1.8rem;border-radius:8px;border:1.5px solid var(--line);font-weight:600;font-size:.85rem;text-decoration:none;transition:border-color .2s}
+.btn-out:hover{border-color:var(--ink)} .hero-proof{display:flex;gap:2rem;padding-top:1.8rem;border-top:1px solid var(--line);flex-wrap:wrap}
+.proof-num{font-family:'Libre Baskerville',serif;font-size:2rem;font-weight:700;color:var(--ink);line-height:1}
+.proof-num span{color:var(--gold)}
+.proof-label{font-size:.72rem;color:var(--muted);margin-top:.2rem;line-height:1.4} /* preview cards */
+.mini-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.4rem;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s;text-decoration:none;color:inherit;display:block}
+.mini-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.mc-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.mc-title{font-family:'Libre Baskerville',serif;font-size:.9rem;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:.25rem}
+.mc-sub{font-size:.76rem;color:var(--body);line-height:1.5}
+.mc-footer{display:flex;justify-content:space-between;align-items:center;margin-top:.75rem}
+.tag{font-size:.62rem;font-weight:700;letter-spacing:.06em;padding:.18rem .55rem;border-radius:100px}
+.t-m{background:var(--blue-bg);color:var(--blue)}
+.t-e{background:var(--green-bg);color:var(--green)}
+.t-a{background:var(--purple-bg);color:var(--purple)}
+.t-s{background:var(--gold-bg);color:var(--gold)}
+.mc-read{font-size:.68rem;color:var(--muted);font-family:'JetBrains Mono',monospace} /* ── TICKER */
+.ticker-wrap{background:var(--ink2);overflow:hidden;padding:.65rem 0}
+.ticker-inner{display:flex;animation:scrollT 34s linear infinite;white-space:nowrap}
+@keyframes scrollT{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{display:inline-flex;align-items:center;gap:.45rem;padding:0 1.8rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.45)}
+.ti-s{color:var(--gold-l);font-weight:600}
+.up{color:#4ade80}.dn{color:#f87171} /* ── SECTIONS */
+section{padding:7vh 8vw;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.eyebrow::after{content:'';display:inline-block;width:18px;height:1px;background:var(--gold)}
+h2.sh{font-family:'Libre Baskerville',serif;font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin-bottom:.75rem}
+h2.sh em{font-style:italic;color:var(--gold)}
+.sl{font-size:.92rem;color:var(--body);line-height:1.8;max-width:600px;margin-bottom:2.5rem} /* ── 4 MARKETS */
+.markets-section{background:var(--white)}
+.markets-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:0} .market-zone{background:var(--white);padding:2rem 1.5rem;transition:background .22s;cursor:pointer;position:relative}
+.market-zone:hover{background:var(--cream)}
+.market-zone::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.mz-africa::after{background:var(--purple)}
+.mz-americas::after{background:var(--blue)}
+.mz-europe::after{background:var(--green)}
+.mz-asia::after{background:var(--gold)}
+.market-zone:hover::after{transform:scaleX(1)} .mz-flag{font-size:2.2rem;margin-bottom:.9rem;display:block}
+.mz-name{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:.3rem}
+.mz-sub{font-size:.75rem;color:var(--muted);margin-bottom:1.2rem;line-height:1.5}
+.mz-companies{list-style:none;display:flex;flex-direction:column;gap:.35rem}
+.mz-co{display:flex;justify-content:space-between;align-items:center;padding:.35rem .55rem;background:var(--bg);border-radius:6px;font-size:.76rem}
+.mz-co-name{font-weight:600;color:var(--ink)}
+.mz-co-ticker{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gold)}
+.mz-more{font-size:.7rem;color:var(--muted);font-style:italic;text-align:center;margin-top:.5rem}
+.mz-badge{font-size:.62rem;font-weight:700;padding:.18rem .5rem;border-radius:100px;margin-bottom:.8rem;display:inline-block}
+.africa-badge{background:var(--purple-bg);color:var(--purple)}
+.americas-badge{background:var(--blue-bg);color:var(--blue)}
+.europe-badge{background:var(--green-bg);color:var(--green)}
+.asia-badge{background:var(--gold-bg);color:var(--gold)} /* Africa special note */
+.africa-note{margin-top:1.5rem;padding:1.2rem 1.5rem;background:var(--purple-bg);border-left:3px solid var(--purple);border-radius:0 10px 10px 0}
+.africa-note-title{font-weight:700;font-size:.84rem;color:var(--purple);margin-bottom:.4rem}
+.africa-note-text{font-size:.8rem;color:var(--body);line-height:1.7}
+.africa-note-links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+.africa-link{font-size:.72rem;font-weight:600;color:var(--purple);background:rgba(94,53,177,.08);border:1px solid rgba(94,53,177,.2);padding:.25rem .7rem;border-radius:100px;text-decoration:none} /* ── WHY */
+.why-section{background:var(--cream)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.why-card{background:var(--white);border-radius:14px;padding:1.8rem;border:1px solid var(--line);transition:box-shadow .25s,transform .22s}
+.why-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.wc-icon{font-size:2rem;margin-bottom:.9rem}
+.wc-title{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.45rem}
+.wc-text{font-size:.82rem;color:var(--body);line-height:1.75}
+.wc-bottom{margin-top:1rem;padding-top:.9rem;border-top:1px solid var(--line);font-size:.7rem;font-weight:700;color:var(--gold);letter-spacing:.06em;text-transform:uppercase} /* ── ANALYSES */
+.analyses-section{background:var(--white)}
+.analyses-layout{display:grid;grid-template-columns:1.45fr 1fr;gap:1.4rem}
+.af{background:var(--cream);border-radius:16px;overflow:hidden;border:1px solid var(--cream2);text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:box-shadow .25s,transform .2s}
+.af:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.af-top{padding:2.2rem 2.2rem 0}
+.af-meta{display:flex;gap:.55rem;align-items:center;margin-bottom:1.4rem;flex-wrap:wrap}
+.af-date{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--muted)}
+.af-h{font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700;line-height:1.2;margin-bottom:.7rem}
+.af-exc{font-size:.85rem;color:var(--body);line-height:1.75}
+.af-img{margin-top:1.8rem;height:120px;background:linear-gradient(135deg,var(--ink) 0%,var(--blue) 55%,var(--purple) 100%);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:.25}
+.af-ft{padding:1.1rem 2.2rem;display:flex;align-items:center;gap:.65rem;border-top:1px solid var(--cream2)}
+.av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--purple));display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:800;color:#fff;flex-shrink:0}
+.af-author{font-size:.76rem;font-weight:600;color:var(--ink)}
+.af-read{margin-left:auto;font-size:.67rem;color:var(--muted);font-family:'JetBrains Mono',monospace} .articles-list{display:flex;flex-direction:column;gap:.7rem}
+.ac{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:1.3rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.38rem;transition:box-shadow .2s,border-color .2s}
+.ac:hover{box-shadow:var(--shadow);border-color:var(--cream2)}
+.ac-meta{display:flex;gap:.5rem;align-items:center}
+.ac-h{font-family:'Libre Baskerville',serif;font-size:.92rem;font-weight:700;line-height:1.3;color:var(--ink)}
+.ac-exc{font-size:.76rem;color:var(--body);line-height:1.6}
+.ac-arr{margin-left:auto;color:var(--gold);font-size:.85rem;flex-shrink:0} /* ── EXPERTISE */
+.exp-section{background:var(--cream)}
+.exp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--cream2);border:1px solid var(--cream2);border-radius:16px;overflow:hidden}
+.exp-item{background:var(--white);padding:1.8rem 1.4rem;transition:background .2s;position:relative}
+.exp-item:hover{background:var(--cream)}
+.exp-item::after{content:'';position:absolute;bottom:0;left:1.4rem;right:1.4rem;height:2px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity .25s}
+.exp-item:hover::after{opacity:1}
+.exp-num{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.1em;margin-bottom:.7rem}
+.exp-icon{font-size:1.5rem;margin-bottom:.65rem}
+.exp-title{font-family:'Libre Baskerville',serif;font-size:.93rem;font-weight:700;color:var(--ink);margin-bottom:.35rem}
+.exp-text{font-size:.77rem;color:var(--body);line-height:1.65}
+.chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.7rem}
+.chip{font-size:.6rem;font-weight:600;padding:.15rem .48rem;border-radius:100px;background:var(--cream);color:var(--muted);border:1px solid var(--cream2)} /* ── PORTFOLIOS */
+.pf-section{background:var(--white)}
+.pf-switcher{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;width:fit-content;margin-bottom:2.2rem}
+.pf-btn{padding:.6rem 1.5rem;font-family:'Outfit',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.04em;background:transparent;border:none;color:var(--muted);cursor:pointer;transition:all .2s}
+.pf-btn.on{background:var(--ink);color:#fff}
+.pf-panel{display:none}
+.pf-panel.on{display:grid;grid-template-columns:1fr 1.4fr;gap:2rem}
+.pf-desc{background:var(--cream);border-radius:14px;padding:1.8rem;border:1px solid var(--cream2)}
+.pf-dt{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:.5rem}
+.pf-ds{font-size:.83rem;color:var(--body);line-height:1.75;margin-bottom:1.3rem}
+.pf-kpis{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.pf-kp{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.9rem;text-align:center}
+.pf-kv{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:var(--gold)}
+.pf-kl{font-size:.62rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.12rem}
+.pf-table{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.pf-thead{display:grid;grid-template-columns:1fr 100px 76px;padding:.65rem 1.2rem;background:var(--cream);border-bottom:1px solid var(--cream2)}
+.pf-th{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pf-tr{display:grid;grid-template-columns:1fr 100px 76px;padding:.72rem 1.2rem;border-bottom:1px solid var(--line);align-items:center;transition:background .15s}
+.pf-tr:hover{background:var(--cream)}
+.pf-tr:last-child{border-bottom:none}
+.pf-cn{font-weight:600;font-size:.83rem;color:var(--ink)}
+.pf-cr{font-size:.68rem;color:var(--muted);margin-top:.08rem}
+.pf-tk{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--gold);font-weight:500}
+.pb{font-size:.6rem;font-weight:700;letter-spacing:.06em;padding:.18rem .5rem;border-radius:100px;white-space:nowrap}
+.pb-g{background:var(--green-bg);color:var(--green)}
+.pb-v{background:var(--gold-bg);color:var(--gold)}
+.pb-a{background:var(--purple-bg);color:var(--purple)} /* ── ABOUT */
+.about-section{background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:4vw;align-items:start}
+.about-card{background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.ac-top{background:linear-gradient(135deg,var(--ink),var(--ink2));padding:2.2rem 1.8rem;text-align:center}
+.ac-av{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--purple));display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin:0 auto .9rem;border:3px solid rgba(255,255,255,.15)}
+.ac-name{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;color:#fff}
+.ac-role{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:.18rem;letter-spacing:.06em}
+.ac-tags{padding:1.3rem;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.45rem}
+.ac-tag{font-size:.7rem;font-weight:600;padding:.28rem .7rem;border-radius:100px;background:var(--cream);color:var(--body);border:1px solid var(--cream2)}
+.ac-stats{display:grid;grid-template-columns:1fr 1fr}
+.ac-stat{padding:1.1rem;text-align:center;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ac-stat:nth-child(2n){border-right:none}
+.ac-stat:nth-child(n+3){border-bottom:none}
+.ac-sv{font-family:'Libre Baskerville',serif;font-size:1.45rem;font-weight:700;color:var(--gold)}
+.ac-sl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.about-p{font-size:.9rem;color:var(--body);line-height:1.85;margin-top:.9rem}
+.about-p strong{color:var(--ink);font-weight:700}
+.pl{list-style:none;margin-top:1.6rem;display:flex;flex-direction:column;gap:.65rem}
+.pl-item{display:flex;align-items:flex-start;gap:.75rem;padding:.9rem 1.1rem;background:var(--white);border:1px solid var(--line);border-radius:10px;font-size:.84rem;color:var(--body);line-height:1.6;transition:border-color .2s,box-shadow .2s}
+.pl-item:hover{border-color:var(--gold);box-shadow:0 2px 12px rgba(201,131,42,.08)}
+.pl-icon{font-size:.95rem;flex-shrink:0} /* ── NEWSLETTER */
+.nl-section{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);color:#fff;position:relative;overflow:hidden}
+.nl-section::before{content:'';position:absolute;top:-40%;right:-8%;width:500px;height:500px;background:radial-gradient(ellipse,rgba(201,131,42,.12),transparent 65%);pointer-events:none}
+.nl-inner{max-width:640px;margin:0 auto;text-align:center;position:relative}
+.nl-section .eyebrow{color:var(--gold-l);justify-content:center}
+.nl-section .eyebrow::after{background:var(--gold-l)}
+.nl-h{font-family:'Libre Baskerville',serif;font-size:clamp(1.7rem,3vw,2.6rem);font-weight:700;letter-spacing:-.02em;color:#fff;margin-bottom:.7rem}
+.nl-sub{font-size:.92rem;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:2.2rem}
+.nl-form{display:flex;gap:0;max-width:460px;margin:0 auto;border-radius:10px;overflow:hidden;box-shadow:0 4px 22px rgba(0,0,0,.28)}
+.nl-form input{flex:1;padding:.85rem 1.2rem;background:var(--white);border:none;font-family:'Outfit',sans-serif;font-size:.86rem;color:var(--ink);outline:none}
+.nl-form input::placeholder{color:var(--muted)}
+.nl-form button{padding:.85rem 1.5rem;background:var(--gold);border:none;font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.04em;color:#fff;cursor:pointer;transition:background .2s;white-space:nowrap}
+.nl-form button:hover{background:#b5721e}
+.nl-feats{display:flex;justify-content:center;gap:1.8rem;margin-top:1.6rem;flex-wrap:wrap}
+.nl-feat{font-size:.75rem;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:.35rem}
+.nl-feat::before{content:'✓';color:var(--gold-l);font-weight:700} /* ── FOOTER */
+footer{background:var(--white);border-top:1px solid var(--line);padding:5vh 8vw 4vh}
+.ft-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--line)}
+.ft-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink)}
+.ft-logo em{color:var(--gold);font-style:italic}
+.ft-tagline{font-size:.78rem;color:var(--muted);line-height:1.7;margin-top:.5rem;max-width:230px}
+.ft-col-h{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:.9rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+.ft-col ul li a{font-size:.8rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.ft-col ul li a:hover{color:var(--ink)}
+.ft-bottom{padding-top:1.8rem;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.9rem}
+.ft-copy{font-size:.72rem;color:var(--muted)}
+.ft-disc{font-size:.67rem;color:rgba(74,74,104,.3);max-width:480px;text-align:right;line-height:1.6} /* ── REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-l{opacity:0;transform:translateX(-20px);transition:opacity .6s ease,transform .6s ease}
+.reveal-l.in{opacity:1;transform:translateX(0)} /* ── RESPONSIVE */
+@media(max-width:1000px){ .hero{grid-template-columns:1fr} .hero::before{display:none} .hero-right{padding:0 8vw 6vh} .markets-grid{grid-template-columns:1fr 1fr} .why-grid{grid-template-columns:1fr 1fr} .exp-grid{grid-template-columns:1fr 1fr} .analyses-layout{grid-template-columns:1fr} .pf-panel.on{grid-template-columns:1fr} .about-grid{grid-template-columns:1fr} .ft-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:620px){ .markets-grid{grid-template-columns:1fr} .why-grid{grid-template-columns:1fr} .exp-grid{grid-template-columns:1fr} .nav-links{display:none} .hero-proof{gap:1.3rem} .ft-grid{grid-template-columns:1fr}
+} /* LANG */
+[data-fr],[data-en]{display:none}
+html[data-lang=fr] [data-fr]{display:revert}
+html[data-lang=en] [data-en]{display:revert}
+span[data-fr],span[data-en]{display:none}
+html[data-lang=fr] span[data-fr]{display:inline}
+html[data-lang=en] span[data-en]{display:inline}
+
+/* ── DROPDOWN NAV */
+.nav-item-dd{position:relative;display:flex;align-items:center}
+.nav-link-dd{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s;cursor:pointer;display:flex;align-items:center;gap:.25rem}
+.nav-link-dd::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);margin-left:.25rem;transition:transform .2s}
+.nav-item-dd:hover .nav-link-dd::after{transform:rotate(225deg) translateY(-2px)}
+.nav-item-dd:hover .nav-link-dd{color:var(--ink)}
+.nav-dropdown{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem;min-width:230px;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;transform:translateX(-50%) translateY(-4px)}
+.nav-item-dd:hover .nav-dropdown{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown a{display:block;padding:.52rem .9rem;font-size:.8rem;color:var(--body);text-decoration:none;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown a:hover{background:var(--cream);color:var(--ink)}
+.dd-divider{height:1px;background:var(--line);margin:.3rem .5rem}
+
+
+/* ── SECTION NAV (secondary sticky bar for index page) */
+.section-nav{
+  position:sticky;top:88px;z-index:150;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:0 5vw;
+  display:flex;align-items:center;
+  gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+  box-shadow:0 2px 8px rgba(26,26,46,.05);
+}
+.section-nav::-webkit-scrollbar{display:none}
+.sn-link{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.75rem 1.2rem;
+  font-size:.78rem;font-weight:600;
+  color:var(--muted);
+  text-decoration:none;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;
+  transition:color .2s,border-color .2s;
+  letter-spacing:.01em;
+}
+.sn-link:hover{color:var(--ink);border-bottom-color:var(--line)}
+.sn-link.active{color:var(--gold);border-bottom-color:var(--gold)}
+.sn-link .sn-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold);
+  opacity:0;transition:opacity .2s;
+  flex-shrink:0;
+}
+.sn-link.active .sn-dot,.sn-link:hover .sn-dot{opacity:1}
+.sn-sep{width:1px;height:16px;background:var(--line);flex-shrink:0;margin:0 .2rem}
+.sn-cta{
+  margin-left:auto;flex-shrink:0;
+  font-size:.75rem;font-weight:700;
+  color:var(--gold);
+  text-decoration:none;
+  border:1.5px solid rgba(201,131,42,.35);
+  padding:.38rem .9rem;border-radius:6px;
+  transition:all .2s;
+  white-space:nowrap;
+}
+.sn-cta:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+@media(max-width:700px){
+  .section-nav{top:60px;padding:0 3vw}
+  .sn-link{padding:.65rem .8rem;font-size:.72rem}
+  .sn-sep{display:none}
+  .sn-cta{display:none}
+}
+
+</style>
+</head>
+<body><!-- LANG BAR -->
+<div class="lang-bar">
+<span class="lang-bar-left"><strong data-fr>Recherche financière indépendante</strong><strong data-en>Independent financial research</strong>· Oswald Vision Capital</span>
+<div class="lang-btns">
+<button class="lbtn active" onclick="setLang('fr')">FR</button>
+<button class="lbtn" onclick="setLang('en')">EN</button>
+</div>
+</div><!-- NAV -->
+<nav>
+<a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+<div class="nav-links" id="main-nav-links">
+<div class="nav-item-dd">
+  <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+  <div class="nav-dropdown">
+    <a href="nvidia.html">NVIDIA (N°002)</a>
+    <a href="orange-ci.html">Orange CI (N°001)</a>
+    <div class="dd-divider"></div>
+    <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+  </div>
+</div>
+<div class="nav-item-dd">
+  <a href="macro.html" class="nav-link-dd"><span data-fr>Macro</span><span data-en>Macro</span></a>
+  <div class="nav-dropdown">
+    <a href="macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
+    <a href="macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro-uemoa.html">UEMOA 2026 (A-001)</a>
+    <div class="dd-divider"></div>
+    <a href="macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
+  </div>
+</div>
+<a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
+<a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+<a href="#newsletter" class="nav-cta">Newsletter</a>
+</div>
+</nav>
+<!-- SECTION NAV -->
+<nav class="section-nav" id="section-nav" aria-label="Sections">
+  <a href="#markets" class="sn-link" data-section="markets">
+    <span class="sn-dot"></span>
+    <span data-fr>Marchés</span><span data-en>Markets</span>
+  </a>
+  <span class="sn-sep"></span>
+  <a href="#analyses" class="sn-link" data-section="analyses">
+    <span class="sn-dot"></span>
+    <span data-fr>Analyses Equity</span><span data-en>Equity Research</span>
+  </a>
+  <span class="sn-sep"></span>
+  <a href="#macro-section" class="sn-link" data-section="macro-section">
+    <span class="sn-dot"></span>
+    <span data-fr>Macro</span><span data-en>Macro</span>
+  </a>
+  <span class="sn-sep"></span>
+  <a href="#portfolios" class="sn-link" data-section="portfolios">
+    <span class="sn-dot"></span>
+    <span data-fr>Portefeuille</span><span data-en>Portfolio</span>
+  </a>
+  <span class="sn-sep"></span>
+  <a href="#about" class="sn-link" data-section="about">
+    <span data-fr>À propos</span><span data-en>About</span>
+  </a>
+  <a href="fund-simulator.html" class="sn-cta">
+    <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
+  </a>
+</nav>
+<!-- HERO -->
+<section class="hero">
+<div class="hero-left">
+<div class="badges">
+<span class="badge badge-live"><span data-fr>Mise à jour hebdomadaire</span><span data-en>Updated weekly</span></span>
+<span class="badge badge-g"><span data-fr>Growth & Value</span><span data-en>Growth & Value</span></span>
+<span class="badge badge-a"><span data-fr>4 zones géographiques</span><span data-en>4 geographic regions</span></span>
+</div>
+<div class="hero-eyebrow"><span data-fr>Analyste · Étudiant Finance · Futur gérant de fonds</span><span data-en>Analyst · Finance student · Aspiring fund manager</span></div>
+<h1 class="hero-h">
+<span data-fr><em>Comprendre</em>les marchés<br>pour<span class="u">mieux investir.</span></span>
+<span data-en><em>Understand</em>the markets<br>to<span class="u">invest better.</span></span>
+</h1>
+<p class="hero-desc">
+<span data-fr>Analyses financières approfondies sur 30 entreprises d'exception, Afrique, Amériques, Europe, Asie. Un regard rigoureux et indépendant, construit pour durer.</span>
+<span data-en>In-depth financial analysis on 30 exceptional companies across Africa, the Americas, Europe & Asia. A rigorous, independent perspective built for the long term.</span>
+</p>
+<div class="hero-btns">
+<a href="analyses.html" class="btn-gold"><span data-fr> Lire les analyses</span><span data-en> Read the research</span></a>
+<a href="#newsletter" class="btn-out"><span data-fr>S'abonner gratuitement</span><span data-en>Subscribe for free</span></a>
+</div>
+<div class="hero-proof">
+<div><div class="proof-num">30<span>+</span></div><div class="proof-label"><span data-fr>Entreprises<br>analysées</span><span data-en>Companies<br>analysed</span></div></div>
+<div><div class="proof-num">4</div><div class="proof-label"><span data-fr>Zones<br>géographiques</span><span data-en>Geographic<br>regions</span></div></div>
+<div><div class="proof-num">6<span>+</span></div><div class="proof-label">Frameworks<br>analytiques</div></div>
+<div><div class="proof-num">100<span>%</span></div><div class="proof-label"><span data-fr>Indépendant</span><span data-en>Independent</span></div></div>
+</div>
+</div><div class="hero-right">
+<a href="analyses.html" class="mini-card">
+<div class="mc-eyebrow"><span data-fr>Analyse vedette</span><span data-en>Featured analysis</span></div>
+<div class="mc-title"><span data-fr>Tarifs Trump 2025 : opportunité pour l'Afrique ?</span><span data-en>Trump Tariffs 2025: opportunity for Africa?</span></div>
+<div class="mc-sub"><span data-fr>Impact sur les flux de capitaux vers la BRVM et l'Afrique sub-saharienne.</span><span data-en>Impact on capital flows toward the BRVM and sub-Saharan Africa.</span></div>
+<div class="mc-footer"><span class="tag t-m">Macro</span><span class="mc-read">12 min</span></div>
+</a>
+<a href="analyses.html" class="mini-card">
+<div class="mc-eyebrow">NVIDIA · NASDAQ: NVDA</div>
+<div class="mc-title"><span data-fr>La domination IA de NVIDIA peut-elle durer ?</span><span data-en>Can NVIDIA's AI dominance last?</span></div>
+<div class="mc-sub"><span data-fr>DCF, parts de marché GPU data centers, valorisation et concurrence.</span><span data-en>DCF model, data center GPU share, valuation & competition.</span></div>
+<div class="mc-footer"><span class="tag t-e">Equity</span><span class="mc-read">10 min</span></div>
+</a>
+<a href="analyses.html" class="mini-card">
+<div class="mc-eyebrow">Orange CI · BRVM: ORECI</div>
+<div class="mc-title"><span data-fr>Orange CI : le dividende le plus fiable de la BRVM ?</span><span data-en>Orange CI: the most reliable dividend on the BRVM?</span></div>
+<div class="mc-sub"><span data-fr>Orange Money, dividende stable, analyse fondamentale complète.</span><span data-en>Orange Money, stable dividend, full fundamental analysis.</span></div>
+<div class="mc-footer"><span class="tag t-a"><span data-fr>Afrique</span><span data-en>Africa</span></span><span class="mc-read">9 min</span></div>
+</a>
+</div>
+</section><!-- TICKER -->
+<div class="ticker-wrap">
+<div class="ticker-inner">
+<span class="ti"><span class="ti-s">NVDA</span>NVIDIA<span class="up">+2.3%</span></span>·
+<span class="ti"><span class="ti-s">ASML</span>ASML<span class="up">+1.4%</span></span>·
+<span class="ti"><span class="ti-s">MSFT</span>Microsoft<span class="up">+0.8%</span></span>·
+<span class="ti"><span class="ti-s">MTN</span>MTN Group<span class="up">+0.5%</span></span>·
+<span class="ti"><span class="ti-s">TSLA</span>Tesla<span class="dn">-3.2%</span></span>·
+<span class="ti"><span class="ti-s">ORECI</span>Orange CI<span class="up">+1.1%</span></span>·
+<span class="ti"><span class="ti-s">KO</span>Coca-Cola<span class="up">+0.3%</span></span>·
+<span class="ti"><span class="ti-s">9988</span>Alibaba<span class="dn">-0.7%</span></span>·
+<span class="ti"><span class="ti-s">NESN</span>Nestlé<span class="dn">-0.4%</span></span>·
+<span class="ti"><span class="ti-s">SIFCA</span>SIFCA BRVM<span class="up">+0.8%</span></span>·
+<span class="ti"><span class="ti-s">NVDA</span>NVIDIA<span class="up">+2.3%</span></span>·
+<span class="ti"><span class="ti-s">ASML</span>ASML<span class="up">+1.4%</span></span>·
+<span class="ti"><span class="ti-s">MSFT</span>Microsoft<span class="up">+0.8%</span></span>·
+<span class="ti"><span class="ti-s">MTN</span>MTN Group<span class="up">+0.5%</span></span>·
+<span class="ti"><span class="ti-s">TSLA</span>Tesla<span class="dn">-3.2%</span></span>·
+<span class="ti"><span class="ti-s">ORECI</span>Orange CI<span class="up">+1.1%</span></span>·
+<span class="ti"><span class="ti-s">KO</span>Coca-Cola<span class="up">+0.3%</span></span>·
+<span class="ti"><span class="ti-s">9988</span>Alibaba<span class="dn">-0.7%</span></span>·
+<span class="ti"><span class="ti-s">NESN</span>Nestlé<span class="dn">-0.4%</span></span>·
+<span class="ti"><span class="ti-s">SIFCA</span>SIFCA BRVM<span class="up">+0.8%</span></span>
+</div>
+</div><!-- 4 MARKETS -->
+<section class="markets-section" id="markets">
+<div class="eyebrow reveal"><span data-fr>Univers d'investissement</span><span data-en>Investment universe</span></div>
+<h2 class="sh reveal">
+<span data-fr>4 zones géographiques,<br>1<em>vision globale</em></span>
+<span data-en>4 geographic regions,<br>1<em>global vision</em></span>
+</h2>
+<p class="sl reveal">
+<span data-fr>Chaque zone est analysée avec ses propres outils, sources de données et dynamiques économiques. Une diversification géographique réelle, pas cosmétique.</span>
+<span data-en>Each region is analysed with its own tools, data sources and economic dynamics. Real geographic diversification, not cosmetic.</span>
+</p><div class="markets-grid reveal"><!-- AFRIQUE -->
+<div class="market-zone mz-africa">
+<span class="mz-flag"></span>
+<span class="mz-badge africa-badge"><span data-fr>Priorité stratégique · 33%</span><span data-en>Strategic priority · 33%</span></span>
+<div class="mz-name"><span data-fr>Afrique</span><span data-en>Africa</span></div>
+<div class="mz-sub"><span data-fr>BRVM · JSE · NSE<br>Côte d'Ivoire · Nigeria · Afrique du Sud</span><span data-en>BRVM · JSE · NSE<br>Ivory Coast · Nigeria · South Africa</span></div>
+<ul class="mz-companies">
+<li class="mz-co"><span class="mz-co-name">Orange CI</span><span class="mz-co-ticker">BRVM</span></li>
+<li class="mz-co"><span class="mz-co-name">NSIA Banque</span><span class="mz-co-ticker">BRVM</span></li>
+<li class="mz-co"><span class="mz-co-name">SIFCA</span><span class="mz-co-ticker">BRVM</span></li>
+<li class="mz-co"><span class="mz-co-name">MTN Group</span><span class="mz-co-ticker">JSE</span></li>
+<li class="mz-co"><span class="mz-co-name">UBA Group</span><span class="mz-co-ticker">NSE</span></li>
+</ul>
+<div class="mz-more"><span data-fr>+ 5 autres positions africaines</span><span data-en>+ 5 more African positions</span></div>
+</div><!-- AMÉRIQUES -->
+<div class="market-zone mz-americas">
+<span class="mz-flag"></span>
+<span class="mz-badge americas-badge"><span data-fr>Core portfolio · 33%</span><span data-en>Core portfolio · 33%</span></span>
+<div class="mz-name"><span data-fr>Amériques</span><span data-en>Americas</span></div>
+<div class="mz-sub">NYSE · NASDAQ<br>USA · Canada</div>
+<ul class="mz-companies">
+<li class="mz-co"><span class="mz-co-name">NVIDIA</span><span class="mz-co-ticker">NVDA</span></li>
+<li class="mz-co"><span class="mz-co-name">Microsoft</span><span class="mz-co-ticker">MSFT</span></li>
+<li class="mz-co"><span class="mz-co-name">Amazon</span><span class="mz-co-ticker">AMZN</span></li>
+<li class="mz-co"><span class="mz-co-name">Coca-Cola</span><span class="mz-co-ticker">KO</span></li>
+<li class="mz-co"><span class="mz-co-name">Shopify</span><span class="mz-co-ticker">SHOP</span></li>
+</ul>
+<div class="mz-more"><span data-fr>+ 5 autres positions américaines</span><span data-en>+ 5 more American positions</span></div>
+</div><!-- EUROPE -->
+<div class="market-zone mz-europe">
+<span class="mz-flag"></span>
+<span class="mz-badge europe-badge"><span data-fr>Valeur défensive · 20%</span><span data-en>Defensive value · 20%</span></span>
+<div class="mz-name">Europe</div>
+<div class="mz-sub">Euronext · XETRA · SIX<br><span data-fr>France · Pays-Bas · Allemagne · Suisse</span><span data-en>France · Netherlands · Germany · Switzerland</span></div>
+<ul class="mz-companies">
+<li class="mz-co"><span class="mz-co-name">ASML</span><span class="mz-co-ticker">ASML</span></li>
+<li class="mz-co"><span class="mz-co-name">L'Oréal</span><span class="mz-co-ticker">OR</span></li>
+<li class="mz-co"><span class="mz-co-name">Nestlé</span><span class="mz-co-ticker">NESN</span></li>
+<li class="mz-co"><span class="mz-co-name">Roche</span><span class="mz-co-ticker">ROG</span></li>
+<li class="mz-co"><span class="mz-co-name">Siemens</span><span class="mz-co-ticker">SIE</span></li>
+</ul>
+<div class="mz-more"><span data-fr>+ 1 autre position européenne</span><span data-en>+ 1 more European position</span></div>
+</div><!-- ASIE -->
+<div class="market-zone mz-asia">
+<span class="mz-flag"></span>
+<span class="mz-badge asia-badge"><span data-fr>Growth émergent · 14%</span><span data-en>Emerging growth · 14%</span></span>
+<div class="mz-name">Asie</div>
+<div class="mz-sub">HKEX · KRX · TSE<br><span data-fr>Chine · Corée · Japon · Singapour</span><span data-en>China · Korea · Japan · Singapore</span></div>
+<ul class="mz-companies">
+<li class="mz-co"><span class="mz-co-name">Samsung</span><span class="mz-co-ticker">005930</span></li>
+<li class="mz-co"><span class="mz-co-name">Alibaba</span><span class="mz-co-ticker">9988.HK</span></li>
+<li class="mz-co"><span class="mz-co-name">Tencent</span><span class="mz-co-ticker">0700.HK</span></li>
+<li class="mz-co"><span class="mz-co-name">Toyota</span><span class="mz-co-ticker">7203.T</span></li>
+<li class="mz-co"><span class="mz-co-name">Sea Limited</span><span class="mz-co-ticker">SE</span></li>
+</ul>
+</div></div><!-- Africa special note -->
+<div class="africa-note reveal">
+<div class="africa-note-title"><span data-fr>Note sur les marchés africains, Données manuelles</span><span data-en>Note on African markets, Manual data</span></div>
+<p class="africa-note-text">
+<span data-fr>Les bourses africaines (BRVM, JSE, NSE) ne sont pas disponibles sur Yahoo Finance ou Bloomberg gratuit. Les données sont renseignées manuellement depuis les sources officielles. C'est un avantage compétitif :<strong>peu d'analystes les couvrent</strong>, ce qui crée des opportunités de sous-évaluation.</span>
+<span data-en>African stock exchanges (BRVM, JSE, NSE) are not available on Yahoo Finance or free Bloomberg. Data is entered manually from official sources. This is a competitive advantage:<strong>few analysts cover them</strong>, which creates undervaluation opportunities.</span>
+</p>
+<div class="africa-note-links">
+<a href="https://www.brvm.org" target="_blank" class="africa-link">brvm.org</a>
+<a href="https://www.jse.co.za" target="_blank" class="africa-link">jse.co.za</a>
+<a href="https://www.ngxgroup.com" target="_blank" class="africa-link">ngxgroup.com</a>
+<a href="https://www.casablanca-bourse.com" target="_blank" class="africa-link">casablanca-bourse.com</a>
+</div>
+</div>
+</section><!-- WHY -->
+<section class="why-section" id="why">
+<div class="eyebrow reveal"><span data-fr>Pourquoi Oswald Vision ?</span><span data-en>Why Oswald Vision?</span></div>
+<h2 class="sh reveal"><span data-fr>La recherche financière que vous méritez de lire</span><span data-en>The financial research you deserve to read</span></h2>
+<p class="sl reveal"><span data-fr>Pas de bruit de marché, pas de clickbait. Des analyses fondamentales rigoureuses avec un angle unique sur l'Afrique et les marchés globaux.</span><span data-en>No market noise, no clickbait. Rigorous fundamental analysis with a unique angle on Africa and global markets.</span></p>
+<div class="why-grid">
+<div class="why-card reveal">
+<div class="wc-icon"></div>
+<div class="wc-title"><span data-fr>Niveau institutionnel</span><span data-en>Institutional grade</span></div>
+<p class="wc-text"><span data-fr>DCF, comparables, WACC, Porter's 5 Forces, ESG scoring. Les mêmes frameworks que les gérants professionnels, rendus accessibles.</span><span data-en>DCF, comps, WACC, Porter's 5 Forces, ESG scoring. Same frameworks as professional fund managers, made accessible.</span></p>
+<div class="wc-bottom"><span data-fr>Rigueur académique</span><span data-en>Academic rigor</span></div>
+</div>
+<div class="why-card reveal" style="transition-delay:.1s">
+<div class="wc-icon"></div>
+<div class="wc-title"><span data-fr>Spécialiste Afrique francophone</span><span data-en>Francophone Africa specialist</span></div>
+<p class="wc-text"><span data-fr>BRVM, JSE, NSE, les marchés les plus sous-analysés au monde. Je comble ce déficit avec des analyses exclusives sur des marchés à fort potentiel.</span><span data-en>BRVM, JSE, NSE, among the most under-researched markets globally. I bridge this gap with exclusive analyses on high-potential markets.</span></p>
+<div class="wc-bottom"><span data-fr>Perspective unique</span><span data-en>Unique perspective</span></div>
+</div>
+<div class="why-card reveal" style="transition-delay:.2s">
+<div class="wc-icon"></div>
+<div class="wc-title">Track Record 100%<span data-fr>transparent</span><span data-en>transparent</span></div>
+<p class="wc-text"><span data-fr>Chaque thèse horodatée, suivie publiquement, révisée honnêtement. Les bons et les mauvais choix. C'est ça, la crédibilité réelle.</span><span data-en>Every thesis timestamped, publicly tracked, honestly revised. The good and the bad calls. That's what real credibility looks like.</span></p>
+<div class="wc-bottom"><span data-fr>Transparence totale</span><span data-en>Full transparency</span></div>
+</div>
+</div>
+</section><!-- ANALYSES -->
+<section class="analyses-section" id="analyses">
+<div class="eyebrow reveal"><span data-fr>Dernières publications</span><span data-en>Latest publications</span></div>
+<h2 class="sh reveal"><span data-fr>Analyses &<em>Thèses d'investissement</em></span><span data-en>Research &<em>Investment Theses</em></span></h2>
+<p class="sl reveal"><span data-fr>Des publications régulières couvrant les 4 zones géographiques. Macro, equity research, marchés africains, secteurs tech.</span><span data-en>Regular publications covering all 4 geographic regions. Macro, equity research, African markets, tech sectors.</span></p><div class="analyses-layout reveal">
+<a href="analyses.html" class="af">
+<div class="af-top">
+<div class="af-meta"><span class="tag t-m">Macro</span><span class="af-date">Avr 2026</span></div>
+<div class="af-h"><span data-fr>Tarifs Trump 2025 : comment l'Afrique sub-saharienne pourrait en être la grande bénéficiaire</span><span data-en>Trump Tariffs 2025: how sub-Saharan Africa could be the big winner</span></div>
+<p class="af-exc"><span data-fr>La guerre commerciale US-Chine redistribue les flux de capitaux. Analyse complète des opportunités sur la BRVM, le secteur agro-industriel ivoirien et les télécoms africains.</span><span data-en>The US-China trade war is reshuffling global capital flows. Full analysis of opportunities on the BRVM, Ivorian agribusiness and African telecoms.</span></p>
+<div class="af-img"></div>
+</div>
+<div class="af-ft"><div class="av">OV</div><span class="af-author">Oswald Vision Research</span><span class="af-read">12 min</span></div>
+</a>
+<div class="articles-list">
+<a href="analyses.html" class="ac">
+<div class="ac-meta"><span class="tag t-e">Equity</span><span class="af-date">Mar 2026</span></div>
+<div class="ac-h"><span data-fr>NVIDIA : la domination IA durable ou un pic de cycle ?</span><span data-en>NVIDIA: durable AI dominance or a cycle peak?</span></div>
+<p class="ac-exc"><span data-fr>Analyse DCF, parts de marché GPU, concurrence AMD/Intel.</span><span data-en>DCF model, GPU market share, AMD/Intel competition.</span></p>
+<span class="ac-arr"></span>
+</a>
+<a href="analyses.html" class="ac">
+<div class="ac-meta"><span class="tag t-a"><span data-fr>Afrique</span><span data-en>Africa</span></span><span class="af-date">Mar 2026</span></div>
+<div class="ac-h"><span data-fr>Orange CI & BRVM : les dividendes africains qui résistent</span><span data-en>Orange CI & BRVM: the African dividends that hold up</span></div>
+<p class="ac-exc"><span data-fr>Analyse des meilleures actions à dividende sur la bourse régionale UEMOA.</span><span data-en>Analysis of the best dividend stocks on the UEMOA regional exchange.</span></p>
+<span class="ac-arr"></span>
+</a>
+<a href="analyses.html" class="ac">
+<div class="ac-meta"><span class="tag t-s">Semis</span><span class="af-date">Fév 2026</span></div>
+<div class="ac-h"><span data-fr>ASML : le monopole EUV et la souveraineté technologique mondiale</span><span data-en>ASML: the EUV monopoly and global tech sovereignty</span></div>
+<p class="ac-exc"><span data-fr>Backlog record 40 Mds€, contrôles export Chine, géopolitique semis.</span><span data-en>Record €40B backlog, China export controls, semiconductor geopolitics.</span></p>
+<span class="ac-arr"></span>
+</a>
+<a href="analyses.html" class="ac">
+<div class="ac-meta"><span class="tag t-a">BRVM</span><span class="af-date">Jan 2026</span></div>
+<div class="ac-h"><span data-fr>BRVM 2025 : screening des valeurs sous-valorisées en Afrique de l'Ouest</span><span data-en>BRVM 2025: screening undervalued securities in West Africa</span></div>
+<p class="ac-exc"><span data-fr>SIFCA, NSIA Banque, Orange CI, analyse quantitative et qualitative.</span><span data-en>SIFCA, NSIA Banque, Orange CI, full quantitative & qualitative analysis.</span></p>
+<span class="ac-arr"></span>
+</a>
+</div>
+</div>
+</section><!-- EXPERTISE -->
+<section class="exp-section" id="macro-section">
+<div class="eyebrow reveal"><span data-fr>Cadre analytique</span><span data-en>Analytical framework</span></div>
+<h2 class="sh reveal"><span data-fr>8 domaines d'expertise,<br>1 objectif :<em>la précision</em></span><span data-en>8 areas of expertise,<br>1 goal:<em>precision</em></span></h2>
+<p class="sl reveal"><span data-fr>Les mêmes outils que les gérants professionnels, appliqués avec rigueur académique et vision long terme.</span><span data-en>Same tools as professional fund managers, applied with academic rigor and a long-term vision.</span></p>
+<div class="exp-grid reveal">
+<div class="exp-item"><div class="exp-num">01</div><div class="exp-icon"></div><div class="exp-title"><span data-fr>Analyse Fondamentale</span><span data-en>Fundamental Analysis</span></div><p class="exp-text"><span data-fr>P/E, EV/EBITDA, ROE, ROA, FCF Yield. Lecture des 10-K, rapports annuels et trimestriels.</span><span data-en>P/E, EV/EBITDA, ROE, ROA, FCF Yield. Reading 10-Ks, annual reports and quarterlies.</span></p><div class="chips"><span class="chip">P/E</span><span class="chip">FCF</span><span class="chip">EBITDA</span></div></div>
+<div class="exp-item"><div class="exp-num">02</div><div class="exp-icon"></div><div class="exp-title">DCF Valuation</div><p class="exp-text"><span data-fr>Flux de trésorerie 5-10 ans, WACC, valeur terminale. Scénarios bull/base/bear.</span><span data-en>5-10 year cash flows, WACC, terminal value. Bull/base/bear scenarios.</span></p><div class="chips"><span class="chip">WACC</span><span class="chip">Scenarios</span></div></div>
+<div class="exp-item"><div class="exp-num">03</div><div class="exp-icon"></div><div class="exp-title"><span data-fr>Macro & Géopolitique</span><span data-en>Macro & Geopolitics</span></div><p class="exp-text"><span data-fr>Fed, BCE, BCEAO. Impact des tensions géopolitiques sur les flux de capitaux.</span><span data-en>Fed, ECB, BCEAO. Geopolitical tensions impact on capital flows.</span></p><div class="chips"><span class="chip">Fed</span><span class="chip">Cycles</span></div></div>
+<div class="exp-item"><div class="exp-num">04</div><div class="exp-icon"></div><div class="exp-title">Porter's 5 Forces</div><p class="exp-text"><span data-fr>Avantages concurrentiels durables (moats), intensité concurrentielle, chaîne de valeur.</span><span data-en>Durable competitive advantages (moats), competitive intensity, value chain.</span></p><div class="chips"><span class="chip">Moat</span><span class="chip">Pricing Power</span></div></div>
+<div class="exp-item"><div class="exp-num">05</div><div class="exp-icon"></div><div class="exp-title">ESG Scoring</div><p class="exp-text"><span data-fr>MSCI ESG, SASB, ODD ONU. Gouvernance, risques climatiques, responsabilité sociale.</span><span data-en>MSCI ESG, SASB, UN SDGs. Governance, climate risk, social responsibility.</span></p><div class="chips"><span class="chip">MSCI ESG</span><span class="chip">SASB</span></div></div>
+<div class="exp-item"><div class="exp-num">06</div><div class="exp-icon"></div><div class="exp-title"><span data-fr>Gestion du Risque</span><span data-en>Risk Management</span></div><p class="exp-text"><span data-fr>Scoring risque par position, diversification géo & sectorielle, corrélation d'actifs.</span><span data-en>Per-position risk scoring, geo & sector diversification, asset correlation.</span></p><div class="chips"><span class="chip">VaR</span><span class="chip">Correlation</span></div></div>
+<div class="exp-item"><div class="exp-num">07</div><div class="exp-icon"></div><div class="exp-title"><span data-fr>Marchés Africains</span><span data-en>African Markets</span></div><p class="exp-text"><span data-fr>BRVM, JSE, NSE. Risques change XOF/ZAR/NGN, régulateurs locaux, démographie.</span><span data-en>BRVM, JSE, NSE. XOF/ZAR/NGN FX risks, local regulators, demographics.</span></p><div class="chips"><span class="chip">BRVM</span><span class="chip">JSE</span><span class="chip">NSE</span></div></div>
+<div class="exp-item"><div class="exp-num">08</div><div class="exp-icon"></div><div class="exp-title">Track Record</div><p class="exp-text"><span data-fr>Documentation transparente de chaque thèse, suivi de performance, post-mortems honnêtes.</span><span data-en>Transparent thesis documentation, performance tracking, honest post-mortems.</span></p><div class="chips"><span class="chip">Transparency</span><span class="chip">Long-term</span></div></div>
+</div>
+</section><!-- PORTFOLIOS -->
+<section class="pf-section" id="portfolios">
+<div class="eyebrow reveal"><span data-fr>Portefeuilles virtuels</span><span data-en>Virtual portfolios</span></div>
+<h2 class="sh reveal"><span data-fr>30 entreprises,<em>2 stratégies</em></span><span data-en>30 companies,<em>2 strategies</em></span></h2>
+<p class="sl reveal"><span data-fr>Chaque position est documentée par une thèse formelle avec catalyseur, risque et horizon d'investissement.</span><span data-en>Each position is backed by a formal thesis with catalyst, risk and investment horizon.</span></p>
+<div class="pf-switcher reveal">
+<button class="pf-btn on" onclick="swPf('growth',this)">Growth</button>
+<button class="pf-btn" onclick="swPf('value',this)">Value</button>
+</div>
+<div id="pf-growth" class="pf-panel on">
+<div class="pf-desc">
+<div class="pf-dt"><span data-fr>Stratégie Croissance</span><span data-en>Growth Strategy</span></div>
+<p class="pf-ds"><span data-fr>Fort potentiel de croissance des revenus. Tech, semis, e-commerce, télécoms africains. Horizon 5-10 ans, risque modéré-élevé.</span><span data-en>Strong revenue growth potential. Tech, semis, e-commerce, African telecoms. 5-10 year horizon, moderate-high risk.</span></p>
+<div class="pf-kpis">
+<div class="pf-kp"><div class="pf-kv">15</div><div class="pf-kl"><span data-fr>Positions</span><span data-en>Positions</span></div></div>
+<div class="pf-kp"><div class="pf-kv">5</div><div class="pf-kl"><span data-fr>Secteurs</span><span data-en>Sectors</span></div></div>
+<div class="pf-kp"><div class="pf-kv">4</div><div class="pf-kl"><span data-fr>Zones</span><span data-en>Regions</span></div></div>
+<div class="pf-kp"><div class="pf-kv">High</div><div class="pf-kl">Risk</div></div>
+</div>
+</div>
+<div class="pf-table">
+<div class="pf-thead"><span class="pf-th"><span data-fr>Entreprise</span><span data-en>Company</span></span><span class="pf-th">Ticker</span><span class="pf-th">Type</span></div>
+<div class="pf-tr"><div><div class="pf-cn">NVIDIA</div><div class="pf-cr">USA · Semi-conducteurs</div></div><div class="pf-tk">NVDA</div><span class="pb pb-g">Growth</span></div>
+<div class="pf-tr"><div><div class="pf-cn">ASML</div><div class="pf-cr">Pays-Bas · Semis EUV</div></div><div class="pf-tk">ASML</div><span class="pb pb-g">Growth</span></div>
+<div class="pf-tr"><div><div class="pf-cn">MTN Group</div><div class="pf-cr">Afrique du Sud · Télécom</div></div><div class="pf-tk">MTN</div><span class="pb pb-a">Africa</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Amazon</div><div class="pf-cr">USA · Retail / Cloud</div></div><div class="pf-tk">AMZN</div><span class="pb pb-g">Growth</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Tesla</div><div class="pf-cr">USA · Clean Energy</div></div><div class="pf-tk">TSLA</div><span class="pb pb-g">Growth</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Tencent</div><div class="pf-cr">Chine · Gaming / IA</div></div><div class="pf-tk">0700.HK</div><span class="pb pb-g">Growth</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Dangote Cement</div><div class="pf-cr">Nigeria · Industrie</div></div><div class="pf-tk">DANGCEM</div><span class="pb pb-a">Africa</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Shopify</div><div class="pf-cr">Canada · E-commerce</div></div><div class="pf-tk">SHOP</div><span class="pb pb-g">Growth</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Adyen</div><div class="pf-cr">Pays-Bas · Fintech</div></div><div class="pf-tk">ADYEN</div><span class="pb pb-g">Growth</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Sea Limited</div><div class="pf-cr">Asie · E-commerce</div></div><div class="pf-tk">SE</div><span class="pb pb-g">Growth</span></div>
+</div>
+</div>
+<div id="pf-value" class="pf-panel">
+<div class="pf-desc">
+<div class="pf-dt"><span data-fr>Stratégie Valeur</span><span data-en>Value Strategy</span></div>
+<p class="pf-ds"><span data-fr>Entreprises sous-valorisées, dividendes stables, moats défensifs. Consommation, santé, industrie, banques africaines.</span><span data-en>Undervalued companies, stable dividends, defensive moats. Consumer goods, healthcare, industrials, African banks.</span></p>
+<div class="pf-kpis">
+<div class="pf-kp"><div class="pf-kv">15</div><div class="pf-kl"><span data-fr>Positions</span><span data-en>Positions</span></div></div>
+<div class="pf-kp"><div class="pf-kv">6</div><div class="pf-kl"><span data-fr>Secteurs</span><span data-en>Sectors</span></div></div>
+<div class="pf-kp"><div class="pf-kv">5</div><div class="pf-kl"><span data-fr>Zones</span><span data-en>Regions</span></div></div>
+<div class="pf-kp"><div class="pf-kv">Mod.</div><div class="pf-kl">Risk</div></div>
+</div>
+</div>
+<div class="pf-table">
+<div class="pf-thead"><span class="pf-th"><span data-fr>Entreprise</span><span data-en>Company</span></span><span class="pf-th">Ticker</span><span class="pf-th">Type</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Microsoft</div><div class="pf-cr">USA · Tech / Cloud</div></div><div class="pf-tk">MSFT</div><span class="pb pb-v">Value</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Orange CI</div><div class="pf-cr">Côte d'Ivoire · Télécom</div></div><div class="pf-tk">ORECI</div><span class="pb pb-a">Africa</span></div>
+<div class="pf-tr"><div><div class="pf-cn">L'Oréal</div><div class="pf-cr">France · Cosmétiques</div></div><div class="pf-tk">OR</div><span class="pb pb-v">Value</span></div>
+<div class="pf-tr"><div><div class="pf-cn">NSIA Banque</div><div class="pf-cr">Côte d'Ivoire · Banque</div></div><div class="pf-tk">NSIAC</div><span class="pb pb-a">Africa</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Nestlé</div><div class="pf-cr">Suisse · Alimentaire</div></div><div class="pf-tk">NESN</div><span class="pb pb-v">Value</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Roche</div><div class="pf-cr">Suisse · Pharma</div></div><div class="pf-tk">ROG</div><span class="pb pb-v">Value</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Coca-Cola</div><div class="pf-cr">USA · Boissons</div></div><div class="pf-tk">KO</div><span class="pb pb-v">Value</span></div>
+<div class="pf-tr"><div><div class="pf-cn">SIFCA</div><div class="pf-cr">Côte d'Ivoire · Agro</div></div><div class="pf-tk">SIFCA</div><span class="pb pb-a">Africa</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Siemens</div><div class="pf-cr">Allemagne · Industrie</div></div><div class="pf-tk">SIE</div><span class="pb pb-v">Value</span></div>
+<div class="pf-tr"><div><div class="pf-cn">Toyota Motor</div><div class="pf-cr">Japon · Automotive</div></div><div class="pf-tk">7203.T</div><span class="pb pb-v">Value</span></div>
+</div>
+</div>
+</section><!-- ABOUT -->
+<section class="about-section" id="about">
+<div class="eyebrow reveal"><span data-fr>À propos</span><span data-en>About</span></div>
+<div class="about-grid">
+<div class="about-card reveal-l">
+<div class="ac-top">
+<div class="ac-av"></div>
+<div class="ac-name"><span data-fr>Votre Nom</span><span data-en>Your Name</span></div>
+<div class="ac-role"><span data-fr>Analyste · Étudiant Finance · Alternant</span><span data-en>Analyst · Finance Student · Work-Study</span></div>
+</div>
+<div class="ac-tags">
+<span class="ac-tag"><span data-fr>Étudiant Finance</span><span data-en>Finance Student</span></span>
+<span class="ac-tag">Alternant</span>
+<span class="ac-tag">CFA Prep.</span>
+<span class="ac-tag">BRVM · JSE · NSE</span>
+<span class="ac-tag">Growth & Value</span>
+</div>
+<div class="ac-stats">
+<div class="ac-stat"><div class="ac-sv">30</div><div class="ac-sl"><span data-fr>Positions</span><span data-en>Positions</span></div></div>
+<div class="ac-stat"><div class="ac-sv">4</div><div class="ac-sl"><span data-fr>Continents</span><span data-en>Continents</span></div></div>
+<div class="ac-stat"><div class="ac-sv">6+</div><div class="ac-sl">Frameworks</div></div>
+<div class="ac-stat"><div class="ac-sv">∞</div><div class="ac-sl"><span data-fr>Ambition</span><span data-en>Ambition</span></div></div>
+</div>
+</div>
+<div class="reveal">
+<h2 class="sh"><span data-fr>Un étudiant qui pense<br>comme un<em>gérant de fonds.</em></span><span data-en>A student who thinks<br>like a<em>fund manager.</em></span></h2>
+<p class="about-p"><span data-fr>Je suis<strong>étudiant en finance en alternance</strong>, et je construis Oswald Vision Capital comme ma salle de marché personnelle. Mon objectif à long terme : lancer mon propre fonds d'investissement. Chaque analyse publiée ici est une brique de mon track record.</span><span data-en>I am a<strong>finance student in a work-study program</strong>, and I build Oswald Vision Capital as my personal trading room. My long-term goal: launch my own investment fund. Every analysis here is a building block of my track record.</span></p>
+<p class="about-p"><span data-fr>Ma spécialité : les<strong>marchés africains</strong>(BRVM, JSE, NSE) structurellement sous-analysés, et les entreprises à<strong>avantage concurrentiel durable</strong>à l'échelle mondiale.</span><span data-en>My specialty:<strong>African markets</strong>(BRVM, JSE, NSE) structurally under-researched, and companies with<strong>durable competitive advantages</strong>on a global scale.</span></p>
+<ul class="pl">
+<li class="pl-item"><span class="pl-icon"></span><span data-fr><strong>Track record transparent</strong>, chaque thèse horodatée, suivie et révisée publiquement.</span><span data-en><strong>Transparent track record</strong>, every thesis timestamped, tracked and publicly revised.</span></li>
+<li class="pl-item"><span class="pl-icon"></span><span data-fr><strong>Rigueur académique + terrain</strong>, alternance finance active, frameworks institutionnels.</span><span data-en><strong>Academic rigor + field experience</strong>, active finance work-study, institutional frameworks.</span></li>
+<li class="pl-item"><span class="pl-icon"></span><span data-fr><strong>Focus Afrique</strong>, combler le déficit de recherche sur les bourses africaines.</span><span data-en><strong>Africa focus</strong>, bridging the research gap on African stock exchanges.</span></li>
+<li class="pl-item"><span class="pl-icon"></span><span data-fr><strong>Vision long terme</strong>, création de valeur réelle, pas de trading court terme.</span><span data-en><strong>Long-term vision</strong>, real value creation, no short-term trading.</span></li>
+</ul>
+</div>
+</div>
+</section><!-- NEWSLETTER -->
+<section class="nl-section" id="newsletter">
+<div class="nl-inner">
+<div class="eyebrow"><span data-fr>Newsletter gratuite</span><span data-en>Free newsletter</span></div>
+<h2 class="nl-h"><span data-fr>Les meilleures analyses,<br>dans votre boîte mail.</span><span data-en>The best analyses,<br>straight to your inbox.</span></h2>
+<p class="nl-sub reveal"><span data-fr>Chaque semaine : une analyse de fond, un graphique macro, et le suivi des 4 zones géographiques. Lu par des étudiants, des professionnels et des investisseurs curieux.</span><span data-en>Every week: a deep-dive analysis, one macro chart, and tracking across all 4 regions. Read by students, professionals and curious investors.</span></p>
+<div class="nl-form reveal">
+<input type="email" placeholder="votre@email.com">
+<button><span data-fr>Je m'abonne</span><span data-en>Subscribe</span></button>
+</div>
+<div class="nl-feats reveal">
+<span class="nl-feat"><span data-fr>100% gratuit</span><span data-en>100% free</span></span>
+<span class="nl-feat"><span data-fr>Zéro spam</span><span data-en>Zero spam</span></span>
+<span class="nl-feat"><span data-fr>1 clic pour se désabonner</span><span data-en>1-click unsubscribe</span></span>
+</div>
+</div>
+</section><!-- FOOTER -->
+<footer>
+<div class="ft-grid">
+<div>
+<div class="ft-logo">Oswald<em>Vision</em>Capital</div>
+<p class="ft-tagline"><span data-fr>Recherche financière indépendante sur 4 zones géographiques. Construire un fonds, une analyse à la fois.</span><span data-en>Independent financial research across 4 geographic regions. Building a fund, one analysis at a time.</span></p>
+</div>
+<div class="ft-col">
+<div class="ft-col-h"><span data-fr>Marchés</span><span data-en>Markets</span></div>
+<ul>
+<li><a href="analyses.html"><span data-fr>Afrique (BRVM · JSE · NSE)</span><span data-en>Africa (BRVM · JSE · NSE)</span></a></li>
+<li><a href="analyses.html"><span data-fr>Amériques</span><span data-en>Americas</span></a></li>
+<li><a href="analyses.html">Europe</a></li>
+<li><a href="analyses.html">Asie</a></li>
+</ul>
+</div>
+<div class="ft-col">
+<div class="ft-col-h"><span data-fr>Contenu</span><span data-en>Content</span></div>
+<ul>
+<li><a href="analyses.html">Equity Research</a></li>
+<li><a href="analyses.html">Macro</a></li>
+<li><a href="fund-simulator.html">Track Record</a></li>
+<li><a href="#newsletter">Newsletter</a></li>
+</ul>
+</div>
+<div class="ft-col">
+<div class="ft-col-h">Contact</div>
+<ul>
+<li><a href="#">LinkedIn</a></li>
+<li><a href="#">Twitter / X</a></li>
+<li><a href="#">Email</a></li>
+</ul>
+</div>
+</div>
+<div class="ft-bottom">
+<p class="ft-copy">© 2026 Oswald Vision Capital</p>
+<p class="ft-disc"><span data-fr>Ce site est à but éducatif et ne constitue pas un conseil en investissement. Les analyses reflètent une opinion personnelle indépendante.</span><span data-en>This site is for educational purposes only and does not constitute investment advice. Analyses reflect independent personal opinion.</span></p>
+</div>
+</footer><script>
+function setLang(l){ document.documentElement.setAttribute('data-lang',l); document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+}
+setLang('fr');
+function swPf(id,btn){ document.querySelectorAll('.pf-panel').forEach(p=>p.classList.remove('on')); document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('on')); document.getElementById('pf-'+id).classList.add('on'); btn.classList.add('on');
+}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.08});
+document.querySelectorAll('.reveal,.reveal-l').forEach(el=>obs.observe(el));
+</script>
+<script>
+// Section nav highlight on scroll
+(function(){
+  const sn = document.getElementById('section-nav');
+  if(!sn) return;
+  const links = sn.querySelectorAll('.sn-link[data-section]');
+  const sections = Array.from(links).map(l => document.getElementById(l.dataset.section)).filter(Boolean);
+
+  function onScroll(){
+    const scrollY = window.scrollY + 140;
+    let active = null;
+    sections.forEach((sec,i) => {
+      if(sec.offsetTop <= scrollY) active = i;
+    });
+    links.forEach((l,i) => l.classList.toggle('active', i === active));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>

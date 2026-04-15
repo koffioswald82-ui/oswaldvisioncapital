@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVIDIA, Note d'Initiation · Oswald Vision Capital</title>
+<meta name="description" content="Analyse complète NVIDIA (NASDAQ: NVDA), FY2026 $215.9Mds revenus, DCF, moat CUDA, prix cible $225. Thèse Growth Amériques, Oswald Vision Capital">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{ --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa; --line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0; --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2; --blue:#1e4faa;--blue-bg:#eef3ff; --green:#1a7a4a;--green-bg:#e8f5ee; --red:#c0392b;--red-bg:#fde8e8; --purple:#5e35b1;--purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased} /* ── NAV ── */
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;justify-content:space-between;align-items:center}
+.lb-left{font-size:.68rem;color:rgba(255,255,255,.4)}
+.lb-left strong{color:var(--gold-l)}
+.lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700}
+nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(26,26,46,.06)}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-logo em{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important} /* ── ARTICLE NAV ── */
+.article-nav{padding:.9rem 5vw;background:var(--cream);border-bottom:1px solid var(--cream2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+.back-btn{font-size:.82rem;color:var(--body);text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.back-btn:hover{color:var(--ink)}
+.lang-switch{display:flex;gap:.4rem}
+.ls-btn{font-size:.75rem;font-weight:600;padding:.32rem .8rem;border-radius:6px;border:1.5px solid;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s;text-decoration:none;display:inline-block}
+.ls-btn.current{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ls-btn.other{background:transparent;color:var(--body);border-color:var(--line)}
+.ls-btn.other:hover{border-color:var(--ink);color:var(--ink)}
+.ls-btn.pdf{background:var(--gold-bg);color:var(--gold);border-color:rgba(201,131,42,.3)}
+.ls-btn.pdf:hover{background:var(--gold);color:#fff} /* ── HERO ARTICLE ── */
+.article-hero{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 60%,#1e3a6e 100%);color:#fff;padding:5vh 8vw 4vh;position:relative;overflow:hidden}
+.article-hero::before{content:'';position:absolute;top:-30%;right:-10%;width:500px;height:500px;background:radial-gradient(ellipse,rgba(201,131,42,.12),transparent 65%);pointer-events:none}
+.article-hero::after{content:'NVDA';position:absolute;right:6vw;bottom:-20px;font-family:'Libre Baskerville',serif;font-size:8rem;font-weight:700;color:rgba(255,255,255,.03);letter-spacing:-.04em;pointer-events:none} .ah-breadcrumb{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.ah-breadcrumb a{color:var(--gold-l);text-decoration:none}
+.ah-breadcrumb span{opacity:.4} .ah-badges{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.4rem}
+.badge{font-size:.65rem;font-weight:700;letter-spacing:.06em;padding:.22rem .65rem;border-radius:100px}
+.badge-americas{background:rgba(30,79,170,.35);color:#93c5fd;border:1px solid rgba(30,79,170,.4)}
+.badge-growth{background:rgba(26,122,74,.35);color:#86efac;border:1px solid rgba(26,122,74,.4)}
+.badge-equity{background:rgba(201,131,42,.25);color:var(--gold-l);border:1px solid rgba(201,131,42,.3)}
+.badge-buy{background:rgba(26,122,74,.8);color:#fff;border:1px solid #1a7a4a;font-size:.72rem;padding:.28rem .8rem} h1.ah-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.7rem,3.5vw,2.8rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:.9rem}
+h1.ah-title em{font-style:italic;color:var(--gold-l)}
+.ah-lede{font-size:1rem;color:rgba(255,255,255,.7);line-height:1.8;max-width:680px;margin-bottom:2rem} /* STAMP */
+.stamp{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(255,255,255,.08);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.stamp-item{padding:1rem 1.2rem;background:rgba(255,255,255,.04)}
+.stamp-key{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem}
+.stamp-val{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:#fff;line-height:1.1}
+.stamp-val.green{color:#4ade80}
+.stamp-val.gold{color:var(--gold-l)} /* ── ARTICLE BODY ── */
+.article-body{max-width:900px;margin:0 auto;padding:4vh 5vw 8vh} /* SECTION HEADERS */
+.sec-wrap{margin:3rem 0 1.5rem}
+.sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.sec-eyebrow::after{content:'';width:20px;height:1px;background:var(--gold);display:inline-block}
+h2.sec-title{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--ink);line-height:1.2}
+h2.sec-title em{color:var(--gold);font-style:italic} /* BODY TEXT */
+.body-p{font-size:.93rem;color:#3a3a52;line-height:1.95;margin-bottom:1.1rem}
+.body-p strong{color:var(--ink);font-weight:700}
+.body-p em{color:var(--gold);font-style:italic} /* CALLOUT */
+.callout{padding:1.2rem 1.5rem;border-radius:10px;margin:1.5rem 0;font-size:.88rem;line-height:1.75}
+.callout-key{background:var(--gold-bg);border-left:3px solid var(--gold);color:var(--ink)}
+.callout-key strong{color:var(--ink);font-weight:700}
+.callout-warn{background:var(--red-bg);border-left:3px solid var(--red);color:var(--ink)}
+.callout-info{background:var(--blue-bg);border-left:3px solid var(--blue);color:var(--ink)}
+.callout-green{background:var(--green-bg);border-left:3px solid var(--green);color:var(--ink)} /* DATA TABLE */
+.data-table-wrap{overflow-x:auto;margin:1.5rem 0}
+.data-table{width:100%;border-collapse:collapse;font-size:.84rem}
+.data-table th{background:var(--ink2);color:#fff;padding:.65rem 1rem;text-align:left;font-weight:700;font-size:.75rem;letter-spacing:.04em;white-space:nowrap}
+.data-table td{padding:.65rem 1rem;border-bottom:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.data-table tr:hover td{background:var(--cream)}
+.data-table td.hi{color:var(--green);font-weight:700;font-family:'JetBrains Mono',monospace}
+.data-table td.lo{color:var(--red);font-weight:700;font-family:'JetBrains Mono',monospace}
+.data-table td.gold{color:var(--gold);font-weight:700;font-family:'JetBrains Mono',monospace}
+.data-table td.mono{font-family:'JetBrains Mono',monospace}
+.data-table td.bold{font-weight:700;color:var(--ink)}
+.data-table .row-hdr{background:var(--cream);font-weight:700;color:var(--ink);font-size:.8rem} /* ── CHART CARDS ── */
+.chart-section{margin:2.5rem 0}
+.charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:1.2rem 0}
+.charts-1col{margin:1.2rem 0} .chart-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:1.4rem;box-shadow:var(--shadow);transition:box-shadow .2s}
+.chart-card:hover{box-shadow:var(--shadow-lg)}
+.chart-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.chart-title-text{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink)}
+.chart-sub-text{font-size:.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:.12rem}
+.chart-badge{font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:100px}
+.chart-badge-green{background:var(--green-bg);color:var(--green)}
+.chart-badge-gold{background:var(--gold-bg);color:var(--gold)}
+.chart-badge-red{background:var(--red-bg);color:var(--red)}
+.chart-badge-blue{background:var(--blue-bg);color:var(--blue)}
+.chart-container{position:relative}
+.chart-container.h200{height:200px}
+.chart-container.h250{height:250px}
+.chart-container.h220{height:220px}
+.chart-note{font-size:.65rem;color:var(--muted);font-style:italic;margin-top:.6rem;font-family:'JetBrains Mono',monospace;line-height:1.5} /* CHART INSIGHT BOX */
+.chart-insight{background:var(--cream);border-radius:8px;padding:.8rem 1rem;margin-top:.8rem;font-size:.78rem;color:var(--body);line-height:1.6}
+.chart-insight strong{color:var(--ink)}
+.chart-insight .insight-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--gold);font-weight:700;display:block;margin-bottom:.25rem;letter-spacing:.08em;text-transform:uppercase} /* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.kpi-item{background:var(--white);padding:1.2rem 1rem;text-align:center;transition:background .2s}
+.kpi-item:hover{background:var(--cream)}
+.kpi-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.kpi-val{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1}
+.kpi-val.g{color:var(--green)}.kpi-val.au{color:var(--gold)}.kpi-val.b{color:var(--blue)}
+.kpi-sub{font-size:.65rem;color:var(--muted);margin-top:.2rem} /* CATALYST / RISK */
+.catalyst{padding:1rem 1.2rem;border-radius:10px;border-left:3px solid var(--green);background:var(--green-bg);margin-bottom:.7rem}
+.catalyst-title{font-weight:700;font-size:.88rem;color:var(--ink);margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem}
+.catalyst-prob{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--green);font-weight:700;background:rgba(26,122,74,.12);padding:.15rem .5rem;border-radius:100px}
+.catalyst-text{font-size:.84rem;color:var(--ink);line-height:1.7} .risk{padding:1rem 1.2rem;border-radius:10px;border-left:3px solid var(--red);background:var(--red-bg);margin-bottom:.7rem}
+.risk-title{font-weight:700;font-size:.88rem;color:var(--red);margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.risk-lvl{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--red);font-weight:700;background:rgba(192,57,43,.12);padding:.15rem .5rem;border-radius:100px}
+.risk-text{font-size:.84rem;color:var(--ink);line-height:1.7} /* PORTER */
+.porter-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1.2rem 0}
+.porter-item{padding:1rem 1.2rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2)}
+.porter-force{font-weight:700;font-size:.84rem;color:var(--ink);margin-bottom:.5rem}
+.porter-score{display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem}
+.porter-bar-wrap{flex:1;background:var(--cream2);border-radius:100px;height:6px;overflow:hidden}
+.porter-bar{height:100%;border-radius:100px;transition:width .8s ease}
+.porter-bar.low{background:var(--green)}
+.porter-bar.mid{background:var(--gold)}
+.porter-bar.high{background:var(--red)}
+.porter-num{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;color:var(--ink);width:30px;flex-shrink:0}
+.porter-text{font-size:.8rem;color:var(--ink);line-height:1.65} /* VERDICT BOX */
+.verdict-box{background:var(--ink);color:#fff;border-radius:14px;padding:2rem 2.4rem;margin:2.5rem 0}
+.vb-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.vb-eyebrow::after{content:'';width:20px;height:1px;background:var(--gold-l);display:inline-block}
+.vb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.vb-item .vb-key{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem}
+.vb-item .vb-val{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:#fff}
+.vb-item .vb-val.g{color:#4ade80}.vb-item .vb-val.au{color:var(--gold-l)}.vb-item .vb-val.r{color:#f87171}
+.vb-main{text-align:center;padding:1.2rem;background:rgba(255,255,255,.06);border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+.vb-main-verdict{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:#4ade80;margin-bottom:.3rem}
+.vb-main-price{font-size:.88rem;color:rgba(255,255,255,.5)} /* SCORES */
+.scores-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:1.5rem 0}
+.score-item{background:var(--cream);border:1px solid var(--cream2);border-radius:10px;padding:1.1rem;text-align:center}
+.score-val{font-family:'Libre Baskerville',serif;font-size:1.6rem;font-weight:700;color:var(--gold)}
+.score-val.global{color:var(--ink)}
+.score-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.18rem} /* ACTIONS */
+.article-actions{display:flex;gap:.8rem;margin:2.5rem 0;flex-wrap:wrap}
+.btn-primary{background:var(--ink);color:#fff;padding:.8rem 1.8rem;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .2s;display:inline-block}
+.btn-primary:hover{background:var(--blue)}
+.btn-pdf{background:var(--gold-bg);color:var(--gold);padding:.8rem 1.8rem;border-radius:8px;border:1.5px solid rgba(201,131,42,.3);font-weight:700;font-size:.85rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;display:inline-block}
+.btn-pdf:hover{background:var(--gold);color:#fff}
+.btn-secondary{background:transparent;color:var(--ink);padding:.8rem 1.8rem;border-radius:8px;border:1.5px solid var(--line);font-weight:600;font-size:.85rem;text-decoration:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:border-color .2s;display:inline-block}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)} /* DISCLAIMER */
+.disclaimer{margin-top:3rem;padding:1.2rem 1.5rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2);font-size:.74rem;color:var(--muted);line-height:1.65} /* LANG */
+[data-fr],[data-en]{display:none}
+html[data-lang=fr] [data-fr]{display:revert}
+html[data-lang=en] [data-en]{display:revert}
+span[data-fr],span[data-en]{display:none}
+html[data-lang=fr] span[data-fr]{display:inline}
+html[data-lang=en] span[data-en]{display:inline} /* PRINT */
+@media print{ .lang-bar,nav,.article-nav,.article-actions,footer{display:none!important} .article-body{max-width:100%;padding:1rem} .charts-2col{grid-template-columns:1fr!important} .stamp{grid-template-columns:repeat(3,1fr)!important}
+}
+/* RESPONSIVE */
+@media(max-width:760px){ .charts-2col{grid-template-columns:1fr} .stamp{grid-template-columns:repeat(3,1fr)} .kpi-strip{grid-template-columns:1fr 1fr} .vb-grid{grid-template-columns:1fr 1fr} .scores-grid{grid-template-columns:1fr 1fr} .porter-grid{grid-template-columns:1fr} .nav-links{display:none}
+}
+
+/* Dropdown nav */
+.nav-item-dd{position:relative;display:flex;align-items:center}
+.nav-link-dd{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:.25rem;transition:color .2s}
+.nav-link-dd::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);margin-left:.25rem;transition:transform .2s}
+.nav-item-dd:hover .nav-link-dd::after{transform:rotate(225deg) translateY(-2px)}
+.nav-item-dd:hover .nav-link-dd,.nav-item-dd:hover .nav-link-dd{color:var(--ink)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-4px);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 40px rgba(26,26,46,.14);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:200}
+.nav-item-dd:hover .nav-dropdown{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown a{display:block;padding:.52rem .9rem;font-size:.8rem;color:var(--body);text-decoration:none;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown a:hover{background:var(--cream);color:var(--ink)}
+.dd-divider{height:1px;background:var(--line);margin:.3rem .5rem}
+</style>
+</head>
+<body><!-- LANG BAR -->
+<div class="lang-bar">
+<span class="lb-left"><strong>Oswald Vision Capital</strong>·<span data-fr>Recherche financière indépendante</span><span data-en>Independent financial research</span></span>
+<div class="lang-btns">
+<button class="lbtn active" onclick="setLang('fr')">FR</button>
+<button class="lbtn" onclick="setLang('en')">EN</button>
+</div>
+</div><!-- NAV -->
+<nav>
+<a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+<div class="nav-links" id="main-nav-links">
+<div class="nav-item-dd">
+  <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+  <div class="nav-dropdown">
+    <a href="nvidia.html">NVIDIA (N°002)</a>
+    <a href="orange-ci.html">Orange CI (N°001)</a>
+    <div class="dd-divider"></div>
+    <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+  </div>
+</div>
+<div class="nav-item-dd">
+  <a href="macro.html" class="nav-link-dd">Macro</a>
+  <div class="nav-dropdown">
+    <a href="macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
+    <a href="macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro-uemoa.html">UEMOA 2026 (A-001)</a>
+    <div class="dd-divider"></div>
+    <a href="macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
+  </div>
+</div>
+<a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
+<a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+</div>
+</nav><!-- ARTICLE NAV -->
+<div class="article-nav">
+<a href="analyses.html" class="back-btn"><span data-fr>Retour aux analyses</span><span data-en>Back to research</span></a>
+<div class="lang-switch">
+<button class="ls-btn current">Français</button>
+<button class="ls-btn other">English</button>
+<button class="ls-btn pdf" onclick="window.print()">⬇ PDF</button>
+</div>
+</div><!-- HERO -->
+<div class="article-hero">
+<div class="ah-breadcrumb">
+<a href="analyses.html">Analyses</a>
+<span>/</span>
+<span>Amériques</span>
+<span>/</span>
+<span>NVIDIA</span>
+</div>
+<div class="ah-badges">
+<span class="badge badge-americas"><span data-fr>Amériques</span><span data-en>Americas</span></span>
+<span class="badge badge-growth">Growth</span>
+<span class="badge badge-equity">Equity</span>
+<span class="badge badge-buy"><span data-fr>ACHAT</span><span data-en>BUY</span></span>
+</div>
+<h1 class="ah-title">
+<span data-fr>NVIDIA, À 36x les bénéfices,<br>le roi de l'IA est-il encore<em>une opportunité</em>?</span>
+<span data-en>NVIDIA, At 36x earnings,<br>is the AI king still<em>an opportunity</em>?</span>
+</h1>
+<p class="ah-lede">
+<span data-fr>FY2026 historique : $215,9 Mds de revenus (+65%), $120 Mds de bénéfice net, $97 Mds de free cash flow. Blackwell vendu à rupture jusqu'à mi-2026. Le marché sous-valorise encore la durabilité du moat CUDA et la taille du marché de l'inférence IA.</span>
+<span data-en>Historic FY2026: $215.9B revenue (+65%), $120B net income, $97B free cash flow. Blackwell sold out through mid-2026. The market still undervalues the durability of the CUDA moat and the size of the AI inference market.</span>
+</p><div class="stamp">
+<div class="stamp-item">
+<div class="stamp-key">Ticker</div>
+<div class="stamp-val gold">NASDAQ: NVDA</div>
+</div>
+<div class="stamp-item">
+<div class="stamp-key"><span data-fr>Cours d'entrée</span><span data-en>Entry price</span></div>
+<div class="stamp-val">$177.64</div>
+</div>
+<div class="stamp-item">
+<div class="stamp-key"><span data-fr>Cible 12M</span><span data-en>12M target</span></div>
+<div class="stamp-val green">$225 +27%</div>
+</div>
+<div class="stamp-item">
+<div class="stamp-key">Stop loss</div>
+<div class="stamp-val">$130 -27%</div>
+</div>
+<div class="stamp-item">
+<div class="stamp-key">Conviction</div>
+<div class="stamp-val gold"> 7.9/10</div>
+</div>
+<div class="stamp-item">
+<div class="stamp-key"><span data-fr>Date officielle</span><span data-en>Official date</span></div>
+<div class="stamp-val">10/04/2026</div>
+</div>
+</div>
+</div><!-- ARTICLE BODY -->
+<div class="article-body"><!-- KPIs -->
+<div class="kpi-strip">
+<div class="kpi-item">
+<div class="kpi-label"><span data-fr>Revenus FY26</span><span data-en>FY26 Revenue</span></div>
+<div class="kpi-val">$215.9B</div>
+<div class="kpi-sub" style="color:var(--green)">+65% YoY</div>
+</div>
+<div class="kpi-item">
+<div class="kpi-label"><span data-fr>Bénéfice net</span><span data-en>Net income</span></div>
+<div class="kpi-val g">$120.1B</div>
+<div class="kpi-sub" style="color:var(--green)">+65% YoY</div>
+</div>
+<div class="kpi-item">
+<div class="kpi-label">Free Cash Flow</div>
+<div class="kpi-val au">$96.7B</div>
+<div class="kpi-sub">Marge FCF 44.8%</div>
+</div>
+<div class="kpi-item">
+<div class="kpi-label">P/E TTM</div>
+<div class="kpi-val b">36x</div>
+<div class="kpi-sub" style="color:var(--green)">vs 55x hist.</div>
+</div>
+</div><!-- SECTION 1, THÈSE -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">01</div>
+<h2 class="sec-title"><span data-fr>La thèse en 3 lignes,<em>Horodatée le 10 avril 2026</em></span><span data-en>The thesis in 3 sentences,<em>Timestamped April 10, 2026</em></span></h2>
+</div><div class="callout callout-key">
+<strong><span data-fr>Thèse officielle :</span><span data-en>Official thesis:</span></strong>
+<span data-fr>NVIDIA vient de publier des résultats FY2026 historiques ($215,9B revenus, +65%). À 36x les bénéfices TTM, contre une moyenne historique de 55x sur 10 ans, le titre se traite avec une décote de 35% sur sa valorisation normale. Le marché de l'inférence IA commence seulement à décoller, et NVIDIA est la seule entreprise capable de servir les deux segments (entraînement + inférence) à l'échelle mondiale. C'est une opportunité d'entrée rare dans un leader de cycle haussier à valorisation raisonnable.</span>
+<span data-en>NVIDIA just reported historic FY2026 results ($215.9B revenue, +65%). At 36x TTM earnings, vs a 10-year historical average of 55x, the stock trades at a 35% discount to its normal valuation. The AI inference market is only beginning to take off, and NVIDIA is the only company capable of serving both segments (training + inference) at global scale. This is a rare entry opportunity in a bull cycle leader at a reasonable valuation.</span>
+</div><!-- SECTION 2, CONTEXTE MACRO -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">02</div>
+<h2 class="sec-title"><span data-fr>Contexte macro, La révolution IA est<em>structurelle</em></span><span data-en>Macro context, The AI revolution is<em>structural</em></span></h2>
+</div><p class="body-p">
+<span data-fr>Nous sommes en 2026 au milieu d'un cycle d'investissement massif dans l'IA, comparable au déploiement d'internet en 1995-2000, mais<strong>avec une monétisation réelle dès le premier jour</strong>. Les hyperscalers (Microsoft, Amazon, Google, Meta) ont dépensé collectivement<strong>plus de $300 milliards en CapEx IA en FY2025</strong>, et leurs guidances pour FY2026 indiquent une accélération, pas une décélération.</span>
+<span data-en>In 2026, we are in the middle of a massive AI investment cycle, comparable to the internet rollout in 1995-2000, but<strong>with real monetization from day one</strong>. Hyperscalers (Microsoft, Amazon, Google, Meta) collectively spent<strong>over $300 billion in AI CapEx in FY2025</strong>, and their FY2026 guidance points to acceleration, not deceleration.</span>
+</p><p class="body-p">
+<span data-fr>L'impact des tarifs Trump 2025 crée un contexte géopolitique complexe : les restrictions export vers la Chine pèsent sur NVIDIA (H20 au lieu de H100), mais elles accélèrent aussi les commandes des clients américains et européens qui sécurisent leurs approvisionnements. Effet net :<strong>positif pour les revenus Data Center hors Chine</strong>.</span>
+<span data-en>The impact of Trump 2025 tariffs creates a complex geopolitical context: China export restrictions weigh on NVIDIA (H20 instead of H100), but they also accelerate orders from US and European customers securing their supply chains. Net effect:<strong>positive for non-China Data Center revenues</strong>.</span>
+</p><!-- SECTION 3, RÉSULTATS FY2026 -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">03</div>
+<h2 class="sec-title"><span data-fr>Résultats FY2026,<em>Des chiffres historiques</em></span><span data-en>FY2026 Results,<em>Historic numbers</em></span></h2>
+</div><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Indicateur</span><span data-en>Metric</span></th>
+<th>FY2024</th><th>FY2025</th><th>FY2026</th>
+<th>Var. YoY</th><th>Q1 FY2027E</th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-hdr"><td colspan="6">A, COMPTE DE RÉSULTAT ($B)</td></tr>
+<tr><td><span data-fr>Chiffre d'affaires</span><span data-en>Revenue</span></td><td class="mono">$60.9B</td><td class="mono">$130.5B</td><td class="bold mono">$215.9B</td><td class="hi">+65%</td><td class="gold mono">~$78.0B</td></tr>
+<tr><td>, Data Center</td><td class="mono">$47.5B</td><td class="mono">$115.2B</td><td class="bold mono">$193.7B</td><td class="hi">+68%</td><td class="gold mono">~$71.0B</td></tr>
+<tr><td>Marge brute (GAAP)</td><td class="mono">72.7%</td><td class="mono">73.0%</td><td class="bold mono">75.0%</td><td class="hi">+200bp</td><td class="gold mono">~74.6%</td></tr>
+<tr><td>Résultat net (GAAP)</td><td class="mono">$29.8B</td><td class="mono">$72.9B</td><td class="bold mono">$120.1B</td><td class="hi">+65%</td><td>n.d.</td></tr>
+<tr><td>BPA dilué</td><td class="mono">$1.19</td><td class="mono">$2.94</td><td class="bold mono">$4.90</td><td class="hi">+67%</td><td class="gold mono">~$2.00</td></tr>
+<tr class="row-hdr"><td colspan="6">B, CASH FLOW ($B) *</td></tr>
+<tr><td>Operating Cash Flow</td><td class="mono">$28.1B</td><td class="mono">$71.0B</td><td class="bold mono">$108.9B</td><td class="hi">+53%</td><td>n.d.</td></tr>
+<tr><td>CapEx</td><td class="mono">($2.2B)</td><td class="mono">($3.3B)</td><td class="bold mono">($6.0B)</td><td class="lo">+82%</td><td>n.d.</td></tr>
+<tr><td class="bold">Free Cash Flow</td><td class="mono">$25.8B</td><td class="mono">$67.7B</td><td class="bold mono">$96.7B</td><td class="hi">+43%</td><td>n.d.</td></tr>
+<tr><td class="bold">Net Income FCF % *</td><td class="mono">86.6%</td><td class="mono">92.8%</td><td class="bold gold">80.5%</td><td class="lo">-1230bp</td><td>n.d.</td></tr>
+<tr><td>CapEx / Revenus %</td><td class="mono">3.6%</td><td class="mono">2.5%</td><td class="bold mono">2.8%</td><td>+30bp</td><td>n.d.</td></tr>
+</tbody>
+</table>
+</div><div class="callout callout-green">
+<strong>* Net Income FCF % = 80.5% en FY2026.</strong>
+<span data-fr>Cela signifie que<strong>80 centimes de chaque dollar de bénéfice comptable se transforme en cash réel</strong>. C'est la définition d'une entreprise de haute qualité. La légère baisse vs FY2025 (92.8%) s'explique par l'augmentation des CapEx Blackwell, normal dans un cycle d'investissement.</span>
+<span data-en>This means<strong>80 cents of every dollar of accounting profit converts to real cash</strong>. This is the definition of a high-quality business. The slight decline vs FY2025 (92.8%) is explained by increased Blackwell CapEx, normal in an investment cycle.</span>
+</div><!-- GRAPHIQUES SECTION -->
+<div class="chart-section">
+<div class="charts-2col">
+<!-- GRAPHIQUE 1 : Revenus trimestriels -->
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Revenus trimestriels</span><span data-en>Quarterly revenue</span></div>
+<div class="chart-sub-text">FY2025 FY2026 · USD Milliards</div>
+</div>
+<span class="chart-badge chart-badge-green">+73% vs FY25</span>
+</div>
+<div class="chart-container h220"><canvas id="chart-revenue"></canvas></div>
+<div class="chart-note">Source : NVIDIA Form 8-K · SEC EDGAR · Fév. 2026</div>
+<div class="chart-insight">
+<span class="insight-label">Lecture</span>
+<span data-fr><strong>Q4 FY2026 = $68.1B</strong>(+12% séquentiel). La guidance Q1 FY2027 à $78B confirme l'accélération.</span>
+<span data-en><strong>Q4 FY2026 = $68.1B</strong>(+12% sequential). Q1 FY2027 guidance of $78B confirms acceleration.</span>
+</div>
+</div><!-- GRAPHIQUE 2 : Marges -->
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Évolution des marges</span><span data-en>Margin evolution</span></div>
+<div class="chart-sub-text">FY2022 FY2026 · %</div>
+</div>
+<span class="chart-badge chart-badge-gold">Brute 75%</span>
+</div>
+<div class="chart-container h220"><canvas id="chart-margins"></canvas></div>
+<div class="chart-note"><span data-fr>Marge brute · Marge opérationnelle · Marge nette · Marge FCF</span><span data-en>Gross · Operating · Net · FCF margin</span></div>
+<div class="chart-insight">
+<span class="insight-label">Lecture</span>
+<span data-fr>Expansion massive des marges depuis FY2024.<strong>La marge FCF (44.8%) est proche de la marge nette (55.6%)</strong>, signe d'une qualité de bénéfices exceptionnelle.</span>
+<span data-en>Massive margin expansion since FY2024.<strong>FCF margin (44.8%) is close to net margin (55.6%)</strong>, a sign of exceptional earnings quality.</span>
+</div>
+</div>
+</div><div class="charts-2col">
+<!-- GRAPHIQUE 3 : Cash Flow Quality -->
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Analyse Cash Flow *</span><span data-en>Cash Flow Analysis *</span></div>
+<div class="chart-sub-text"><span data-fr>FCF vs CapEx vs Net IncFCF%</span><span data-en>FCF vs CapEx vs Net IncFCF%</span></div>
+</div>
+<span class="chart-badge chart-badge-green">NIFCF 80%</span>
+</div>
+<div class="chart-container h220"><canvas id="chart-cashflow"></canvas></div>
+<div class="chart-note"><span data-fr>* Net IncFCF% = qualité des bénéfices. Plus proche de 100% = mieux.</span><span data-en>* Net IncFCF% = earnings quality. Closer to 100% = better.</span></div>
+<div class="chart-insight">
+<span class="insight-label">* Signal clé</span>
+<span data-fr>FCF / CapEx =<strong>16x en FY2026</strong>. Pour chaque dollar investi, NVIDIA génère 16 dollars de free cash flow. C'est la définition d'un<strong>business asset-light à pouvoir de fixation des prix absolu</strong>.</span>
+<span data-en>FCF / CapEx =<strong>16x in FY2026</strong>. For every dollar invested, NVIDIA generates $16 of free cash flow. This is the definition of an<strong>asset-light business with absolute pricing power</strong>.</span>
+</div>
+</div><!-- GRAPHIQUE 4 : Rentabilité -->
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Rentabilité, ROE/ROCE/ROIC *</span><span data-en>Profitability, ROE/ROCE/ROIC *</span></div>
+<div class="chart-sub-text">FY2022 FY2026 · % annualisé</div>
+</div>
+<span class="chart-badge chart-badge-gold">ROIC 126%</span>
+</div>
+<div class="chart-container h220"><canvas id="chart-profitability"></canvas></div>
+<div class="chart-note">ROIC >WACC = création de valeur pour les actionnaires · WACC estimé 8-10%</div>
+<div class="chart-insight">
+<span class="insight-label">* ROIC 126%</span>
+<span data-fr>Un<strong>ROIC de 126%</strong>signifie que NVIDIA génère 1,26$ pour chaque dollar de capital investi,<strong>l'un des plus élevés de l'histoire des marchés financiers</strong>. C'est le symptôme d'un moat exceptionnel.</span>
+<span data-en>A<strong>ROIC of 126%</strong>means NVIDIA generates $1.26 for every dollar of invested capital,<strong>one of the highest in stock market history</strong>. This is the symptom of an exceptional moat.</span>
+</div>
+</div>
+</div><div class="charts-2col">
+<!-- GRAPHIQUE 5 : DCF Scénarios -->
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>DCF, Scénarios Prix Cible</span><span data-en>DCF, Target Price Scenarios</span></div>
+<div class="chart-sub-text"><span data-fr>Bull · Base · Bear · Horizon 5 ans · USD</span><span data-en>Bull · Base · Bear · 5 year horizon · USD</span></div>
+</div>
+<span class="chart-badge chart-badge-blue">Base: $225</span>
+</div>
+<div class="chart-container h220"><canvas id="chart-dcf"></canvas></div>
+<div class="chart-note"><span data-fr>Cours actuel $177.64 (ligne pointillée) · WACC base 10% · g terminal 2.5%</span><span data-en>Current price $177.64 (dotted line) · Base WACC 10% · Terminal g 2.5%</span></div>
+<div class="chart-insight">
+<span class="insight-label"><span data-fr>Hypothèses clés</span><span data-en>Key assumptions</span></span>
+<span data-fr>Croissance FCF An 1-5 : Bull 15% / Base 12% / Bear 8%. Scénario base implique une croissance conservatrice par rapport au consensus (+27% upside).</span>
+<span data-en>FCF growth Yr 1-5: Bull 15% / Base 12% / Bear 8%. Base scenario implies conservative growth vs consensus (+27% upside).</span>
+</div>
+</div><!-- GRAPHIQUE 6 : Valorisation historique -->
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Valorisation historique P/E & EV/EBITDA</span><span data-en>Historical valuation P/E & EV/EBITDA</span></div>
+<div class="chart-sub-text">FY2022 FY2026 · Multiples</div>
+</div>
+<span class="chart-badge chart-badge-green"><span data-fr>Sous la moy. hist.</span><span data-en>Below hist. avg.</span></span>
+</div>
+<div class="chart-container h220"><canvas id="chart-valuation"></canvas></div>
+<div class="chart-note"><span data-fr>P/E TTM actuel 36x vs moyenne hist. 55x sur 10 ans · EV/EBITDA 32x</span><span data-en>Current TTM P/E 36x vs 55x 10-year hist. avg · EV/EBITDA 32x</span></div>
+<div class="chart-insight">
+<span class="insight-label"><span data-fr>Pourquoi 36x n'est pas cher</span><span data-en>Why 36x is not expensive</span></span>
+<span data-fr>PEG Ratio = P/E / Croissance BPA = 36 / 67% =<strong>0.54x</strong>. En dessous de 1x, cela signifie que tu paies 54 centimes pour chaque % de croissance annuelle.<strong>C'est historiquement bon marché pour NVIDIA.</strong></span>
+<span data-en>PEG Ratio = P/E / EPS growth = 36 / 67% =<strong>0.54x</strong>. Below 1x means you're paying 54 cents for each % of annual growth.<strong>That's historically cheap for NVIDIA.</strong></span>
+</div>
+</div>
+</div><!-- GRAPHIQUE 7 : Radar -->
+<div class="charts-1col">
+<div class="chart-card">
+<div class="chart-hdr">
+<div>
+<div class="chart-title-text"><span data-fr>Scoring Multi-Critères OVC, NVIDIA</span><span data-en>OVC Multi-Criteria Scoring, NVIDIA</span></div>
+<div class="chart-sub-text"><span data-fr>Note /10 calculée depuis les ratios financiers réels</span><span data-en>Score /10 calculated from real financial ratios</span></div>
+</div>
+<span class="chart-badge chart-badge-gold">Score global 7.9/10</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:center">
+<div class="chart-container" style="height:260px"><canvas id="chart-radar"></canvas></div>
+<div>
+<div style="display:flex;flex-direction:column;gap:.6rem">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem .9rem;background:var(--green-bg);border-radius:8px">
+<span style="font-size:.82rem;font-weight:600;color:var(--ink)"><span data-fr>Croissance CA</span><span data-en>Revenue growth</span></span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--green)">9.5/10</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem .9rem;background:var(--green-bg);border-radius:8px">
+<span style="font-size:.82rem;font-weight:600;color:var(--ink)"><span data-fr>Qualité FCF *</span><span data-en>FCF Quality *</span></span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--green)">8.0/10</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem .9rem;background:var(--gold-bg);border-radius:8px">
+<span style="font-size:.82rem;font-weight:600;color:var(--ink)">ROIC *</span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold)">9.0/10</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem .9rem;background:var(--gold-bg);border-radius:8px">
+<span style="font-size:.82rem;font-weight:600;color:var(--ink)"><span data-fr>Solidité Bilan</span><span data-en>Balance sheet</span></span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold)">8.0/10</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem .9rem;background:var(--blue-bg);border-radius:8px">
+<span style="font-size:.82rem;font-weight:600;color:var(--ink)"><span data-fr>Valorisation</span><span data-en>Valuation</span></span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue)">7.0/10</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem .9rem;background:var(--blue-bg);border-radius:8px">
+<span style="font-size:.82rem;font-weight:600;color:var(--ink)">ESG</span>
+<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue)">7.0/10</span>
+</div>
+</div>
+</div>
+</div>
+<div class="chart-note" style="margin-top:.8rem"><span data-fr>Score calculé automatiquement depuis les données Excel · Mis à jour après chaque publication de résultats</span><span data-en>Score auto-calculated from Excel data · Updated after each earnings release</span></div>
+</div>
+</div>
+</div><!-- SECTION 4, DÉCOMPOSITION CROISSANCE -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">04</div>
+<h2 class="sec-title"><span data-fr>Décomposition de la croissance,<em>Pourquoi +65% et est-ce durable ?</em></span><span data-en>Growth decomposition,<em>Why +65% and is it sustainable?</em></span></h2>
+</div><p class="body-p">
+<span data-fr>Un analyste M&A ne regarde jamais un taux de croissance global sans le décomposer.<strong>Le +65% de NVIDIA en FY2026 se décompose en 4 drivers distincts</strong>, avec des profils de durabilité très différents.</span>
+<span data-en>An M&A analyst never looks at an aggregate growth rate without decomposing it.<strong>NVIDIA's +65% in FY2026 breaks down into 4 distinct drivers</strong>, each with very different durability profiles.</span>
+</p><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Driver de croissance</span><span data-en>Growth driver</span></th>
+<th><span data-fr>Contribution au +65%</span><span data-en>Contribution to +65%</span></th>
+<th><span data-fr>Mécanisme</span><span data-en>Mechanism</span></th>
+<th><span data-fr>Durabilité</span><span data-en>Durability</span></th>
+<th><span data-fr>Signal</span><span data-en>Signal</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="bold"><span data-fr>Volume, adoption IA hyperscalers</span><span data-en>Volume, AI hyperscaler adoption</span></td>
+<td class="hi mono">~+42 pts</td>
+<td><span data-fr>Microsoft, Amazon, Google, Meta multiplient leurs commandes GPU pour entraîner LLMs et servir l'inférence</span><span data-en>Microsoft, Amazon, Google, Meta multiply GPU orders to train LLMs and serve inference</span></td>
+<td><span style="color:var(--green);font-weight:700"><span data-fr>Forte · 3-5 ans</span><span data-en>Strong · 3-5 yrs</span></span></td>
+<td class="hi"></td>
+</tr>
+<tr>
+<td class="bold"><span data-fr>Prix, upgrade générationnel Blackwell</span><span data-en>Price, Blackwell generational upgrade</span></td>
+<td class="hi mono">~+15 pts</td>
+<td><span data-fr>Le GPU Blackwell GB200 se vend 30-40% plus cher que le H100 pour 30x les performances d'inférence. Pricing power absolu.</span><span data-en>The Blackwell GB200 sells at 30-40% premium vs H100 for 30x inference performance. Absolute pricing power.</span></td>
+<td><span style="color:var(--gold);font-weight:700"><span data-fr>Modérée · 2-3 ans</span><span data-en>Moderate · 2-3 yrs</span></span></td>
+<td class="gold"></td>
+</tr>
+<tr>
+<td class="bold"><span data-fr>Mix, Data Center vs Gaming</span><span data-en>Mix, Data Center vs Gaming</span></td>
+<td class="hi mono">~+6 pts</td>
+<td><span data-fr>Data Center passe de 78% à 89.7% du mix revenus. Segment à marges supérieures (+5-8 pts vs Gaming). Amélioration mécanique de la rentabilité.</span><span data-en>Data Center grows from 78% to 89.7% of revenue mix. Higher margin segment (+5-8 pts vs Gaming). Mechanical profitability improvement.</span></td>
+<td><span style="color:var(--green);font-weight:700"><span data-fr>Forte · structurel</span><span data-en>Strong · structural</span></span></td>
+<td class="hi"></td>
+</tr>
+<tr>
+<td class="bold"><span data-fr>Géographie, US/Europe, hors Chine</span><span data-en>Geography, US/Europe, ex-China</span></td>
+<td class="lo mono">~+2 pts</td>
+<td><span data-fr>Réallocation de la demande chinoise (H20 bridé) vers les clients US/UE qui sécurisent leurs approvisionnements dans le contexte des tarifs Trump. Effet one-off partiel.</span><span data-en>Reallocation of Chinese demand (limited H20) toward US/EU customers securing supply in Trump tariff context. Partially one-off effect.</span></td>
+<td><span style="color:var(--red);font-weight:700"><span data-fr>Faible · risque géopol.</span><span data-en>Low · geopolitical risk</span></span></td>
+<td class="lo"></td>
+</tr>
+</tbody>
+</table>
+</div><div class="callout callout-key">
+<strong><span data-fr>Conclusion analyste :</span><span data-en>Analyst conclusion:</span></strong>
+<span data-fr><strong>57 pts sur 65 pts de croissance proviennent de drivers structurels durables</strong>(volume adoption IA + mix favorable). Seulement 2 pts ont un profil de risque géopolitique. La croissance de NVIDIA n'est pas un effet de rattrapage post-COVID ni un cycle de restockage, c'est la première phase d'un cycle d'investissement IA décennal. Le consensus qui modélise une décélération à +30% en FY2027 est conservateur compte tenu de la guidance $78B pour le seul Q1.</span>
+<span data-en><strong>57 of 65 growth points come from durable structural drivers</strong>(AI adoption volume + favorable mix). Only 2 points carry geopolitical risk profile. NVIDIA's growth is not a post-COVID catch-up effect nor a restocking cycle, it's the first phase of a decade-long AI investment cycle. The consensus modelling deceleration to +30% in FY2027 is conservative given the $78B guidance for Q1 alone.</span>
+</div><!-- SECTION 5, STRUCTURE DE COÛTS ET MARGES -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">05</div>
+<h2 class="sec-title"><span data-fr>Structure de coûts,<em>Comprendre le levier opérationnel</em></span><span data-en>Cost structure,<em>Understanding operating leverage</em></span></h2>
+</div><p class="body-p">
+<span data-fr>En contrôle de gestion, on distingue toujours les<strong>coûts fixes</strong>(R&D, G&A, infrastructure) des<strong>coûts variables</strong>(COGS, coûts de fabrication). Chez NVIDIA, cette distinction est fondamentale pour comprendre pourquoi la marge s'est autant améliorée.</span>
+<span data-en>In management control, we always distinguish<strong>fixed costs</strong>(R&D, G&A, infrastructure) from<strong>variable costs</strong>(COGS, manufacturing costs). At NVIDIA, this distinction is fundamental to understand why margins improved so dramatically.</span>
+</p><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Poste de coût</span><span data-en>Cost item</span></th>
+<th>FY2024</th>
+<th>FY2025</th>
+<th>FY2026</th>
+<th><span data-fr>Nature</span><span data-en>Nature</span></th>
+<th><span data-fr>Analyse</span><span data-en>Analysis</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-hdr"><td colspan="6"><span data-fr>En % des revenus</span><span data-en>As % of revenue</span></td></tr>
+<tr>
+<td class="bold">COGS<span data-fr>(coût des ventes)</span><span data-en>(cost of goods sold)</span></td>
+<td class="mono">27.3%</td><td class="mono">27.0%</td><td class="bold mono">25.0%</td>
+<td><span style="font-size:.75rem;color:var(--blue)"><span data-fr>Variable</span><span data-en>Variable</span></span></td>
+<td><span data-fr>Baisse grâce aux économies d'échelle TSMC et au mix Blackwell premium</span><span data-en>Declining thanks to TSMC scale economies and premium Blackwell mix</span></td>
+</tr>
+<tr>
+<td class="bold">R&D</td>
+<td class="mono">10.1%</td><td class="mono">7.3%</td><td class="bold mono">6.5%</td>
+<td><span style="font-size:.75rem;color:var(--red)"><span data-fr>Fixe</span><span data-en>Fixed</span></span></td>
+<td><span data-fr>Levier opérationnel : R&D croît en absolu (+15%/an) mais moins vite que les revenus (+65%). C'est la définition du levier.</span><span data-en>Operating leverage: R&D grows in absolute (+15%/yr) but slower than revenues (+65%). This is the definition of leverage.</span></td>
+</tr>
+<tr>
+<td class="bold">S&M<span data-fr>(ventes & marketing)</span><span data-en>(sales & marketing)</span></td>
+<td class="mono">2.8%</td><td class="mono">1.9%</td><td class="bold mono">1.5%</td>
+<td><span style="font-size:.75rem;color:var(--purple)"><span data-fr>Semi-fixe</span><span data-en>Semi-fixed</span></span></td>
+<td><span data-fr>Signal fort : NVIDIA vend plus sans augmenter ses coûts commerciaux. La demande est pull (les clients viennent d'eux-mêmes), pas push.</span><span data-en>Strong signal: NVIDIA sells more without increasing sales costs. Demand is pull (customers come themselves), not push.</span></td>
+</tr>
+<tr>
+<td class="bold">G&A<span data-fr>(administration)</span><span data-en>(administration)</span></td>
+<td class="mono">1.1%</td><td class="mono">0.8%</td><td class="bold mono">0.7%</td>
+<td><span style="font-size:.75rem;color:var(--red)"><span data-fr>Fixe</span><span data-en>Fixed</span></span></td>
+<td><span data-fr>Dilution parfaite des coûts fixes sur une base de revenus en forte croissance.</span><span data-en>Perfect dilution of fixed costs over a rapidly growing revenue base.</span></td>
+</tr>
+<tr style="background:var(--green-bg)">
+<td class="bold" style="color:var(--green)"><span data-fr>Marge opérationnelle</span><span data-en>Operating margin</span></td>
+<td class="mono">54.1%</td><td class="mono">62.1%</td><td class="bold" style="color:var(--green)">65.0%</td>
+<td>n.d.</td>
+<td><span data-fr><strong>+1090bp en 2 ans.</strong>Chaque dollar de revenu additionnel génère 0.65$ de profit opérationnel, levier exceptionnel.</span><span data-en><strong>+1090bp in 2 years.</strong>Each additional dollar of revenue generates $0.65 of operating profit, exceptional leverage.</span></td>
+</tr>
+</tbody>
+</table>
+</div><p class="body-p">
+<span data-fr><strong>Le pont de marge en clair :</strong>entre FY2024 et FY2026, la marge opérationnelle gagne 1 090 bp. La décomposition est la suivante : amélioration COGS (+230bp via mix Blackwell et économies d'échelle), dilution R&D (+360bp de levier), dilution S&M (+130bp), dilution G&A (+40bp), et autres effets de mix (+330bp).<strong>Il n'y a pas de réduction de coûts "one-off" dans cette amélioration, c'est du levier opérationnel pur</strong>, le type le plus durable et le plus défendable.</span>
+<span data-en><strong>The margin bridge explained:</strong>between FY2024 and FY2026, operating margin gains 1,090bp. The breakdown: COGS improvement (+230bp via Blackwell mix and scale economies), R&D dilution (+360bp of leverage), S&M dilution (+130bp), G&A dilution (+40bp), and other mix effects (+330bp).<strong>There are no "one-off" cost cuts in this improvement, it's pure operating leverage</strong>, the most durable and defensible type.</span>
+</p><div class="callout callout-info">
+<strong><span data-fr>Implication pour un acheteur potentiel (M&A) :</span><span data-en>Implication for a potential acquirer (M&A):</span></strong>
+<span data-fr>Dans une logique de due diligence, les marges de NVIDIA sont<em>quality of earnings</em>de premier ordre, elles proviennent du levier opérationnel structurel, pas de réductions de coûts non récurrentes. Un modèle LBO ou DCF peut projeter sereinement une marge opérationnelle de 60-65% sur 5 ans sans risque de mean reversion. C'est rare dans l'industrie tech.</span>
+<span data-en>From a due diligence standpoint, NVIDIA's margins are top-tier<em>quality of earnings</em>, they come from structural operating leverage, not non-recurring cost cuts. An LBO or DCF model can safely project 60-65% operating margin over 5 years without mean reversion risk. This is rare in the tech industry.</span>
+</div><!-- SECTION 6, BENCHMARK CONCURRENTIEL -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">06</div>
+<h2 class="sec-title"><span data-fr>Benchmark concurrentiel,<em>Pourquoi NVIDIA domine ses pairs</em></span><span data-en>Competitive benchmark,<em>Why NVIDIA dominates its peers</em></span></h2>
+</div><p class="body-p">
+<span data-fr>Comparer les ratios de NVIDIA à ses concurrents directs (AMD, Intel) et aux meilleurs semi-conducteurs au monde (TSMC, Broadcom, ASML) permet de quantifier l'étendue du différentiel.<strong>Les chiffres sont sans appel.</strong></span>
+<span data-en>Comparing NVIDIA's ratios to direct competitors (AMD, Intel) and the world's best semiconductors (TSMC, Broadcom, ASML) quantifies the extent of the differential.<strong>The numbers speak for themselves.</strong></span>
+</p><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Entreprise</span><span data-en>Company</span></th>
+<th><span data-fr>Croissance CA</span><span data-en>Rev. growth</span></th>
+<th><span data-fr>Marge brute</span><span data-en>Gross margin</span></th>
+<th><span data-fr>Marge opé.</span><span data-en>Op. margin</span></th>
+<th>ROIC</th>
+<th><span data-fr>FCF Yield</span><span data-en>FCF Yield</span></th>
+<th>P/E NTM</th>
+<th>PEG</th>
+<th><span data-fr>Verdict</span><span data-en>Verdict</span></th>
+</tr>
+</thead>
+<tbody>
+<tr style="background:var(--gold-bg)">
+<td class="bold" style="color:var(--gold)">NVIDIA *</td>
+<td class="hi mono">+65%</td>
+<td class="hi mono">75.0%</td>
+<td class="hi mono">65.0%</td>
+<td class="hi mono">126%</td>
+<td class="hi mono">2.2%</td>
+<td class="gold mono">36x</td>
+<td class="hi mono">0.54x</td>
+<td><span style="color:var(--gold);font-weight:700"><span data-fr>Leader absolu</span><span data-en>Absolute leader</span></span></td>
+</tr>
+<tr>
+<td class="bold">AMD</td>
+<td class="mono">+14%</td>
+<td class="mono">53.0%</td>
+<td class="mono">22.0%</td>
+<td class="mono">8%</td>
+<td class="mono">1.8%</td>
+<td class="mono">28x</td>
+<td class="mono">2.0x</td>
+<td><span style="color:var(--blue)"><span data-fr>Challenger sérieux</span><span data-en>Serious challenger</span></span></td>
+</tr>
+<tr>
+<td class="bold">Intel</td>
+<td class="lo mono">-2%</td>
+<td class="lo mono">41.0%</td>
+<td class="lo mono">-5.0%</td>
+<td class="lo mono">neg.</td>
+<td class="lo mono">neg.</td>
+<td class="lo mono">N/M</td>
+<td class="lo mono">N/M</td>
+<td><span style="color:var(--red)"><span data-fr>En restructuration</span><span data-en>In restructuring</span></span></td>
+</tr>
+<tr>
+<td class="bold">Broadcom</td>
+<td class="mono">+44%</td>
+<td class="mono">68.0%</td>
+<td class="mono">35.0%</td>
+<td class="mono">22%</td>
+<td class="mono">3.1%</td>
+<td class="mono">26x</td>
+<td class="mono">0.59x</td>
+<td><span style="color:var(--green)"><span data-fr>Pair de qualité</span><span data-en>Quality peer</span></span></td>
+</tr>
+<tr>
+<td class="bold">TSMC</td>
+<td class="mono">+32%</td>
+<td class="mono">55.0%</td>
+<td class="mono">45.0%</td>
+<td class="mono">28%</td>
+<td class="mono">3.4%</td>
+<td class="mono">22x</td>
+<td class="mono">0.69x</td>
+<td><span style="color:var(--green)"><span data-fr>Fournisseur clé</span><span data-en>Key supplier</span></span></td>
+</tr>
+<tr style="background:var(--cream)">
+<td class="bold"><span data-fr>Médiane secteur Semis</span><span data-en>Semis sector median</span></td>
+<td class="mono">+22%</td>
+<td class="mono">55.0%</td>
+<td class="mono">30.0%</td>
+<td class="mono">18%</td>
+<td class="mono">2.5%</td>
+<td class="mono">28x</td>
+<td class="mono">1.3x</td>
+<td>n.d.</td>
+</tr>
+</tbody>
+</table>
+</div><p class="body-p">
+<span data-fr><strong>Ce que ce tableau révèle :</strong>NVIDIA est dans une catégorie à part. Sa marge brute (75%) dépasse la médiane sectorielle de<strong>+20 pts</strong>. Son ROIC (126%) est<strong>7x supérieur</strong>à la médiane (18%). Et malgré ces métriques sans équivalent, son PEG (0.54x) est inférieur à Broadcom (0.59x) et TSMC (0.69x).<strong>NVIDIA est plus profitable que ses pairs ET moins cher en ajustant la croissance.</strong>C'est la définition d'une anomalie de valorisation.</span>
+<span data-en><strong>What this table reveals:</strong>NVIDIA is in a category of its own. Its gross margin (75%) exceeds the sector median by<strong>+20 pts</strong>. Its ROIC (126%) is<strong>7x above</strong>the median (18%). And despite these unmatched metrics, its PEG (0.54x) is below Broadcom (0.59x) and TSMC (0.69x).<strong>NVIDIA is more profitable than its peers AND cheaper when adjusting for growth.</strong>That's the definition of a valuation anomaly.</span>
+</p><div class="callout callout-green">
+<strong><span data-fr>Pourquoi AMD ne peut pas rattraper NVIDIA à court terme :</span><span data-en>Why AMD cannot catch NVIDIA short-term:</span></strong>
+<span data-fr>La différence de marge brute (75% vs 53% =<strong>+22 pts</strong>) n'est pas un écart de négociation avec TSMC, c'est le reflet du pricing power CUDA. NVIDIA peut vendre ses GPU plus cher parce que les clients sont captifs de l'écosystème logiciel. AMD doit compenser par des prix inférieurs pour convaincre les développeurs de migrer.<strong>Ce différentiel est structurel et auto-renforçant</strong>: les marges supérieures de NVIDIA financent plus de R&D, qui finance l'avance technologique, qui justifie des prix supérieurs.</span>
+<span data-en>The gross margin gap (75% vs 53% =<strong>+22 pts</strong>) is not a TSMC negotiation gap, it reflects CUDA pricing power. NVIDIA can charge more for its GPUs because customers are captive to the software ecosystem. AMD must offset with lower prices to convince developers to migrate.<strong>This differential is structural and self-reinforcing</strong>: NVIDIA's superior margins fund more R&D, which funds the tech lead, which justifies superior pricing.</span>
+</div><!-- SECTION 7, SO WHAT ANALYSTE -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">07</div>
+<h2 class="sec-title"><span data-fr>Analyse &<em>Conviction</em></span><span data-en>Analysis &<em>Conviction</em></span></h2>
+</div><p class="body-p">
+<span data-fr>Les chiffres précédents décrivent NVIDIA. Ce qui suit est l'analyse, ce que ces chiffres impliquent concrètement en termes de valorisation, de gestion du risque et de pilotage opérationnel.</span>
+<span data-en>The preceding figures describe NVIDIA. What follows is the analysis, what these figures concretely imply in terms of valuation, risk management and operational monitoring.</span>
+</p><div class="callout callout-key" style="border-left-color:var(--gold)">
+<strong><span data-fr>Valorisation & qualité des actifs</span><span data-en>Valuation & asset quality</span></strong>
+<span data-fr>NVIDIA à $177 représente l'une des rares opportunités d'acheter un actif<em>wide-moat</em>à une valorisation raisonnable. Le PEG de 0.54x signifie qu'on paie moins cher par unité de croissance que Broadcom (0.59x) ou TSMC (0.69x), des entreprises structurellement inférieures. La qualité des bénéfices est irréprochable : NIFCF% de 80%+, aucun goodwill excessif, aucune acquisition dilutive récente.<strong>NVIDIA ne constitue pas une cible LBO viable (EV ~$4 200Mds), mais dans un modèle DCF à 10 ans avec un WACC de 10%, la valeur intrinsèque ressort entre $220 et $260, soit une décote actuelle de 20-30% sur la valeur calculée.</strong>Ce gap est l'opportunité.</span>
+<span data-en>NVIDIA at $177 represents one of the rare opportunities to buy a<em>wide-moat</em>asset at a reasonable valuation. The PEG of 0.54x means paying less per unit of growth than Broadcom (0.59x) or TSMC (0.69x), structurally inferior companies. Earnings quality is impeccable: NIFCF% of 80%+, no excessive goodwill, no recent dilutive acquisitions.<strong>NVIDIA is not a viable LBO target (EV ~$4.2T), but in a 10-year DCF with 10% WACC, intrinsic value comes out between $220 and $260, a current 20-30% discount to calculated value.</strong>That gap is the opportunity.</span>
+</div><div class="callout callout-info">
+<strong><span data-fr>Indicateurs de pilotage et seuils d'alerte</span><span data-en>Monitoring indicators and alert thresholds</span></strong>
+<span data-fr>Le KPI prioritaire à suivre n'est pas la croissance des revenus, elle est structurellement portée par la demande IA. C'est la<strong>marge brute par GPU</strong>. La transition Blackwell augmente le coût de fabrication unitaire. Si la marge brute passe sous 73% sur deux quarters consécutifs, c'est le signal que NVIDIA perd du pricing power ou que les coûts TSMC dérivent, premier indicateur d'un changement de régime.<strong>Second signal à surveiller : le ratio R&D/Revenus (6.5%) est anormalement bas pour un leader technologique. Une réduction relative continue de l'effort R&D affaiblirait l'avance technique sur AMD dans un horizon de 3-5 ans</strong>, un risque que les marchés n'intègrent pas encore.</span>
+<span data-en>The primary KPI to monitor is not revenue growth, it's structurally driven by AI demand. It's<strong>gross margin per GPU</strong>. The Blackwell transition increases unit manufacturing cost. If gross margin falls below 73% for two consecutive quarters, it signals NVIDIA is losing pricing power or TSMC costs are drifting, first indicator of a regime change.<strong>Second signal to monitor: the R&D/Revenue ratio (6.5%) is abnormally low for a technology leader. A continued relative reduction in R&D investment would weaken the technical lead over AMD over a 3-5 year horizon</strong>, a risk markets are not yet pricing.</span>
+</div><div class="callout callout-green">
+<strong><span data-fr>Risque/récompense et dimensionnement de position</span><span data-en>Risk/reward and position sizing</span></strong>
+<span data-fr>La thèse présente une asymétrie favorable :<strong>+27% dans le scénario base, +63% dans le scénario bull, -27% dans le scénario bear.</strong>La probabilité réelle du scénario bear, qui nécessite une récession US, une rupture technologique ASICs et une escalade export Chine de façon simultanée, est plus proche de 15-20% que des 25% modélisés. L'espérance mathématique pondérée ressort donc à +23% environ.<strong>Le sizing recommandé est de 5% maximum du portefeuille, en raison de la concentration sectorielle extrême (91% Data Center) et de la valorisation absolue élevée : $96.7Mds de FCF annuel ne justifient pas durablement $4 200Mds de market cap si la croissance se normalise sous 20%.</strong></span>
+<span data-en>The thesis shows favorable asymmetry:<strong>+27% in the base scenario, +63% in the bull, -27% in the bear.</strong>The real probability of the bear scenario, which requires US recession, ASIC tech disruption and China export escalation simultaneously, is closer to 15-20% than the 25% modeled. The probability-weighted mathematical expectation therefore comes out at approximately +23%.<strong>Recommended sizing is 5% maximum of the portfolio, due to extreme sector concentration (91% Data Center) and high absolute valuation: $96.7B annual FCF does not durably justify $4.2T market cap if growth normalizes below 20%.</strong></span>
+</div><!-- SECTION 8, MOAT CUDA (ancienne section 4, renumérotée) -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">08</div>
+<h2 class="sec-title"><span data-fr>Le Moat CUDA,<em>18 ans d'avance impossible à combler</em></span><span data-en>The CUDA Moat,<em>18 years of lead impossible to bridge</em></span></h2>
+</div><p class="body-p">
+<span data-fr>CUDA est le langage de programmation propriétaire de NVIDIA, lancé en 2006. Avec<strong>18 ans d'existence</strong>, des millions de développeurs formés, et tous les grands frameworks d'IA (PyTorch, TensorFlow, JAX) optimisés prioritairement sur CUDA, le coût de migration vers un concurrent est astronomique. Ce n'est pas une question de performance des puces, c'est une question d'<strong>écosystème logiciel irremplaçable</strong>.</span>
+<span data-en>CUDA is NVIDIA's proprietary programming language, launched in 2006. With<strong>18 years of existence</strong>, millions of trained developers, and all major AI frameworks (PyTorch, TensorFlow, JAX) primarily optimized for CUDA, the migration cost to a competitor is astronomical. This is not a question of chip performance, it's a question of an<strong>irreplaceable software ecosystem</strong>.</span>
+</p><div class="callout callout-info">
+<strong><span data-fr>Analogie :</span><span data-en>Analogy:</span></strong>
+<span data-fr>Passer de CUDA à un concurrent, c'est comme demander à toutes les équipes F1 de changer de langue de programmation pendant la course. Techniquement possible, pratiquement impossible sans plusieurs années d'arrêt.</span>
+<span data-en>Switching from CUDA to a competitor is like asking all F1 teams to change their programming language during the race. Technically possible, practically impossible without several years of downtime.</span>
+</div><!-- Porter's 5 Forces -->
+<h3 style="font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--ink);margin:1.8rem 0 1rem">Porter's 5 Forces, NVIDIA</h3>
+<div class="porter-grid">
+<div class="porter-item">
+<div class="porter-force"><span data-fr>Pouvoir fournisseurs</span><span data-en>Supplier power</span></div>
+<div class="porter-score">
+<div class="porter-bar-wrap"><div class="porter-bar mid" style="width:60%"></div></div>
+<span class="porter-num">6/10</span>
+</div>
+<p class="porter-text"><span data-fr>TSMC (fondeur exclusif N3/N4) a un pouvoir réel. Risque de capacité en période de forte demande. Mitigé par les engagements LTA (Long Term Agreements) de NVIDIA.</span><span data-en>TSMC (exclusive N3/N4 foundry) has real power. Capacity risk during high demand. Mitigated by NVIDIA's LTA (Long Term Agreements).</span></p>
+</div>
+<div class="porter-item">
+<div class="porter-force"><span data-fr>Pouvoir clients</span><span data-en>Customer power</span></div>
+<div class="porter-score">
+<div class="porter-bar-wrap"><div class="porter-bar mid" style="width:50%"></div></div>
+<span class="porter-num">5/10</span>
+</div>
+<p class="porter-text"><span data-fr>Les hyperscalers représentent ~50% des revenus. Ils ont un pouvoir de négociation significatif mais sont<strong>captifs du moat CUDA</strong>à court terme (2-3 ans).</span><span data-en>Hyperscalers represent ~50% of revenues. They have significant negotiating power but are<strong>captive to the CUDA moat</strong>in the short term (2-3 years).</span></p>
+</div>
+<div class="porter-item">
+<div class="porter-force"><span data-fr>Nouveaux entrants</span><span data-en>New entrants</span></div>
+<div class="porter-score">
+<div class="porter-bar-wrap"><div class="porter-bar low" style="width:20%"></div></div>
+<span class="porter-num">2/10</span>
+</div>
+<p class="porter-text"><span data-fr><strong>Barrières à l'entrée maximales</strong>: R&D $10Mds/an, expertise CUDA, relations TSMC, écosystème logiciel de 18 ans. Aucun entrant réaliste à court terme.</span><span data-en><strong>Maximum entry barriers</strong>: $10B/year R&D, CUDA expertise, TSMC relationships, 18-year software ecosystem. No realistic entrant short-term.</span></p>
+</div>
+<div class="porter-item">
+<div class="porter-force"><span data-fr>Substituts</span><span data-en>Substitutes</span></div>
+<div class="porter-score">
+<div class="porter-bar-wrap"><div class="porter-bar mid" style="width:45%"></div></div>
+<span class="porter-num">4.5/10</span>
+</div>
+<p class="porter-text"><span data-fr>ASICs maison (Google Trillium, Amazon Trainium) pour l'inférence. Risque réel à<strong>3-5 ans</strong>mais limité à des charges de travail spécifiques. Le marché de l'entraînement reste NVIDIA-only.</span><span data-en>In-house ASICs (Google Trillium, Amazon Trainium) for inference. Real risk at<strong>3-5 years</strong>but limited to specific workloads. Training market remains NVIDIA-only.</span></p>
+</div>
+<div class="porter-item">
+<div class="porter-force"><span data-fr>Rivalité concurrents</span><span data-en>Competitor rivalry</span></div>
+<div class="porter-score">
+<div class="porter-bar-wrap"><div class="porter-bar low" style="width:30%"></div></div>
+<span class="porter-num">3/10</span>
+</div>
+<p class="porter-text"><span data-fr>AMD (MI300X) est sérieux mais 2-3 générations en retard sur CUDA. Intel Gaudi est marginal.<strong>NVIDIA a ~85% des parts de marché GPU IA.</strong></span><span data-en>AMD (MI300X) is serious but 2-3 generations behind on CUDA. Intel Gaudi is marginal.<strong>NVIDIA holds ~85% AI GPU market share.</strong></span></p>
+</div>
+<div class="porter-item" style="border:2px solid var(--gold)">
+<div class="porter-force" style="color:var(--gold)"><span data-fr>MOAT GLOBAL</span><span data-en>GLOBAL MOAT</span></div>
+<div class="porter-score">
+<div class="porter-bar-wrap"><div class="porter-bar low" style="width:90%"></div></div>
+<span class="porter-num" style="color:var(--gold)">9/10</span>
+</div>
+<p class="porter-text"><span data-fr><strong>WIDE MOAT</strong>(Morningstar). Avantage concurrentiel durable de 5-10 ans minimum grâce à CUDA + relations hyperscalers + roadmap silicium Blackwell/Rubin.</span><span data-en><strong>WIDE MOAT</strong>(Morningstar). Durable competitive advantage of 5-10+ years minimum thanks to CUDA + hyperscaler relationships + Blackwell/Rubin silicon roadmap.</span></p>
+</div>
+</div><!-- SECTION 5, CATALYSEURS -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">09</div>
+<h2 class="sec-title"><span data-fr>Catalyseurs,<em>Ce qui peut faire monter le titre</em></span><span data-en>Catalysts,<em>What can drive the stock higher</em></span></h2>
+</div><div class="catalyst">
+<div class="catalyst-title"><span data-fr>Blackwell Ultra (GB300/B300), Prochain supercycle</span><span data-en>Blackwell Ultra (GB300/B300), Next supercycle</span><span class="catalyst-prob">Prob. 80% · Horizon 6-18 mois</span></div>
+<p class="catalyst-text"><span data-fr>Les expéditions GB300 sont attendues en forte accélération (+129% YoY estimé). Microsoft, Amazon, Meta et Google ont confirmé leurs commandes pour plusieurs milliards de dollars. La demande excède l'offre disponible, NVIDIA dicte les prix et les délais.</span><span data-en>GB300 shipments are expected to accelerate sharply (+129% YoY estimated). Microsoft, Amazon, Meta and Google have confirmed orders for several billion dollars. Demand exceeds available supply, NVIDIA dictates prices and timelines.</span></p>
+</div><div class="catalyst">
+<div class="catalyst-title"><span data-fr>Marché de l'inférence IA, Plus grand que l'entraînement</span><span data-en>AI inference market, Bigger than training</span><span class="catalyst-prob">Prob. 75% · Horizon 12-36 mois</span></div>
+<p class="catalyst-text"><span data-fr>L'entraînement (une fois par modèle) va céder la place à l'inférence (des milliards de requêtes quotidiennes). Ce marché vient de commencer. NVIDIA est parfaitement positionné avec NIM (NVIDIA Inference Microservices) et ses GPU H200/B200 optimisés pour l'inférence.</span><span data-en>Training (once per model) will give way to inference (billions of daily requests). This market has just started. NVIDIA is perfectly positioned with NIM (NVIDIA Inference Microservices) and its H200/B200 GPUs optimized for inference.</span></p>
+</div><div class="catalyst">
+<div class="catalyst-title"><span data-fr>Re-rating valorisation, P/E 36x vs fair value 49x</span><span data-en>Valuation re-rating, P/E 36x vs fair value 49x</span><span class="catalyst-prob">Prob. 60% · Horizon 12M</span></div>
+<p class="catalyst-text"><span data-fr>La décote actuelle de 35% sur la moyenne historique ne reflète pas la réalité fondamentale. Une simple normalisation vers 45x les bénéfices NTM projetés ($5.50E) implique un cours de $247 (+39%). La thèse base est conservatrice.</span><span data-en>The current 35% discount to historical average doesn't reflect fundamental reality. A simple normalization to 45x projected NTM earnings ($5.50E) implies a share price of $247 (+39%). The base case thesis is conservative.</span></p>
+</div><!-- SECTION 6, RISQUES -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">10</div>
+<h2 class="sec-title"><span data-fr>Risques,<em>Ce qui peut invalider la thèse</em></span><span data-en>Risks,<em>What can invalidate the thesis</em></span></h2>
+</div><div class="risk">
+<div class="risk-title"><span data-fr>ASICs maison hyperscalers, Risque principal à 3-5 ans</span><span data-en>Hyperscaler in-house ASICs, Main risk at 3-5 years</span><span class="risk-lvl">Niveau 7/10</span></div>
+<p class="risk-text"><span data-fr>Google (Trillium v6), Amazon (Trainium 2), Microsoft (Maia 2) investissent massivement dans leurs propres puces. Si ces ASICs atteignent 70%+ de la performance CUDA pour l'inférence, une partie significative des revenus Data Center hyperscaler pourrait migrer.<strong>Mitigation : le marché de l'entraînement reste NVIDIA-only à 5 ans. L'inférence est fragmentée.</strong></span><span data-en>Google (Trillium v6), Amazon (Trainium 2), Microsoft (Maia 2) are investing heavily in their own chips. If these ASICs reach 70%+ of CUDA performance for inference, significant hyperscaler Data Center revenues could migrate.<strong>Mitigation: training market remains NVIDIA-only for 5 years. Inference is fragmented.</strong></span></p>
+</div><div class="risk">
+<div class="risk-title"><span data-fr>Restrictions export Chine, Tarifs Trump 2025</span><span data-en>China export restrictions, Trump 2025 tariffs</span><span class="risk-lvl">Niveau 6/10</span></div>
+<p class="risk-text"><span data-fr>La Chine représentait ~20% des revenus avant les restrictions. Les versions bridées (H20) réduisent les marges. Une escalade supplémentaire pourrait supprimer ce marché.<strong>Mitigation : NVIDIA redirige la demande vers les clients US/UE/Asie hors Chine. Impact marginal sur la croissance totale.</strong></span><span data-en>China represented ~20% of revenues before restrictions. Limited versions (H20) reduce margins. Further escalation could eliminate this market.<strong>Mitigation: NVIDIA redirects demand to US/EU/non-China Asia customers. Marginal impact on total growth.</strong></span></p>
+</div><div class="risk">
+<div class="risk-title"><span data-fr>Décélération soudaine CapEx hyperscalers</span><span data-en>Sudden hyperscaler CapEx deceleration</span><span class="risk-lvl">Niveau 8/10</span></div>
+<p class="risk-text"><span data-fr><strong>C'est le risque principal.</strong>Si Microsoft, Amazon, Google ou Meta réduisent brusquement leurs dépenses IA (récession, changement de priorité), l'impact sur NVIDIA serait immédiat et sévère. 91% des revenus proviennent du Data Center.<strong>Mitigation : les guidances Q1 FY27 ($78B) et les engagements publics des CEO hyperscalers restent très bullish.</strong></span><span data-en><strong>This is the main risk.</strong>If Microsoft, Amazon, Google or Meta abruptly cut their AI spending (recession, priority shift), the impact on NVIDIA would be immediate and severe. 91% of revenues come from Data Center.<strong>Mitigation: Q1 FY27 guidance ($78B) and public hyperscaler CEO commitments remain very bullish.</strong></span></p>
+</div><!-- SECTION 7, VALORISATION -->
+<div class="sec-wrap">
+<div class="sec-eyebrow">11</div>
+<h2 class="sec-title"><span data-fr>Valorisation,<em>3 scénarios DCF</em></span><span data-en>Valuation,<em>3 DCF scenarios</em></span></h2>
+</div><div class="data-table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th><span data-fr>Scénario</span><span data-en>Scenario</span></th>
+<th>WACC</th>
+<th><span data-fr>Croissance FCF An 1-5</span><span data-en>FCF Growth Yr 1-5</span></th>
+<th>g terminal</th>
+<th><span data-fr>Prix cible</span><span data-en>Target price</span></th>
+<th>Upside</th>
+<th><span data-fr>Probabilité</span><span data-en>Probability</span></th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="bold" style="color:var(--green)">Bull</td><td class="mono">8%</td><td class="mono">+15%</td><td class="mono">3%</td><td class="hi bold">$290</td><td class="hi">+63%</td><td class="mono">25%</td></tr>
+<tr style="background:var(--gold-bg)"><td class="bold" style="color:var(--gold)">Base</td><td class="mono">10%</td><td class="mono">+12%</td><td class="mono">2.5%</td><td class="gold bold">$225</td><td class="gold">+27%</td><td class="mono">50%</td></tr>
+<tr><td class="bold" style="color:var(--red)">Bear</td><td class="mono">12%</td><td class="mono">+8%</td><td class="mono">1.5%</td><td class="lo bold">$130</td><td class="lo">-27%</td><td class="mono">25%</td></tr>
+<tr class="row-hdr"><td colspan="5"><strong><span data-fr>Prix cible pondéré (prob.)</span><span data-en>Probability-weighted target</span></strong></td><td class="gold bold">$218</td><td class="mono">+23%</td></tr>
+</tbody>
+</table>
+</div><div class="callout callout-key">
+<strong><span data-fr>Ratio Risque/Récompense :</span><span data-en>Risk/Reward Ratio:</span></strong>
+<span data-fr>Upside scénario base (+27%) vs downside scénario bear (-27%). Ratio 1:1 à première vue, mais<strong>la probabilité d'un scénario bear n'est que de 25%</strong>(nécessite une récession OU une rupture technologique majeure OU les deux). L'espérance mathématique est positive.</span>
+<span data-en>Base case upside (+27%) vs bear case downside (-27%). 1:1 ratio at first glance, but<strong>the probability of a bear scenario is only 25%</strong>(requires a recession OR major technological disruption OR both). The mathematical expectation is positive.</span>
+</div><!-- VERDICT -->
+<div class="verdict-box">
+<div class="vb-eyebrow">VERDICT OFFICIEL · OSWALD VISION CAPITAL · N°002 · 10/04/2026</div>
+<div class="vb-grid">
+<div class="vb-item"><div class="vb-key">Verdict</div><div class="vb-val g">INITIATION,<span data-fr>ACHAT</span><span data-en>BUY</span></div></div>
+<div class="vb-item"><div class="vb-key"><span data-fr>Cours d'entrée</span><span data-en>Entry price</span></div><div class="vb-val au">$177.64</div></div>
+<div class="vb-item"><div class="vb-key"><span data-fr>Cible 12M (base)</span><span data-en>12M target (base)</span></div><div class="vb-val g">$225 (+27%)</div></div>
+<div class="vb-item"><div class="vb-key">Stop loss</div><div class="vb-val r">$130 (-27%)</div></div>
+<div class="vb-item"><div class="vb-key">Horizon</div><div class="vb-val">3<span data-fr>à</span><span data-en>to</span>5<span data-fr>ans</span><span data-en>years</span></div></div>
+<div class="vb-item"><div class="vb-key"><span data-fr>Capital alloué</span><span data-en>Capital allocated</span></div><div class="vb-val">$5 000 · 5.0%</div></div>
+</div>
+<div class="vb-main">
+<div class="vb-main-verdict"> CONVICTION FORTE, 7.9/10</div>
+<div class="vb-main-price"><span data-fr>Valorisation raisonnable (P/E 36x vs 55x hist.) · ROIC 126% · FCF $96.7B · Moat CUDA imbattable</span><span data-en>Reasonable valuation (P/E 36x vs 55x hist.) · ROIC 126% · FCF $96.7B · Unbeatable CUDA moat</span></div>
+</div>
+</div><!-- SCORES -->
+<div class="scores-grid">
+<div class="score-item"><div class="score-val">9.5</div><div class="score-label">Performance</div></div>
+<div class="score-item"><div class="score-val">7.0</div><div class="score-label"><span data-fr>Risque</span><span data-en>Risk</span></div></div>
+<div class="score-item"><div class="score-val">7.0</div><div class="score-label">ESG</div></div>
+<div class="score-item"><div class="score-val global">7.9</div><div class="score-label"><span data-fr>Score Global OVC</span><span data-en>OVC Global Score</span></div></div>
+</div><!-- ACTIONS -->
+<div class="article-actions">
+<a href="analyses.html" class="btn-primary"><span data-fr>Retour aux analyses</span><span data-en>Back to research</span></a>
+<button class="btn-pdf" onclick="window.print()">⬇ PDF</button>
+<a href="orange-ci.html" class="btn-secondary"><span data-fr>Analyse suivante : Orange CI</span><span data-en>Next analysis: Orange CI</span></a>
+</div><div class="disclaimer">
+<strong><span data-fr>Avertissement légal :</span><span data-en>Legal disclaimer:</span></strong>
+<span data-fr>Ce document est publié à titre éducatif uniquement. Le portefeuille est entièrement fictif (capital virtuel de 100 000 USD). L'auteur est étudiant en finance en alternance et n'est pas gérant de fonds agréé par l'AMF ou tout autre régulateur. Aucune information contenue dans ce document ne constitue un conseil en investissement. Les performances passées ne présagent pas des performances futures.</span>
+<span data-en>This document is published for educational purposes only. The portfolio is entirely fictitious (virtual capital of USD 100,000). The author is a finance student in a work-study program and is not a fund manager approved by the AMF or any other regulator. Nothing in this document constitutes investment advice. Past performance is not indicative of future results.</span>
+<em>© Oswald Vision Capital · Thèse N°002 · 10 avril 2026</em>
+</div></div><!-- end article-body --><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+// ── LANG
+function setLang(l){ document.documentElement.setAttribute('data-lang',l); document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+}
+setLang('fr'); // ── CHART DEFAULTS
+Chart.defaults.font.family = "'JetBrains Mono', monospace";
+Chart.defaults.font.size = 10;
+Chart.defaults.color = '#8a8aaa'; const GOLD='#c9832a', BLUE='#1e4faa', GREEN='#1a7a4a', RED='#c0392b', PURPLE='#5e35b1', INK='#1a1a2e'; const TIP = { backgroundColor:'#1a1a2e', titleColor:'#f0a84a', bodyColor:'#fff', padding:10, cornerRadius:6 }; const YEARS_Q = ['Q1 FY25','Q2 FY25','Q3 FY25','Q4 FY25','Q1 FY26','Q2 FY26','Q3 FY26','Q4 FY26'];
+const YEARS_A = ['FY2022','FY2023','FY2024','FY2025','FY2026']; // 1. REVENUS TRIMESTRIELS
+new Chart(document.getElementById('chart-revenue'),{ type:'bar', data:{ labels: YEARS_Q, datasets:[{ label:'Revenus ($B)', data:[22.1,30.0,35.1,39.3,44.1,50.1,57.0,68.1], backgroundColor: YEARS_Q.map((_,i)=>i<4?'rgba(201,131,42,0.55)':'rgba(30,79,170,0.55)'), borderColor: YEARS_Q.map((_,i)=>i<4?GOLD:BLUE), borderWidth:1.5,borderRadius:4, }] }, options:{ responsive:true,maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{...TIP,callbacks:{label:c=>` $${c.raw}B`}}, annotation:{annotations:{}} }, scales:{ x:{grid:{display:false},ticks:{font:{size:9}}}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`$${v}B`},suggestedMin:0} } }
+}); // 2. MARGES
+new Chart(document.getElementById('chart-margins'),{ type:'line', data:{ labels: YEARS_A, datasets:[ {label:'Marge Brute %', data:[64.9,56.9,72.7,73.0,75.0], borderColor:GREEN, backgroundColor:'rgba(26,122,74,.08)',fill:true,borderWidth:2.5,pointRadius:4,tension:.3}, {label:'Marge Opé. %', data:[26.0,16.1,54.1,59.2,60.4], borderColor:GOLD, borderDash:[4,3],borderWidth:2,pointRadius:3,tension:.3}, {label:'Marge Nette %', data:[26.0,16.6,55.0,55.8,55.6], borderColor:BLUE, borderDash:[2,4],borderWidth:2,pointRadius:3,tension:.3}, {label:'Marge FCF %', data:[12.2,10.0,42.4,51.9,44.8], borderColor:PURPLE, borderDash:[6,3],borderWidth:1.5,pointRadius:2,tension:.3}, ] }, options:{ responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:12}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}}, scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`${v}%`},min:0,max:85} } }
+}); // 3. CASH FLOW
+new Chart(document.getElementById('chart-cashflow'),{ type:'bar', data:{ labels: YEARS_A, datasets:[ {label:'Operating CF ($B)', type:'bar', data:[4.3,5.6,28.1,71.0,108.9], backgroundColor:'rgba(30,79,170,0.35)',borderColor:BLUE,borderWidth:1}, {label:'CapEx ($B)', type:'bar', data:[-0.98,-1.07,-2.16,-3.25,-6.0], backgroundColor:'rgba(192,57,43,0.45)',borderColor:RED,borderWidth:1}, {label:'FCF ($B)', type:'bar', data:[3.3,4.5,25.8,67.7,96.7], backgroundColor:'rgba(26,122,74,0.55)',borderColor:GREEN,borderWidth:1.5}, {label:'NI->FCF% *',type:'line',data:[47,52,86.6,92.8,80.5], borderColor:PURPLE,borderWidth:2.5,pointRadius:4,tension:.3,yAxisID:'y2', backgroundColor:'transparent'}, ] }, options:{ responsive:true,maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{boxWidth:10,padding:10}}, tooltip:{...TIP,callbacks:{label:c=>c.dataset.yAxisID==='y2'?` ${c.dataset.label}: ${c.raw}%`:` ${c.dataset.label}: $${c.raw}B`}} }, scales:{ x:{grid:{display:false},stacked:false}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`$${v}B`}}, y2:{position:'right',grid:{display:false},min:0,max:120,ticks:{callback:v=>`${v}%`}} } }
+}); // 4. RENTABILITÉ
+new Chart(document.getElementById('chart-profitability'),{ type:'line', data:{ labels: YEARS_A, datasets:[ {label:'ROE %', data:[36,18,91,92,101], borderColor:GOLD,borderWidth:2.5,pointRadius:4,tension:.3}, {label:'ROCE %', data:[28,13,75,80,90], borderColor:GREEN,borderWidth:2,borderDash:[4,3],pointRadius:3,tension:.3}, {label:'ROIC % *', data:[25,11,70,85,126], borderColor:PURPLE,backgroundColor:'rgba(94,53,177,.08)',fill:true,borderWidth:2.5,pointRadius:5,tension:.3}, {label:'ROA %', data:[14,8,45,50,55], borderColor:BLUE,borderWidth:1.5,borderDash:[2,4],pointRadius:2,tension:.3}, ] }, options:{ responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:12}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}}, scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`${v}%`}} } }
+}); // 5. DCF SCÉNARIOS
+new Chart(document.getElementById('chart-dcf'),{ type:'line', data:{ labels:['Actuel','An 1','An 2','An 3','An 4','An 5'], datasets:[ {label:'Bull (+15% FCF)',data:[177.64,220,265,310,365,430],borderColor:GREEN,borderWidth:2,pointRadius:3,tension:.3}, {label:'Base (+12% FCF)',data:[177.64,195,225,255,285,320],borderColor:GOLD,borderWidth:3,pointRadius:5,tension:.3}, {label:'Bear (+8% FCF)', data:[177.64,162,145,135,130,138],borderColor:RED,borderWidth:2,borderDash:[4,3],pointRadius:3,tension:.3}, ] }, options:{ responsive:true,maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{boxWidth:10,padding:12}}, tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: $${c.raw}`}}, }, scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`$${v}`}} } }
+}); // 6. VALORISATION HISTORIQUE
+new Chart(document.getElementById('chart-valuation'),{ type:'line', data:{ labels: YEARS_A, datasets:[ {label:'P/E (x)', data:[null,null,66,46,36], borderColor:GOLD,borderWidth:2.5,pointRadius:5,tension:.3,fill:false}, {label:'EV/EBITDA (x)', data:[null,null,70,40,32], borderColor:BLUE,borderWidth:2,borderDash:[4,3],pointRadius:3,tension:.3}, {label:'P/FCF (x)', data:[null,null,70,48,44], borderColor:GREEN,backgroundColor:'rgba(26,122,74,.08)',fill:true,borderWidth:2,pointRadius:3,tension:.3}, {label:'PEG *', data:[null,null,1.2,0.7,0.54],borderColor:PURPLE,borderWidth:2,borderDash:[2,4],pointRadius:3,tension:.3,yAxisID:'y2'}, ] }, options:{ responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:12}},tooltip:{...TIP}}, scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>`${v}x`}}, y2:{position:'right',grid:{display:false},min:0,max:2,ticks:{callback:v=>`${v}x`}} } }
+}); // 7. RADAR
+new Chart(document.getElementById('chart-radar'),{ type:'radar', data:{ labels:['Croissance CA','Qualité FCF *','ROIC *','Solidité Bilan','Valorisation','ESG'], datasets:[{ label:'NVIDIA', data:[9.5,8.0,9.0,8.0,7.0,7.0], backgroundColor:'rgba(201,131,42,.18)', borderColor:GOLD,borderWidth:2.5, pointBackgroundColor:GOLD,pointRadius:5,pointHoverRadius:7 },{ label:'Médiane secteur', data:[6,6,6,5,5,6], backgroundColor:'rgba(30,79,170,.08)', borderColor:'rgba(30,79,170,.4)',borderWidth:1.5,borderDash:[3,3], pointBackgroundColor:BLUE,pointRadius:3 }] }, options:{ responsive:true,maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:12}},tooltip:{...TIP}}, scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:8}},pointLabels:{font:{size:10,family:"'Outfit',sans-serif"}}}} }
+});
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analyses Économiques, Oswald Vision Capital</title>
+<meta name="description" content="Analyses macro, Afrique & marchés émergents, sectorielles, Oswald Vision Capital. Cycles économiques, Fed, BCE, UEMOA, tech IA.">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{ --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa; --line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0; --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2; --blue:#1e4faa;--blue-bg:#eef3ff; --green:#1a7a4a;--green-bg:#e8f5ee; --red:#c0392b;--red-bg:#fde8e8; --purple:#5e35b1;--purple-bg:#f0ebff; --teal:#0d7a7a;--teal-bg:#e0f4f4; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden} /* NAV */
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;justify-content:space-between;align-items:center}
+.lb-left{font-size:.68rem;color:rgba(255,255,255,.4)}.lb-left strong{color:var(--gold-l)}
+.lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700}
+nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(26,26,46,.06)}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-logo em{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);font-weight:700}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important} /* PAGE HEADER */
+.page-header{background:linear-gradient(160deg,#0a0f1e 0%,#1a1a2e 40%,#1e2d4a 100%);color:#fff;padding:6vh 8vw 5vh;position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:0;right:0;width:60%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(201,131,42,.08),transparent 65%);pointer-events:none}
+.page-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:linear-gradient(to top,var(--bg),transparent)}
+.ph-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.8rem}
+h1.ph-title{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;color:#fff;line-height:1.08;letter-spacing:-.02em;margin-bottom:.7rem}
+h1.ph-title em{color:var(--gold-l);font-style:italic}
+.ph-sub{font-size:.95rem;color:rgba(255,255,255,.5);line-height:1.8;max-width:580px;margin-bottom:2rem} /* CATEGORY FILTER TABS */
+.filter-tabs{display:flex;gap:.5rem;flex-wrap:wrap}
+.ftab{font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;padding:.45rem 1.1rem;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);cursor:pointer;transition:all .2s}
+.ftab:hover{border-color:rgba(255,255,255,.35);color:#fff}
+.ftab.on{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.ftab.on-blue{background:var(--blue);border-color:var(--blue);color:#fff}
+.ftab.on-green{background:var(--green);border-color:var(--green);color:#fff}
+.ftab.on-purple{background:var(--purple);border-color:var(--purple);color:#fff} /* STATS BAR */
+.stats-bar{display:flex;gap:3rem;padding:2rem 8vw;background:var(--white);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.stat-item{}
+.stat-num{font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1}
+.stat-num span{color:var(--gold)}
+.stat-label{font-size:.72rem;color:var(--muted);margin-top:.18rem} /* BODY */
+.page-body{padding:4vh 8vw 8vh} /* FEATURED */
+.featured-wrap{margin-bottom:3rem}
+.featured-label{font-family:'JetBrains Mono',monospace;font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem}
+.featured-label::after{content:'';width:16px;height:1px;background:var(--gold);display:inline-block} .featured-card{background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:box-shadow .25s,transform .2s}
+.featured-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.fc-left{padding:2.5rem;background:linear-gradient(135deg,#0a1628,#1a2e4a);display:flex;flex-direction:column;justify-content:space-between;min-height:280px}
+.fc-num{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.3);letter-spacing:.12em;margin-bottom:1rem}
+.fc-title{font-family:'Libre Baskerville',serif;font-size:1.45rem;font-weight:700;color:#fff;line-height:1.2;margin-bottom:.7rem}
+.fc-excerpt{font-size:.84rem;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:1.5rem}
+.fc-badges{display:flex;gap:.4rem;flex-wrap:wrap}
+.badge{font-size:.62rem;font-weight:700;padding:.2rem .6rem;border-radius:100px}
+.badge-macro{background:rgba(30,79,170,.4);color:#93c5fd;border:1px solid rgba(30,79,170,.35)}
+.badge-africa{background:rgba(94,53,177,.35);color:#c4b5fd;border:1px solid rgba(94,53,177,.3)}
+.badge-sector{background:rgba(201,131,42,.3);color:var(--gold-l);border:1px solid rgba(201,131,42,.25)}
+.badge-new{background:rgba(26,122,74,.8);color:#fff;font-size:.6rem}
+.fc-right{padding:2.5rem;display:flex;flex-direction:column;justify-content:space-between}
+.fc-kpis{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.5rem}
+.fc-kpi{padding:.9rem 1rem;background:var(--cream);border-radius:10px}
+.fc-kpi-val{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--ink)}
+.fc-kpi-label{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem}
+.btn-read{background:var(--ink);color:#fff;padding:.75rem 1.6rem;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;display:inline-block;transition:background .2s}
+.btn-read:hover{background:var(--blue)} /* CATEGORY SECTIONS */
+.cat-section{margin-bottom:3.5rem}
+.cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid var(--line)}
+.cat-title{font-family:'Libre Baskerville',serif;font-size:1.15rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:.7rem}
+.cat-icon{font-size:1.2rem}
+.cat-count{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted)}
+.cat-view-all{font-size:.78rem;font-weight:600;color:var(--gold);text-decoration:none}
+.cat-view-all:hover{color:var(--ink)} /* ANALYSIS CARDS GRID */
+.analyses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem} /* ANALYSIS CARD */
+.ac{background:var(--white);border:1px solid var(--line);border-radius:13px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .22s,transform .22s;text-decoration:none;color:inherit}
+.ac:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.ac.hidden{display:none} .ac-top{padding:1.2rem 1.2rem .6rem;display:flex;justify-content:space-between;align-items:flex-start}
+.ac-badges-wrap{display:flex;gap:.4rem;flex-wrap:wrap}
+.badge-cat-macro{background:var(--blue-bg);color:var(--blue)}
+.badge-cat-africa{background:var(--purple-bg);color:var(--purple)}
+.badge-cat-sector{background:var(--gold-bg);color:var(--gold)}
+.badge-cat-global{background:var(--teal-bg);color:var(--teal)}
+.ac-num{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted)} .ac-body{padding:.2rem 1.2rem .9rem;flex:1}
+.ac-date{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--gold);margin-bottom:.4rem}
+.ac-title{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:.4rem}
+.ac-excerpt{font-size:.78rem;color:var(--body);line-height:1.6} .ac-footer{padding:.8rem 1.2rem;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.ac-read-time{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted)}
+.ac-arrow{font-size:.8rem;color:var(--gold);font-weight:700} /* COMING SOON CARD */
+.ac-soon{background:var(--cream);border-style:dashed;border-color:var(--cream2)}
+.ac-soon:hover{transform:none;box-shadow:none}
+.soon-inner{padding:1.8rem 1.2rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5rem;min-height:180px;justify-content:center}
+.soon-label{font-size:.8rem;font-weight:600;color:var(--muted)}
+.soon-title{font-family:'Libre Baskerville',serif;font-size:.88rem;font-weight:700;color:var(--muted);line-height:1.3}
+.soon-badge{font-size:.65rem;font-weight:600;padding:.2rem .6rem;background:var(--cream2);color:var(--muted);border-radius:100px} /* SEARCH */
+.search-bar{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.search-input{flex:1;min-width:260px;padding:.65rem 1.1rem;border:1.5px solid var(--line);border-radius:8px;font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--gold)}
+.search-input::placeholder{color:var(--muted)}
+.results-count{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted)} /* NEWSLETTER CTA */
+.nl-cta{background:linear-gradient(135deg,var(--ink),var(--ink2));color:#fff;border-radius:16px;padding:2.5rem;text-align:center;margin-top:3rem}
+.nl-cta-title{font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+.nl-cta-sub{font-size:.88rem;color:rgba(255,255,255,.5);margin-bottom:1.5rem}
+.nl-form{display:flex;gap:0;max-width:420px;margin:0 auto;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.nl-form input{flex:1;padding:.8rem 1.1rem;background:#fff;border:none;font-family:'Outfit',sans-serif;font-size:.86rem;color:var(--ink);outline:none}
+.nl-form button{padding:.8rem 1.3rem;background:var(--gold);border:none;font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;color:#fff;cursor:pointer;transition:background .2s;white-space:nowrap}
+.nl-form button:hover{background:#b5721e} /* LANG */
+[data-fr],[data-en]{display:none}
+html[data-lang=fr] [data-fr]{display:revert}
+html[data-lang=en] [data-en]{display:revert}
+span[data-fr],span[data-en]{display:none}
+html[data-lang=fr] span[data-fr]{display:inline}
+html[data-lang=en] span[data-en]{display:inline} /* RESPONSIVE */
+@media(max-width:900px){ .featured-card{grid-template-columns:1fr} .analyses-grid{grid-template-columns:1fr 1fr} .nav-links{display:none} .stats-bar{gap:2rem}
+}
+@media(max-width:560px){ .analyses-grid{grid-template-columns:1fr} .fc-kpis{grid-template-columns:1fr 1fr}
+}
+
+/* Dropdown nav */
+.nav-item-dd{position:relative;display:flex;align-items:center}
+.nav-link-dd{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:.25rem;transition:color .2s}
+.nav-link-dd::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);margin-left:.25rem;transition:transform .2s}
+.nav-item-dd:hover .nav-link-dd::after{transform:rotate(225deg) translateY(-2px)}
+.nav-item-dd:hover .nav-link-dd,.nav-item-dd:hover .nav-link-dd{color:var(--ink)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-4px);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 40px rgba(26,26,46,.14);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:200}
+.nav-item-dd:hover .nav-dropdown{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown a{display:block;padding:.52rem .9rem;font-size:.8rem;color:var(--body);text-decoration:none;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown a:hover{background:var(--cream);color:var(--ink)}
+.dd-divider{height:1px;background:var(--line);margin:.3rem .5rem}
+</style>
+</head>
+<body><div class="lang-bar">
+<span class="lb-left"><strong>Oswald Vision Capital</strong>·<span data-fr>Analyses économiques</span><span data-en>Economic analyses</span></span>
+<div class="lang-btns">
+<button class="lbtn active" onclick="setLang('fr')">FR</button>
+<button class="lbtn" onclick="setLang('en')">EN</button>
+</div>
+</div><nav>
+<a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+<div class="nav-links" id="main-nav-links">
+<div class="nav-item-dd">
+  <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+  <div class="nav-dropdown">
+    <a href="nvidia.html">NVIDIA (N°002)</a>
+    <a href="orange-ci.html">Orange CI (N°001)</a>
+    <div class="dd-divider"></div>
+    <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+  </div>
+</div>
+<div class="nav-item-dd">
+  <a href="macro.html" class="nav-link-dd">Macro</a>
+  <div class="nav-dropdown">
+    <a href="macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
+    <a href="macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro-uemoa.html">UEMOA 2026 (A-001)</a>
+    <div class="dd-divider"></div>
+    <a href="macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
+  </div>
+</div>
+<a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
+<a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+</div>
+</nav><!-- PAGE HEADER -->
+<div class="page-header">
+<div class="ph-eyebrow"><span data-fr>Recherche économique indépendante · Macro · Afrique · Sectorielle</span><span data-en>Independent economic research · Macro · Africa · Sector</span></div>
+<h1 class="ph-title">
+<span data-fr>Analyses<em>Économiques</em></span>
+<span data-en>Economic<em>Analyses</em></span>
+</h1>
+<p class="ph-sub">
+<span data-fr>Cycles économiques, politique monétaire, marchés africains, dynamiques sectorielles. Des analyses structurées avec données, graphiques et avis argumentés.</span>
+<span data-en>Economic cycles, monetary policy, African markets, sector dynamics. Structured analyses with data, charts and argued views.</span>
+</p>
+<div class="filter-tabs">
+<button class="ftab on" onclick="filterCat('all',this)"><span data-fr>Tout</span><span data-en>All</span></button>
+<button class="ftab" onclick="filterCat('macro',this)">Macro<span data-fr>Globale</span><span data-en>Global</span></button>
+<button class="ftab" onclick="filterCat('africa',this)"><span data-fr>Afrique & Émergents</span><span data-en>Africa & EM</span></button>
+<button class="ftab" onclick="filterCat('sector',this)"><span data-fr>Sectorielle</span><span data-en>Sector</span></button>
+</div>
+</div><!-- STATS BAR -->
+<div class="stats-bar">
+<div class="stat-item">
+<div class="stat-num">4<span>/20</span></div>
+<div class="stat-label"><span data-fr>Analyses publiées</span><span data-en>Published analyses</span></div>
+</div>
+<div class="stat-item">
+<div class="stat-num">3</div>
+<div class="stat-label"><span data-fr>Catégories</span><span data-en>Categories</span></div>
+</div>
+<div class="stat-item">
+<div class="stat-num">2</div>
+<div class="stat-label"><span data-fr>Langues</span><span data-en>Languages</span></div>
+</div>
+<div class="stat-item">
+<div class="stat-num">100<span>%</span></div>
+<div class="stat-label"><span data-fr>Horodatées</span><span data-en>Timestamped</span></div>
+</div>
+</div><div class="page-body"><!-- SEARCH -->
+<div class="search-bar">
+<input type="text" class="search-input" id="search-input" placeholder=" Rechercher une analyse… / Search an analysis…" oninput="searchAnalyses(this.value)">
+<span class="results-count" id="results-count">
+<span data-fr>4 analyses disponibles</span><span data-en>4 analyses available</span>
+</span>
+</div><!-- FEATURED -->
+<div class="featured-wrap" data-cat="macro africa" id="featured-wrap">
+<div class="featured-label"><span data-fr>Analyse à la une</span><span data-en>Featured analysis</span></div>
+<a href="macro-trump-tariffs.html" class="featured-card">
+<div class="fc-left">
+<div>
+<div class="fc-num">MACRO N°001 · 10 avr. 2026 · 18 min</div>
+<div class="fc-title">
+<span data-fr>Tarifs Trump 2025, Pourquoi l'Afrique pourrait être la grande bénéficiaire</span>
+<span data-en>Trump Tariffs 2025, Why Africa could be the big winner</span>
+</div>
+<div class="fc-excerpt">
+<span data-fr>La guerre commerciale US-Chine redistribue les flux de capitaux mondiaux. Analyse complète des mécanismes de transmission, des effets sur la BRVM, et de nos positions OVC les plus exposées.</span>
+<span data-en>The US-China trade war is reshuffling global capital flows. Full analysis of transmission mechanisms, BRVM effects, and our most exposed OVC positions.</span>
+</div>
+</div>
+<div class="fc-badges">
+<span class="badge badge-macro">Macro</span>
+<span class="badge badge-africa">Afrique</span>
+<span class="badge badge-new">*<span data-fr>Nouveau</span><span data-en>New</span></span>
+</div>
+</div>
+<div class="fc-right">
+<div class="fc-kpis">
+<div class="fc-kpi">
+<div class="fc-kpi-val">145%</div>
+<div class="fc-kpi-label"><span data-fr>Tarifs US vs Chine</span><span data-en>US vs China tariffs</span></div>
+</div>
+<div class="fc-kpi">
+<div class="fc-kpi-val" style="color:var(--green)">+6-8%</div>
+<div class="fc-kpi-label"><span data-fr>Impact PIB Afrique (est.)</span><span data-en>Africa GDP impact (est.)</span></div>
+</div>
+<div class="fc-kpi">
+<div class="fc-kpi-val" style="color:var(--purple)">BRVM</div>
+<div class="fc-kpi-label"><span data-fr>Marché le moins exposé</span><span data-en>Least exposed market</span></div>
+</div>
+<div class="fc-kpi">
+<div class="fc-kpi-val">3</div>
+<div class="fc-kpi-label"><span data-fr>Positions OVC impactées</span><span data-en>Impacted OVC positions</span></div>
+</div>
+</div>
+<a href="macro-trump-tariffs.html" class="btn-read">
+<span data-fr>Lire l'analyse complète</span>
+<span data-en>Read full analysis</span>
+</a>
+</div>
+</a>
+</div><!-- SECTION MACRO GLOBALE -->
+<div class="cat-section" id="cat-macro">
+<div class="cat-header">
+<div class="cat-title">
+<span class="cat-icon"></span>
+<span data-fr>Macro Globale</span><span data-en>Global Macro</span>
+</div>
+<span class="cat-count"><span data-fr>2 publiées · 5 en préparation</span><span data-en>2 published · 5 in preparation</span></span>
+</div><div class="analyses-grid"><a href="macro-trump-tariffs.html" class="ac" data-cat="macro africa" data-title="tarifs trump afrique">
+<div class="ac-top">
+<div class="ac-badges-wrap">
+<span class="badge badge-cat-macro">Macro</span>
+<span class="badge badge-cat-africa">Afrique</span>
+</div>
+<span class="ac-num">M-001</span>
+</div>
+<div class="ac-body">
+<div class="ac-date">10 avr. 2026</div>
+<div class="ac-title"><span data-fr>Tarifs Trump 2025, Pourquoi l'Afrique pourrait être la grande bénéficiaire</span><span data-en>Trump Tariffs 2025, Why Africa could be the big winner</span></div>
+<p class="ac-excerpt"><span data-fr>Décomposition des mécanismes de transmission, impact BRVM, flux de capitaux vers les marchés émergents africains.</span><span data-en>Decomposition of transmission mechanisms, BRVM impact, capital flows toward African emerging markets.</span></p>
+</div>
+<div class="ac-footer">
+<span class="ac-read-time">18 min</span>
+<span class="ac-arrow"></span>
+</div>
+</a><!-- Coming soon -->
+<div class="ac ac-soon" data-cat="macro" data-title="fed cycle taux">
+<div class="soon-inner">
+<div class="soon-label">M-002 · Macro</div>
+<div class="soon-title"><span data-fr>Fed 2026, La fin du cycle de baisse des taux et ses implications</span><span data-en>Fed 2026, The end of the rate-cutting cycle and its implications</span></div>
+<span class="soon-badge"><span data-fr>Juin 2026</span><span data-en>June 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-cat="macro" data-title="inflation structurelle occident">
+<div class="soon-inner">
+<div class="soon-label">M-003 · Macro</div>
+<div class="soon-title"><span data-fr>Inflation structurelle en Occident, Pourquoi 2% est un objectif illusoire</span><span data-en>Structural inflation in the West, Why 2% is an illusory target</span></div>
+<span class="soon-badge"><span data-fr>Juil. 2026</span><span data-en>Jul. 2026</span></span>
+</div>
+</div></div>
+</div><!-- SECTION AFRIQUE & ÉMERGENTS -->
+<div class="cat-section" id="cat-africa">
+<div class="cat-header">
+<div class="cat-title">
+<span class="cat-icon"></span>
+<span data-fr>Afrique & Marchés Émergents</span><span data-en>Africa & Emerging Markets</span>
+</div>
+<span class="cat-count"><span data-fr>1 publiée · 4 en préparation</span><span data-en>1 published · 4 in preparation</span></span>
+</div><div class="analyses-grid">
+<a href="macro-uemoa.html" class="ac" data-cat="africa" data-title="UEMOA croissance afrique">
+<div class="ac-top"><div class="ac-badges-wrap"><span class="badge badge-cat-africa">Afrique</span></div><span class="ac-num">A-001</span></div>
+<div class="ac-body">
+<div class="ac-date">10 avr. 2026</div>
+<div class="ac-title"><span data-fr>UEMOA 2026, Moteurs de croissance et risques sous-estimés</span><span data-en>UEMOA 2026, Growth engines and underestimated risks</span></div>
+<p class="ac-excerpt"><span data-fr>6.5% de croissance structurelle, 145M habitants, âge médian 19 ans. Analyse des drivers durables, risques politiques, BRVM et implications OVC.</span><span data-en>6.5% structural growth, 145M people, median age 19. Analysis of durable drivers, political risks, BRVM and OVC implications.</span></p>
+</div>
+<div class="ac-footer"><span class="ac-read-time">15 min</span><span class="ac-arrow"></span></div>
+</a><div class="ac ac-soon" data-cat="africa" data-title="BRVM marchés capitaux afrique">
+<div class="soon-inner">
+<div class="soon-label">A-002 · Afrique</div>
+<div class="soon-title"><span data-fr>BRVM, Pourquoi le plus grand marché francophone africain reste sous-couvert</span><span data-en>BRVM, Why West Africa's largest francophone market stays undercovered</span></div>
+<span class="soon-badge"><span data-fr>Juin 2026</span><span data-en>June 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-cat="africa" data-title="mobile money fintech afrique">
+<div class="soon-inner">
+<div class="soon-label">A-003 · Afrique</div>
+<div class="soon-title"><span data-fr>Mobile Money en Afrique, La révolution financière que les marchés ne valorisent pas</span><span data-en>Mobile Money in Africa, The financial revolution markets don't price</span></div>
+<span class="soon-badge"><span data-fr>Juil. 2026</span><span data-en>Jul. 2026</span></span>
+</div>
+</div>
+</div>
+</div><!-- SECTION SECTORIELLE -->
+<div class="cat-section" id="cat-sector">
+<div class="cat-header">
+<div class="cat-title">
+<span class="cat-icon"></span>
+<span data-fr>Analyses Sectorielles</span><span data-en>Sector Analyses</span>
+</div>
+<span class="cat-count"><span data-fr>1 publiée · 3 en préparation</span><span data-en>1 published · 3 in preparation</span></span>
+</div><div class="analyses-grid">
+<a href="macro-semis-ia.html" class="ac" data-cat="sector" data-title="semiconducteurs supercycle IA GPU NVIDIA">
+<div class="ac-top"><div class="ac-badges-wrap"><span class="badge badge-cat-sector">Sectorielle</span></div><span class="ac-num">S-001</span></div>
+<div class="ac-body">
+<div class="ac-date">10 avr. 2026</div>
+<div class="ac-title"><span data-fr>Supercycle semi-conducteurs IA, Où en sommes-nous dans le cycle ?</span><span data-en>AI semiconductor supercycle, Where are we in the cycle?</span></div>
+<p class="ac-excerpt"><span data-fr>Phase 2 (infrastructure GPU) en milieu de cycle. Analyse du marché $230Mds, chaîne de valeur, Training vs Inference, signaux de fin de cycle à surveiller.</span><span data-en>Phase 2 (GPU infrastructure) mid-cycle. Analysis of $230B market, value chain, Training vs Inference, end-of-cycle signals to monitor.</span></p>
+</div>
+<div class="ac-footer"><span class="ac-read-time">16 min</span><span class="ac-arrow"></span></div>
+</a><div class="ac ac-soon" data-cat="sector" data-title="telecom afrique consolidation">
+<div class="soon-inner">
+<div class="soon-label">S-002 ·<span data-fr>Télécom</span><span data-en>Telecom</span></div>
+<div class="soon-title"><span data-fr>Consolidation Télécom Afrique, MTN, Orange, Axian : qui gagnera la bataille ?</span><span data-en>African Telecom Consolidation, MTN, Orange, Axian: who wins?</span></div>
+<span class="soon-badge"><span data-fr>Juin 2026</span><span data-en>June 2026</span></span>
+</div>
+</div><div class="ac ac-soon" data-cat="sector" data-title="energie transition renouvelable afrique">
+<div class="soon-inner">
+<div class="soon-label">S-003 ·<span data-fr>Énergie</span><span data-en>Energy</span></div>
+<div class="soon-title"><span data-fr>Transition énergétique en Afrique, Opportunité d'investissement décennale</span><span data-en>Energy transition in Africa, A decade-long investment opportunity</span></div>
+<span class="soon-badge"><span data-fr>Juil. 2026</span><span data-en>Jul. 2026</span></span>
+</div>
+</div>
+</div>
+</div><!-- NEWSLETTER CTA -->
+<div class="nl-cta">
+<div class="nl-cta-title"><span data-fr>Ne manquez aucune analyse</span><span data-en>Don't miss any analysis</span></div>
+<p class="nl-cta-sub"><span data-fr>Une nouvelle analyse économique publiée chaque mois. Recevez-la directement par email.</span><span data-en>One new economic analysis published each month. Receive it directly by email.</span></p>
+<div class="nl-form">
+<input type="email" placeholder="votre@email.com">
+<button><span data-fr>S'abonner</span><span data-en>Subscribe</span></button>
+</div>
+</div></div><!-- end page-body --><script>
+function setLang(l){document.documentElement.setAttribute('data-lang',l);document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));}
+setLang('fr'); function filterCat(cat, btn) { document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('on','on-blue','on-green','on-purple')); btn.classList.add('on'); const featured = document.getElementById('featured-wrap'); if(cat === 'all' || featured.querySelector('[data-cat]')?.dataset?.cat?.includes(cat)) { featured.style.display = 'block'; } else { featured.style.display = cat === 'all' ? 'block' : 'none'; } document.querySelectorAll('.ac').forEach(card => { const cardCat = card.dataset.cat || ''; card.classList.toggle('hidden', cat !== 'all' && !cardCat.includes(cat)); }); ['macro','africa','sector'].forEach(c => { const section = document.getElementById('cat-' + c); if(section) section.style.display = (cat === 'all' || cat === c) ? 'block' : 'none'; });
+} function searchAnalyses(q) { const term = q.toLowerCase(); let count = 0; document.querySelectorAll('.ac:not(.ac-soon)').forEach(card => { const title = (card.dataset.title || '') + card.innerText.toLowerCase(); const show = !term || title.includes(term); card.classList.toggle('hidden', !show); if(show) count++; });
+}
+</script>
+</body>
+</html>

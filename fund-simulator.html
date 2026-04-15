@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Souscrire, Oswald Vision Capital Fund Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{ --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa; --line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0; --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2; --blue:#1e4faa;--blue-bg:#eef3ff; --green:#1a7a4a;--green-bg:#e8f5ee; --red:#c0392b;--red-bg:#fde8e8; --purple:#5e35b1;--purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.6} /* ── LANG BAR */
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;align-items:center;justify-content:space-between}
+.lang-left{font-size:.68rem;color:rgba(255,255,255,.4);letter-spacing:.06em}
+.lang-left strong{color:var(--gold-l)}
+.lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:500;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer;transition:all .15s}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700} /* ── NAV */
+nav{background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 12px rgba(26,26,46,.06);position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-logo em{font-style:italic;color:var(--gold)}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.active-page{color:var(--ink);font-weight:700}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important} /* ── DISCLAIMER BANNER */
+.disclaimer-banner{background:linear-gradient(135deg,#fff7ed,#fef3e2);border-bottom:2px solid var(--gold);padding:.9rem 5vw;display:flex;align-items:center;gap:.8rem}
+.db-icon{font-size:1.2rem;flex-shrink:0}
+.db-text{font-size:.8rem;color:#92400e;line-height:1.55}
+.db-text strong{font-weight:700} /* ── HERO FUND */
+.fund-hero{background:var(--white);padding:5vh 8vw 4vh;border-bottom:1px solid var(--line)}
+.fh-top{display:grid;grid-template-columns:1fr auto;align-items:start;gap:2rem;margin-bottom:2.5rem}
+.fh-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+.fh-eyebrow::after{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
+h1.fh-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:.6rem}
+h1.fh-title em{font-style:italic;color:var(--gold)}
+.fh-sub{font-size:.92rem;color:var(--body);line-height:1.8;max-width:560px}
+.live-badge{display:inline-flex;align-items:center;gap:.45rem;background:var(--green-bg);border:1px solid #b8e0ca;color:var(--green);padding:.4rem 1rem;border-radius:100px;font-size:.75rem;font-weight:700;white-space:nowrap}
+.live-badge::before{content:'';width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.6)}} /* ── FUND KPIs */
+.fund-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.fk-item{background:var(--white);padding:1.4rem 1.2rem;text-align:center;transition:background .2s}
+.fk-item:hover{background:var(--cream)}
+.fk-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.fk-val{font-family:'Libre Baskerville',serif;font-size:1.7rem;font-weight:700;color:var(--ink);line-height:1}
+.fk-val.green{color:var(--green)}
+.fk-val.gold{color:var(--gold)}
+.fk-val.blue{color:var(--blue)}
+.fk-sub{font-size:.68rem;color:var(--muted);margin-top:.2rem} /* ── SECTIONS */
+section{padding:5vh 8vw}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
+.eyebrow::after{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
+h2.sh{font-family:'Libre Baskerville',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;margin-bottom:.6rem}
+h2.sh em{color:var(--gold);font-style:italic}
+.sl{font-size:.9rem;color:var(--body);line-height:1.8;max-width:580px;margin-bottom:2rem} /* ── PERFORMANCE CHART SECTION */
+.perf-section{background:var(--white);border-bottom:1px solid var(--line)}
+.perf-layout{display:grid;grid-template-columns:1.6fr 1fr;gap:3rem;align-items:start} .chart-wrap{position:relative}
+.chart-container{background:var(--cream);border:1px solid var(--cream2);border-radius:14px;padding:1.5rem;height:300px;position:relative;overflow:hidden}
+canvas#perfChart{width:100%!important;height:100%!important} .perf-legend{display:flex;gap:1.2rem;margin-bottom:1rem;flex-wrap:wrap}
+.pl-item{display:flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600}
+.pl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pl-dot.ovc{background:var(--gold)}
+.pl-dot.sp{background:var(--blue)}
+.pl-dot.brvm{background:var(--purple)} .perf-stats{display:flex;flex-direction:column;gap:.8rem}
+.ps-item{padding:1.1rem 1.3rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2);display:flex;justify-content:space-between;align-items:center}
+.ps-label{font-size:.8rem;color:var(--body);font-weight:500}
+.ps-val{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700}
+.ps-val.green{color:var(--green)}
+.ps-val.gold{color:var(--gold)}
+.ps-val.blue{color:var(--blue)}
+.ps-val.red{color:var(--red)} /* ── SIMULATOR */
+.sim-section{background:var(--cream)}
+.sim-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start} .sim-form-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:2rem;box-shadow:var(--shadow)}
+.sim-title{font-family:'Libre Baskerville',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:.4rem}
+.sim-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6} .sim-input-group{margin-bottom:1.2rem}
+.sim-label{font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;display:block}
+.sim-label span{font-weight:400;color:var(--muted)}
+.sim-input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--line);border-radius:8px;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s}
+.sim-input:focus{border-color:var(--gold)}
+.sim-input::placeholder{color:var(--muted)}
+.sim-select{width:100%;padding:.75rem 1rem;border:1.5px solid var(--line);border-radius:8px;font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--ink);background:var(--white);outline:none;cursor:pointer;transition:border-color .2s;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8aaa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
+.sim-select:focus{border-color:var(--gold)} .sim-result-card{background:var(--cream);border:1.5px solid var(--cream2);border-radius:12px;padding:1.4rem;margin-top:1.2rem;display:none}
+.sim-result-card.show{display:block}
+.src-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
+.src-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.src-item{background:var(--white);border-radius:8px;padding:.9rem;border:1px solid var(--line);text-align:center}
+.src-val{font-family:'Libre Baskerville',serif;font-size:1.25rem;font-weight:700;color:var(--ink)}
+.src-val.green{color:var(--green)}
+.src-val.gold{color:var(--gold)}
+.src-key{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.15rem} .btn-simulate{width:100%;padding:.85rem;background:var(--gold);color:#fff;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s,transform .15s;margin-top:.3rem}
+.btn-simulate:hover{background:#b5721e;transform:translateY(-2px)} /* ── SUBSCRIBE */
+.subscribe-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:2rem;box-shadow:var(--shadow)}
+.subscribe-steps{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem}
+.step{display:flex;align-items:flex-start;gap:.7rem;font-size:.82rem;color:var(--body);line-height:1.5}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;flex-shrink:0;margin-top:.05rem} .sub-form-fields{display:flex;flex-direction:column;gap:.9rem}
+.sub-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.sub-preview{background:var(--ink);color:#fff;border-radius:10px;padding:1.2rem 1.4rem;margin-top:1rem;display:none;font-family:'JetBrains Mono',monospace}
+.sub-preview.show{display:block}
+.sp-line{font-size:.72rem;color:rgba(255,255,255,.5);margin-bottom:.25rem}
+.sp-line span{color:var(--gold-l);font-weight:700}
+.btn-subscribe{width:100%;padding:.9rem;background:var(--ink);color:#fff;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s;margin-top:1rem}
+.btn-subscribe:hover{background:var(--blue)}
+.sub-success{background:var(--green-bg);border:1px solid #b8e0ca;border-radius:10px;padding:1.4rem;text-align:center;display:none;margin-top:1rem}
+.sub-success.show{display:block}
+.ss-icon{font-size:2rem;margin-bottom:.5rem}
+.ss-title{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--green);margin-bottom:.3rem}
+.ss-text{font-size:.8rem;color:var(--body);line-height:1.6} /* ── HOW IT WORKS */
+.how-section{background:var(--white)}
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+.how-card{padding:1.8rem 1.4rem;background:var(--cream);border-radius:12px;border:1px solid var(--cream2);transition:box-shadow .22s,transform .22s}
+.how-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.how-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gold);letter-spacing:.1em;margin-bottom:.7rem}
+.how-icon{font-size:1.8rem;margin-bottom:.7rem}
+.how-title{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.4rem}
+.how-text{font-size:.78rem;color:var(--body);line-height:1.65} /* ── SUBSCRIBERS TABLE */
+.subs-section{background:var(--cream)}
+.subs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.aum-badge{background:var(--ink);color:#fff;padding:.5rem 1.2rem;border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.06em}
+.aum-badge span{color:var(--gold-l)} .subs-table{width:100%;border-collapse:collapse;background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.subs-table th{background:var(--ink2);color:#fff;padding:.7rem 1rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.subs-table td{padding:.75rem 1rem;border-bottom:1px solid var(--line);font-size:.83rem;color:var(--body)}
+.subs-table tr:last-child td{border-bottom:none}
+.subs-table tr:hover td{background:var(--cream)}
+.sub-initials{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--purple));display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:#fff;flex-shrink:0}
+.sub-name-cell{display:flex;align-items:center;gap:.7rem}
+.td-green{color:var(--green);font-weight:700;font-family:'JetBrains Mono',monospace}
+.td-gold{color:var(--gold);font-weight:700;font-family:'JetBrains Mono',monospace}
+.td-mono{font-family:'JetBrains Mono',monospace;font-size:.75rem} /* ── MONTHLY STATEMENT */
+.statement-section{background:var(--white)}
+.statement-preview{background:var(--cream);border:1px solid var(--cream2);border-radius:14px;padding:2rem;max-width:600px;margin:0 auto}
+.stmt-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1.2rem;border-bottom:2px solid var(--gold)}
+.stmt-logo{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700}
+.stmt-logo em{color:var(--gold);font-style:italic}
+.stmt-period{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)}
+.stmt-investor{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:1.2rem;font-size:.8rem;color:var(--body)}
+.stmt-investor strong{color:var(--ink)}
+.stmt-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.2rem}
+.sk-item{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:.9rem;text-align:center}
+.sk-val{font-family:'Libre Baskerville',serif;font-size:1.2rem;font-weight:700}
+.sk-key{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.15rem}
+.stmt-perf-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--line);font-size:.8rem}
+.stmt-perf-row:last-child{border-bottom:none}
+.stmt-footer{margin-top:1rem;font-size:.68rem;color:var(--muted);line-height:1.55;border-top:1px solid var(--line);padding-top:.9rem} /* ── FOOTER */
+footer{background:var(--white);border-top:1px solid var(--line);padding:3vh 8vw;text-align:center}
+.ft-logo{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink)}
+.ft-logo em{color:var(--gold);font-style:italic}
+.ft-copy{font-size:.72rem;color:var(--muted);margin-top:.4rem}
+.ft-disc{font-size:.65rem;color:rgba(74,74,104,.35);max-width:700px;margin:.6rem auto 0;line-height:1.6} /* ── RESPONSIVE */
+@media(max-width:900px){ .fund-kpis{grid-template-columns:1fr 1fr} .perf-layout,.sim-layout{grid-template-columns:1fr} .how-grid{grid-template-columns:1fr 1fr} .stmt-kpis{grid-template-columns:1fr 1fr}
+}
+@media(max-width:580px){ .fh-top{grid-template-columns:1fr} .fund-kpis{grid-template-columns:1fr 1fr} .how-grid{grid-template-columns:1fr} .sub-row{grid-template-columns:1fr} .nav-links{display:none} .src-grid{grid-template-columns:1fr}
+} /* ── LANG */
+[data-fr],[data-en]{display:none}
+html[data-lang=fr] [data-fr]{display:revert}
+html[data-lang=en] [data-en]{display:revert}
+span[data-fr],span[data-en]{display:none}
+html[data-lang=fr] span[data-fr]{display:inline}
+html[data-lang=en] span[data-en]{display:inline} /* ── ANIMATE */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:translateY(0)} /* ── NUMBER COUNTER ANIMATION */
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.count-anim{animation:countUp .5s ease forwards}
+
+/* Dropdown nav */
+.nav-item-dd{position:relative;display:flex;align-items:center}
+.nav-link-dd{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:.25rem;transition:color .2s}
+.nav-link-dd::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);margin-left:.25rem;transition:transform .2s}
+.nav-item-dd:hover .nav-link-dd::after{transform:rotate(225deg) translateY(-2px)}
+.nav-item-dd:hover .nav-link-dd,.nav-item-dd:hover .nav-link-dd{color:var(--ink)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-4px);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 40px rgba(26,26,46,.14);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:200}
+.nav-item-dd:hover .nav-dropdown{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown a{display:block;padding:.52rem .9rem;font-size:.8rem;color:var(--body);text-decoration:none;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown a:hover{background:var(--cream);color:var(--ink)}
+.dd-divider{height:1px;background:var(--line);margin:.3rem .5rem}
+</style>
+</head>
+<body><!-- LANG BAR -->
+<div class="lang-bar">
+<span class="lang-left"><strong>Oswald Vision Capital</strong>·<span data-fr>Fonds virtuel de simulation</span><span data-en>Virtual simulation fund</span></span>
+<div class="lang-btns">
+<button class="lbtn active" onclick="setLang('fr')">FR</button>
+<button class="lbtn" onclick="setLang('en')">EN</button>
+</div>
+</div><!-- NAV -->
+<nav>
+<a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+<div class="nav-links" id="main-nav-links">
+<div class="nav-item-dd">
+  <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+  <div class="nav-dropdown">
+    <a href="nvidia.html">NVIDIA (N°002)</a>
+    <a href="orange-ci.html">Orange CI (N°001)</a>
+    <div class="dd-divider"></div>
+    <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+  </div>
+</div>
+<div class="nav-item-dd">
+  <a href="macro.html" class="nav-link-dd">Macro</a>
+  <div class="nav-dropdown">
+    <a href="macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
+    <a href="macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro-uemoa.html">UEMOA 2026 (A-001)</a>
+    <div class="dd-divider"></div>
+    <a href="macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+    <div class="dd-divider"></div>
+    <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
+  </div>
+</div>
+<a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
+<a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+</div>
+</nav><!-- DISCLAIMER BANNER -->
+<div class="disclaimer-banner">
+<span class="db-icon"></span>
+<p class="db-text">
+<strong><span data-fr>SIMULATION UNIQUEMENT</span><span data-en>SIMULATION ONLY</span></strong>
+<span data-fr>Ce fonds est entièrement fictif. Aucun argent réel n'est géré, investi ou collecté. Les souscriptions sont virtuelles et à but éducatif. L'auteur est étudiant en finance et n'est pas gérant de fonds agréé.</span>
+<span data-en>This fund is entirely fictitious. No real money is managed, invested or collected. Subscriptions are virtual and for educational purposes only. The author is a finance student and is not a licensed fund manager.</span>
+</p>
+</div><!-- FUND HERO -->
+<div class="fund-hero">
+<div class="fh-top">
+<div>
+<div class="fh-eyebrow"><span data-fr>Fonds de simulation virtuelle</span><span data-en>Virtual simulation fund</span></div>
+<h1 class="fh-title">
+<span data-fr>OVC Global<em>Multi-Strategy</em>Fund</span>
+<span data-en>OVC Global<em>Multi-Strategy</em>Fund</span>
+</h1>
+<p class="fh-sub">
+<span data-fr>Simulez comment votre argent se comporterait dans un portefeuille géré avec rigueur institutionnelle, sans engager un seul euro. Découvrez la puissance de la gestion active vs les indices.</span>
+<span data-en>Simulate how your money would perform in an institutionally managed portfolio, without committing a single euro. Discover the power of active management vs indices.</span>
+</p>
+</div>
+<div class="live-badge"><span data-fr>Fonds actif · Mis à jour</span><span data-en>Active fund · Updated</span>10/04/2026</div>
+</div><div class="fund-kpis">
+<div class="fk-item">
+<div class="fk-label"><span data-fr>Valeur de la part</span><span data-en>NAV per unit</span></div>
+<div class="fk-val gold" id="nav-display">100.00€</div>
+<div class="fk-sub"><span data-fr>Base 100 au lancement</span><span data-en>Base 100 at launch</span></div>
+</div>
+<div class="fk-item">
+<div class="fk-label"><span data-fr>Perf. depuis lancement</span><span data-en>Perf. since launch</span></div>
+<div class="fk-val green" id="total-perf">+0.00%</div>
+<div class="fk-sub"><span data-fr>Lancé le 10/01/2026</span><span data-en>Launched 10/01/2026</span></div>
+</div>
+<div class="fk-item">
+<div class="fk-label">Alpha vs S&P 500</div>
+<div class="fk-val blue" id="alpha-sp">+0.00%</div>
+<div class="fk-sub">S&P:<span id="sp-perf">0.00%</span></div>
+</div>
+<div class="fk-item">
+<div class="fk-label"><span data-fr>AUM simulé</span><span data-en>Simulated AUM</span></div>
+<div class="fk-val" id="aum-display">100 000€</div>
+<div class="fk-sub"><span data-fr>Capital virtuel de base</span><span data-en>Base virtual capital</span></div>
+</div>
+<div class="fk-item">
+<div class="fk-label"><span data-fr>Souscripteurs virtuels</span><span data-en>Virtual subscribers</span></div>
+<div class="fk-val" id="subs-count">0</div>
+<div class="fk-sub"><span data-fr>Rejoignez la simulation</span><span data-en>Join the simulation</span></div>
+</div>
+</div>
+</div><!-- PERFORMANCE -->
+<section class="perf-section" id="performance">
+<div class="eyebrow"><span data-fr>Suivi de performance</span><span data-en>Performance tracking</span></div>
+<h2 class="sh"><span data-fr>Évolution de la valeur de la<em>part</em></span><span data-en>Evolution of the<em>NAV</em></span></h2>
+<p class="sl reveal">
+<span data-fr>La valeur de la part est mise à jour chaque semaine. Un euro investi le jour du lancement suit exactement cette courbe. Comparez avec le S&P 500 et le BRVM Composite.</span>
+<span data-en>NAV is updated every week. One euro invested on launch day follows exactly this curve. Compare with S&P 500 and BRVM Composite.</span>
+</p><div class="perf-layout">
+<div>
+<div class="perf-legend">
+<div class="pl-item"><div class="pl-dot ovc"></div>OVC Fund</div>
+<div class="pl-item"><div class="pl-dot sp"></div>S&P 500</div>
+<div class="pl-item"><div class="pl-dot brvm"></div>BRVM Composite</div>
+</div>
+<div class="chart-container">
+<canvas id="perfChart"></canvas>
+</div>
+<p style="font-size:.7rem;color:var(--muted);margin-top:.6rem;font-family:'JetBrains Mono',monospace;">
+<span data-fr>* Données simulées à titre illustratif. Mis à jour manuellement chaque semaine.</span>
+<span data-en>* Simulated data for illustrative purposes. Updated manually every week.</span>
+</p>
+</div>
+<div class="perf-stats reveal">
+<div class="ps-item"><span class="ps-label"><span data-fr>Valeur part actuelle</span><span data-en>Current NAV</span></span><span class="ps-val gold">100.00 €</span></div>
+<div class="ps-item"><span class="ps-label"><span data-fr>Perf. OVC (lancement)</span><span data-en>OVC Perf. (inception)</span></span><span class="ps-val green">+0.00%</span></div>
+<div class="ps-item"><span class="ps-label">S&P 500 (même période)</span><span class="ps-val blue">+0.00%</span></div>
+<div class="ps-item"><span class="ps-label">BRVM Composite</span><span class="ps-val" style="color:var(--purple)">+0.00%</span></div>
+<div class="ps-item"><span class="ps-label">Alpha vs S&P 500</span><span class="ps-val green">+0.00%</span></div>
+<div class="ps-item"><span class="ps-label">Alpha vs BRVM</span><span class="ps-val green">+0.00%</span></div>
+<div class="ps-item"><span class="ps-label">Max Drawdown</span><span class="ps-val red">0.00%</span></div>
+<div class="ps-item"><span class="ps-label"><span data-fr>Ratio Sharpe (est.)</span><span data-en>Sharpe Ratio (est.)</span></span><span class="ps-val">N/A</span></div>
+<div style="margin-top:.5rem;padding:.9rem;background:var(--gold-bg);border-radius:8px;font-size:.75rem;color:#92400e;line-height:1.6">
+<strong><span data-fr>Prochaine MÀJ :</span><span data-en>Next update:</span></strong>
+<span data-fr>Dimanche 13 avril 2026, après la clôture des marchés US.</span>
+<span data-en>Sunday April 13, 2026, after US market close.</span>
+</div>
+</div>
+</div>
+</section><!-- SIMULATOR + SUBSCRIBE -->
+<section class="sim-section" id="simulate">
+<div class="sim-layout"><!-- SIMULATOR -->
+<div>
+<div class="eyebrow"><span data-fr>Simulateur</span><span data-en>Simulator</span></div>
+<h2 class="sh"><span data-fr>Et si vous aviez<em>investi</em>?</span><span data-en>What if you had<em>invested</em>?</span></h2>
+<div class="sim-form-card reveal">
+<div class="sim-title"><span data-fr>Calculez votre performance simulée</span><span data-en>Calculate your simulated performance</span></div>
+<p class="sim-sub">
+<span data-fr>Entrez un montant fictif et une date d'entrée pour voir comment votre capital virtuel aurait évolué dans le fonds OVC.</span>
+<span data-en>Enter a fictitious amount and entry date to see how your virtual capital would have evolved in the OVC fund.</span>
+</p><div class="sub-form-fields">
+<div class="sim-input-group">
+<label class="sim-label"><span data-fr>Montant fictif (€)</span><span data-en>Fictitious amount (€)</span><span><span data-fr>, aucun argent réel</span><span data-en>, no real money</span></span></label>
+<input type="number" class="sim-input" id="sim-amount" placeholder="Ex: 5000" min="100" max="1000000" oninput="calculateSimulation()">
+</div>
+<div class="sim-input-group">
+<label class="sim-label"><span data-fr>Date d'entrée simulée</span><span data-en>Simulated entry date</span></label>
+<select class="sim-select" id="sim-date" onchange="calculateSimulation()">
+<option value="launch"><span data-fr>Lancement du fonds, 10 jan. 2026</span><span data-en>Fund launch, Jan 10, 2026</span></option>
+<option value="feb"><span data-fr>1er février 2026</span><span data-en>February 1, 2026</span></option>
+<option value="mar"><span data-fr>1er mars 2026</span><span data-en>March 1, 2026</span></option>
+<option value="apr"><span data-fr>10 avril 2026 (aujourd'hui)</span><span data-en>April 10, 2026 (today)</span></option>
+</select>
+</div>
+</div><button class="btn-simulate" onclick="calculateSimulation(true)">
+<span data-fr>Simuler ma performance</span><span data-en>Simulate my performance</span>
+</button><div class="sim-result-card" id="sim-result">
+<div class="src-title"><span data-fr>Résultat de simulation</span><span data-en>Simulation result</span></div>
+<div class="src-grid">
+<div class="src-item"><div class="src-val" id="res-invested">n.d.</div><div class="src-key"><span data-fr>Capital investi</span><span data-en>Invested capital</span></div></div>
+<div class="src-item"><div class="src-val green" id="res-current">n.d.</div><div class="src-key"><span data-fr>Valeur actuelle</span><span data-en>Current value</span></div></div>
+<div class="src-item"><div class="src-val gold" id="res-gain">n.d.</div><div class="src-key"><span data-fr>Gain/Perte fictif</span><span data-en>Fictitious P&L</span></div></div>
+<div class="src-item"><div class="src-val green" id="res-perf">n.d.</div><div class="src-key"><span data-fr>Performance</span><span data-en>Performance</span></div></div>
+<div class="src-item"><div class="src-val" id="res-parts">n.d.</div><div class="src-key"><span data-fr>Nb de parts</span><span data-en>Units held</span></div></div>
+<div class="src-item"><div class="src-val blue" id="res-alpha">n.d.</div><div class="src-key">Alpha vs S&P</div></div>
+</div>
+<p style="font-size:.68rem;color:var(--muted);margin-top:.8rem;line-height:1.55;font-style:italic">
+<span data-fr>Résultat fictif à titre éducatif. Aucun argent réel impliqué. Les performances passées ne préjugent pas des performances futures.</span>
+<span data-en>Fictitious result for educational purposes. No real money involved. Past performance is not indicative of future results.</span>
+</p>
+</div>
+</div>
+</div><!-- SUBSCRIBE -->
+<div id="subscribe">
+<div class="eyebrow"><span data-fr>Souscription virtuelle</span><span data-en>Virtual subscription</span></div>
+<h2 class="sh"><span data-fr>Rejoindre le fonds<em>virtuellement</em></span><span data-en>Join the fund<em>virtually</em></span></h2>
+<div class="subscribe-card reveal">
+<div class="subscribe-steps">
+<div class="step"><div class="step-num">1</div><span data-fr>Entrez votre nom, email et montant virtuel</span><span data-en>Enter your name, email and virtual amount</span></div>
+<div class="step"><div class="step-num">2</div><span data-fr>Recevez votre confirmation avec votre nombre de parts</span><span data-en>Receive your confirmation with your unit count</span></div>
+<div class="step"><div class="step-num">3</div><span data-fr>Suivez votre performance chaque mois par email</span><span data-en>Track your performance every month by email</span></div>
+</div><div class="sub-form-fields">
+<div class="sub-row">
+<div class="sim-input-group" style="margin:0">
+<label class="sim-label"><span data-fr>Prénom</span><span data-en>First name</span></label>
+<input type="text" class="sim-input" id="sub-firstname" placeholder="Votre prénom" oninput="updatePreview()">
+</div>
+<div class="sim-input-group" style="margin:0">
+<label class="sim-label"><span data-fr>Nom</span><span data-en>Last name</span></label>
+<input type="text" class="sim-input" id="sub-lastname" placeholder="Votre nom" oninput="updatePreview()">
+</div>
+</div>
+<div class="sim-input-group">
+<label class="sim-label">Email</label>
+<input type="email" class="sim-input" id="sub-email" placeholder="votre@email.com" oninput="updatePreview()">
+</div>
+<div class="sim-input-group">
+<label class="sim-label"><span data-fr>Montant fictif à souscrire (€)</span><span data-en>Virtual amount to subscribe (€)</span><span><span data-fr>, aucun argent réel</span><span data-en>, no real money</span></span></label>
+<input type="number" class="sim-input" id="sub-amount" placeholder="Ex: 10000" min="500" oninput="updatePreview()">
+</div>
+<div class="sim-input-group">
+<label class="sim-label"><span data-fr>Devise de référence</span><span data-en>Reference currency</span></label>
+<select class="sim-select" id="sub-currency">
+<option value="EUR">EUR, Euro (€)</option>
+<option value="USD">USD, Dollar ($)</option>
+<option value="XOF">XOF, Franc CFA (FCFA)</option>
+<option value="GBP">GBP, Livre sterling (£)</option>
+</select>
+</div>
+</div><!-- PREVIEW TICKET -->
+<div class="sub-preview" id="sub-preview">
+<div class="sp-line">OSWALD VISION CAPITAL · OVC GLOBAL MULTI-STRATEGY FUND</div>
+<div class="sp-line">TICKET DE SOUSCRIPTION VIRTUELLE ·<span id="prev-date">10/04/2026</span></div>
+<div class="sp-line" style="margin-top:.5rem">Souscripteur :<span id="prev-name">n.d.</span></div>
+<div class="sp-line">Montant virtuel :<span id="prev-amount">n.d.</span></div>
+<div class="sp-line">Valeur part souscription :<span>100.00 €</span></div>
+<div class="sp-line">Nombre de parts attribuées :<span id="prev-parts">n.d.</span></div>
+<div class="sp-line" style="margin-top:.4rem;color:rgba(255,255,255,.25);font-size:.6rem">SIMULATION UNIQUEMENT, AUCUN ARGENT RÉEL</div>
+</div><button class="btn-subscribe" id="subscribe-btn" onclick="submitSubscription()">
+<span data-fr>Souscrire virtuellement</span><span data-en>Subscribe virtually</span>
+</button><div class="sub-success" id="sub-success">
+<div class="ss-icon"></div>
+<div class="ss-title"><span data-fr>Souscription virtuelle enregistrée !</span><span data-en>Virtual subscription registered!</span></div>
+<p class="ss-text">
+<span data-fr>Votre souscription fictive a bien été prise en compte. Vous recevrez un relevé mensuel simulé à votre adresse email. Bienvenue dans la simulation OVC !</span>
+<span data-en>Your fictitious subscription has been registered. You will receive a simulated monthly statement at your email address. Welcome to the OVC simulation!</span>
+</p>
+</div>
+</div>
+</div>
+</div>
+</section><!-- HOW IT WORKS -->
+<section class="how-section">
+<div class="eyebrow"><span data-fr>Comment ça marche</span><span data-en>How it works</span></div>
+<h2 class="sh reveal"><span data-fr>La mécanique d'un vrai fonds, en<em>virtuel</em></span><span data-en>Real fund mechanics,<em>virtually</em></span></h2>
+<div class="how-grid">
+<div class="how-card reveal">
+<div class="how-num">01</div>
+<div class="how-icon"></div>
+<div class="how-title"><span data-fr>La valeur de part</span><span data-en>NAV per unit</span></div>
+<p class="how-text"><span data-fr>Lancée à 100€ le 10 jan. 2026. Elle monte ou descend chaque semaine selon la performance réelle du portefeuille. Exactement comme un fonds UCITS.</span><span data-en>Launched at €100 on Jan 10, 2026. It rises or falls each week based on the portfolio's actual performance. Exactly like a UCITS fund.</span></p>
+</div>
+<div class="how-card reveal" style="transition-delay:.1s">
+<div class="how-num">02</div>
+<div class="how-icon"></div>
+<div class="how-title"><span data-fr>Votre souscription</span><span data-en>Your subscription</span></div>
+<p class="how-text"><span data-fr>Vous entrez un montant fictif. On calcule combien de parts vous auriez reçues à ce prix. Votre capital simulé évolue proportionnellement.</span><span data-en>You enter a fictitious amount. We calculate how many units you would have received at that price. Your simulated capital evolves proportionally.</span></p>
+</div>
+<div class="how-card reveal" style="transition-delay:.2s">
+<div class="how-num">03</div>
+<div class="how-icon"></div>
+<div class="how-title"><span data-fr>Le relevé mensuel</span><span data-en>Monthly statement</span></div>
+<p class="how-text"><span data-fr>Chaque mois, vous recevez par email un relevé complet : valeur de vos parts, performance vs benchmark, top & bottom contributors.</span><span data-en>Every month you receive a full statement by email: value of your units, performance vs benchmark, top & bottom contributors.</span></p>
+</div>
+<div class="how-card reveal" style="transition-delay:.3s">
+<div class="how-num">04</div>
+<div class="how-icon"></div>
+<div class="how-title"><span data-fr>L'objectif pédagogique</span><span data-en>The educational goal</span></div>
+<p class="how-text"><span data-fr>Comprendre la différence entre gestion active et ETF passif. Voir concrètement comment un gérant crée (ou détruit) de la valeur. Apprendre à lire un relevé de fonds.</span><span data-en>Understand the difference between active management and passive ETF. Concretely see how a manager creates (or destroys) value. Learn to read a fund statement.</span></p>
+</div>
+</div>
+</section><!-- SUBSCRIBERS TABLE -->
+<section class="subs-section" id="subscribers">
+<div class="subs-header">
+<div>
+<div class="eyebrow"><span data-fr>Communauté</span><span data-en>Community</span></div>
+<h2 class="sh" style="margin-bottom:0"><span data-fr>Souscripteurs<em>virtuels</em></span><span data-en><em>Virtual</em>subscribers</span></h2>
+</div>
+<div class="aum-badge">AUM simulé :<span id="total-aum">100 000 €</span></div>
+</div><table class="subs-table" id="subs-table">
+<thead>
+<tr>
+<th><span data-fr>Souscripteur</span><span data-en>Subscriber</span></th>
+<th><span data-fr>Montant virtuel</span><span data-en>Virtual amount</span></th>
+<th><span data-fr>Nb parts</span><span data-en>Units</span></th>
+<th><span data-fr>Date souscription</span><span data-en>Sub. date</span></th>
+<th><span data-fr>Valeur actuelle</span><span data-en>Current value</span></th>
+<th><span data-fr>Perf.</span><span data-en>Perf.</span></th>
+<th><span data-fr>Statut</span><span data-en>Status</span></th>
+</tr>
+</thead>
+<tbody id="subs-tbody">
+<tr>
+<td colspan="7" style="text-align:center;padding:2.5rem;color:var(--muted);font-style:italic;font-size:.85rem">
+<span data-fr>Soyez le premier souscripteur virtuel du fonds OVC. Rejoignez la simulation ci-dessus.</span>
+<span data-en>Be the first virtual subscriber of the OVC fund. Join the simulation above.</span>
+</td>
+</tr>
+</tbody>
+</table><p style="font-size:.72rem;color:var(--muted);margin-top:1rem;line-height:1.6">
+<span data-fr>Les noms sont affichés avec initiales uniquement. Les emails ne sont jamais publiés. Simulation sans transfert d'argent réel.</span>
+<span data-en>Names are displayed with initials only. Emails are never published. Simulation with no real money transfer.</span>
+</p>
+</section><!-- MONTHLY STATEMENT PREVIEW -->
+<section class="statement-section">
+<div class="eyebrow"><span data-fr>Relevé mensuel</span><span data-en>Monthly statement</span></div>
+<h2 class="sh reveal"><span data-fr>Aperçu de votre<em>relevé mensuel</em></span><span data-en>Preview of your<em>monthly statement</em></span></h2>
+<p class="sl reveal">
+<span data-fr>Voici à quoi ressemblera le relevé que vous recevrez chaque mois par email.</span>
+<span data-en>This is what the statement you will receive every month by email looks like.</span>
+</p><div class="statement-preview reveal">
+<div class="stmt-header">
+<div class="stmt-logo">Oswald<em>Vision</em>Capital</div>
+<div class="stmt-period">
+<span data-fr>Relevé mensuel · Mars 2026</span>
+<span data-en>Monthly statement · March 2026</span>
+</div>
+</div>
+<div class="stmt-investor">
+<span data-fr><strong>Souscripteur :</strong>[Votre Nom] ·<strong>Email :</strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="80f6eff4f2e5c0e5ede1e9ecaee3efed">[email&#160;protected]</a>·<strong>Ref. :</strong>OVC-2026-001</span>
+<span data-en><strong>Subscriber:</strong>[Your Name] ·<strong>Email:</strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="324b5d474072575f535b5e1c515d5f">[email&#160;protected]</a>·<strong>Ref.:</strong>OVC-2026-001</span>
+</div>
+<div class="stmt-kpis">
+<div class="sk-item"><div class="sk-val" style="color:var(--gold)">100.00 €</div><div class="sk-key"><span data-fr>Valeur part</span><span data-en>NAV</span></div></div>
+<div class="sk-item"><div class="sk-val">100</div><div class="sk-key"><span data-fr>Nb parts</span><span data-en>Units</span></div></div>
+<div class="sk-item"><div class="sk-val" style="color:var(--green)">10 000 €</div><div class="sk-key"><span data-fr>Valeur actuelle</span><span data-en>Current value</span></div></div>
+</div>
+<div class="stmt-perf-row"><span style="font-size:.8rem;color:var(--body)"><span data-fr>Capital investi (fictif)</span><span data-en>Invested capital (fictitious)</span></span><span style="font-weight:700">10 000 €</span></div>
+<div class="stmt-perf-row"><span style="font-size:.8rem;color:var(--body)">OVC Fund<span data-fr>(depuis souscription)</span><span data-en>(since subscription)</span></span><span style="font-weight:700;color:var(--green)">+0.00%</span></div>
+<div class="stmt-perf-row"><span style="font-size:.8rem;color:var(--body)">S&P 500<span data-fr>(même période)</span><span data-en>(same period)</span></span><span style="font-weight:700;color:var(--blue)">+0.00%</span></div>
+<div class="stmt-perf-row"><span style="font-size:.8rem;color:var(--body)">Alpha OVC vs S&P</span><span style="font-weight:700;color:var(--gold)">+0.00%</span></div>
+<div class="stmt-perf-row"><span style="font-size:.8rem;color:var(--body)"><span data-fr>Top performer du mois</span><span data-en>Top performer of month</span></span><span style="font-weight:700">NVIDIA +0.0%</span></div>
+<div class="stmt-footer">
+<span data-fr>Ce relevé est fictif à but éducatif. Aucun argent réel n'a été investi. Oswald Vision Capital est un fonds de simulation virtuelle géré par un étudiant en finance. Ce document ne constitue pas un conseil en investissement.</span>
+<span data-en>This statement is fictitious for educational purposes. No real money has been invested. Oswald Vision Capital is a virtual simulation fund managed by a finance student. This document does not constitute investment advice.</span>
+</div>
+</div>
+</section><!-- FOOTER -->
+<footer>
+<div class="ft-logo">Oswald<em>Vision</em>Capital</div>
+<div class="ft-copy">© 2026 ·<a href="index.html" style="color:var(--gold);text-decoration:none"><span data-fr>Retour à l'accueil</span><span data-en>Back to home</span></a>·<a href="analyses.html" style="color:var(--gold);text-decoration:none"><span data-fr>Analyses</span><span data-en>Research</span></a></div>
+<div class="ft-disc">
+<span data-fr>AVERTISSEMENT LÉGAL COMPLET : Ce site et ce fonds sont entièrement fictifs et à but éducatif uniquement. Aucun argent réel n'est collecté, géré ou investi. L'auteur est étudiant en finance en alternance et n'est pas gérant de fonds agréé par l'AMF ou tout autre régulateur. Les performances affichées sont simulées et ne constituent pas une garantie de rendement futur. La souscription virtuelle n'implique aucune relation contractuelle ou financière réelle.</span>
+<span data-en>FULL LEGAL DISCLAIMER: This site and fund are entirely fictitious and for educational purposes only. No real money is collected, managed or invested. The author is a finance student and is not a fund manager approved by the AMF or any other regulator. Displayed performances are simulated and do not constitute a guarantee of future returns. Virtual subscription implies no real contractual or financial relationship.</span>
+</div>
+</footer><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// ── LANG
+function setLang(l){ document.documentElement.setAttribute('data-lang',l); document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+}
+setLang('fr'); // ── FUND DATA (à mettre à jour chaque semaine)
+const FUND_DATA = { nav: 100.00, // METTRE À JOUR CHAQUE SEMAINE totalPerf: 0.00, // Performance depuis lancement en % spPerf: 0.00, // S&P 500 performance depuis lancement brvm: 0.00, // BRVM performance depuis lancement alpha: 0.00, // Calculé auto maxDrawdown: 0.00, sharpe: 0, launchDate: '10/01/2026', // Historique hebdomadaire [label, OVC, SP500, BRVM] history: [ ['10 jan', 100.00, 100.00, 100.00], ['17 jan', 100.00, 100.00, 100.00], ['24 jan', 100.00, 100.00, 100.00], ['31 jan', 100.00, 100.00, 100.00], ['07 fév', 100.00, 100.00, 100.00], ['14 fév', 100.00, 100.00, 100.00], ['21 fév', 100.00, 100.00, 100.00], ['28 fév', 100.00, 100.00, 100.00], ['07 mar', 100.00, 100.00, 100.00], ['14 mar', 100.00, 100.00, 100.00], ['21 mar', 100.00, 100.00, 100.00], ['28 mar', 100.00, 100.00, 100.00], ['04 avr', 100.00, 100.00, 100.00], ['10 avr', 100.00, 100.00, 100.00], ], // NAV par date d'entrée simulée navByDate: { launch: 100.00, feb: 100.00, mar: 100.00, apr: 100.00 }
+}; // ── NAV DATA per entry date for performance calc
+const SP_BY_DATE = { launch: 0.00, feb: 0.00, mar: 0.00, apr: 0.00 }; // ── DISPLAY FUND KPIs
+document.getElementById('nav-display').textContent = FUND_DATA.nav.toFixed(2) + '€';
+document.getElementById('total-perf').textContent = (FUND_DATA.totalPerf >= 0 ? '+' : '') + FUND_DATA.totalPerf.toFixed(2) + '%';
+document.getElementById('alpha-sp').textContent = (FUND_DATA.alpha >= 0 ? '+' : '') + (FUND_DATA.totalPerf - FUND_DATA.spPerf).toFixed(2) + '%';
+document.getElementById('sp-perf').textContent = (FUND_DATA.spPerf >= 0 ? '+' : '') + FUND_DATA.spPerf.toFixed(2) + '%'; // ── CHART
+const ctx = document.getElementById('perfChart').getContext('2d');
+const labels = FUND_DATA.history.map(h =>h[0]);
+const ovcData = FUND_DATA.history.map(h =>h[1]);
+const spData = FUND_DATA.history.map(h =>h[2]);
+const brvmData= FUND_DATA.history.map(h =>h[3]); new Chart(ctx, { type: 'line', data: { labels, datasets: [ { label: 'OVC Fund', data: ovcData, borderColor: '#c9832a', backgroundColor: 'rgba(201,131,42,.08)', borderWidth: 2.5, pointRadius: 3, pointHoverRadius: 6, tension: .3, fill: true }, { label: 'S&P 500', data: spData, borderColor: '#1e4faa', backgroundColor: 'transparent', borderWidth: 1.5, pointRadius: 2, tension: .3, borderDash: [4,3] }, { label: 'BRVM', data: brvmData,borderColor: '#5e35b1', backgroundColor: 'transparent', borderWidth: 1.5, pointRadius: 2, tension: .3, borderDash: [2,4] }, ] }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1a1a2e', titleColor: '#f0a84a', bodyColor: '#fff', padding: 10, callbacks: { label: ctx =>` ${ctx.dataset.label}: ${ctx.raw.toFixed(2)}` } } }, scales: { x: { grid: { color: 'rgba(0,0,0,.04)' }, ticks: { font: { family: 'JetBrains Mono', size: 10 }, color: '#8a8aaa' } }, y: { grid: { color: 'rgba(0,0,0,.04)' }, ticks: { font: { family: 'JetBrains Mono', size: 10 }, color: '#8a8aaa', callback: v =>v.toFixed(0) }, suggestedMin: 90, suggestedMax: 120 } } }
+}); // ── SIMULATOR
+function calculateSimulation(show = false) { const amount = parseFloat(document.getElementById('sim-amount').value) || 0; const dateKey = document.getElementById('sim-date').value; if (amount<= 0) return; const entryNav = FUND_DATA.navByDate[dateKey] || 100; const currentNav= FUND_DATA.nav; const units = amount / entryNav; const currentVal= units * currentNav; const gain = currentVal - amount; const perf = ((currentNav - entryNav) / entryNav) * 100; const spPerf = SP_BY_DATE[dateKey] || 0; const alpha = perf - spPerf; if (show) { const res = document.getElementById('sim-result'); res.classList.add('show'); document.getElementById('res-invested').textContent = amount.toLocaleString('fr-FR') + ' €'; document.getElementById('res-current').textContent = currentVal.toLocaleString('fr-FR', {maximumFractionDigits:2}) + ' €'; document.getElementById('res-gain').textContent = (gain >= 0 ? '+' : '') + gain.toLocaleString('fr-FR', {maximumFractionDigits:2}) + ' €'; document.getElementById('res-perf').textContent = (perf >= 0 ? '+' : '') + perf.toFixed(2) + '%'; document.getElementById('res-parts').textContent = units.toFixed(4) + ' parts'; document.getElementById('res-alpha').textContent = (alpha >= 0 ? '+' : '') + alpha.toFixed(2) + '%'; // Color feedback const gainEl = document.getElementById('res-gain'); const perfEl = document.getElementById('res-perf'); gainEl.style.color = gain >= 0 ? 'var(--green)' : 'var(--red)'; perfEl.style.color = perf >= 0 ? 'var(--green)' : 'var(--red)'; }
+} // ── SUBSCRIBE PREVIEW
+function updatePreview() { const fn = document.getElementById('sub-firstname').value; const ln = document.getElementById('sub-lastname').value; const amt= document.getElementById('sub-amount').value; const preview = document.getElementById('sub-preview'); if (fn || ln || amt) { preview.classList.add('show'); document.getElementById('prev-name').textContent = `${fn} ${ln}`.trim() || ''; const amtNum = parseFloat(amt) || 0; document.getElementById('prev-amount').textContent = amtNum >0 ? amtNum.toLocaleString('fr-FR') + ' €' : ''; const parts = amtNum >0 ? (amtNum / FUND_DATA.nav).toFixed(4) : ''; document.getElementById('prev-parts').textContent = parts ? parts + ' parts' : ''; document.getElementById('prev-date').textContent = new Date().toLocaleDateString('fr-FR'); }
+} // ── SUBSCRIBERS STATE (localStorage simulation)
+let subscribers = JSON.parse(localStorage.getItem('ovc_subs') || '[]');
+renderSubscribers();
+updateSubsCount(); function submitSubscription() { const fn = document.getElementById('sub-firstname').value.trim(); const ln = document.getElementById('sub-lastname').value.trim(); const em = document.getElementById('sub-email').value.trim(); const amt = parseFloat(document.getElementById('sub-amount').value) || 0; const cur = document.getElementById('sub-currency').value; if (!fn || !ln || !em || amt< 500) { alert('Veuillez remplir tous les champs. Montant minimum : 500€'); return; } if (!em.includes('@')) { alert('Email invalide.'); return; } const parts = (amt / FUND_DATA.nav).toFixed(4); const sub = { id: Date.now(), initials: fn[0].toUpperCase() + ln[0].toUpperCase(), name: fn[0] + '. ' + ln, email: em, amount: amt, currency: cur, parts: parseFloat(parts), navEntry: FUND_DATA.nav, date: new Date().toLocaleDateString('fr-FR'), timestamp: Date.now() }; subscribers.push(sub); localStorage.setItem('ovc_subs', JSON.stringify(subscribers)); renderSubscribers(); updateSubsCount(); // Show success document.getElementById('subscribe-btn').style.display = 'none'; document.getElementById('sub-success').classList.add('show'); document.getElementById('sub-preview').classList.remove('show');
+} function renderSubscribers() { const tbody = document.getElementById('subs-tbody'); if (subscribers.length === 0) { tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2.5rem;color:var(--muted);font-style:italic;font-size:.85rem">
+<span>Soyez le premier souscripteur virtuel du fonds OVC !</span></td></tr>`; return; } let totalAUM = 100000; // base capital subscribers.forEach(s =>totalAUM += s.amount); tbody.innerHTML = subscribers.map(s =>{ const currentVal = (s.parts * FUND_DATA.nav).toFixed(2); const perf = (((FUND_DATA.nav - s.navEntry) / s.navEntry) * 100).toFixed(2); const perfClass = parseFloat(perf) >= 0 ? 'td-green' : '' ; return `
+<tr>
+<td><div class="sub-name-cell">
+<div class="sub-initials">${s.initials}</div>
+<span>${s.name}</span>
+</div></td>
+<td class="td-mono">${s.amount.toLocaleString('fr-FR')} ${s.currency}</td>
+<td class="td-mono">${s.parts.toFixed(2)}</td>
+<td class="td-mono">${s.date}</td>
+<td class="td-gold">${parseFloat(currentVal).toLocaleString('fr-FR')} €</td>
+<td class="${perfClass}">${parseFloat(perf) >= 0 ? '+' : ''}${perf}%</td>
+<td><span style="background:var(--green-bg);color:var(--green);font-size:.65rem;font-weight:700;padding:.2rem .55rem;border-radius:100px">Actif</span></td>
+</tr>`; }).join(''); document.getElementById('total-aum').textContent = totalAUM.toLocaleString('fr-FR') + ' €';
+} function updateSubsCount() { const count = document.getElementById('subs-count'); if (count) count.textContent = subscribers.length; // Update AUM display let totalAUM = 100000; subscribers.forEach(s =>totalAUM += s.amount); const aumEl = document.getElementById('aum-display'); if 
