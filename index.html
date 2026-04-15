@@ -164,10 +164,11 @@ h2.sh em{font-style:italic;color:var(--gold)}
 .about-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:4vw;align-items:start}
 .about-card{background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
 .ac-top{background:linear-gradient(135deg,var(--ink),var(--ink2));padding:2.2rem 1.8rem;text-align:center}
-.ac-av{width:80px;height:80px;border-radius:50%;overflow:hidden;margin:0 auto .9rem;border:3px solid rgba(255,255,255,.15);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.ac-av{width:150px;height:150px;border-radius:50%;overflow:hidden;margin:0 auto 1.2rem;border:4px solid rgba(255,255,255,.2);box-shadow:0 8px 30px rgba(0,0,0,.3);transition:transform .3s ease}
+.ac-av:hover{transform:scale(1.05)}
 .ac-av img{width:100%;height:100%;object-fit:cover}
-.ac-name{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;color:#fff}
-.ac-role{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:.18rem;letter-spacing:.06em}
+.ac-name{font-family:'Libre Baskerville',serif;font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.3rem}
+.ac-role{font-size:.78rem;color:rgba(255,255,255,.5);letter-spacing:.06em}
 .ac-tags{padding:1.3rem;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.45rem}
 .ac-tag{font-size:.7rem;font-weight:600;padding:.28rem .7rem;border-radius:100px;background:var(--cream);color:var(--body);border:1px solid var(--cream2)}
 .ac-stats{display:grid;grid-template-columns:1fr 1fr}
@@ -653,9 +654,9 @@ html[data-lang=en] span[data-en]{display:inline}
 <section class="about-section" id="about">
 <div class="eyebrow reveal"><span data-fr>À propos</span><span data-en>About</span></div>
 <div class="about-grid">
-<div class="about-card reveal-l">
+<div class="about-card">
 <div class="ac-top">
-<div class="ac-av"><img src="img/oswald.jpg" alt="Oswald Jaurès KOFFI"></div>
+<div class="ac-av"><img src="img/oswald.jpg?v=1.0" alt="Oswald Jaurès KOFFI"></div>
 <div class="ac-name">Oswald Jaurès KOFFI</div>
 <div class="ac-role"><span data-fr>Analyste · Passionné de Finance & Économie</span><span data-en>Analyst · Finance & Economics Enthusiast</span></div>
 </div>
