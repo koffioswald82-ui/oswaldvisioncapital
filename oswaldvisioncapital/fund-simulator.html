@@ -174,6 +174,8 @@ html[data-lang=en] span[data-en]{display:inline} /* ── ANIMATE */
 .nav-dropdown a:hover{background:var(--cream);color:var(--ink)}
 .dd-divider{height:1px;background:var(--line);margin:.3rem .5rem}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
 </head>
 <body><!-- LANG BAR -->
 <div class="lang-bar">
@@ -527,11 +529,66 @@ const brvmData= FUND_DATA.history.map(h =>h[3]); new Chart(ctx, { type: 'line', 
 function calculateSimulation(show = false) { const amount = parseFloat(document.getElementById('sim-amount').value) || 0; const dateKey = document.getElementById('sim-date').value; if (amount<= 0) return; const entryNav = FUND_DATA.navByDate[dateKey] || 100; const currentNav= FUND_DATA.nav; const units = amount / entryNav; const currentVal= units * currentNav; const gain = currentVal - amount; const perf = ((currentNav - entryNav) / entryNav) * 100; const spPerf = SP_BY_DATE[dateKey] || 0; const alpha = perf - spPerf; if (show) { const res = document.getElementById('sim-result'); res.classList.add('show'); document.getElementById('res-invested').textContent = amount.toLocaleString('fr-FR') + ' €'; document.getElementById('res-current').textContent = currentVal.toLocaleString('fr-FR', {maximumFractionDigits:2}) + ' €'; document.getElementById('res-gain').textContent = (gain >= 0 ? '+' : '') + gain.toLocaleString('fr-FR', {maximumFractionDigits:2}) + ' €'; document.getElementById('res-perf').textContent = (perf >= 0 ? '+' : '') + perf.toFixed(2) + '%'; document.getElementById('res-parts').textContent = units.toFixed(4) + ' parts'; document.getElementById('res-alpha').textContent = (alpha >= 0 ? '+' : '') + alpha.toFixed(2) + '%'; // Color feedback const gainEl = document.getElementById('res-gain'); const perfEl = document.getElementById('res-perf'); gainEl.style.color = gain >= 0 ? 'var(--green)' : 'var(--red)'; perfEl.style.color = perf >= 0 ? 'var(--green)' : 'var(--red)'; }
 } // ── SUBSCRIBE PREVIEW
 function updatePreview() { const fn = document.getElementById('sub-firstname').value; const ln = document.getElementById('sub-lastname').value; const amt= document.getElementById('sub-amount').value; const preview = document.getElementById('sub-preview'); if (fn || ln || amt) { preview.classList.add('show'); document.getElementById('prev-name').textContent = `${fn} ${ln}`.trim() || ''; const amtNum = parseFloat(amt) || 0; document.getElementById('prev-amount').textContent = amtNum >0 ? amtNum.toLocaleString('fr-FR') + ' €' : ''; const parts = amtNum >0 ? (amtNum / FUND_DATA.nav).toFixed(4) : ''; document.getElementById('prev-parts').textContent = parts ? parts + ' parts' : ''; document.getElementById('prev-date').textContent = new Date().toLocaleDateString('fr-FR'); }
-} // ── SUBSCRIBERS STATE (localStorage simulation)
-let subscribers = JSON.parse(localStorage.getItem('ovc_subs') || '[]');
-renderSubscribers();
-updateSubsCount(); function submitSubscription() { const fn = document.getElementById('sub-firstname').value.trim(); const ln = document.getElementById('sub-lastname').value.trim(); const em = document.getElementById('sub-email').value.trim(); const amt = parseFloat(document.getElementById('sub-amount').value) || 0; const cur = document.getElementById('sub-currency').value; if (!fn || !ln || !em || amt< 500) { alert('Veuillez remplir tous les champs. Montant minimum : 500€'); return; } if (!em.includes('@')) { alert('Email invalide.'); return; } const parts = (amt / FUND_DATA.nav).toFixed(4); const sub = { id: Date.now(), initials: fn[0].toUpperCase() + ln[0].toUpperCase(), name: fn[0] + '. ' + ln, email: em, amount: amt, currency: cur, parts: parseFloat(parts), navEntry: FUND_DATA.nav, date: new Date().toLocaleDateString('fr-FR'), timestamp: Date.now() }; subscribers.push(sub); localStorage.setItem('ovc_subs', JSON.stringify(subscribers)); renderSubscribers(); updateSubsCount(); // Show success document.getElementById('subscribe-btn').style.display = 'none'; document.getElementById('sub-success').classList.add('show'); document.getElementById('sub-preview').classList.remove('show');
-} function renderSubscribers() { const tbody = document.getElementById('subs-tbody'); if (subscribers.length === 0) { tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2.5rem;color:var(--muted);font-style:italic;font-size:.85rem">
+// ── SUBSCRIBERS STATE (Supabase)
+let subscribers = [];
+
+async function loadSubscribers() {
+  const { data, error } = await _db.from('subscribers').select('*').order('date', { ascending: false });
+  if (data) {
+    subscribers = data.map(s => ({
+      id: s.id,
+      initials: (s.first_name[0] + s.last_name[0]).toUpperCase(),
+      name: s.first_name[0] + '. ' + s.last_name,
+      amount: parseFloat(s.amount),
+      currency: s.currency || 'EUR',
+      parts: parseFloat(s.parts),
+      navEntry: parseFloat(s.nav_entry),
+      date: new Date(s.date).toLocaleDateString('fr-FR')
+    }));
+    renderSubscribers();
+    updateSubsCount();
+  }
+}
+loadSubscribers();
+
+function submitSubscription() { 
+  const fn = document.getElementById('sub-firstname').value.trim(); 
+  const ln = document.getElementById('sub-lastname').value.trim(); 
+  const em = document.getElementById('sub-email').value.trim(); 
+  const amt = parseFloat(document.getElementById('sub-amount').value) || 0; 
+  const cur = document.getElementById('sub-currency').value; 
+  if (!fn || !ln || !em || amt< 500) { alert('Veuillez remplir tous les champs. Montant minimum : 500€'); return; } 
+  if (!em.includes('@')) { alert('Email invalide.'); return; } 
+  
+  const parts = parseFloat((amt / FUND_DATA.nav).toFixed(4)); 
+  const dataObj = {
+    first_name: fn,
+    last_name: ln,
+    email: em,
+    amount: amt,
+    currency: cur,
+    parts: parts,
+    nav_entry: FUND_DATA.nav
+  };
+  
+  document.getElementById('subscribe-btn').textContent = 'En cours...';
+  document.getElementById('subscribe-btn').disabled = true;
+
+  _db.from('subscribers').insert([dataObj]).then(({error}) => {
+    if (!error) {
+      loadSubscribers();
+      document.getElementById('subscribe-btn').style.display = 'none'; 
+      document.getElementById('sub-success').classList.add('show'); 
+      document.getElementById('sub-preview').classList.remove('show');
+    } else {
+      alert('Erreur lors de la souscription.');
+      document.getElementById('subscribe-btn').textContent = 'Souscrire virtuellement';
+      document.getElementById('subscribe-btn').disabled = false;
+    }
+  });
+} 
+
+function renderSubscribers() { const tbody = document.getElementById('subs-tbody'); if (subscribers.length === 0) { tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2.5rem;color:var(--muted);font-style:italic;font-size:.85rem">
 <span>Soyez le premier souscripteur virtuel du fonds OVC !</span></td></tr>`; return; } let totalAUM = 100000; // base capital subscribers.forEach(s =>totalAUM += s.amount); tbody.innerHTML = subscribers.map(s =>{ const currentVal = (s.parts * FUND_DATA.nav).toFixed(2); const perf = (((FUND_DATA.nav - s.navEntry) / s.navEntry) * 100).toFixed(2); const perfClass = parseFloat(perf) >= 0 ? 'td-green' : '' ; return `
 <tr>
 <td><div class="sub-name-cell">

@@ -455,6 +455,8 @@ html[data-lang=en] span[data-en]{display:inline}
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -880,13 +882,79 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Reload when admin saves data
+  // Reload when admin saves data (meme onglet / meme navigateur)
   window.addEventListener('storage', function(e) {
     if (e.key === 'ovc_fund_state' || e.key === 'ovc_nav_history') {
       var newState = readState();
       if (newState) render(newState, newState.prices);
     }
   });
+
+  // ════════════════════════════════════════════════
+  // SUPABASE — chargement dynamique des donnees
+  // ════════════════════════════════════════════════
+  async function loadFromSupabaseAndRender() {
+    if (!window._db) return;
+    try {
+      var r1 = await _db.from('portfolio').select('*');
+      var r2 = await _db.from('nav_history').select('*').order('date');
+      var r3 = await _db.from('fund_settings').select('*').eq('id', 1).single();
+
+      var portfolio  = r1.data;
+      var navHistory = r2.data;
+      var settings   = r3.data;
+
+      if (!navHistory || navHistory.length === 0) return; // Supabase vide
+
+      var state = readState() || {};
+
+      if (portfolio && portfolio.length > 0) {
+        state.portfolio = portfolio.map(function(p) {
+          return { ticker:p.ticker, name:p.name, zone:p.zone, sector:p.sector||'',
+                   entryPrice:parseFloat(p.entry_price), currentPrice:parseFloat(p.current_price),
+                   currency:p.currency, apiMethod:p.api_method||'manual', qty:parseFloat(p.qty)||0 };
+        });
+        var prices = {};
+        state.portfolio.forEach(function(p){ prices[p.ticker] = p.currentPrice; });
+        state.prices = prices;
+      }
+
+      if (navHistory && navHistory.length > 0) {
+        state.navHistory = navHistory.map(function(h) {
+          return { date:h.date, nav:parseFloat(h.nav), capital:parseFloat(h.capital||0),
+                   cash:parseFloat(h.cash||0), parts:parseFloat(h.parts||0), note:h.note||'' };
+        });
+      }
+
+      if (settings) {
+        state.cash  = parseFloat(settings.cash);
+        state.parts = parseFloat(settings.parts);
+      }
+
+      // Sync localStorage pour la compatibilite
+      localStorage.setItem('ovc_nav_history', JSON.stringify(state.navHistory));
+      localStorage.setItem('ovc_fund_state',  JSON.stringify(state));
+      var lsPrices = {};
+      (state.portfolio||[]).forEach(function(p){ lsPrices[p.ticker] = p.currentPrice; });
+      localStorage.setItem('ovc_state', JSON.stringify({ prices:lsPrices, portfolio:state.portfolio, lastUpdate:new Date().toISOString().split('T')[0] }));
+
+      // Re-rendu avec donnees Supabase
+      render(state, state.prices || {});
+
+      // Puis cours en direct
+      fetchLivePrices(state.portfolio || [], state.prices || {}, function(livePrices) {
+        render(state, livePrices);
+        var now = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+        var statusEl = document.getElementById('refresh-status');
+        if (statusEl) statusEl.textContent = 'Supabase + cours en direct — ' + now;
+      });
+    } catch(e) {
+      console.warn('[Supabase] performance.html load error :', e);
+    }
+  }
+
+  // Lancer le chargement Supabase apres le rendu initial
+  loadFromSupabaseAndRender();
 
 }); // end DOMContentLoaded
 </script>

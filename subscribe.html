@@ -588,6 +588,8 @@ html[data-lang=en] span[data-en]{display:inline}
 </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -855,6 +857,31 @@ document.addEventListener('DOMContentLoaded', function() {
     var lang = document.documentElement.getAttribute('data-lang') || 'fr';
     btn.disabled = true;
     btn.textContent = lang === 'fr' ? 'Envoi...' : 'Sending...';
+
+    // Sauvegarde Supabase (INSERT public autorise par RLS)
+    if (window._db) {
+      var sbFirst = (document.getElementById('f-first').value || '').trim();
+      var sbLast  = (document.getElementById('f-last').value  || '').trim();
+      var sbEmail = (document.getElementById('f-email').value || '').trim();
+      var sbAmt   = parseFloat(document.getElementById('f-amount').value)   || 0;
+      var sbNav   = parseFloat((document.getElementById('f-nav-at-sub')||{}).value) || 100;
+      var sbUnits = parseFloat((document.getElementById('f-units-calc')||{}).value) || 0;
+      var sbDate  = (document.getElementById('f-date-sub')||{}).value || new Date().toISOString().split('T')[0];
+      var sbObj   = (document.getElementById('f-objective')||{}).value || '';
+      var sbHzEl  = document.getElementById('r-horizon');
+      var sbHz    = sbHzEl ? sbHzEl.value : '3';
+      var sbRisk  = (document.getElementById('f-risk')||{}).value || '3';
+      var sbCountry = (document.getElementById('f-country')||{}).value || '';
+      _db.from('subscribers').insert({
+        first_name:sbFirst, last_name:sbLast, email:sbEmail,
+        amount:sbAmt, currency:'EUR', parts:sbUnits, nav_entry:sbNav,
+        objective:sbObj, horizon:sbHz, risk:sbRisk, country:sbCountry,
+        date:new Date(sbDate + 'T00:00:00').toISOString()
+      }).then(function(res) {
+        if (res.error) console.warn('[Supabase] subscriber insert :', res.error);
+        else console.log('[Supabase] Souscripteur enregistre');
+      });
+    }
 
     var fd = new FormData(this);
     fetch(this.action, { method:'POST', body:fd, headers:{Accept:'application/json'} })
