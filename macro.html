@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr" data-lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -111,10 +111,46 @@ html[data-lang=en] [data-en]{display:revert}
 span[data-fr],span[data-en]{display:none}
 html[data-lang=fr] span[data-fr]{display:inline}
 html[data-lang=en] span[data-en]{display:inline} /* RESPONSIVE */
-@media(max-width:900px){ .featured-card{grid-template-columns:1fr} .analyses-grid{grid-template-columns:1fr 1fr} .nav-links{display:none} .stats-bar{gap:2rem}
+/* ── MOBILE MENU ── */
+.mobile-nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1100}
+.mobile-nav-toggle span{display:block;width:24px;height:2px;background:var(--ink);transition:all .3s ease;border-radius:2px}
+
+.mobile-nav-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);z-index:1050;display:flex;flex-direction:column;padding:80px 8vw 40px;transform:translateX(100%);transition:transform .4s cubic-bezier(.77,0,.175,1);overflow-y:auto}
+.mobile-nav-overlay.open{transform:translateX(0)}
+.mno-links{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem}
+.mno-link{font-size:1.3rem;font-weight:700;color:var(--ink);text-decoration:none;font-family:'Libre Baskerville',serif}
+.mno-sublinks{padding-left:1.5rem;display:flex;flex-direction:column;gap:.6rem;margin-top:.4rem}
+.mno-sublink{font-size:.9rem;color:var(--body);text-decoration:none}
+.mno-cta{margin-top:2rem;text-align:center}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .analyses-grid{grid-template-columns:repeat(2,1fr)}
+  .featured-card{grid-template-columns:1fr}
 }
-@media(max-width:560px){ .analyses-grid{grid-template-columns:1fr} .fc-kpis{grid-template-columns:1fr 1fr}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .mobile-nav-toggle{display:flex}
+  
+  .page-header{padding:6vh 5vw 5vh}
+  .stats-bar{padding:2rem 5vw; gap:1.5rem}
+  .page-body{padding:4vh 5vw 8vh}
+  
+  .analyses-grid{grid-template-columns:1fr}
+  .fc-left, .fc-right{padding:1.5rem}
+  .fc-kpis{grid-template-columns:repeat(2,1fr)}
+  
+  .nl-cta{padding:2rem 1.5rem}
+  .nl-form{flex-direction:column}
+  .nl-form button{border-radius:0 0 8px 8px}
+  
+  body.menu-open{overflow:hidden}
+  body.menu-open .mobile-nav-toggle span:nth-child(1){transform:rotate(45deg) translate(5px, 5px)}
+  body.menu-open .mobile-nav-toggle span:nth-child(2){opacity:0}
+  body.menu-open .mobile-nav-toggle span:nth-child(3){transform:rotate(-45deg) translate(5px, -5px)}
 }
+
 
 /* Dropdown nav */
 .nav-item-dd{position:relative;display:flex;align-items:center}
@@ -136,34 +172,67 @@ html[data-lang=en] span[data-en]{display:inline} /* RESPONSIVE */
 <button class="lbtn" onclick="setLang('en')">EN</button>
 </div>
 </div><nav>
-<a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
-<div class="nav-links" id="main-nav-links">
-<div class="nav-item-dd">
-  <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
-  <div class="nav-dropdown">
-    <a href="Analyse/nvidia.html">NVIDIA (N°002)</a>
-    <a href="Analyse/orange-ci.html">Orange CI (N°001)</a>
-    <div class="dd-divider"></div>
-    <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+  <a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+  <div class="nav-links" id="main-nav-links">
+    <div class="nav-item-dd">
+      <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+      <div class="nav-dropdown">
+        <a href="Analyse/nvidia.html">NVIDIA (N°002)</a>
+        <a href="Analyse/orange-ci.html">Orange CI (N°001)</a>
+        <div class="dd-divider"></div>
+        <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+      </div>
+    </div>
+    <div class="nav-item-dd">
+      <a href="macro.html" class="nav-link-dd">Macro</a>
+      <div class="nav-dropdown">
+        <a href="Mcr/macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
+        <a href="Mcr/macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+        <div class="dd-divider"></div>
+        <a href="Mcr/macro-uemoa.html">UEMOA 2026 (A-001)</a>
+        <div class="dd-divider"></div>
+        <a href="Mcr/macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+        <div class="dd-divider"></div>
+        <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
+      </div>
+    </div>
+    <a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
+    <a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+  </div>
+  
+  <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Nav Overlay -->
+<div class="mobile-nav-overlay" id="mobile-menu">
+  <div class="mno-links">
+    <a href="index.html" class="mno-link">Home</a>
+    <div class="mno-group">
+      <a href="analyses.html" class="mno-link">Equity Research</a>
+      <div class="mno-sublinks">
+        <a href="Analyse/nvidia.html" class="mno-sublink">NVIDIA</a>
+        <a href="Analyse/orange-ci.html" class="mno-sublink">Orange CI</a>
+      </div>
+    </div>
+    <div class="mno-group">
+      <a href="macro.html" class="mno-link">Macro</a>
+      <div class="mno-sublinks">
+        <a href="Mcr/macro-iran-ormuz.html" class="mno-sublink">Détroit d'Ormuz</a>
+        <a href="Mcr/macro-trump-tariffs.html" class="mno-sublink">Tarifs Trump 2025</a>
+      </div>
+    </div>
+    <a href="performance.html" class="mno-link">Performance</a>
+    <a href="fund-simulator.html" class="mno-link">Fonds OVC</a>
+    <div class="mno-cta">
+      <a href="subscribe.html" class="btn-gold" style="display:block;text-align:center;padding:1rem;border-radius:12px;text-decoration:none;font-weight:700">
+        <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
+      </a>
+    </div>
   </div>
 </div>
-<div class="nav-item-dd">
-  <a href="macro.html" class="nav-link-dd">Macro</a>
-  <div class="nav-dropdown">
-    <a href="Mcr/macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
-    <a href="Mcr/macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
-    <div class="dd-divider"></div>
-    <a href="Mcr/macro-uemoa.html">UEMOA 2026 (A-001)</a>
-    <div class="dd-divider"></div>
-    <a href="Mcr/macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
-    <div class="dd-divider"></div>
-    <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
-  </div>
-</div>
-<a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
-<a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
-</div>
-</nav><!-- PAGE HEADER -->
+<!-- PAGE HEADER -->
 <div class="page-header">
 <div class="ph-eyebrow"><span data-fr>Recherche économique indépendante · Macro · Afrique · Sectorielle</span><span data-en>Independent economic research · Macro · Africa · Sector</span></div>
 <h1 class="ph-title">
@@ -365,6 +434,29 @@ function setLang(l){document.documentElement.setAttribute('data-lang',l);documen
 setLang('fr'); function filterCat(cat, btn) { document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('on','on-blue','on-green','on-purple')); btn.classList.add('on'); const featured = document.getElementById('featured-wrap'); if(cat === 'all' || featured.querySelector('[data-cat]')?.dataset?.cat?.includes(cat)) { featured.style.display = 'block'; } else { featured.style.display = cat === 'all' ? 'block' : 'none'; } document.querySelectorAll('.ac').forEach(card => { const cardCat = card.dataset.cat || ''; card.classList.toggle('hidden', cat !== 'all' && !cardCat.includes(cat)); }); ['macro','africa','sector'].forEach(c => { const section = document.getElementById('cat-' + c); if(section) section.style.display = (cat === 'all' || cat === c) ? 'block' : 'none'; });
 } function searchAnalyses(q) { const term = q.toLowerCase(); let count = 0; document.querySelectorAll('.ac:not(.ac-soon)').forEach(card => { const title = (card.dataset.title || '') + card.innerText.toLowerCase(); const show = !term || title.includes(term); card.classList.toggle('hidden', !show); if(show) count++; });
 }
+
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const body = document.body;
+  if (!menu) return;
+  menu.classList.toggle('open');
+  body.classList.toggle('menu-open');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('mobile-toggle');
+  if (toggle) toggle.addEventListener('click', toggleMobileMenu);
+
+  document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
+    link.addEventListener('click', () => {
+      const menu = document.getElementById('mobile-menu');
+      if (menu) menu.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    });
+  });
+});
 </script>
+
 </body>
 </html>

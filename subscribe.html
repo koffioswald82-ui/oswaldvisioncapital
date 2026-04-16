@@ -297,6 +297,21 @@ html[data-lang=en] span[data-en]{display:inline}
     <span data-en>Educational and simulated fund only. Your data is used exclusively for your simulation tracking and will never be sold or shared.</span>
   </div>
 
+  <!-- VL LIVE BANNER -->
+  <div id="vl-banner" style="background:var(--ink);color:#fff;border-radius:10px;padding:.8rem 1.2rem;margin-bottom:1.4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem"><span data-fr>Valeur de part actuelle</span><span data-en>Current unit NAV</span></div>
+      <div style="font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--gold-l)" id="banner-nav">100.00 EUR</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem"><span data-fr>Date de la VL</span><span data-en>NAV date</span></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:rgba(255,255,255,.6)" id="banner-date">--</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem"><span data-fr>Votre montant = parts</span><span data-en>Your amount = units</span></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--gold-l)" id="banner-units">Entrez un montant</div>
+    </div>
+  </div>
   <!-- STEPS BAR -->
   <div class="steps-bar" id="steps-bar">
     <div class="sb-step">
@@ -320,12 +335,14 @@ html[data-lang=en] span[data-en]{display:inline}
     </div>
   </div>
 
-  <form id="ovc-form" action="https://formspree.io/f/mvzdzvko" method="POST">
+  <form id="ovc-form" action="https://formspree.io/f/VOTRE_ID_ICI" method="POST">
 
     <!-- hidden meta fields -->
     <input type="hidden" name="_subject" id="f-subject" value="Nouvelle souscription OVC">
     <input type="hidden" name="langue" id="f-lang" value="fr">
     <input type="hidden" name="horizon_ans" id="f-horizon" value="3">
+    <input type="hidden" name="vl_au_moment_souscription" id="f-nav-at-sub" value="100.00">
+    <input type="hidden" name="nombre_parts_calcule" id="f-units-calc" value="0">
     <input type="hidden" name="risque_score" id="f-risk" value="3">
     <input type="hidden" name="objectif" id="f-objective" value="">
     <input type="hidden" name="date_soumission" id="f-date" value="">
@@ -585,6 +602,14 @@ document.addEventListener('DOMContentLoaded', function() {
   window.setLang = setLang;
   setLang('fr');
 
+  // Display current NAV in banner
+  (function() {
+    var bannerNav  = document.getElementById('banner-nav');
+    var bannerDate = document.getElementById('banner-date');
+    if (bannerNav)  bannerNav.textContent  = NAV.toFixed(2) + ' EUR';
+    if (bannerDate) bannerDate.textContent = NAV_DATE;
+  })();
+
   // ── INIT DATES
   var tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -592,7 +617,32 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('f-date').value = new Date().toLocaleDateString('fr-FR');
 
   // ── STATE
-  var NAV = 100;
+
+  // Read current NAV from fund-admin localStorage (compatible with both keys)
+  function readNavHistory() {
+    try {
+      var s = JSON.parse(localStorage.getItem('ovc_fund_state') || 'null');
+      if (s && s.navHistory && s.navHistory.length > 0) return s.navHistory;
+    } catch(e) {}
+    try {
+      var h = JSON.parse(localStorage.getItem('ovc_nav_history') || '[]');
+      if (h.length > 0) return h;
+    } catch(e) {}
+    return [];
+  }
+  var NAV = (function() {
+    var hist = readNavHistory();
+    if (hist.length > 0) return parseFloat(hist[hist.length-1].nav) || 100;
+    return 100;
+  })();
+  var NAV_DATE = (function() {
+    var hist = readNavHistory();
+    if (hist.length > 0) {
+      var d = hist[hist.length-1].date;
+      return new Date(d + 'T12:00:00').toLocaleDateString('fr-FR');
+    }
+    return '10/01/2026';
+  })();
   var selAmt = 0;
   var selObj = '';
   var selRisk = 3;
@@ -758,7 +808,14 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     document.getElementById('s-amount').textContent  = amt.toLocaleString('fr-FR') + ' EUR';
+    var sNavEl = document.getElementById('s-nav-val');
+    if (sNavEl) sNavEl.textContent = NAV.toFixed(4) + ' EUR (date: ' + NAV_DATE + ')';
     document.getElementById('s-units').textContent   = units + ' parts';
+    // Update hidden fields for Formspree
+    var navField = document.getElementById('f-nav-at-sub');
+    if (navField) navField.value = NAV.toFixed(4);
+    var unitsField = document.getElementById('f-units-calc');
+    if (unitsField) unitsField.value = units;
     document.getElementById('s-date').textContent    = dtFmt;
     document.getElementById('s-obj').textContent     = selObj ? (objMap[selObj][lang] || selObj) : 'n.d.';
     document.getElementById('s-horizon').textContent = hz + ' ' + hzUnit;

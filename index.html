@@ -213,11 +213,52 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:5vh 8vw 
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
 .reveal-l{opacity:0;transform:translateX(-20px);transition:opacity .6s ease,transform .6s ease}
-.reveal-l.in{opacity:1;transform:translateX(0)} /* ── RESPONSIVE */
-@media(max-width:1000px){ .hero{grid-template-columns:1fr} .hero::before{display:none} .hero-right{padding:0 8vw 6vh} .markets-grid{grid-template-columns:1fr 1fr} .why-grid{grid-template-columns:1fr 1fr} .exp-grid{grid-template-columns:1fr 1fr} .analyses-layout{grid-template-columns:1fr} .pf-panel.on{grid-template-columns:1fr} .about-grid{grid-template-columns:1fr} .ft-grid{grid-template-columns:1fr 1fr}
+.reveal-l.in{opacity:1;transform:translateX(0)} /* ── MOBILE MENU ── */
+.mobile-nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1100}
+.mobile-nav-toggle span{display:block;width:24px;height:2px;background:var(--ink);transition:all .3s ease;border-radius:2px}
+
+.mobile-nav-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);z-index:1050;display:flex;flex-direction:column;padding:80px 8vw 40px;transform:translateX(100%);transition:transform .4s cubic-bezier(.77,0,.175,1);overflow-y:auto}
+.mobile-nav-overlay.open{transform:translateX(0)}
+.mno-links{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem}
+.mno-link{font-size:1.3rem;font-weight:700;color:var(--ink);text-decoration:none;font-family:'Libre Baskerville',serif}
+.mno-sublinks{padding-left:1.5rem;display:flex;flex-direction:column;gap:.6rem;margin-top:.4rem}
+.mno-sublink{font-size:.9rem;color:var(--body);text-decoration:none}
+.mno-cta{margin-top:2rem;text-align:center}
+
+/* ── RESPONSIVE */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;padding-top:4vh}
+  .hero-right{padding:0 5vw 6vh;order:2}
+  .hero-left{order:1;min-height:300px}
+  .hero::before{display:none}
+  .markets-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr}
+  .ft-grid{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:620px){ .markets-grid{grid-template-columns:1fr} .why-grid{grid-template-columns:1fr} .exp-grid{grid-template-columns:1fr} .nav-links{display:none} .hero-proof{gap:1.3rem} .ft-grid{grid-template-columns:1fr}
-} /* LANG */
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .mobile-nav-toggle{display:flex}
+  .section-nav{display:none}
+  
+  .markets-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .exp-grid{grid-template-columns:1fr}
+  .pf-panel.on{grid-template-columns:1fr}
+  .pf-thead .pf-th:nth-child(2), .pf-tr .pf-tk{display:none}
+  .pf-thead, .pf-tr{grid-template-columns:1fr 76px}
+  
+  .ft-grid{grid-template-columns:1fr}
+  .ft-bottom{flex-direction:column;align-items:center;text-align:center}
+  .ft-disc{text-align:center;margin-top:1rem}
+  
+  body.menu-open{overflow:hidden}
+  body.menu-open .mobile-nav-toggle span:nth-child(1){transform:rotate(45deg) translate(5px, 5px)}
+  body.menu-open .mobile-nav-toggle span:nth-child(2){opacity:0}
+  body.menu-open .mobile-nav-toggle span:nth-child(3){transform:rotate(-45deg) translate(5px, -5px)}
+}
+
+ /* LANG */
 [data-fr],[data-en]{display:none}
 html[data-lang=fr] [data-fr]{display:revert}
 html[data-lang=en] [data-en]{display:revert}
@@ -402,35 +443,69 @@ html[data-lang=en] span[data-en]{display:inline}
 </div>
 </div><!-- NAV -->
 <nav>
-<a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
-<div class="nav-links" id="main-nav-links">
-<div class="nav-item-dd">
-  <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
-  <div class="nav-dropdown">
-    <a href="Analyse/nvidia.html">NVIDIA (N°002)</a>
-    <a href="Analyse/orange-ci.html">Orange CI (N°001)</a>
-    <div class="dd-divider"></div>
-    <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+  <a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+  
+  <div class="nav-links" id="main-nav-links">
+    <div class="nav-item-dd">
+      <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+      <div class="nav-dropdown">
+        <a href="Analyse/nvidia.html">NVIDIA (N°002)</a>
+        <a href="Analyse/orange-ci.html">Orange CI (N°001)</a>
+        <div class="dd-divider"></div>
+        <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
+      </div>
+    </div>
+    <div class="nav-item-dd">
+      <a href="macro.html" class="nav-link-dd"><span data-fr>Macro</span><span data-en>Macro</span></a>
+      <div class="nav-dropdown">
+        <a href="Mcr/macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
+        <a href="Mcr/macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+        <div class="dd-divider"></div>
+        <a href="Mcr/macro-uemoa.html">UEMOA 2026 (A-001)</a>
+        <div class="dd-divider"></div>
+        <a href="Mcr/macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+        <div class="dd-divider"></div>
+        <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
+      </div>
+    </div>
+    <a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
+    <a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+    <button onclick="openModal()" class="nav-cta btn-gold" style="border:none;cursor:pointer"><span data-fr>Souscrire</span><span data-en>Subscribe</span></button>
   </div>
-</div>
-<div class="nav-item-dd">
-  <a href="macro.html" class="nav-link-dd"><span data-fr>Macro</span><span data-en>Macro</span></a>
-  <div class="nav-dropdown">
-    <a href="Mcr/macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
-    <a href="Mcr/macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
-    <div class="dd-divider"></div>
-    <a href="Mcr/macro-uemoa.html">UEMOA 2026 (A-001)</a>
-    <div class="dd-divider"></div>
-    <a href="Mcr/macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
-    <div class="dd-divider"></div>
-    <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
-  </div>
-</div>
-<a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
-<a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
-<button onclick="openModal()" class="nav-cta btn-gold" style="border:none;cursor:pointer"><span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span></button>
-</div>
+
+  <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile Nav Overlay -->
+<div class="mobile-nav-overlay" id="mobile-menu">
+  <div class="mno-links">
+    <a href="index.html" class="mno-link">Home</a>
+    <div class="mno-group">
+      <a href="analyses.html" class="mno-link">Equity Research</a>
+      <div class="mno-sublinks">
+        <a href="Analyse/nvidia.html" class="mno-sublink">NVIDIA</a>
+        <a href="Analyse/orange-ci.html" class="mno-sublink">Orange CI</a>
+      </div>
+    </div>
+    <div class="mno-group">
+      <a href="macro.html" class="mno-link">Macro</a>
+      <div class="mno-sublinks">
+        <a href="Mcr/macro-iran-ormuz.html" class="mno-sublink">Détroit d'Ormuz</a>
+        <a href="Mcr/macro-trump-tariffs.html" class="mno-sublink">Tarifs Trump 2025</a>
+      </div>
+    </div>
+    <a href="performance.html" class="mno-link">Performance</a>
+    <a href="fund-simulator.html" class="mno-link">Fonds OVC</a>
+    <div class="mno-cta">
+      <button onclick="toggleMobileMenu(); openModal();" class="btn-gold" style="width:100%;padding:1rem;border-radius:12px;border:none;font-weight:700">
+        <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- SECTION NAV -->
 <nav class="section-nav" id="section-nav" aria-label="Sections">
   <a href="#markets" class="sn-link" data-section="markets">
@@ -1185,6 +1260,27 @@ document.querySelectorAll('.reveal,.reveal-l').forEach(el=>obs.observe(el));
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 })();
+
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const body = document.body;
+  const toggle = document.getElementById('mobile-toggle');
+  
+  menu.classList.toggle('open');
+  body.classList.toggle('menu-open');
+}
+
+document.getElementById('mobile-toggle').addEventListener('click', toggleMobileMenu);
+
+// Close menu on link click
+document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.remove('open');
+    document.body.classList.remove('menu-open');
+  });
+});
+
 </script>
 </body>
 </html>
