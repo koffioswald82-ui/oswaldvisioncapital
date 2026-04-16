@@ -3,79 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Performance · Oswald Vision Capital</title>
+<title>Performance du Fonds  -  Oswald Vision Capital</title>
+<meta name="description" content="Valeur liquidative et performance hebdomadaire du fonds Oswald Vision Capital. Suivi de la VL, drawdown, alpha vs benchmarks.">
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{ --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa; --line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0; --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2; --blue:#1e4faa;--blue-bg:#eef3ff; --green:#1a7a4a;--green-bg:#e8f5ee; --red:#c0392b;--red-bg:#fde8e8; --purple:#5e35b1;--purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.14);
+:root{
+  --ink:#1a1a2e;--ink2:#2d3561;--body:#3a3a52;--muted:#8a8aaa;
+  --line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0;
+  --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2;
+  --blue:#1e4faa;--blue-bg:#eef3ff;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --red:#c0392b;--red-bg:#fde8e8;
+  --shadow:0 2px 20px rgba(26,26,46,.08);
+  --shadow-lg:0 8px 40px rgba(26,26,46,.14);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.6} /* ── LANG BAR */
-.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;align-items:center;justify-content:space-between}
-.lang-left{font-size:.68rem;color:rgba(255,255,255,.4);letter-spacing:.06em}
-.lang-left strong{color:var(--gold-l)}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+/* NAV */
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;justify-content:space-between;align-items:center}
+.lb-left{font-size:.68rem;color:rgba(255,255,255,.4)}.lb-left strong{color:var(--gold-l)}
 .lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
-.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:500;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer;transition:all .15s}
-.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700} /* ── NAV */
-nav{background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 12px rgba(26,26,46,.06);position:sticky;top:0;z-index:100}
-.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}
-.nav-logo em{font-style:italic;color:var(--gold)}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700}
+nav{background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}.nav-logo em{color:var(--gold);font-style:italic}
 .nav-links{display:flex;gap:1.8rem;align-items:center}
-.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--ink)}
-.nav-links a.active-page{color:var(--ink);font-weight:700}
-.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important} /* ── DROPDOWN */
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}.nav-links a:hover{color:var(--ink)}
+.nav-active{color:var(--gold)!important;font-weight:700!important}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important}
 .nav-item-dd{position:relative;display:flex;align-items:center}
 .nav-link-dd{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:.25rem;transition:color .2s}
 .nav-link-dd::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);margin-left:.25rem;transition:transform .2s}
 .nav-item-dd:hover .nav-link-dd::after{transform:rotate(225deg) translateY(-2px)}
-.nav-item-dd:hover .nav-link-dd{color:var(--ink)}
-.nav-dropdown{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-4px);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem;min-width:240px;box-shadow:0 8px 40px rgba(26,26,46,.14);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:200}
+.nav-item-dd:hover .nav-link-dd,.nav-item-dd:hover .nav-link-dd{color:var(--ink)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-4px);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem;min-width:240px;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:200}
 .nav-item-dd:hover .nav-dropdown{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
-.nav-dropdown a{display:block;padding:.52rem .9rem;font-size:.8rem;color:var(--body);text-decoration:none;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown a{display:block;padding:.52rem .9rem;font-size:.8rem;color:var(--body);text-decoration:none;border-radius:6px;transition:background .15s;white-space:nowrap}
 .nav-dropdown a:hover{background:var(--cream);color:var(--ink)}
-.dd-divider{height:1px;background:var(--line);margin:.3rem .5rem} /* ── HERO */
-.perf-hero{background:var(--white);padding:5vh 8vw 4vh;border-bottom:1px solid var(--line)}
-.ph-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
-.ph-eyebrow::after{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
-h1.ph-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:.6rem}
-h1.ph-title em{font-style:italic;color:var(--gold)}
-.ph-sub{font-size:.92rem;color:var(--body);line-height:1.8;max-width:600px;margin-bottom:2rem} /* ── KPIs */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.kpi-item{background:var(--white);padding:1.4rem 1.2rem;text-align:center;transition:background .2s}
-.kpi-item:hover{background:var(--cream)}
-.kpi-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
-.kpi-val{font-family:'Libre Baskerville',serif;font-size:1.7rem;font-weight:700;color:var(--ink);line-height:1}
-.kpi-val.green{color:var(--green)}
-.kpi-val.gold{color:var(--gold)}
-.kpi-val.blue{color:var(--blue)}
-.kpi-val.red{color:var(--red)}
-.kpi-sub{font-size:.68rem;color:var(--muted);margin-top:.2rem} /* ── SECTIONS */
-section{padding:5vh 8vw}
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
-.eyebrow::after{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
-h2.sh{font-family:'Libre Baskerville',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;margin-bottom:.6rem}
-h2.sh em{color:var(--gold);font-style:italic}
-.sl{font-size:.9rem;color:var(--body);line-height:1.8;max-width:580px;margin-bottom:2rem} /* ── CHART */
-.chart-section{background:var(--white);border-bottom:1px solid var(--line)}
-.chart-layout{display:grid;grid-template-columns:1.6fr 1fr;gap:3rem;align-items:start}
-.chart-container{background:var(--cream);border:1px solid var(--cream2);border-radius:14px;padding:1.5rem;height:320px;position:relative;overflow:hidden}
-canvas#perfChart{width:100%!important;height:100%!important}
-.perf-legend{display:flex;gap:1.2rem;margin-bottom:1rem;flex-wrap:wrap}
-.pl-item{display:flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600}
-.pl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.pl-dot.ovc{background:var(--gold)}
-.pl-dot.sp{background:var(--blue)}
-.pl-dot.brvm{background:var(--purple)}
-.stat-list{display:flex;flex-direction:column;gap:.7rem}
-.stat-row{padding:1rem 1.2rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2);display:flex;justify-content:space-between;align-items:center}
-.stat-label{font-size:.8rem;color:var(--body);font-weight:500}
-.stat-val{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700}
-.stat-val.green{color:var(--green)}
-.stat-val.gold{color:var(--gold)}
-.stat-val.blue{color:var(--blue)}
-.stat-val.red{color:var(--red)} /* ── PORTFOLIO BREAKDOWN */
-.breakdown-section{background:var(--cream)}
+.dd-divider{height:1px;background:var(--line);margin:.3rem .5rem}
+/* HERO */
+.page-hero{background:linear-gradient(160deg,#0a0f1e,#1a1a2e 55%,#1e2d4a);padding:4vh 8vw 3vh;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;top:0;right:0;width:55%;height:100%;background:radial-gradient(ellipse at 80% 40%,rgba(201,131,42,.07),transparent 60%)}
+.ph-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.3);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.7rem}
+.ph-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;color:#fff;margin-bottom:.4rem}
+.ph-title em{color:var(--gold-l);font-style:italic}
+.ph-sub{font-size:.84rem;color:rgba(255,255,255,.45);margin-bottom:1.5rem}
+.ph-meta{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.ph-updated{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:rgba(255,255,255,.25);display:flex;align-items:center;gap:.45rem}
+.ph-updated::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+.admin-link{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:rgba(255,255,255,.2);text-decoration:none;border:1px solid rgba(255,255,255,.08);padding:.25rem .65rem;border-radius:5px;transition:all .2s}
+.admin-link:hover{color:var(--gold-l);border-color:rgba(201,131,42,.3)}
+/* KPI STRIP */
+.kpi-strip{background:var(--white);border-bottom:1px solid var(--line);padding:1.2rem 8vw;display:grid;grid-template-columns:repeat(5,1fr)}
+.kpi-item{padding:.5rem 1rem;border-right:1px solid var(--line)}
+.kpi-item:last-child{border-right:none}
+.kpi-val{font-family:'Libre Baskerville',serif;font-size:1.45rem;font-weight:700;line-height:1;margin-bottom:.2rem}
+.kpi-val.gold{color:var(--gold)}.kpi-val.up{color:var(--green)}.kpi-val.dn{color:var(--red)}
+.kpi-key{font-family:'JetBrains Mono',monospace;font-size:.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.kpi-delta{font-size:.68rem;font-weight:600;margin-top:.1rem}
+.kpi-delta.up{color:var(--green)}.kpi-delta.dn{color:var(--red)}.kpi-delta.neu{color:var(--muted)}
+/* BODY */
+.page-body{padding:3vh 8vw 6vh;max-width:1300px;margin:0 auto}
+.section-block{margin-bottom:2.8rem}
+.sb-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem;padding-bottom:.8rem;border-bottom:2px solid var(--line)}
+.sb-title{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--ink)}
+.sb-badge{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:100px}
+.badge-green{background:var(--green-bg);color:var(--green)}.badge-gold{background:var(--gold-bg);color:var(--gold)}.badge-blue{background:var(--blue-bg);color:var(--blue)}
+/* CHARTS */
+.charts-2col{display:grid;grid-template-columns:3fr 2fr;gap:1.2rem}
+.charts-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.chart-card{background:var(--white);border:1px solid var(--line);border-radius:13px;padding:1.3rem;box-shadow:var(--shadow)}
+.cc-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.9rem}
+.cc-title{font-family:'Libre Baskerville',serif;font-size:.88rem;font-weight:700;color:var(--ink)}
+.cc-sub{font-size:.61rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:.12rem}
+.chart-wrap{position:relative}.h220{height:220px}.h260{height:260px}
+.cnote{font-size:.62rem;color:var(--muted);margin-top:.45rem;font-family:'JetBrains Mono',monospace;font-style:italic}
+.insight{background:var(--cream);border-radius:7px;padding:.65rem .85rem;margin-top:.65rem}
+.ins-lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--gold);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.15rem}
+.ins-txt{font-size:.77rem;color:var(--ink);line-height:1.65}
+/* POSITIONS TABLE */
+.pos-table{width:100%;border-collapse:collapse;font-size:.83rem}
+.pos-table th{background:var(--ink2);color:#fff;padding:.6rem 1rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.pos-table td{padding:.65rem 1rem;border-bottom:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.pos-table tr:hover td{background:var(--cream)}
+.pos-table td.mono{font-family:'JetBrains Mono',monospace}
+.pos-table td.up{color:var(--green);font-weight:700;font-family:'JetBrains Mono',monospace}
+.pos-table td.dn{color:var(--red);font-weight:700;font-family:'JetBrains Mono',monospace}
+.pos-table td.gold{color:var(--gold);font-weight:700;font-family:'JetBrains Mono',monospace}
+.zone-tag{font-size:.65rem;font-weight:700;padding:.15rem .45rem;border-radius:4px}
+.z-af{background:#f0ebff;color:#5e35b1}.z-am{background:var(--blue-bg);color:var(--blue)}
+/* VL HISTORY */
+.vl-hist-wrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;max-height:320px;overflow-y:auto}
+.vl-hist-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.vl-hist-table th{background:var(--cream);color:var(--muted);padding:.5rem 1rem;text-align:left;font-size:.68rem;font-weight:700;letter-spacing:.04em;position:sticky;top:0;font-family:'JetBrains Mono',monospace}
+.vl-hist-table td{padding:.5rem 1rem;border-bottom:1px solid var(--line);font-family:'JetBrains Mono',monospace}
+.vl-hist-table td.up{color:var(--green);font-weight:700}.vl-hist-table td.dn{color:var(--red);font-weight:700}
+.vl-hist-table .launch-row td{background:rgba(201,131,42,.06);color:var(--gold);font-weight:700}
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:3rem;color:var(--muted)}
+.empty-title{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--body);margin-bottom:.5rem}
+.empty-sub{font-size:.82rem;line-height:1.65}
+/* DISCLAIMER */
+.disclaimer{padding:1rem 1.2rem;background:var(--cream);border-radius:10px;border:1px solid var(--cream2);font-size:.72rem;color:var(--muted);line-height:1.65;margin-top:2rem}
+
+/* ── PORTFOLIO BREAKDOWN (From Performance) */
+.breakdown-section{margin-bottom:2.8rem;}
 .breakdown-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
 .bd-card{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
 .bd-header{background:var(--ink);padding:1.2rem 1.5rem;color:#fff}
@@ -87,109 +121,45 @@ canvas#perfChart{width:100%!important;height:100%!important}
 .bd-name{font-weight:600;color:var(--ink)}
 .bd-ticker{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--gold);font-weight:500}
 .bd-weight{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted);text-align:right}
-.bd-perf{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;text-align:right} /* ── ALLOCATION */
-.alloc-section{background:var(--white)}
-.alloc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.alloc-item{background:var(--white);padding:1.6rem 1.4rem;text-align:center;transition:background .2s}
-.alloc-item:hover{background:var(--cream)}
-.alloc-icon{font-size:2rem;margin-bottom:.7rem}
-.alloc-zone{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.25rem}
-.alloc-pct{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;margin-bottom:.3rem}
-.alloc-bar{height:4px;background:var(--line);border-radius:100px;overflow:hidden;margin:0 1rem}
-.alloc-fill{height:100%;border-radius:100px}
-.alloc-desc{font-size:.72rem;color:var(--muted);margin-top:.7rem;line-height:1.5} /* ── HISTORY */
-.history-section{background:var(--cream)}
-.history-table{width:100%;border-collapse:collapse;background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
-.history-table th{background:var(--ink2);color:#fff;padding:.7rem 1rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-.history-table td{padding:.65rem 1rem;border-bottom:1px solid var(--line);font-size:.82rem;color:var(--body)}
-.history-table tr:last-child td{border-bottom:none}
-.history-table tr:hover td{background:var(--cream)}
-.td-green{color:var(--green);font-weight:700;font-family:'JetBrains Mono',monospace}
-.td-red{color:var(--red);font-weight:700;font-family:'JetBrains Mono',monospace}
-.td-mono{font-family:'JetBrains Mono',monospace;font-size:.75rem} /* ── DISCLAIMER */
-.disc-section{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);color:#fff;text-align:center}
-.disc-title{font-family:'Libre Baskerville',serif;font-size:1.2rem;font-weight:700;margin-bottom:.8rem}
-.disc-text{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.8;max-width:650px;margin:0 auto}
-.disc-text strong{color:var(--gold-l)} /* ── CTA BAR */
-.cta-bar{background:var(--gold-bg);border-top:2px solid var(--gold);padding:2rem 8vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.bd-perf{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;text-align:right}
+
+/* ── CTA BAR (From Performance) */
+.cta-bar{background:var(--gold-bg);border-top:2px solid var(--gold);padding:2rem 8vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin: 2rem 0; border-radius: 12px;}
 .cta-text{font-size:.92rem;color:var(--ink);font-weight:600}
 .cta-text em{color:var(--gold);font-style:normal}
 .btn-gold{background:var(--gold);color:#fff;padding:.75rem 1.8rem;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(201,131,42,.3);display:inline-block}
 .btn-gold:hover{background:#b5721e;transform:translateY(-2px)}
 .btn-out{background:transparent;color:var(--ink);padding:.75rem 1.8rem;border-radius:8px;border:1.5px solid var(--line);font-weight:600;font-size:.85rem;text-decoration:none;transition:border-color .2s;display:inline-block}
-.btn-out:hover{border-color:var(--ink)} /* ── FOOTER */
-footer{background:var(--white);border-top:1px solid var(--line);padding:3vh 8vw;text-align:center}
-.ft-logo{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink)}
-.ft-logo em{color:var(--gold);font-style:italic}
-.ft-copy{font-size:.72rem;color:var(--muted);margin-top:.4rem}
-.ft-disc{font-size:.65rem;color:rgba(74,74,104,.35);max-width:700px;margin:.6rem auto 0;line-height:1.6} /* ── ANIMATE */
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
-.reveal.in{opacity:1;transform:translateY(0)} /* ── RESPONSIVE */
-/* ── MOBILE MENU ── */
-.mobile-nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1100}
-.mobile-nav-toggle span{display:block;width:24px;height:2px;background:var(--ink);transition:all .3s ease;border-radius:2px}
+.btn-out:hover{border-color:var(--ink)}
 
-.mobile-nav-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);z-index:1050;display:flex;flex-direction:column;padding:80px 8vw 40px;transform:translateX(100%);transition:transform .4s cubic-bezier(.77,0,.175,1);overflow-y:auto}
-.mobile-nav-overlay.open{transform:translateX(0)}
-.mno-links{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem}
-.mno-link{font-size:1.3rem;font-weight:700;color:var(--ink);text-decoration:none;font-family:'Libre Baskerville',serif}
-.mno-sublinks{padding-left:1.5rem;display:flex;flex-direction:column;gap:.6rem;margin-top:.4rem}
-.mno-sublink{font-size:.9rem;color:var(--body);text-decoration:none}
-.mno-cta{margin-top:2rem;text-align:center}
-
-/* Table Wrapper */
-.table-wrap{width:100%;overflow-x:auto;margin:1.5rem 0;-webkit-overflow-scrolling:touch}
-
-/* ── RESPONSIVE ── */
+/* Mobile fixes for Breakdown */
 @media(max-width:1024px){
-  .kpi-grid{grid-template-columns:repeat(2,1fr)}
-  .chart-layout{grid-template-columns:1fr}
   .breakdown-grid{grid-template-columns:1fr}
-  .alloc-grid{grid-template-columns:repeat(2,1fr)}
 }
 
-@media(max-width:768px){
-  .nav-links{display:none}
-  .mobile-nav-toggle{display:flex}
-  
-  .perf-hero{padding:5vh 5vw 4vh}
-  section{padding:5vh 5vw}
-  .cta-bar{padding:2rem 5vw; flex-direction:column; text-align:center}
-  
-  .kpi-grid, .alloc-grid{grid-template-columns:1fr}
-  .ph-title{font-size:1.8rem}
-  .stat-row{padding:.8rem 1rem}
-  
-  body.menu-open{overflow:hidden}
-  body.menu-open .mobile-nav-toggle span:nth-child(1){transform:rotate(45deg) translate(5px, 5px)}
-  body.menu-open .mobile-nav-toggle span:nth-child(2){opacity:0}
-  body.menu-open .mobile-nav-toggle span:nth-child(3){transform:rotate(-45deg) translate(5px, -5px)}
-}
- /* ── LANG */
+/* LANG */
 [data-fr],[data-en]{display:none}
 html[data-lang=fr] [data-fr]{display:revert}
 html[data-lang=en] [data-en]{display:revert}
 span[data-fr],span[data-en]{display:none}
 html[data-lang=fr] span[data-fr]{display:inline}
 html[data-lang=en] span[data-en]{display:inline}
+@media(max-width:900px){.charts-2col,.charts-3col{grid-template-columns:1fr}.kpi-strip{grid-template-columns:repeat(3,1fr)}.nav-links{display:none}}
 </style>
 </head>
-<body><!-- LANG BAR -->
+<body>
 <div class="lang-bar">
-<span class="lang-left"><strong>Oswald Vision Capital</strong>·<span data-fr>Suivi de performance</span><span data-en>Performance tracking</span></span>
-<div class="lang-btns">
-<button class="lbtn active" onclick="setLang('fr')">FR</button>
-<button class="lbtn" onclick="setLang('en')">EN</button>
+  <span class="lb-left"><strong>Oswald Vision Capital</strong> · <span data-fr>Valeur Liquidative</span><span data-en>Net Asset Value</span></span>
+  <div class="lang-btns"><button class="lbtn active" onclick="setLang('fr')">FR</button><button class="lbtn" onclick="setLang('en')">EN</button></div>
 </div>
-</div><!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
-  <div class="nav-links" id="main-nav-links">
+  <a href="index.html" class="nav-logo">Oswald <em>Vision</em> Capital</a>
+  <div class="nav-links">
     <div class="nav-item-dd">
-      <a href="analyses.html" class="nav-link-dd"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+      <a href="analyses.html" class="nav-link-dd">Equity Research</a>
       <div class="nav-dropdown">
-        <a href="Analyse/nvidia.html">NVIDIA (N°002)</a>
-        <a href="Analyse/orange-ci.html">Orange CI (N°001)</a>
+        <a href="nvidia.html">NVIDIA (N°002)</a>
+        <a href="orange-ci.html">Orange CI (N°001)</a>
         <div class="dd-divider"></div>
         <a href="analyses.html"><span data-fr>Toutes les thèses</span><span data-en>All theses</span></a>
       </div>
@@ -197,337 +167,728 @@ html[data-lang=en] span[data-en]{display:inline}
     <div class="nav-item-dd">
       <a href="macro.html" class="nav-link-dd">Macro</a>
       <div class="nav-dropdown">
-        <a href="Mcr/macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz (M-002)</span><span data-en>Strait of Hormuz (M-002)</span></a>
-        <a href="Mcr/macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025 (M-001)</span><span data-en>Trump Tariffs 2025 (M-001)</span></a>
+        <a href="macro-iran-ormuz.html"><span data-fr>Détroit d'Ormuz</span><span data-en>Strait of Hormuz</span></a>
+        <a href="macro-trump-tariffs.html"><span data-fr>Tarifs Trump 2025</span><span data-en>Trump Tariffs 2025</span></a>
         <div class="dd-divider"></div>
-        <a href="Mcr/macro-uemoa.html">UEMOA 2026 (A-001)</a>
-        <div class="dd-divider"></div>
-        <a href="Mcr/macro-semis-ia.html"><span data-fr>Semi-conducteurs IA (S-001)</span><span data-en>AI Semiconductors (S-001)</span></a>
+        <a href="macro-uemoa.html">UEMOA 2026</a>
         <div class="dd-divider"></div>
         <a href="macro.html"><span data-fr>Toutes les analyses</span><span data-en>All analyses</span></a>
       </div>
     </div>
-    <a href="performance.html" class="active-page"><span data-fr>Performance</span><span data-en>Performance</span></a>
-    <a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+    <a href="performance.html" class="nav-active"><span data-fr>Performance</span><span data-en>Performance</span></a>
+    <a href="subscribe.html" class="nav-cta"><span data-fr>Souscrire</span><span data-en>Subscribe</span></a>
   </div>
-  
-  <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
-<!-- Mobile Nav Overlay -->
-<div class="mobile-nav-overlay" id="mobile-menu">
-  <div class="mno-links">
-    <a href="index.html" class="mno-link">Home</a>
-    <div class="mno-group">
-      <a href="analyses.html" class="mno-link">Equity Research</a>
-      <div class="mno-sublinks">
-        <a href="Analyse/nvidia.html" class="mno-sublink">NVIDIA</a>
-        <a href="Analyse/orange-ci.html" class="mno-sublink">Orange CI</a>
-      </div>
-    </div>
-    <div class="mno-group">
-      <a href="macro.html" class="mno-link">Macro</a>
-      <div class="mno-sublinks">
-        <a href="Mcr/macro-iran-ormuz.html" class="mno-sublink">Détroit d'Ormuz</a>
-        <a href="Mcr/macro-trump-tariffs.html" class="mno-sublink">Tarifs Trump 2025</a>
-      </div>
-    </div>
-    <a href="performance.html" class="mno-link">Performance</a>
-    <a href="fund-simulator.html" class="mno-link">Fonds OVC</a>
-    <div class="mno-cta">
-      <a href="subscribe.html" class="btn-gold" style="display:block;text-align:center;padding:1rem;border-radius:12px;text-decoration:none;font-weight:700">
-        <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
-      </a>
-    </div>
+<div class="page-hero">
+  <div class="ph-eyebrow">OSWALD VISION CAPITAL · <span data-fr>FONDS DE RECHERCHE INDEPENDANT</span><span data-en>INDEPENDENT RESEARCH FUND</span></div>
+  <div class="ph-title"><span data-fr>Valeur Liquidative <em>et Performance</em></span><span data-en>Net Asset Value <em>and Performance</em></span></div>
+  <div class="ph-sub"><span data-fr>Suivi hebdomadaire de la part OVC. VL recalculée chaque vendredi apres cloture des marchés.</span><span data-en>Weekly OVC unit tracking. NAV recalculated every Friday after market close.</span></div>
+  <div class="ph-meta">
+    <div class="ph-updated"><span data-fr>Dernière mise a jour :</span><span data-en>Last updated:</span>&nbsp;<span id="last-update-txt">--</span></div>
+    <a href="admin-ovc-secret.html" class="admin-link"><span data-fr>Acces gestionnaire</span><span data-en>Manager access</span></a>
   </div>
 </div>
-<!-- HERO -->
-<div class="perf-hero">
-<div class="ph-eyebrow"><span data-fr>Track Record · Mis à jour chaque semaine</span><span data-en>Track Record · Updated weekly</span></div>
-<h1 class="ph-title">
-<span data-fr>Suivi de <em>performance</em><br>transparent & rigoureux</span>
-<span data-en>Transparent & rigorous<br><em>performance</em> tracking</span>
-</h1>
-<p class="ph-sub">
-<span data-fr>Chaque semaine, la valeur de part du fonds OVC est mise à jour. Comparez notre portefeuille multi-stratégie face au S&P 500 et au BRVM Composite. Transparence totale, aucune donnée cachée.</span>
-<span data-en>Every week, the OVC fund NAV is updated. Compare our multi-strategy portfolio against the S&P 500 and BRVM Composite. Full transparency, no hidden data.</span>
-</p>
-<div class="kpi-grid">
-<div class="kpi-item">
-<div class="kpi-label"><span data-fr>Valeur de la part</span><span data-en>NAV per unit</span></div>
-<div class="kpi-val gold">100.00€</div>
-<div class="kpi-sub"><span data-fr>Base 100 au lancement</span><span data-en>Base 100 at launch</span></div>
+
+<div class="kpi-strip">
+  <div class="kpi-item">
+    <div class="kpi-val gold" id="kpi-nav">100.00</div>
+    <div class="kpi-key"><span data-fr>Valeur de part (EUR)</span><span data-en>Unit NAV (EUR)</span></div>
+    <div id="vl-published-tag" style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:var(--muted);margin-top:.15rem"></div>
+    <div class="kpi-delta neu" id="kpi-nav-delta"><span data-fr>Lancement</span><span data-en>Launch</span> 10/01/2026</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-val" id="kpi-perf">+0.00%</div>
+    <div class="kpi-key"><span data-fr>Performance depuis création</span><span data-en>Return since inception</span></div>
+    <div class="kpi-delta neu" id="kpi-perf-sub"><span data-fr>Base 100 le</span><span data-en>Base 100 on</span> 10/01/2026</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-val" id="kpi-alpha">n.d.</div>
+    <div class="kpi-key">Alpha <span data-fr>vs MSCI World</span><span data-en>vs MSCI World</span></div>
+    <div class="kpi-delta neu" id="kpi-alpha-sub"><span data-fr>Données insuffisantes</span><span data-en>Insufficient data</span></div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-val" id="kpi-dd">0.00%</div>
+    <div class="kpi-key"><span data-fr>Drawdown max</span><span data-en>Max drawdown</span></div>
+    <div class="kpi-delta neu"><span data-fr>Depuis création</span><span data-en>Since inception</span></div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-val" id="kpi-weeks">0</div>
+    <div class="kpi-key"><span data-fr>Semaines de suivi</span><span data-en>Weeks tracked</span></div>
+    <div class="kpi-delta neu"><span data-fr>Mises a jour hebdo</span><span data-en>Weekly updates</span></div>
+  </div>
 </div>
-<div class="kpi-item">
-<div class="kpi-label"><span data-fr>Perf. depuis lancement</span><span data-en>Perf. since inception</span></div>
-<div class="kpi-val green">+0.00%</div>
-<div class="kpi-sub"><span data-fr>Lancé le 10/01/2026</span><span data-en>Launched 10/01/2026</span></div>
+
+<div class="page-body">
+
+  <!-- PERFORMANCE CHARTS -->
+  <div class="section-block">
+    <div class="sb-header">
+      <div class="sb-title"><span data-fr>Performance du fonds</span><span data-en>Fund performance</span></div>
+      <span class="sb-badge badge-gold">Base 100 · 10/01/2026</span>
+    </div>
+    <div class="charts-2col">
+      <div class="chart-card">
+        <div class="cc-head">
+          <div><div class="cc-title"><span data-fr>VL OVC vs Benchmarks</span><span data-en>OVC NAV vs Benchmarks</span></div><div class="cc-sub">Base 100 = 10/01/2026</div></div>
+        </div>
+        <div class="chart-wrap h260"><canvas id="chart-nav"></canvas></div>
+        <div class="cnote"><span data-fr>VL recalculee chaque vendredi. Benchmarks : MSCI World et MSCI Emerging Markets.</span><span data-en>NAV recalculated every Friday. Benchmarks: MSCI World and MSCI Emerging Markets.</span></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title"><span data-fr>Drawdown cumule</span><span data-en>Cumulative drawdown</span></div><div class="cc-sub">% <span data-fr>perte max depuis le pic</span><span data-en>max loss from peak</span></div></div></div>
+        <div class="chart-wrap h260"><canvas id="chart-dd"></canvas></div>
+        <div class="insight"><div class="ins-lbl">Info</div><div class="ins-txt"><span data-fr>Le drawdown mesure la perte maximale depuis le dernier pic de la VL. Un drawdown de 0% signifie que la VL est a son plus haut historique.</span><span data-en>Drawdown measures the maximum loss from the last NAV peak. A 0% drawdown means the NAV is at its all-time high.</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSITIONS -->
+  <div class="section-block">
+    <div class="sb-header">
+      <div class="sb-title"><span data-fr>Positions actives</span><span data-en>Active positions</span></div>
+      <span class="sb-badge badge-green">2 <span data-fr>titres</span><span data-en>positions</span></span>
+    </div>
+    <div class="chart-card" style="padding:0;overflow:hidden">
+      <table class="pos-table" id="pos-table">
+        <thead><tr>
+          <th><span data-fr>Titre</span><span data-en>Position</span></th>
+          <th>Ticker</th>
+          <th><span data-fr>Zone</span><span data-en>Zone</span></th>
+          <th><span data-fr>Poids</span><span data-en>Weight</span></th>
+          <th><span data-fr>Cours entree</span><span data-en>Entry price</span></th>
+          <th><span data-fr>Cours actuel</span><span data-en>Current price</span></th>
+          <th><span data-fr>Perf. %</span><span data-en>Perf. %</span></th>
+          <th><span data-fr>Contribution VL</span><span data-en>NAV contribution</span></th>
+        </tr></thead>
+        <tbody id="pos-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- TOP POSITIONS (STATIC from performance) -->
+  <div class="section-block">
+    <div class="sb-header">
+      <div class="sb-title"><span data-fr>Top 10 positions Growth & Value</span><span data-en>Top 10 positions Growth & Value</span></div>
+      <span class="sb-badge badge-blue">Stratégies</span>
+    </div>
+    <p style="font-size:.9rem;color:var(--body);margin-bottom:1.5rem">
+      <span data-fr>Les 10 premières positions cibles de chaque stratégie avec leur pondération.</span>
+      <span data-en>The top 10 target positions for each strategy with their weighting.</span>
+    </p>
+    <div class="breakdown-grid">
+      <div class="bd-card">
+        <div class="bd-header">
+          <div class="bd-header-title"><span data-fr>Stratégie Growth</span><span data-en>Growth Strategy</span></div>
+          <div class="bd-header-sub"><span data-fr>15 positions · Horizon 5-10 ans</span><span data-en>15 positions · 5-10 year horizon</span></div>
+        </div>
+        <div class="bd-row"><span class="bd-name">NVIDIA</span><span class="bd-ticker">NVDA</span><span class="bd-weight">8.5%</span></div>
+        <div class="bd-row"><span class="bd-name">ASML</span><span class="bd-ticker">ASML</span><span class="bd-weight">7.2%</span></div>
+        <div class="bd-row"><span class="bd-name">MTN Group</span><span class="bd-ticker">MTN</span><span class="bd-weight">6.8%</span></div>
+        <div class="bd-row"><span class="bd-name">Amazon</span><span class="bd-ticker">AMZN</span><span class="bd-weight">6.5%</span></div>
+        <div class="bd-row"><span class="bd-name">Tesla</span><span class="bd-ticker">TSLA</span><span class="bd-weight">5.8%</span></div>
+        <div class="bd-row"><span class="bd-name">Tencent</span><span class="bd-ticker">0700.HK</span><span class="bd-weight">5.5%</span></div>
+        <div class="bd-row"><span class="bd-name">Dangote Cement</span><span class="bd-ticker">DANGCEM</span><span class="bd-weight">5.0%</span></div>
+        <div class="bd-row"><span class="bd-name">Shopify</span><span class="bd-ticker">SHOP</span><span class="bd-weight">4.8%</span></div>
+        <div class="bd-row"><span class="bd-name">Adyen</span><span class="bd-ticker">ADYEN</span><span class="bd-weight">4.5%</span></div>
+        <div class="bd-row"><span class="bd-name">Sea Limited</span><span class="bd-ticker">SE</span><span class="bd-weight">4.2%</span></div>
+      </div>
+      <div class="bd-card">
+        <div class="bd-header">
+          <div class="bd-header-title"><span data-fr>Stratégie Value</span><span data-en>Value Strategy</span></div>
+          <div class="bd-header-sub"><span data-fr>15 positions · Dividendes & moats</span><span data-en>15 positions · Dividends & moats</span></div>
+        </div>
+        <div class="bd-row"><span class="bd-name">Microsoft</span><span class="bd-ticker">MSFT</span><span class="bd-weight">8.0%</span></div>
+        <div class="bd-row"><span class="bd-name">Orange CI</span><span class="bd-ticker">ORECI</span><span class="bd-weight">7.5%</span></div>
+        <div class="bd-row"><span class="bd-name">L'Oréal</span><span class="bd-ticker">OR</span><span class="bd-weight">6.8%</span></div>
+        <div class="bd-row"><span class="bd-name">NSIA Banque</span><span class="bd-ticker">NSIAC</span><span class="bd-weight">6.5%</span></div>
+        <div class="bd-row"><span class="bd-name">Nestlé</span><span class="bd-ticker">NESN</span><span class="bd-weight">6.2%</span></div>
+        <div class="bd-row"><span class="bd-name">Roche</span><span class="bd-ticker">ROG</span><span class="bd-weight">5.8%</span></div>
+        <div class="bd-row"><span class="bd-name">Coca-Cola</span><span class="bd-ticker">KO</span><span class="bd-weight">5.5%</span></div>
+        <div class="bd-row"><span class="bd-name">SIFCA</span><span class="bd-ticker">SIFCA</span><span class="bd-weight">5.2%</span></div>
+        <div class="bd-row"><span class="bd-name">Siemens</span><span class="bd-ticker">SIE</span><span class="bd-weight">5.0%</span></div>
+        <div class="bd-row"><span class="bd-name">Toyota Motor</span><span class="bd-ticker">7203.T</span><span class="bd-weight">4.5%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALLOCATION CHARTS -->
+  <div class="section-block">
+    <div class="sb-header">
+      <div class="sb-title"><span data-fr>Allocation</span><span data-en>Allocation</span></div>
+      <span class="sb-badge badge-blue">2 <span data-fr>zones</span><span data-en>zones</span></span>
+    </div>
+    <div class="charts-3col">
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title"><span data-fr>Repartition geographique</span><span data-en>Geographic allocation</span></div><div class="cc-sub">%</div></div></div>
+        <div class="chart-wrap h220"><canvas id="chart-geo"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title"><span data-fr>Repartition sectorielle</span><span data-en>Sector allocation</span></div><div class="cc-sub">%</div></div></div>
+        <div class="chart-wrap h220"><canvas id="chart-sector"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title"><span data-fr>Contributions a la VL</span><span data-en>NAV contributions</span></div><div class="cc-sub"><span data-fr>pts de VL depuis entree</span><span data-en>NAV pts since entry</span></div></div></div>
+        <div class="chart-wrap h220"><canvas id="chart-contrib"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VL HISTORY -->
+  <div class="section-block">
+    <div class="sb-header">
+      <div class="sb-title"><span data-fr>Historique de la VL</span><span data-en>NAV history</span></div>
+    </div>
+    <div class="vl-hist-wrap">
+      <table class="vl-hist-table">
+        <thead><tr>
+          <th>Date</th>
+          <th><span data-fr>VL (EUR)</span><span data-en>NAV (EUR)</span></th>
+          <th><span data-fr>Variation semaine</span><span data-en>Weekly change</span></th>
+          <th><span data-fr>Perf. cumulee</span><span data-en>Cumulative perf.</span></th>
+          <th>Note</th>
+        </tr></thead>
+        <tbody id="hist-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RISK POLICY -->
+  <div class="section-block">
+    <div class="sb-header">
+      <div class="sb-title"><span data-fr>Politique de gestion du risque</span><span data-en>Risk management policy</span></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+
+      <div class="chart-card">
+        <div class="cc-head"><div>
+          <div class="cc-title"><span data-fr>Regles de drawdown</span><span data-en>Drawdown rules</span></div>
+          <div class="cc-sub"><span data-fr>Seuils de protection du capital</span><span data-en>Capital protection thresholds</span></div>
+        </div></div>
+        <div style="display:flex;flex-direction:column;gap:.65rem;margin-top:.2rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .7rem;background:var(--green-bg);border-radius:7px;border:1px solid rgba(26,122,74,.15)">
+            <span style="font-size:.8rem;color:var(--green);font-weight:600"><span data-fr>Zone verte</span><span data-en>Green zone</span></span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.78rem;font-weight:700;color:var(--green)">0% a -5%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .7rem;background:var(--gold-bg);border-radius:7px;border:1px solid rgba(201,131,42,.15)">
+            <span style="font-size:.8rem;color:var(--gold);font-weight:600"><span data-fr>Zone vigilance</span><span data-en>Watch zone</span></span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.78rem;font-weight:700;color:var(--gold)">-5% a -10%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .7rem;background:var(--red-bg);border-radius:7px;border:1px solid rgba(192,57,43,.15)">
+            <span style="font-size:.8rem;color:var(--red);font-weight:600"><span data-fr>Revue de portefeuille</span><span data-en>Portfolio review</span></span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.78rem;font-weight:700;color:var(--red)">&lt; -10%</span>
+          </div>
+        </div>
+        <div class="cnote" style="margin-top:.7rem"><span data-fr>En dessous de -10%, revue systematique de chaque position et justification de maintien ou de cession.</span><span data-en>Below -10%, systematic review of each position with justification to hold or exit.</span></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="cc-head"><div>
+          <div class="cc-title"><span data-fr>Diversification</span><span data-en>Diversification</span></div>
+          <div class="cc-sub"><span data-fr>Contraintes de construction</span><span data-en>Construction constraints</span></div>
+        </div></div>
+        <div style="display:flex;flex-direction:column;gap:.55rem;margin-top:.2rem">
+          <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--line)">
+            <span style="font-size:.78rem;color:var(--body)"><span data-fr>Poids max par position</span><span data-en>Max weight per position</span></span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.78rem;font-weight:700;color:var(--ink)">15%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--line)">
+            <span style="font-size:.78rem;color:var(--body)"><span data-fr>Poids max par zone geo.</span><span data-en>Max weight per region</span></span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.78rem;font-weight:700;color:var(--ink)">40%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--line)">
+            <span style="font-size:.78rem;color:var(--body)"><span data-fr>Poids max par secteur</span><span data-en>Max weight per sector</span></span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.78rem;font-weight:700;color:var(--ink)">30%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--line)">
+            <span style="font-size:.78rem;color:var(--body)"><span data-fr>Nb de positions cible</span><span data-en>Target positions</span></span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.78rem;font-weight:700;color:var(--ink)">25 a 35</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:.45rem 0">
+            <span style="font-size:.78rem;color:var(--body)"><span data-fr>Cash minimum</span><span data-en>Minimum cash</span></span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.78rem;font-weight:700;color:var(--ink)">5%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="cc-head"><div>
+          <div class="cc-title"><span data-fr>Processus d'investissement</span><span data-en>Investment process</span></div>
+          <div class="cc-sub"><span data-fr>Conditions d'entree et de sortie</span><span data-en>Entry and exit conditions</span></div>
+        </div></div>
+        <div style="display:flex;flex-direction:column;gap:.55rem;margin-top:.2rem">
+          <div style="padding:.55rem .7rem;background:var(--blue-bg);border-radius:7px;border:1px solid rgba(30,79,170,.1)">
+            <div style="font-size:.68rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;font-family:JetBrains Mono,monospace;margin-bottom:.25rem"><span data-fr>Entree</span><span data-en>Entry</span></div>
+            <div style="font-size:.77rem;color:var(--body);line-height:1.55"><span data-fr>These formelle publiee + catalyseur identifie + ratio risque/rendement min. 2:1</span><span data-en>Published formal thesis + identified catalyst + min 2:1 risk/reward ratio</span></div>
+          </div>
+          <div style="padding:.55rem .7rem;background:var(--gold-bg);border-radius:7px;border:1px solid rgba(201,131,42,.1)">
+            <div style="font-size:.68rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;font-family:JetBrains Mono,monospace;margin-bottom:.25rem"><span data-fr>Maintien</span><span data-en>Hold</span></div>
+            <div style="font-size:.77rem;color:var(--body);line-height:1.55"><span data-fr>These intacte + score conviction >= 6/10 + stop non atteint</span><span data-en>Thesis intact + conviction score >= 6/10 + stop not hit</span></div>
+          </div>
+          <div style="padding:.55rem .7rem;background:var(--red-bg);border-radius:7px;border:1px solid rgba(192,57,43,.1)">
+            <div style="font-size:.68rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.06em;font-family:JetBrains Mono,monospace;margin-bottom:.25rem"><span data-fr>Sortie</span><span data-en>Exit</span></div>
+            <div style="font-size:.77rem;color:var(--body);line-height:1.55"><span data-fr>Stop-loss atteint OU these invalidee OU meilleure opportunite identifiee</span><span data-en>Stop-loss hit OR thesis invalidated OR better opportunity identified</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <  <!-- CTA -->
+  <div class="cta-bar">
+    <div class="cta-text">
+      <span data-fr>Vous voulez voir comment votre argent se comporterait ? <em>Simulez gratuitement</em></span>
+      <span data-en>Want to see how your money would perform? <em>Simulate for free</em></span>
+    </div>
+    <div style="display:flex;gap:.7rem;flex-wrap:wrap">
+      <a href="fund-simulator.html" class="btn-gold"><span data-fr>Simuler maintenant</span><span data-en>Simulate now</span></a>
+      <a href="analyses.html" class="btn-out"><span data-fr>Lire les analyses</span><span data-en>Read the research</span></a>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong><span data-fr>Avertissement :</span><span data-en>Disclaimer:</span></strong>
+    <span data-fr> Fonds de recherche independant a capital virtuel. Aucune somme reelle n'est collectee ni geree. Les performances passees ne prejugent pas des performances futures. Ce n'est pas un conseil en investissement.</span>
+    <span data-en> Independent research fund with virtual capital. No real funds are collected or managed. Past performance does not predict future results. This is not investment advice.</span>
+    <em> © Oswald Vision Capital</em>
+  </div>
 </div>
-<div class="kpi-item">
-<div class="kpi-label">Alpha vs S&P 500</div>
-<div class="kpi-val blue">+0.00%</div>
-<div class="kpi-sub"><span data-fr>Surperformance cumulée</span><span data-en>Cumulative outperformance</span></div>
-</div>
-<div class="kpi-item">
-<div class="kpi-label">Max Drawdown</div>
-<div class="kpi-val red">0.00%</div>
-<div class="kpi-sub"><span data-fr>Pire baisse pic-à-creux</span><span data-en>Worst peak-to-trough decline</span></div>
-</div>
-</div>
-</div><!-- CHART SECTION -->
-<section class="chart-section" id="chart">
-<div class="eyebrow"><span data-fr>Courbe de valeur</span><span data-en>Value curve</span></div>
-<h2 class="sh"><span data-fr>Évolution de la valeur de la <em>part</em></span><span data-en>Evolution of the <em>NAV</em></span></h2>
-<p class="sl reveal">
-<span data-fr>Un euro investi le jour du lancement suit exactement cette courbe. La transparence totale est notre engagement fondamental.</span>
-<span data-en>One euro invested on launch day follows exactly this curve. Full transparency is our core commitment.</span>
-</p>
-<div class="chart-layout">
-<div>
-<div class="perf-legend">
-<div class="pl-item"><div class="pl-dot ovc"></div>OVC Fund</div>
-<div class="pl-item"><div class="pl-dot sp"></div>S&P 500</div>
-<div class="pl-item"><div class="pl-dot brvm"></div>BRVM Composite</div>
-</div>
-<div class="chart-container">
-<canvas id="perfChart"></canvas>
-</div>
-<p style="font-size:.7rem;color:var(--muted);margin-top:.6rem;font-family:'JetBrains Mono',monospace;">
-<span data-fr>* Données mises à jour manuellement chaque dimanche après la clôture des marchés US.</span>
-<span data-en>* Data updated manually every Sunday after US market close.</span>
-</p>
-</div>
-<div class="stat-list reveal">
-<div class="stat-row"><span class="stat-label"><span data-fr>Valeur part actuelle</span><span data-en>Current NAV</span></span><span class="stat-val gold">100.00 €</span></div>
-<div class="stat-row"><span class="stat-label"><span data-fr>Perf. OVC (lancement)</span><span data-en>OVC Perf. (inception)</span></span><span class="stat-val green">+0.00%</span></div>
-<div class="stat-row"><span class="stat-label">S&P 500 (<span data-fr>même période</span><span data-en>same period</span>)</span><span class="stat-val blue">+0.00%</span></div>
-<div class="stat-row"><span class="stat-label">BRVM Composite</span><span class="stat-val" style="color:var(--purple)">+0.00%</span></div>
-<div class="stat-row"><span class="stat-label">Alpha vs S&P 500</span><span class="stat-val green">+0.00%</span></div>
-<div class="stat-row"><span class="stat-label">Alpha vs BRVM</span><span class="stat-val green">+0.00%</span></div>
-<div class="stat-row"><span class="stat-label">Max Drawdown</span><span class="stat-val red">0.00%</span></div>
-<div class="stat-row"><span class="stat-label"><span data-fr>Ratio Sharpe (est.)</span><span data-en>Sharpe Ratio (est.)</span></span><span class="stat-val">N/A</span></div>
-<div style="margin-top:.4rem;padding:.8rem;background:var(--gold-bg);border-radius:8px;font-size:.75rem;color:#92400e;line-height:1.6">
-<strong><span data-fr>Prochaine MÀJ :</span><span data-en>Next update:</span></strong>
-<span data-fr>Dimanche prochain, après la clôture des marchés US.</span>
-<span data-en>Next Sunday, after US market close.</span>
-</div>
-</div>
-</div>
-</section><!-- ALLOCATION GÉOGRAPHIQUE -->
-<section class="alloc-section" id="allocation">
-<div class="eyebrow reveal"><span data-fr>Allocation géographique</span><span data-en>Geographic allocation</span></div>
-<h2 class="sh reveal"><span data-fr>4 zones, 1 <em>vision globale</em></span><span data-en>4 regions, 1 <em>global vision</em></span></h2>
-<p class="sl reveal">
-<span data-fr>La diversification géographique est un pilier fondamental de notre stratégie. Chaque zone a son rôle : croissance, valeur, couverture macro.</span>
-<span data-en>Geographic diversification is a fundamental pillar of our strategy. Each region has its role: growth, value, macro hedge.</span>
-</p>
-<div class="alloc-grid reveal">
-<div class="alloc-item">
-<div class="alloc-icon">🌍</div>
-<div class="alloc-zone"><span data-fr>Afrique</span><span data-en>Africa</span></div>
-<div class="alloc-pct" style="color:var(--purple)">33%</div>
-<div class="alloc-bar"><div class="alloc-fill" style="width:33%;background:var(--purple)"></div></div>
-<div class="alloc-desc">BRVM · JSE · NSE<br><span data-fr>Priorité stratégique</span><span data-en>Strategic priority</span></div>
-</div>
-<div class="alloc-item">
-<div class="alloc-icon">🌎</div>
-<div class="alloc-zone"><span data-fr>Amériques</span><span data-en>Americas</span></div>
-<div class="alloc-pct" style="color:var(--blue)">33%</div>
-<div class="alloc-bar"><div class="alloc-fill" style="width:33%;background:var(--blue)"></div></div>
-<div class="alloc-desc">NYSE · NASDAQ<br>Core portfolio</div>
-</div>
-<div class="alloc-item">
-<div class="alloc-icon">🌐</div>
-<div class="alloc-zone">Europe</div>
-<div class="alloc-pct" style="color:var(--green)">20%</div>
-<div class="alloc-bar"><div class="alloc-fill" style="width:20%;background:var(--green)"></div></div>
-<div class="alloc-desc">Euronext · XETRA · SIX<br><span data-fr>Valeur défensive</span><span data-en>Defensive value</span></div>
-</div>
-<div class="alloc-item">
-<div class="alloc-icon">🌏</div>
-<div class="alloc-zone">Asie</div>
-<div class="alloc-pct" style="color:var(--gold)">14%</div>
-<div class="alloc-bar"><div class="alloc-fill" style="width:14%;background:var(--gold)"></div></div>
-<div class="alloc-desc">HKEX · KRX · TSE<br><span data-fr>Growth émergent</span><span data-en>Emerging growth</span></div>
-</div>
-</div>
-</section><!-- TOP POSITIONS -->
-<section class="breakdown-section" id="positions">
-<div class="eyebrow reveal"><span data-fr>Positions du portefeuille</span><span data-en>Portfolio positions</span></div>
-<h2 class="sh reveal"><span data-fr>Top 10 positions <em>Growth & Value</em></span><span data-en>Top 10 positions <em>Growth & Value</em></span></h2>
-<p class="sl reveal">
-<span data-fr>Les 10 premières positions de chaque stratégie, avec leur pondération et performance depuis le lancement.</span>
-<span data-en>The top 10 positions for each strategy, with their weighting and performance since launch.</span>
-</p>
-<div class="breakdown-grid reveal">
-<div class="bd-card">
-<div class="bd-header">
-<div class="bd-header-title"><span data-fr>Stratégie Growth</span><span data-en>Growth Strategy</span></div>
-<div class="bd-header-sub"><span data-fr>15 positions · Horizon 5-10 ans</span><span data-en>15 positions · 5-10 year horizon</span></div>
-</div>
-<div class="bd-row"><span class="bd-name">NVIDIA</span><span class="bd-ticker">NVDA</span><span class="bd-weight">8.5%</span></div>
-<div class="bd-row"><span class="bd-name">ASML</span><span class="bd-ticker">ASML</span><span class="bd-weight">7.2%</span></div>
-<div class="bd-row"><span class="bd-name">MTN Group</span><span class="bd-ticker">MTN</span><span class="bd-weight">6.8%</span></div>
-<div class="bd-row"><span class="bd-name">Amazon</span><span class="bd-ticker">AMZN</span><span class="bd-weight">6.5%</span></div>
-<div class="bd-row"><span class="bd-name">Tesla</span><span class="bd-ticker">TSLA</span><span class="bd-weight">5.8%</span></div>
-<div class="bd-row"><span class="bd-name">Tencent</span><span class="bd-ticker">0700.HK</span><span class="bd-weight">5.5%</span></div>
-<div class="bd-row"><span class="bd-name">Dangote Cement</span><span class="bd-ticker">DANGCEM</span><span class="bd-weight">5.0%</span></div>
-<div class="bd-row"><span class="bd-name">Shopify</span><span class="bd-ticker">SHOP</span><span class="bd-weight">4.8%</span></div>
-<div class="bd-row"><span class="bd-name">Adyen</span><span class="bd-ticker">ADYEN</span><span class="bd-weight">4.5%</span></div>
-<div class="bd-row"><span class="bd-name">Sea Limited</span><span class="bd-ticker">SE</span><span class="bd-weight">4.2%</span></div>
-</div>
-<div class="bd-card">
-<div class="bd-header">
-<div class="bd-header-title"><span data-fr>Stratégie Value</span><span data-en>Value Strategy</span></div>
-<div class="bd-header-sub"><span data-fr>15 positions · Dividendes & moats</span><span data-en>15 positions · Dividends & moats</span></div>
-</div>
-<div class="bd-row"><span class="bd-name">Microsoft</span><span class="bd-ticker">MSFT</span><span class="bd-weight">8.0%</span></div>
-<div class="bd-row"><span class="bd-name">Orange CI</span><span class="bd-ticker">ORECI</span><span class="bd-weight">7.5%</span></div>
-<div class="bd-row"><span class="bd-name">L'Oréal</span><span class="bd-ticker">OR</span><span class="bd-weight">6.8%</span></div>
-<div class="bd-row"><span class="bd-name">NSIA Banque</span><span class="bd-ticker">NSIAC</span><span class="bd-weight">6.5%</span></div>
-<div class="bd-row"><span class="bd-name">Nestlé</span><span class="bd-ticker">NESN</span><span class="bd-weight">6.2%</span></div>
-<div class="bd-row"><span class="bd-name">Roche</span><span class="bd-ticker">ROG</span><span class="bd-weight">5.8%</span></div>
-<div class="bd-row"><span class="bd-name">Coca-Cola</span><span class="bd-ticker">KO</span><span class="bd-weight">5.5%</span></div>
-<div class="bd-row"><span class="bd-name">SIFCA</span><span class="bd-ticker">SIFCA</span><span class="bd-weight">5.2%</span></div>
-<div class="bd-row"><span class="bd-name">Siemens</span><span class="bd-ticker">SIE</span><span class="bd-weight">5.0%</span></div>
-<div class="bd-row"><span class="bd-name">Toyota Motor</span><span class="bd-ticker">7203.T</span><span class="bd-weight">4.5%</span></div>
-</div>
-</div>
-</section><!-- HISTORICAL TABLE -->
-<section class="history-section" id="history">
-<div class="eyebrow reveal"><span data-fr>Historique hebdomadaire</span><span data-en>Weekly history</span></div>
-<h2 class="sh reveal"><span data-fr>Évolution semaine par <em>semaine</em></span><span data-en>Week by <em>week</em> evolution</span></h2>
-<p class="sl reveal">
-<span data-fr>Chaque ligne est horodatée et vérifiable. La transparence est notre ADN.</span>
-<span data-en>Each row is timestamped and verifiable. Transparency is in our DNA.</span>
-</p>
-<div class="table-wrap">
-<table class="history-table reveal">
-<thead>
-<tr>
-<th><span data-fr>Semaine</span><span data-en>Week</span></th>
-<th>OVC NAV</th>
-<th>OVC Perf.</th>
-<th>S&P 500</th>
-<th>BRVM</th>
-<th>Alpha vs S&P</th>
-</tr>
-</thead>
-<tbody>
-<tr><td class="td-mono">10 Jan 2026</td><td class="td-mono">100.00</td><td>—</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td>—</td></tr>
-<tr><td class="td-mono">17 Jan 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">24 Jan 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">31 Jan 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">07 Fév 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">14 Fév 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">21 Fév 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">28 Fév 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">07 Mar 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">14 Mar 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">21 Mar 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">28 Mar 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">04 Avr 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-<tr><td class="td-mono">10 Avr 2026</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td><td class="td-mono">100.00</td><td class="td-mono">100.00</td><td class="td-mono">+0.00%</td></tr>
-</tbody>
-</table>
-</div>
-</section><!-- CTA -->
-<div class="cta-bar">
-<div class="cta-text">
-<span data-fr>Vous voulez voir comment votre argent se comporterait ? <em>Simulez gratuitement</em></span>
-<span data-en>Want to see how your money would perform? <em>Simulate for free</em></span>
-</div>
-<div style="display:flex;gap:.7rem;flex-wrap:wrap">
-<a href="fund-simulator.html" class="btn-gold"><span data-fr>Simuler maintenant</span><span data-en>Simulate now</span></a>
-<a href="analyses.html" class="btn-out"><span data-fr>Lire les analyses</span><span data-en>Read the research</span></a>
-</div>
-</div><!-- DISCLAIMER -->
-<section class="disc-section">
-<div class="disc-title"><span data-fr>Avertissement important</span><span data-en>Important disclaimer</span></div>
-<p class="disc-text">
-<span data-fr>Ce suivi de performance est <strong>entièrement simulé</strong> et à but éducatif uniquement. Aucun argent réel n'est géré. L'auteur est <strong>étudiant en finance</strong> et n'est pas gérant de fonds agréé. Les performances passées, même simulées, ne préjugent pas des performances futures.</span>
-<span data-en>This performance tracking is <strong>entirely simulated</strong> and for educational purposes only. No real money is managed. The author is a <strong>finance student</strong> and is not a licensed fund manager. Past performance, even simulated, is not indicative of future results.</span>
-</p>
-</section><!-- FOOTER -->
-<footer>
-<div class="ft-logo">Oswald<em>Vision</em>Capital</div>
-<div class="ft-copy">© 2026 ·<a href="index.html" style="color:var(--gold);text-decoration:none"><span data-fr>Retour à l'accueil</span><span data-en>Back to home</span></a>·<a href="analyses.html" style="color:var(--gold);text-decoration:none"><span data-fr>Analyses</span><span data-en>Research</span></a>·<a href="fund-simulator.html" style="color:var(--gold);text-decoration:none"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a></div>
-<div class="ft-disc">
-<span data-fr>Ce site est à but éducatif et ne constitue pas un conseil en investissement. Les analyses reflètent une opinion personnelle indépendante. Aucun argent réel n'est collecté ou géré.</span>
-<span data-en>This site is for educational purposes only and does not constitute investment advice. Analyses reflect independent personal opinion. No real money is collected or managed.</span>
-</div>
-</footer><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
-// ── LANG
-function setLang(l){ document.documentElement.setAttribute('data-lang',l); document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
-}
-setLang('fr');
-// ── CHART DATA (same as fund-simulator)
-const history = [
-  ['10 jan', 100.00, 100.00, 100.00],
-  ['17 jan', 100.00, 100.00, 100.00],
-  ['24 jan', 100.00, 100.00, 100.00],
-  ['31 jan', 100.00, 100.00, 100.00],
-  ['07 fév', 100.00, 100.00, 100.00],
-  ['14 fév', 100.00, 100.00, 100.00],
-  ['21 fév', 100.00, 100.00, 100.00],
-  ['28 fév', 100.00, 100.00, 100.00],
-  ['07 mar', 100.00, 100.00, 100.00],
-  ['14 mar', 100.00, 100.00, 100.00],
-  ['21 mar', 100.00, 100.00, 100.00],
-  ['28 mar', 100.00, 100.00, 100.00],
-  ['04 avr', 100.00, 100.00, 100.00],
-  ['10 avr', 100.00, 100.00, 100.00],
-];
-const ctx = document.getElementById('perfChart').getContext('2d');
-new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: history.map(h=>h[0]),
-    datasets: [
-      { label: 'OVC Fund', data: history.map(h=>h[1]), borderColor: '#c9832a', backgroundColor: 'rgba(201,131,42,.08)', borderWidth: 2.5, pointRadius: 3, pointHoverRadius: 6, tension: .3, fill: true },
-      { label: 'S&P 500', data: history.map(h=>h[2]), borderColor: '#1e4faa', backgroundColor: 'transparent', borderWidth: 1.5, pointRadius: 2, tension: .3, borderDash: [4,3] },
-      { label: 'BRVM', data: history.map(h=>h[3]), borderColor: '#5e35b1', backgroundColor: 'transparent', borderWidth: 1.5, pointRadius: 2, tension: .3, borderDash: [2,4] },
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    interaction: { mode: 'index', intersect: false },
-    plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1a1a2e', titleColor: '#f0a84a', bodyColor: '#fff', padding: 10, callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toFixed(2)}` } } },
-    scales: {
-      x: { grid: { color: 'rgba(0,0,0,.04)' }, ticks: { font: { family: 'JetBrains Mono', size: 10 }, color: '#8a8aaa' } },
-      y: { grid: { color: 'rgba(0,0,0,.04)' }, ticks: { font: { family: 'JetBrains Mono', size: 10 }, color: '#8a8aaa', callback: v=>v.toFixed(0) }, suggestedMin: 90, suggestedMax: 120 }
+document.addEventListener('DOMContentLoaded', function() {
+
+  function setLang(l) {
+    document.documentElement.setAttribute('data-lang', l);
+    document.querySelectorAll('.lbtn').forEach(function(b) {
+      b.classList.toggle('active', b.textContent === l.toUpperCase());
+    });
+  }
+  window.setLang = setLang;
+  setLang('fr');
+
+  // ════════════════════════════════════════════════
+  // CONFIG
+  // ════════════════════════════════════════════════
+  var NAV_LAUNCH  = 100.00;
+  var LAUNCH_DATE = '2026-01-10';
+  var XOF_EUR     = 0.001525;
+
+  // ════════════════════════════════════════════════
+  // STATE  -  toujours lire depuis localStorage
+  // ════════════════════════════════════════════════
+  function readState() {
+    try {
+      var s = JSON.parse(localStorage.getItem('ovc_fund_state') || 'null');
+      if (s && s.portfolio) return s;
+    } catch(e) {}
+    return null;
+  }
+
+  function readHistory() {
+    var s = readState();
+    if (s && s.navHistory) return s.navHistory;
+    try { return JSON.parse(localStorage.getItem('ovc_nav_history') || '[]'); } catch(e) { return []; }
+  }
+
+  // ════════════════════════════════════════════════
+  // CALCULS
+  // ════════════════════════════════════════════════
+  function toEUR(price, currency) {
+    if (currency === 'XOF') return price * XOF_EUR;
+    if (currency === 'GBP') return price * 1.17;
+    return price;
+  }
+
+  function computeVL(state) {
+    if (!state || !state.portfolio || !state.portfolio.length) return NAV_LAUNCH;
+    var prices    = state.prices || {};
+    var portfolio = state.portfolio;
+    var hasQty    = portfolio.some(function(p) { return (p.qty || 0) > 0; });
+
+    if (hasQty) {
+      var posVal = 0;
+      portfolio.forEach(function(p) {
+        var cp = prices[p.ticker] || p.entryPrice;
+        posVal += (p.qty || 0) * toEUR(cp, p.currency);
+      });
+      return ((state.cash || 0) + posVal) / (state.parts || 1000);
+    }
+
+    // Fallback poids  -  utilisé quand pas encore de transactions
+    var nav = 0;
+    portfolio.forEach(function(p) {
+      if ((p.weight || 0) === 0) return;
+      var cp   = prices[p.ticker] || p.entryPrice;
+      var perf = (cp - p.entryPrice) / p.entryPrice;
+      nav += (p.weight / 100) * NAV_LAUNCH * (1 + perf);
+    });
+    return nav || NAV_LAUNCH;
+  }
+
+  function computeMaxDD(history) {
+    var peak = NAV_LAUNCH;
+    var maxDD = 0;
+    [{nav:NAV_LAUNCH}].concat(history).forEach(function(h) {
+      if (h.nav > peak) peak = h.nav;
+      var dd = (h.nav - peak) / peak * 100;
+      if (dd < maxDD) maxDD = dd;
+    });
+    return maxDD;
+  }
+
+  // ════════════════════════════════════════════════
+  // API YAHOO  -  fund-nav peut aussi actualiser les prix
+  // ════════════════════════════════════════════════
+  function fetchLivePrices(portfolio, prices, callback) {
+    var yahooTickers = (portfolio || []).filter(function(p) {
+      return p.apiMethod === 'yahoo' && p.weight > 0;
+    });
+    if (!yahooTickers.length) { callback(prices); return; }
+
+    var done    = 0;
+    var updated = JSON.parse(JSON.stringify(prices || {}));
+
+    yahooTickers.forEach(function(p) {
+      var url   = 'https://query1.finance.yahoo.com/v8/finance/chart/'+p.ticker+'?interval=1d&range=1d';
+      var proxy = 'https://api.allorigins.win/get?url='+encodeURIComponent(url);
+      fetch(proxy)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var content = JSON.parse(data.contents);
+          var price   = content.chart.result[0].meta.regularMarketPrice;
+          updated[p.ticker] = price;
+        })
+        .catch(function() {})
+        .finally(function() {
+          done++;
+          if (done === yahooTickers.length) callback(updated);
+        });
+    });
+  }
+
+  // ════════════════════════════════════════════════
+  // RENDER
+  // ════════════════════════════════════════════════
+  function fmtDate(s) { return new Date(s + 'T12:00:00').toLocaleDateString('fr-FR'); }
+  function fmtPct(v)  { return (v >= 0 ? '+' : '') + v.toFixed(2) + '%'; }
+  function fmtPrice(p, price) {
+    if (!p) return price;
+    if (p.currency === 'XOF') return Math.round(price).toLocaleString('fr-FR') + ' XOF';
+    if (p.currency === 'USD') return '$' + price.toFixed(2);
+    return price.toFixed(2) + ' ' + p.currency;
+  }
+
+  function render(state, overridePrices) {
+    var portfolio  = (state && state.portfolio) || [];
+    var prices     = overridePrices || (state && state.prices) || {};
+    var navHistory = (state && state.navHistory) || readHistory();
+    var cash       = state ? (state.cash  || 0)    : 0;
+    var parts      = state ? (state.parts || 1000) : 1000;
+
+    // Use override prices for VL computation
+    var stateForVL = state ? JSON.parse(JSON.stringify(state)) : null;
+    if (stateForVL && overridePrices) stateForVL.prices = overridePrices;
+
+    var currentVL  = computeVL(stateForVL);
+    var perf       = (currentVL - NAV_LAUNCH) / NAV_LAUNCH * 100;
+    var maxDD      = computeMaxDD(navHistory);
+    var lastDate   = navHistory.length > 0 ? navHistory[navHistory.length-1].date : LAUNCH_DATE;
+    var lastPublVL = navHistory.length > 0 ? navHistory[navHistory.length-1].nav : NAV_LAUNCH;
+
+    // ── KPIs
+    function setKPI(id, txt, cls) {
+      var e = document.getElementById(id);
+      if (!e) return;
+      e.textContent = txt;
+      if (cls !== undefined) e.className = 'kpi-val ' + cls;
+    }
+
+    setKPI('kpi-nav',   currentVL.toFixed(2),    currentVL >= NAV_LAUNCH ? 'gold' : 'dn');
+    setKPI('kpi-perf',  fmtPct(perf),             perf >= 0 ? 'up' : 'dn');
+    setKPI('kpi-alpha', navHistory.length >= 2 ? fmtPct(perf) : 'n.d.', perf >= 0 ? 'up' : 'dn');
+    setKPI('kpi-dd',    maxDD.toFixed(2) + '%',   maxDD < -3 ? 'dn' : '');
+    setKPI('kpi-weeks', navHistory.length + '',   'gold');
+
+    var ndEl = document.getElementById('kpi-nav-delta');
+    if (ndEl) {
+      var d = currentVL - NAV_LAUNCH;
+      ndEl.textContent = (d >= 0 ? '+' : '') + d.toFixed(2) + ' EUR / part';
+      ndEl.className   = 'kpi-delta ' + (d >= 0 ? 'up' : 'dn');
+    }
+
+    var luEl = document.getElementById('last-update-txt');
+    if (luEl) luEl.textContent = fmtDate(lastDate);
+
+    // ── VL publiée vs VL live
+    var pubEl = document.getElementById('vl-published-tag');
+    if (pubEl) {
+      pubEl.textContent = 'VL publiee: ' + lastPublVL.toFixed(4) + ' EUR (' + fmtDate(lastDate) + ')';
+    }
+
+    // ── POSITIONS TABLE
+    var tbody = document.getElementById('pos-tbody');
+    if (tbody) {
+      tbody.innerHTML = '';
+      var active = portfolio.filter(function(p) { return (p.weight || 0) > 0; });
+      if (!active.length) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1.5rem;color:var(--muted);font-size:.82rem">Aucune position. Configurez le portefeuille dans l\'admin.</td></tr>';
+      } else {
+        active.forEach(function(p) {
+          var cp      = prices[p.ticker] || p.entryPrice;
+          var perf2   = (cp - p.entryPrice) / p.entryPrice * 100;
+          var contrib = (p.weight / 100) * perf2;
+          var zl      = {americas:'Ameriques',africa:'Afrique',europe:'Europe',asia:'Asie'}[p.zone] || p.zone;
+          var zcls    = {americas:'z-am',africa:'z-af',europe:'z-eu',asia:'z-as'}[p.zone] || '';
+          var tr      = document.createElement('tr');
+          tr.innerHTML =
+            '<td><strong>' + p.name + '</strong></td>' +
+            '<td class="mono gold">' + p.ticker + '</td>' +
+            '<td><span class="zone-tag ' + zcls + '">' + zl + '</span></td>' +
+            '<td class="mono">' + p.weight.toFixed(1) + '%</td>' +
+            '<td class="mono">' + fmtPrice(p, p.entryPrice) + '</td>' +
+            '<td class="mono">' + fmtPrice(p, cp) + '</td>' +
+            '<td class="' + (perf2 >= 0 ? 'up' : 'dn') + '">' + fmtPct(perf2) + '</td>' +
+            '<td class="' + (contrib >= 0 ? 'up' : 'dn') + '">' + (contrib >= 0 ? '+' : '') + contrib.toFixed(3) + ' pts</td>';
+          tbody.appendChild(tr);
+        });
+      }
+      var badge = document.querySelector('.sec-badge.badge-green');
+      if (badge) badge.textContent = active.length + ' positions';
+    }
+
+    // ── VL HISTORY TABLE
+    var htbody = document.getElementById('hist-tbody');
+    if (htbody) {
+      htbody.innerHTML = '';
+      var list = [{date:LAUNCH_DATE, nav:NAV_LAUNCH, note:'Lancement'}].concat(navHistory);
+      list.slice().reverse().forEach(function(h, i) {
+        var idx  = list.length - 1 - i;
+        var prev = idx > 0 ? list[idx-1].nav : h.nav;
+        var chg  = (h.nav - prev) / prev * 100;
+        var cum  = (h.nav - NAV_LAUNCH) / NAV_LAUNCH * 100;
+        var tr   = document.createElement('tr');
+        tr.className = idx === 0 ? 'launch-row' : '';
+        tr.innerHTML =
+          '<td>' + fmtDate(h.date) + '</td>' +
+          '<td><strong>' + h.nav.toFixed(4) + '</strong></td>' +
+          '<td class="' + (chg > 0 ? 'up' : chg < 0 ? 'dn' : '') + '">' + (idx > 0 ? fmtPct(chg) : '--') + '</td>' +
+          '<td class="' + (cum > 0 ? 'up' : cum < 0 ? 'dn' : '') + '">' + fmtPct(cum) + '</td>' +
+          '<td style="color:var(--muted)">' + (h.note || '') + '</td>';
+        htbody.appendChild(tr);
+      });
+    }
+
+    // ── UPDATE CHARTS (destroy + recreate)
+    renderCharts(portfolio, prices, navHistory);
+  }
+
+  // ── CHART INSTANCES (need to destroy before recreating)
+  var chartInstances = {};
+
+  function destroyChart(id) {
+    if (chartInstances[id]) {
+      try { chartInstances[id].destroy(); } catch(e) {}
+      chartInstances[id] = null;
     }
   }
-});
-// ── REVEAL
-const obs = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('in')})},{threshold:.08});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// Mobile Menu Toggle
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  const body = document.body;
-  if (!menu) return;
-  menu.classList.toggle('open');
-  body.classList.toggle('menu-open');
-}
+  Chart.defaults.font.family = "'JetBrains Mono',monospace";
+  Chart.defaults.font.size   = 10;
+  Chart.defaults.color       = '#8a8aaa';
+  var GOLD = '#c9832a', BLUE = '#1e4faa', GREEN = '#1a7a4a', RED = '#c0392b';
+  var TIP  = { backgroundColor:'#1a1a2e', titleColor:'#f0a84a', bodyColor:'#fff', padding:10, cornerRadius:6 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.getElementById('mobile-toggle');
-  if (toggle) toggle.addEventListener('click', toggleMobileMenu);
+  function renderCharts(portfolio, prices, navHistory) {
+    var allPts  = [{date:LAUNCH_DATE, nav:NAV_LAUNCH}].concat(navHistory);
+    var labels  = allPts.map(function(h) { return fmtDate(h.date); });
+    var navVals = allPts.map(function(h) { return parseFloat(h.nav.toFixed(4)); });
+    var msciV   = allPts.map(function(h) { return h.msci || NAV_LAUNCH; });
 
-  document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
-    link.addEventListener('click', () => {
-      const menu = document.getElementById('mobile-menu');
-      if (menu) menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
+    // NAV chart
+    destroyChart('chart-nav');
+    var cnav = document.getElementById('chart-nav');
+    if (cnav) chartInstances['chart-nav'] = new Chart(cnav, {
+      type: 'line',
+      data: { labels:labels, datasets: [
+        { label:'OVC', data:navVals, borderColor:GOLD, backgroundColor:'rgba(201,131,42,.1)', fill:true, borderWidth:2.5, pointRadius:4, tension:.3 },
+        { label:'MSCI World (base 100)', data:msciV, borderColor:BLUE, borderDash:[4,3], borderWidth:1.5, pointRadius:2, tension:.3 }
+      ]},
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{position:'bottom',labels:{boxWidth:10,padding:12}},
+          tooltip:{...TIP, callbacks:{label:function(c){ return ' ' + c.dataset.label + ': ' + c.raw.toFixed(2); }}} },
+        scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'}, ticks:{callback:function(v){ return v.toFixed(0); }}} }
+      }
     });
-  });
-});
-</script>
 
+    // Drawdown
+    destroyChart('chart-dd');
+    var peak = NAV_LAUNCH;
+    var ddVals = navVals.map(function(v) {
+      if (v > peak) peak = v;
+      return parseFloat(((v - peak) / peak * 100).toFixed(2));
+    });
+    var cdd = document.getElementById('chart-dd');
+    if (cdd) chartInstances['chart-dd'] = new Chart(cdd, {
+      type: 'line',
+      data: { labels:labels, datasets:[
+        { label:'Drawdown %', data:ddVals, borderColor:RED, backgroundColor:'rgba(192,57,43,.1)', fill:true, borderWidth:2, pointRadius:3, tension:.3 }
+      ]},
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{...TIP, callbacks:{label:function(c){ return c.raw.toFixed(2) + '%'; }}} },
+        scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'}, max:0, ticks:{callback:function(v){ return v + '%'; }}} }
+      }
+    });
+
+    // Geo donut  -  DYNAMIC
+    var zoneW = {};
+    portfolio.forEach(function(p) {
+      if ((p.weight||0) > 0) zoneW[p.zone] = (zoneW[p.zone]||0) + p.weight;
+    });
+    var zMap = { americas:['Ameriques','rgba(30,79,170,.7)'], africa:['Afrique','rgba(94,53,177,.7)'], europe:['Europe','rgba(26,122,74,.65)'], asia:['Asie','rgba(201,131,42,.7)'] };
+    var zLabels=[], zData=[], zColors=[];
+    Object.keys(zoneW).forEach(function(z) {
+      if (zoneW[z] > 0 && zMap[z]) { zLabels.push(zMap[z][0]); zData.push(zoneW[z]); zColors.push(zMap[z][1]); }
+    });
+    destroyChart('chart-geo');
+    var cgeo = document.getElementById('chart-geo');
+    if (cgeo && zData.length) chartInstances['chart-geo'] = new Chart(cgeo, {
+      type:'doughnut',
+      data:{ labels:zLabels, datasets:[{ data:zData, backgroundColor:zColors, borderWidth:2, borderColor:'#fff' }] },
+      options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+        plugins:{ legend:{position:'right',labels:{boxWidth:10,padding:10,font:{size:9}}},
+          tooltip:{...TIP, callbacks:{label:function(c){ return ' ' + c.label + ': ' + c.raw.toFixed(1) + '%'; }}} }
+      }
+    });
+
+    // Sector donut  -  DYNAMIC
+    var sectors = {};
+    portfolio.forEach(function(p) {
+      if ((p.weight||0) > 0) sectors[p.sector] = (sectors[p.sector]||0) + p.weight;
+    });
+    var sKeys    = Object.keys(sectors).sort(function(a,b){ return sectors[b]-sectors[a]; });
+    var sPalette = ['rgba(201,131,42,.7)','rgba(30,79,170,.65)','rgba(26,122,74,.65)','rgba(94,53,177,.65)','rgba(192,57,43,.6)','rgba(13,122,122,.6)','rgba(180,120,60,.5)','rgba(138,138,170,.5)'];
+    destroyChart('chart-sector');
+    var csec = document.getElementById('chart-sector');
+    if (csec && sKeys.length) chartInstances['chart-sector'] = new Chart(csec, {
+      type:'doughnut',
+      data:{ labels:sKeys, datasets:[{ data:sKeys.map(function(k){ return sectors[k]; }), backgroundColor:sPalette, borderWidth:2, borderColor:'#fff' }] },
+      options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+        plugins:{ legend:{position:'right',labels:{boxWidth:10,padding:8,font:{size:9}}},
+          tooltip:{...TIP, callbacks:{label:function(c){ return ' ' + c.label + ': ' + c.raw.toFixed(1) + '%'; }}} }
+      }
+    });
+
+    // Contributions bar  -  DYNAMIC avec prix LIVE
+    var contribs = portfolio.filter(function(p){ return (p.weight||0) > 0; }).map(function(p) {
+      var cp   = prices[p.ticker] || p.entryPrice;
+      var perf = (cp - p.entryPrice) / p.entryPrice * 100;
+      return { ticker:p.ticker, contrib:parseFloat(((p.weight/100)*perf).toFixed(3)) };
+    }).sort(function(a,b){ return Math.abs(b.contrib)-Math.abs(a.contrib); }).slice(0,8);
+    destroyChart('chart-contrib');
+    var ccon = document.getElementById('chart-contrib');
+    if (ccon && contribs.length) chartInstances['chart-contrib'] = new Chart(ccon, {
+      type:'bar',
+      data:{ labels:contribs.map(function(c){ return c.ticker; }),
+        datasets:[{ label:'pts VL',
+          data:contribs.map(function(c){ return c.contrib; }),
+          backgroundColor:contribs.map(function(c){ return c.contrib>=0?'rgba(26,122,74,.65)':'rgba(192,57,43,.65)'; }),
+          borderColor:    contribs.map(function(c){ return c.contrib>=0?GREEN:RED; }),
+          borderWidth:1.5, borderRadius:5
+        }]
+      },
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{...TIP, callbacks:{label:function(c){ return (c.raw>=0?'+':'')+c.raw.toFixed(3)+' pts'; }}} },
+        scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'}, ticks:{callback:function(v){ return v.toFixed(2); }}} }
+      }
+    });
+  }
+
+  // ════════════════════════════════════════════════
+  // REFRESH BUTTON  -  actualise les prix via API + recalcule tout
+  // ════════════════════════════════════════════════
+  var isRefreshing = false;
+
+  window.refreshAll = function() {
+    if (isRefreshing) return;
+    isRefreshing = true;
+
+    var btn = document.getElementById('btn-refresh');
+    if (btn) { btn.textContent = 'Actualisation...'; btn.disabled = true; }
+
+    var statusEl = document.getElementById('refresh-status');
+    if (statusEl) statusEl.textContent = 'Recuperation des cours en cours...';
+
+    var state = readState();
+    var portfolio = (state && state.portfolio) || [];
+
+    fetchLivePrices(portfolio, (state && state.prices) || {}, function(updatedPrices) {
+      // Save updated prices back to localStorage if we're the admin
+      if (state) {
+        state.prices = updatedPrices;
+        try {
+          localStorage.setItem('ovc_fund_state', JSON.stringify(state));
+        } catch(e) {}
+      }
+
+      render(state, updatedPrices);
+
+      isRefreshing = false;
+      if (btn) { btn.textContent = 'Actualiser les cours'; btn.disabled = false; }
+
+      var now = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+      if (statusEl) statusEl.textContent = 'Mis a jour le ' + new Date().toLocaleDateString('fr-FR') + ' a ' + now;
+    });
+  };
+
+  // ════════════════════════════════════════════════
+  // AUTO-REFRESH toutes les 5 minutes
+  // ════════════════════════════════════════════════
+  setInterval(function() {
+    var state = readState();
+    if (!state) return;
+    fetchLivePrices(state.portfolio || [], state.prices || {}, function(updatedPrices) {
+      if (state) state.prices = updatedPrices;
+      render(state, updatedPrices);
+    });
+  }, 300000); // 5 minutes
+
+  // ════════════════════════════════════════════════
+  // INIT
+  // ════════════════════════════════════════════════
+  var initialState = readState();
+
+  if (!initialState || !initialState.portfolio || !initialState.portfolio.length) {
+    // No data  -  show empty state
+    ['chart-nav','chart-dd','chart-geo','chart-sector','chart-contrib'].forEach(function(id) {
+      var c = document.getElementById(id);
+      if (c && c.parentElement) c.parentElement.innerHTML = '<div style="height:180px;display:flex;align-items:center;justify-content:center;background:var(--cream);border-radius:8px;font-size:.82rem;color:var(--muted);text-align:center;padding:1rem;line-height:1.65">Connectez-vous a <a href="admin-ovc-secret.html" style="color:var(--gold)">admin-ovc-secret.html</a> pour configurer le portefeuille et publier la premiere VL.</div>';
+    });
+    var btn = document.getElementById('btn-refresh');
+    if (btn) btn.style.display = 'none';
+  } else {
+    // First render with stored prices, then immediately fetch live prices
+    render(initialState, initialState.prices);
+
+    // Auto-fetch live prices on load
+    fetchLivePrices(initialState.portfolio || [], initialState.prices || {}, function(livePrices) {
+      render(initialState, livePrices);
+      var now = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+      var statusEl = document.getElementById('refresh-status');
+      if (statusEl) statusEl.textContent = 'Cours en direct - mis a jour a ' + now;
+    });
+  }
+
+  // Reload when admin saves data
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'ovc_fund_state' || e.key === 'ovc_nav_history') {
+      var newState = readState();
+      if (newState) render(newState, newState.prices);
+    }
+  });
+
+}); // end DOMContentLoaded
+</script>
 </body>
 </html>

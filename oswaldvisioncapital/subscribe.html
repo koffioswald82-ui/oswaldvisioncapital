@@ -192,37 +192,15 @@ span[data-fr],span[data-en]{display:none}
 html[data-lang=fr] span[data-fr]{display:inline}
 html[data-lang=en] span[data-en]{display:inline}
 
-/* ── MOBILE MENU ── */
-.mobile-nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1100}
-.mobile-nav-toggle span{display:block;width:24px;height:2px;background:var(--ink);transition:all .3s ease;border-radius:2px}
-
-.mobile-nav-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);z-index:1050;display:flex;flex-direction:column;padding:80px 8vw 40px;transform:translateX(100%);transition:transform .4s cubic-bezier(.77,0,.175,1);overflow-y:auto}
-.mobile-nav-overlay.open{transform:translateX(0)}
-.mno-links{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem}
-.mno-link{font-size:1.3rem;font-weight:700;color:var(--ink);text-decoration:none;font-family:'Libre Baskerville',serif}
-.mno-sublinks{padding-left:1.5rem;display:flex;flex-direction:column;gap:.6rem;margin-top:.4rem}
-.mno-sublink{font-size:.9rem;color:var(--body);text-decoration:none}
-.mno-cta{margin-top:2rem;text-align:center}
-
-@media(max-width:768px){
-  .nav-links{display:none}
-  .mobile-nav-toggle{display:flex}
+@media(max-width:900px){
   .page-wrap{grid-template-columns:1fr}
   .panel-left{display:none}
   .panel-right{padding:3vh 5vw}
-  .steps-bar{margin-bottom:2vh}
-  .sb-lbl{display:none} /* Hide labels on very small mobile for the steps bar */
-  .sb-step{flex:none}
+  .nav-links{display:none}
   .row2{grid-template-columns:1fr}
   .amt-pills{grid-template-columns:repeat(2,1fr)}
   .obj-grid{grid-template-columns:1fr}
-  
-  body.menu-open{overflow:hidden}
-  body.menu-open .mobile-nav-toggle span:nth-child(1){transform:rotate(45deg) translate(5px, 5px)}
-  body.menu-open .mobile-nav-toggle span:nth-child(2){opacity:0}
-  body.menu-open .mobile-nav-toggle span:nth-child(3){transform:rotate(-45deg) translate(5px, -5px)}
 }
-
 </style>
 </head>
 <body>
@@ -261,40 +239,7 @@ html[data-lang=en] span[data-en]{display:inline}
     <a href="performance.html">Performance</a>
     <a href="subscribe.html" class="nav-cta-on"><span data-fr>Souscrire</span><span data-en>Subscribe</span></a>
   </div>
-  
-  <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
-
-<!-- Mobile Nav Overlay -->
-<div class="mobile-nav-overlay" id="mobile-menu">
-  <div class="mno-links">
-    <a href="index.html" class="mno-link">Home</a>
-    <div class="mno-group">
-      <a href="analyses.html" class="mno-link">Equity Research</a>
-      <div class="mno-sublinks">
-        <a href="Analyse/nvidia.html" class="mno-sublink">NVIDIA</a>
-        <a href="Analyse/orange-ci.html" class="mno-sublink">Orange CI</a>
-      </div>
-    </div>
-    <div class="mno-group">
-      <a href="macro.html" class="mno-link">Macro</a>
-      <div class="mno-sublinks">
-        <a href="Mcr/macro-iran-ormuz.html" class="mno-sublink">Détroit d'Ormuz</a>
-        <a href="Mcr/macro-trump-tariffs.html" class="mno-sublink">Tarifs Trump 2025</a>
-      </div>
-    </div>
-    <a href="performance.html" class="mno-link">Performance</a>
-    <a href="fund-simulator.html" class="mno-link">Fonds OVC</a>
-    <div class="mno-cta">
-      <button onclick="toggleMobileMenu();" class="btn-gold" style="width:100%;padding:1rem;border-radius:12px;border:none;font-weight:700">
-        <span data-fr>Fermer le menu</span><span data-en>Close menu</span>
-      </button>
-    </div>
-  </div>
-</div>
-
 
 <div class="page-wrap">
 
@@ -352,6 +297,21 @@ html[data-lang=en] span[data-en]{display:inline}
     <span data-en>Educational and simulated fund only. Your data is used exclusively for your simulation tracking and will never be sold or shared.</span>
   </div>
 
+  <!-- VL LIVE BANNER -->
+  <div id="vl-banner" style="background:var(--ink);color:#fff;border-radius:10px;padding:.8rem 1.2rem;margin-bottom:1.4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem"><span data-fr>Valeur de part actuelle</span><span data-en>Current unit NAV</span></div>
+      <div style="font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--gold-l)" id="banner-nav">100.00 EUR</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem"><span data-fr>Date de la VL</span><span data-en>NAV date</span></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:rgba(255,255,255,.6)" id="banner-date">--</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem"><span data-fr>Votre montant = parts</span><span data-en>Your amount = units</span></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--gold-l)" id="banner-units">Entrez un montant</div>
+    </div>
+  </div>
   <!-- STEPS BAR -->
   <div class="steps-bar" id="steps-bar">
     <div class="sb-step">
@@ -375,12 +335,14 @@ html[data-lang=en] span[data-en]{display:inline}
     </div>
   </div>
 
-  <form id="ovc-form" action="https://formspree.io/f/mvzdzvko" method="POST">
+  <form id="ovc-form" action="https://formspree.io/f/VOTRE_ID_ICI" method="POST">
 
     <!-- hidden meta fields -->
     <input type="hidden" name="_subject" id="f-subject" value="Nouvelle souscription OVC">
     <input type="hidden" name="langue" id="f-lang" value="fr">
     <input type="hidden" name="horizon_ans" id="f-horizon" value="3">
+    <input type="hidden" name="vl_au_moment_souscription" id="f-nav-at-sub" value="100.00">
+    <input type="hidden" name="nombre_parts_calcule" id="f-units-calc" value="0">
     <input type="hidden" name="risque_score" id="f-risk" value="3">
     <input type="hidden" name="objectif" id="f-objective" value="">
     <input type="hidden" name="date_soumission" id="f-date" value="">
@@ -640,6 +602,14 @@ document.addEventListener('DOMContentLoaded', function() {
   window.setLang = setLang;
   setLang('fr');
 
+  // Display current NAV in banner
+  (function() {
+    var bannerNav  = document.getElementById('banner-nav');
+    var bannerDate = document.getElementById('banner-date');
+    if (bannerNav)  bannerNav.textContent  = NAV.toFixed(2) + ' EUR';
+    if (bannerDate) bannerDate.textContent = NAV_DATE;
+  })();
+
   // ── INIT DATES
   var tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -647,7 +617,32 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('f-date').value = new Date().toLocaleDateString('fr-FR');
 
   // ── STATE
-  var NAV = 100;
+
+  // Read current NAV from fund-admin localStorage (compatible with both keys)
+  function readNavHistory() {
+    try {
+      var s = JSON.parse(localStorage.getItem('ovc_fund_state') || 'null');
+      if (s && s.navHistory && s.navHistory.length > 0) return s.navHistory;
+    } catch(e) {}
+    try {
+      var h = JSON.parse(localStorage.getItem('ovc_nav_history') || '[]');
+      if (h.length > 0) return h;
+    } catch(e) {}
+    return [];
+  }
+  var NAV = (function() {
+    var hist = readNavHistory();
+    if (hist.length > 0) return parseFloat(hist[hist.length-1].nav) || 100;
+    return 100;
+  })();
+  var NAV_DATE = (function() {
+    var hist = readNavHistory();
+    if (hist.length > 0) {
+      var d = hist[hist.length-1].date;
+      return new Date(d + 'T12:00:00').toLocaleDateString('fr-FR');
+    }
+    return '10/01/2026';
+  })();
   var selAmt = 0;
   var selObj = '';
   var selRisk = 3;
@@ -813,7 +808,14 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     document.getElementById('s-amount').textContent  = amt.toLocaleString('fr-FR') + ' EUR';
+    var sNavEl = document.getElementById('s-nav-val');
+    if (sNavEl) sNavEl.textContent = NAV.toFixed(4) + ' EUR (date: ' + NAV_DATE + ')';
     document.getElementById('s-units').textContent   = units + ' parts';
+    // Update hidden fields for Formspree
+    var navField = document.getElementById('f-nav-at-sub');
+    if (navField) navField.value = NAV.toFixed(4);
+    var unitsField = document.getElementById('f-units-calc');
+    if (unitsField) unitsField.value = units;
     document.getElementById('s-date').textContent    = dtFmt;
     document.getElementById('s-obj').textContent     = selObj ? (objMap[selObj][lang] || selObj) : 'n.d.';
     document.getElementById('s-horizon').textContent = hz + ' ' + hzUnit;
@@ -877,29 +879,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   updateBar(1);
 });
-
-// Mobile Menu Toggle
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  const body = document.body;
-  if (!menu) return;
-  menu.classList.toggle('open');
-  body.classList.toggle('menu-open');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.getElementById('mobile-toggle');
-  if (toggle) toggle.addEventListener('click', toggleMobileMenu);
-
-  document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
-    link.addEventListener('click', () => {
-      const menu = document.getElementById('mobile-menu');
-      if (menu) menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
-    });
-  });
-});
 </script>
-
 </body>
 </html>
