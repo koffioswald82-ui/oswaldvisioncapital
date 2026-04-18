@@ -316,7 +316,7 @@ html[data-lang=en] span[data-en]{display:inline}
   <div class="section-block">
     <div class="sb-header">
       <div class="sb-title"><span data-fr>Allocation</span><span data-en>Allocation</span></div>
-      <span class="sb-badge badge-blue">2 <span data-fr>zones</span><span data-en>zones</span></span>
+      <span class="sb-badge badge-blue" id="alloc-zone-badge">-- <span data-fr>zones</span><span data-en>zones</span></span>
     </div>
     <div class="charts-3col">
       <div class="chart-card">
@@ -332,6 +332,7 @@ html[data-lang=en] span[data-en]{display:inline}
         <div class="chart-wrap h220"><canvas id="chart-contrib"></canvas></div>
       </div>
     </div>
+    <div id="alloc-bars" style="display:none"></div>
   </div>
 
   <!-- VL HISTORY -->
@@ -476,6 +477,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var NAV_LAUNCH  = 100.00;
   var LAUNCH_DATE = '2026-01-10';
   var XOF_EUR     = 0.001525;
+  // Load cached FX rates (written by admin panel on login)
+  var _fx = (function() {
+    try { return JSON.parse(localStorage.getItem('ovc_fx_rates') || 'null'); } catch(e) { return null; }
+  })();
+  var FX_RATES = _fx && _fx.fetchedAt ? _fx : { USD:0.9225, GBP:1.1712, XOF:XOF_EUR, EUR:1 };
 
   // ════════════════════════════════════════════════
   // STATE  -  toujours lire depuis localStorage
@@ -498,8 +504,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // CALCULS
   // ════════════════════════════════════════════════
   function toEUR(price, currency) {
-    if (currency === 'XOF') return price * XOF_EUR;
-    if (currency === 'GBP') return price * 1.17;
+    if (currency === 'XOF') return price * FX_RATES.XOF;
+    if (currency === 'GBP') return price * FX_RATES.GBP;
+    if (currency === 'USD') return price * FX_RATES.USD;
     return price;
   }
 
@@ -686,6 +693,61 @@ document.addEventListener('DOMContentLoaded', function() {
     renderCharts(portfolio, prices, navHistory);
   }
 
+  // ── ALLOCATION BAR BREAKDOWN
+  function renderAllocBars(sectW, zoneW, totalCap, cash) {
+    var el = document.getElementById('alloc-bars');
+    if (!el) return;
+    if (!Object.keys(sectW).length && !Object.keys(zoneW).length) { el.style.display='none'; return; }
+    el.style.display = '';
+    var badge = document.getElementById('alloc-zone-badge');
+    if (badge) badge.innerHTML = Object.keys(zoneW).length + ' <span data-fr>zones</span><span data-en>zones</span>';
+
+    var SECTOR_MAX = 30, ZONE_MAX = 40;
+    var zLabel = {americas:'Ameriques', africa:'Afrique', europe:'Europe', asia:'Asie'};
+
+    function barRow(label, pct, max) {
+      var ratio = Math.min(100, pct / max * 100);
+      var c = pct >= max ? '#c0392b' : pct >= max*0.8 ? '#c9832a' : '#1a7a4a';
+      return '<div style="margin-bottom:.55rem">' +
+        '<div style="display:flex;justify-content:space-between;margin-bottom:.18rem">' +
+          '<span style="font-size:.76rem;font-weight:600;color:#2d3561">' + label + '</span>' +
+          '<span style="font-family:JetBrains Mono,monospace;font-size:.76rem;font-weight:700;color:' + c + '">' + pct.toFixed(1) + '%' + (pct >= max ? ' !' : '') + '</span>' +
+        '</div>' +
+        '<div style="height:7px;background:#e8e4f0;border-radius:4px;overflow:hidden">' +
+          '<div style="height:100%;width:' + ratio.toFixed(1) + '%;background:' + c + ';border-radius:4px;transition:width .5s"></div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    var sSorted = Object.keys(sectW).sort(function(a,b){ return sectW[b]-sectW[a]; });
+    var zSorted = Object.keys(zoneW).sort(function(a,b){ return zoneW[b]-zoneW[a]; });
+    var cashW = totalCap > 0 ? cash / totalCap * 100 : 0;
+
+    var sWarn = sSorted.some(function(k){ return sectW[k] >= SECTOR_MAX; });
+    var zWarn = zSorted.some(function(k){ return zoneW[k] >= ZONE_MAX; });
+
+    el.innerHTML =
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.2rem">' +
+        '<div style="background:#fff;border:1px solid #e8e4f0;border-radius:13px;padding:1.1rem 1.3rem;box-shadow:0 2px 14px rgba(26,26,46,.07)">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem">' +
+            '<div style="font-family:Libre Baskerville,serif;font-size:.85rem;font-weight:700;color:#1a1a2e">Secteurs</div>' +
+            '<div style="font-size:.64rem;color:#8a8aaa">max ' + SECTOR_MAX + '% / secteur</div>' +
+          '</div>' +
+          sSorted.map(function(k){ return barRow(k, sectW[k], SECTOR_MAX); }).join('') +
+          (sWarn ? '<div style="font-size:.67rem;color:#c0392b;margin-top:.5rem;padding:.28rem .6rem;background:#fde8e8;border-radius:5px;font-family:JetBrains Mono,monospace">! Limite de concentration depassee</div>' : '') +
+        '</div>' +
+        '<div style="background:#fff;border:1px solid #e8e4f0;border-radius:13px;padding:1.1rem 1.3rem;box-shadow:0 2px 14px rgba(26,26,46,.07)">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem">' +
+            '<div style="font-family:Libre Baskerville,serif;font-size:.85rem;font-weight:700;color:#1a1a2e">Zones geographiques</div>' +
+            '<div style="font-size:.64rem;color:#8a8aaa">max ' + ZONE_MAX + '% / zone</div>' +
+          '</div>' +
+          zSorted.map(function(k){ return barRow(zLabel[k] || k, zoneW[k], ZONE_MAX); }).join('') +
+          (cashW > 0.5 ? barRow('Cash', cashW, ZONE_MAX) : '') +
+          (zWarn ? '<div style="font-size:.67rem;color:#c0392b;margin-top:.5rem;padding:.28rem .6rem;background:#fde8e8;border-radius:5px;font-family:JetBrains Mono,monospace">! Limite de concentration depassee</div>' : '') +
+        '</div>' +
+      '</div>';
+  }
+
   // ── CHART INSTANCES (need to destroy before recreating)
   var chartInstances = {};
 
@@ -743,15 +805,37 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    // Geo donut  -  DYNAMIC
-    var zoneW = {};
+    // ── Actual weights (qty × live price / total capital)
+    var posVal = 0;
     portfolio.forEach(function(p) {
-      if ((p.weight||0) > 0) zoneW[p.zone] = (zoneW[p.zone]||0) + p.weight;
+      var cp = prices[p.ticker] || p.currentPrice || p.entryPrice;
+      posVal += (p.qty || 0) * toEUR(cp, p.currency);
     });
+    var totalCap = (typeof cash !== 'undefined' ? cash : 0) + posVal;
+    var useActual = totalCap > 0 && portfolio.some(function(p){ return (p.qty||0) > 0; });
+
+    var zoneW = {}, sectW = {};
+    if (useActual) {
+      portfolio.forEach(function(p) {
+        if ((p.qty||0) <= 0) return;
+        var cp = prices[p.ticker] || p.currentPrice || p.entryPrice;
+        var w  = (p.qty * toEUR(cp, p.currency)) / totalCap * 100;
+        zoneW[p.zone]       = (zoneW[p.zone]       || 0) + w;
+        sectW[p.sector||''] = (sectW[p.sector||''] || 0) + w;
+      });
+    } else {
+      portfolio.forEach(function(p) {
+        if ((p.weight||0) <= 0) return;
+        zoneW[p.zone]       = (zoneW[p.zone]       || 0) + p.weight;
+        sectW[p.sector||''] = (sectW[p.sector||''] || 0) + p.weight;
+      });
+    }
+
+    // Geo donut
     var zMap = { americas:['Ameriques','rgba(30,79,170,.7)'], africa:['Afrique','rgba(94,53,177,.7)'], europe:['Europe','rgba(26,122,74,.65)'], asia:['Asie','rgba(201,131,42,.7)'] };
     var zLabels=[], zData=[], zColors=[];
     Object.keys(zoneW).forEach(function(z) {
-      if (zoneW[z] > 0 && zMap[z]) { zLabels.push(zMap[z][0]); zData.push(zoneW[z]); zColors.push(zMap[z][1]); }
+      if (zoneW[z] > 0 && zMap[z]) { zLabels.push(zMap[z][0]); zData.push(parseFloat(zoneW[z].toFixed(2))); zColors.push(zMap[z][1]); }
     });
     destroyChart('chart-geo');
     var cgeo = document.getElementById('chart-geo');
@@ -764,23 +848,22 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    // Sector donut  -  DYNAMIC
-    var sectors = {};
-    portfolio.forEach(function(p) {
-      if ((p.weight||0) > 0) sectors[p.sector] = (sectors[p.sector]||0) + p.weight;
-    });
-    var sKeys    = Object.keys(sectors).sort(function(a,b){ return sectors[b]-sectors[a]; });
+    // Sector donut
+    var sKeys    = Object.keys(sectW).sort(function(a,b){ return sectW[b]-sectW[a]; });
     var sPalette = ['rgba(201,131,42,.7)','rgba(30,79,170,.65)','rgba(26,122,74,.65)','rgba(94,53,177,.65)','rgba(192,57,43,.6)','rgba(13,122,122,.6)','rgba(180,120,60,.5)','rgba(138,138,170,.5)'];
     destroyChart('chart-sector');
     var csec = document.getElementById('chart-sector');
     if (csec && sKeys.length) chartInstances['chart-sector'] = new Chart(csec, {
       type:'doughnut',
-      data:{ labels:sKeys, datasets:[{ data:sKeys.map(function(k){ return sectors[k]; }), backgroundColor:sPalette, borderWidth:2, borderColor:'#fff' }] },
+      data:{ labels:sKeys, datasets:[{ data:sKeys.map(function(k){ return parseFloat(sectW[k].toFixed(2)); }), backgroundColor:sPalette, borderWidth:2, borderColor:'#fff' }] },
       options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
         plugins:{ legend:{position:'right',labels:{boxWidth:10,padding:8,font:{size:9}}},
           tooltip:{...TIP, callbacks:{label:function(c){ return ' ' + c.label + ': ' + c.raw.toFixed(1) + '%'; }}} }
       }
     });
+
+    // ── Allocation bar table (below donuts)
+    renderAllocBars(sectW, zoneW, totalCap, typeof cash !== 'undefined' ? cash : 0);
 
     // Contributions bar  -  DYNAMIC avec prix LIVE
     var contribs = portfolio.filter(function(p){ return (p.weight||0) > 0; }).map(function(p) {
