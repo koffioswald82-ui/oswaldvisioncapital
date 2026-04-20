@@ -861,8 +861,82 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.remove('menu-open');
     });
   });
+
+  // ── DYNAMIC CMS ARTICLES (from Supabase)
+  loadCmsArticles();
 });
+
+function loadCmsArticles() {
+  if (!window._db) return;
+  _db.from('articles')
+    .select('slug,title,ticker,zone,strategy,lede,reco,published_at,meta')
+    .eq('published', true)
+    .eq('type', 'analyse')
+    .order('published_at', { ascending: false })
+    .then(function(res) {
+      if (res.error || !res.data || !res.data.length) return;
+      var grid = document.getElementById('analyses-grid');
+      if (!grid) return;
+      var counter = 900; // CMS articles start at 900+
+      res.data.forEach(function(a) {
+        counter++;
+        var card = buildCmsCard(a, counter);
+        grid.insertBefore(card, grid.firstChild);
+        obs.observe(card);
+      });
+      updateCount();
+    });
+}
+
+var ZONE_LABELS = { africa:'Afrique', americas:'Amériques', europe:'Europe', asia:'Asie' };
+var ZONE_TAG_CLS = { africa:'tag-africa', americas:'tag-macro', europe:'tag-equity', asia:'tag-sector' };
+var ZONE_DOT_CLS = { africa:'zd-africa', americas:'zd-americas', europe:'zd-europe', asia:'zd-asia' };
+var RECO_LABELS  = { BUY:'ACHAT', HOLD:'CONSERVER', SELL:'VENDRE', NEUTRAL:'NEUTRE' };
+var RECO_CLS     = { BUY:'verdict-buy', HOLD:'verdict-hold', SELL:'verdict-watch', NEUTRAL:'verdict-watch' };
+
+function buildCmsCard(a, num) {
+  var el = document.createElement('div');
+  el.className = 'ac reveal';
+  el.dataset.zone     = a.zone     || '';
+  el.dataset.strategy = a.strategy || '';
+  el.dataset.type     = 'equity';
+  el.dataset.name     = (a.title || '').toLowerCase() + ' ' + (a.ticker || '').toLowerCase();
+  el.dataset.date     = a.published_at || '';
+  el.dataset.score    = '0';
+
+  var zoneLabel = a.zone ? (ZONE_LABELS[a.zone] || a.zone) : '';
+  var zoneTagCls = a.zone ? (ZONE_TAG_CLS[a.zone] || 'tag-equity') : '';
+  var zoneDotCls = a.zone ? (ZONE_DOT_CLS[a.zone] || '') : '';
+  var stratLabel = a.strategy ? (a.strategy.charAt(0).toUpperCase() + a.strategy.slice(1)) : '';
+  var recoLabel  = a.reco ? (RECO_LABELS[a.reco] || a.reco) : '';
+  var recoCls    = a.reco ? (RECO_CLS[a.reco] || 'verdict-watch') : '';
+  var dateStr    = a.published_at ? new Date(a.published_at).toLocaleDateString('fr-FR', {day:'2-digit', month:'short', year:'numeric'}) : '';
+
+  var badges = '';
+  if (zoneDotCls) badges += '<span class="zone-dot ' + zoneDotCls + '"></span>';
+  if (zoneLabel)  badges += '<span class="tag ' + zoneTagCls + '">' + zoneLabel + '</span>';
+  if (stratLabel) badges += '<span class="tag tag-' + (a.strategy||'').toLowerCase() + '">' + stratLabel + '</span>';
+  badges += '<span class="tag tag-equity">Equity</span>';
+
+  var verdictHtml = recoLabel ? '<div class="ac-verdict ' + recoCls + '"><span>◆</span>' + recoLabel + '</div>' : '';
+
+  el.innerHTML =
+    '<div class="ac-top"><div class="ac-badges">' + badges + '</div><span class="ac-num">CMS</span></div>' +
+    '<div class="ac-body">' +
+      (a.ticker ? '<div class="ac-company">' + a.ticker + '</div>' : '') +
+      '<div class="ac-title">' + (a.title || '') + '</div>' +
+      (a.lede ? '<div class="ac-excerpt">' + a.lede.substring(0, 120) + (a.lede.length > 120 ? '…' : '') + '</div>' : '') +
+    '</div>' +
+    verdictHtml +
+    '<div class="ac-footer">' +
+      '<span class="ac-date">' + dateStr + '</span>' +
+      '<a href="article.html?slug=' + encodeURIComponent(a.slug) + '" class="btn-read" style="font-size:.72rem;font-weight:700;color:var(--gold);text-decoration:none;border:1.5px solid var(--gold);padding:.28rem .7rem;border-radius:6px;">Lire →</a>' +
+    '</div>';
+  return el;
+}
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
 
 </body>
 </html>

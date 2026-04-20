@@ -92,3 +92,26 @@ CREATE POLICY "Public Insert" ON subscribers FOR INSERT WITH CHECK (true);
 CREATE POLICY "Admin Select" ON subscribers FOR SELECT USING (auth.role() = 'authenticated');
 CREATE POLICY "Admin Update View" ON subscribers FOR UPDATE USING (auth.role() = 'authenticated');
 CREATE POLICY "Admin Delete" ON subscribers FOR DELETE USING (auth.role() = 'authenticated');
+
+-- 6. Articles CMS
+CREATE TABLE articles (
+  slug TEXT PRIMARY KEY,
+  type TEXT NOT NULL DEFAULT 'analyse',
+  title TEXT NOT NULL,
+  ticker TEXT,
+  zone TEXT,
+  strategy TEXT,
+  lede TEXT,
+  reco TEXT,
+  published BOOLEAN DEFAULT false,
+  published_at DATE,
+  meta JSONB DEFAULT '{}',
+  sections JSONB DEFAULT '[]',
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
+-- Lecture publique des articles publiés
+CREATE POLICY "Public read published articles" ON articles FOR SELECT USING (published = true);
+-- Admin a tous les droits (lecture brouillons inclus, écriture, suppression)
+CREATE POLICY "Auth all articles" ON articles FOR ALL USING (auth.role() = 'authenticated');

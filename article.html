@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Article · Oswald Vision Capital</title>
+<meta name="description" id="page-desc" content="">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa;--line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0;--gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2;--blue:#1e4faa;--blue-bg:#eef3ff;--green:#1a7a4a;--green-bg:#e8f5ee;--red:#c0392b;--red-bg:#fde8e8;--purple:#5e35b1;--purple-bg:#f0ebff;--shadow:0 2px 20px rgba(26,26,46,.08);--shadow-lg:0 8px 40px rgba(26,26,46,.14)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* NAV */
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;justify-content:space-between;align-items:center}
+.lb-left{font-size:.68rem;color:rgba(255,255,255,.4)}.lb-left strong{color:var(--gold-l)}
+.lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700}
+nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(26,26,46,.06)}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}.nav-logo em{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important}
+/* ARTICLE NAV */
+.article-nav{padding:.9rem 5vw;background:var(--cream);border-bottom:1px solid var(--cream2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+.back-btn{font-size:.82rem;color:var(--body);text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:color .2s}.back-btn:hover{color:var(--ink)}
+/* PREVIEW BANNER */
+.preview-banner{background:rgba(201,131,42,.15);border-bottom:2px solid var(--gold);padding:.5rem 2rem;text-align:center;font-size:.78rem;color:var(--gold);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;display:none}
+.preview-banner.show{display:block}
+/* HERO */
+.article-hero{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 60%,#1e3a6e 100%);color:#fff;padding:5vh 8vw 4vh;position:relative;overflow:hidden}
+.article-hero::before{content:'';position:absolute;top:-30%;right:-10%;width:500px;height:500px;background:radial-gradient(ellipse,rgba(201,131,42,.12),transparent 65%);pointer-events:none}
+.ah-watermark{position:absolute;right:6vw;bottom:-20px;font-family:'Libre Baskerville',serif;font-size:8rem;font-weight:700;color:rgba(255,255,255,.03);letter-spacing:-.04em;pointer-events:none;user-select:none}
+.ah-breadcrumb{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.ah-breadcrumb a{color:var(--gold-l);text-decoration:none}
+.ah-badges{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.4rem}
+.badge{font-size:.65rem;font-weight:700;letter-spacing:.06em;padding:.22rem .65rem;border-radius:100px}
+.badge-americas{background:rgba(30,79,170,.35);color:#93c5fd;border:1px solid rgba(30,79,170,.4)}
+.badge-africa{background:rgba(94,53,177,.35);color:#c4b5fd;border:1px solid rgba(94,53,177,.4)}
+.badge-europe{background:rgba(26,122,74,.35);color:#86efac;border:1px solid rgba(26,122,74,.4)}
+.badge-asia{background:rgba(201,131,42,.25);color:var(--gold-l);border:1px solid rgba(201,131,42,.3)}
+.badge-growth{background:rgba(26,122,74,.35);color:#86efac;border:1px solid rgba(26,122,74,.4)}
+.badge-value{background:rgba(30,79,170,.35);color:#93c5fd;border:1px solid rgba(30,79,170,.4)}
+.badge-equity{background:rgba(201,131,42,.25);color:var(--gold-l);border:1px solid rgba(201,131,42,.3)}
+.badge-macro{background:rgba(94,53,177,.35);color:#c4b5fd;border:1px solid rgba(94,53,177,.4)}
+.badge-buy{background:rgba(26,122,74,.8);color:#fff;border:1px solid #1a7a4a;font-size:.72rem;padding:.28rem .8rem}
+.badge-hold{background:rgba(201,131,42,.8);color:#fff;border:1px solid #c9832a;font-size:.72rem;padding:.28rem .8rem}
+.badge-sell{background:rgba(192,57,43,.8);color:#fff;border:1px solid #c0392b;font-size:.72rem;padding:.28rem .8rem}
+.badge-neutral{background:rgba(138,138,170,.4);color:#e2e2f0;border:1px solid rgba(138,138,170,.3);font-size:.72rem;padding:.28rem .8rem}
+h1.ah-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.7rem,3.5vw,2.8rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:.9rem}
+h1.ah-title em{font-style:italic;color:var(--gold-l)}
+.ah-lede{font-size:1rem;color:rgba(255,255,255,.7);line-height:1.8;max-width:680px;margin-bottom:2rem}
+/* STAMP */
+.stamp{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(255,255,255,.08);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.stamp-item{padding:1rem 1.2rem;background:rgba(255,255,255,.04)}
+.stamp-key{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem}
+.stamp-val{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:#fff;line-height:1.1}
+.stamp-val.green{color:#4ade80}.stamp-val.gold{color:var(--gold-l)}.stamp-val.red{color:#f87171}.stamp-val.blue{color:#93c5fd}
+/* ARTICLE BODY */
+.article-body{max-width:900px;margin:0 auto;padding:4vh 5vw 8vh}
+.sec-wrap{margin:3rem 0 1.5rem}
+.sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.sec-eyebrow::after{content:'';width:20px;height:1px;background:var(--gold);display:inline-block}
+h2.sec-title{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--ink);line-height:1.2}
+h2.sec-title em{color:var(--gold);font-style:italic}
+.body-p{font-size:.93rem;color:#3a3a52;line-height:1.95;margin-bottom:1.1rem}
+.body-p strong{color:var(--ink);font-weight:700}.body-p em{color:var(--gold);font-style:italic}
+/* CALLOUT */
+.callout{padding:1.2rem 1.5rem;border-radius:10px;margin:1.5rem 0;font-size:.88rem;line-height:1.75}
+.callout-key{background:var(--gold-bg);border-left:3px solid var(--gold)}.callout-warn{background:var(--red-bg);border-left:3px solid var(--red)}
+.callout-info{background:var(--blue-bg);border-left:3px solid var(--blue)}.callout-green{background:var(--green-bg);border-left:3px solid var(--green)}
+.callout strong{color:var(--ink);font-weight:700}
+/* TABLE */
+.data-table-wrap{overflow-x:auto;margin:1.5rem 0}
+.data-table{width:100%;border-collapse:collapse;font-size:.84rem}
+.data-table th{background:var(--ink2);color:#fff;padding:.65rem 1rem;text-align:left;font-weight:700;font-size:.75rem;letter-spacing:.04em;white-space:nowrap}
+.data-table td{padding:.65rem 1rem;border-bottom:1px solid var(--line);color:var(--ink)}
+.data-table tr:hover td{background:var(--cream)}
+.data-table td.hi{color:var(--green);font-weight:700;font-family:'JetBrains Mono',monospace}
+.data-table td.lo{color:var(--red);font-weight:700;font-family:'JetBrains Mono',monospace}
+.data-table td.gold{color:var(--gold);font-weight:700;font-family:'JetBrains Mono',monospace}
+.data-table td.mono{font-family:'JetBrains Mono',monospace}
+.data-table td.bold{font-weight:700;color:var(--ink)}
+.data-table .row-hdr{background:var(--cream);font-weight:700;color:var(--ink);font-size:.8rem}
+/* CHART BLOCK */
+.chart-block{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:1.4rem;margin:1.5rem 0;box-shadow:var(--shadow)}
+.chart-block-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.chart-block-title{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink)}
+.chart-block-sub{font-size:.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:.12rem}
+.chart-note{font-size:.65rem;color:var(--muted);font-style:italic;margin-top:.6rem;font-family:'JetBrains Mono',monospace;line-height:1.5}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.kpi-item{background:var(--white);padding:1.2rem 1rem;text-align:center}
+.kpi-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.kpi-val{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1}
+.kpi-val.g{color:var(--green)}.kpi-val.au{color:var(--gold)}.kpi-val.b{color:var(--blue)}.kpi-val.r{color:var(--red)}
+.kpi-sub{font-size:.65rem;color:var(--muted);margin-top:.2rem}
+/* KEY POINTS */
+.kp-list{list-style:none;padding:0;margin:1.2rem 0}
+.kp-list li{display:flex;align-items:flex-start;gap:.7rem;padding:.55rem 0;border-bottom:1px solid var(--line);font-size:.88rem;color:var(--body);line-height:1.65}
+.kp-list li:before{content:'◆';color:var(--gold);font-size:.55rem;flex-shrink:0;margin-top:.38rem}
+.kp-list li:last-child{border-bottom:none}
+/* VERDICT BOX */
+.verdict-box{background:var(--ink);color:#fff;border-radius:14px;padding:2rem 2.4rem;margin:2.5rem 0}
+.vb-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.vb-eyebrow::after{content:'';width:20px;height:1px;background:var(--gold-l);display:inline-block}
+.vb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.vb-item .vb-key{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem}
+.vb-item .vb-val{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:#fff}
+.vb-item .vb-val.g{color:#4ade80}.vb-item .vb-val.au{color:var(--gold-l)}.vb-item .vb-val.r{color:#f87171}
+.vb-main{text-align:center;padding:1.2rem;background:rgba(255,255,255,.06);border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+.vb-main-verdict{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:#4ade80;margin-bottom:.3rem}
+.vb-main-price{font-size:.88rem;color:rgba(255,255,255,.5)}
+/* DIVIDER */
+.art-divider{border:none;border-top:1px solid var(--line);margin:2.5rem 0}
+/* LOADING */
+.art-loading,.art-error{display:flex;align-items:center;justify-content:center;min-height:50vh;flex-direction:column;gap:1rem;color:var(--muted);font-size:.9rem;text-align:center;padding:2rem}
+@media(max-width:700px){.stamp{grid-template-columns:repeat(3,1fr)}.nav-links{display:none}.vb-grid{grid-template-columns:1fr 1fr}.kpi-strip{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<div id="preview-banner" class="preview-banner">⚠ MODE APERÇU — Article non publié · <a href="#" onclick="window.close();return false" style="color:var(--gold)">Fermer</a></div>
+
+<div class="lang-bar">
+  <div class="lb-left"><strong>OVC</strong> · Oswald Vision Capital</div>
+  <div class="lang-btns">
+    <button class="lbtn active" onclick="setLang('fr')">FR</button>
+    <button class="lbtn" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+<nav>
+  <a class="nav-logo" href="../index.html">Oswald <em>Vision</em> Capital</a>
+  <div class="nav-links">
+    <a href="../index.html">Accueil</a>
+    <a href="../analyses.html">Analyses</a>
+    <a href="../macro.html">Macro</a>
+    <a href="../performance.html">Performance</a>
+    <a href="../subscribe.html" class="nav-cta">Souscrire</a>
+  </div>
+</nav>
+<div class="article-nav">
+  <a class="back-btn" id="back-link" href="../analyses.html">← Retour aux analyses</a>
+  <div id="art-date" style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)"></div>
+</div>
+
+<div id="article-root">
+  <div class="art-loading"><div style="font-size:1.8rem;opacity:.3">◇</div><div>Chargement...</div></div>
+</div>
+
+<footer style="background:var(--ink);color:rgba(255,255,255,.3);padding:2rem 5vw;font-size:.72rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem">
+  <div>© 2026 Oswald Vision Capital · Document à caractère informatif uniquement</div>
+  <div>Les informations ne constituent pas un conseil en investissement</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  window.setLang = function(l) {
+    document.documentElement.setAttribute('data-lang', l);
+    document.querySelectorAll('.lbtn').forEach(function(b){ b.classList.toggle('active', b.textContent === l.toUpperCase()); });
+  };
+
+  var params  = new URLSearchParams(window.location.search);
+  var slug    = params.get('slug');
+  var preview = params.get('preview') === '1';
+
+  if (!slug) { renderError('Aucun article spécifié.'); return; }
+
+  if (preview) {
+    document.getElementById('preview-banner').classList.add('show');
+    try {
+      var d = JSON.parse(localStorage.getItem('ovc_article_preview') || 'null');
+      if (d && d.slug === slug) { renderArticle(d); return; }
+    } catch(e) {}
+    renderError('Aperçu non disponible — sauvegardez l\'article d\'abord.');
+    return;
+  }
+
+  if (window._db) {
+    _db.from('articles').select('*').eq('slug', slug).eq('published', true).single()
+      .then(function(res) {
+        if (res.error || !res.data) { renderError('Article introuvable ou non publié.'); return; }
+        renderArticle(res.data);
+      }).catch(function(e) { renderError('Erreur de chargement : ' + e.message); });
+  } else {
+    renderError('Connexion base de données non disponible.');
+  }
+
+  // ─────────────────────────────────────────────────────────
+  var _charts = [];
+
+  function renderArticle(a) {
+    var meta     = a.meta     || {};
+    var sections = a.sections || [];
+    var isM      = a.type === 'macro';
+    var backHref = isM ? '../macro.html' : '../analyses.html';
+    var backLbl  = isM ? '← Retour à la macro' : '← Retour aux analyses';
+
+    document.getElementById('back-link').href      = backHref;
+    document.getElementById('back-link').textContent = backLbl;
+    document.title = (a.title || 'Article') + ' · Oswald Vision Capital';
+    var descEl = document.getElementById('page-desc');
+    if (descEl) descEl.setAttribute('content', a.lede || a.title || '');
+    var dateEl = document.getElementById('art-date');
+    if (dateEl && a.published_at) dateEl.textContent = new Date(a.published_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+
+    // Badges
+    var badgesHtml = (meta.badges||[]).map(function(b){
+      return '<span class="badge ' + (b.cls||'badge-equity') + '">' + b.label + '</span>';
+    }).join('');
+
+    // Stamp
+    var stampCols = (meta.stamp||[]).length;
+    var stampStyle = stampCols ? 'grid-template-columns:repeat('+Math.min(stampCols,6)+',1fr)' : '';
+    var stampHtml = (meta.stamp||[]).map(function(s){
+      return '<div class="stamp-item"><div class="stamp-key">' + s.key + '</div><div class="stamp-val ' + (s.cls||'') + '">' + s.val + '</div></div>';
+    }).join('');
+
+    var heroHtml =
+      '<div class="article-hero">' +
+        '<div class="ah-watermark">' + (a.ticker||'') + '</div>' +
+        '<div class="ah-breadcrumb"><a href="../index.html">OVC</a> › <a href="' + backHref + '">' + (isM?'Macro':'Analyses') + '</a> › ' + (a.ticker||a.title.split(',')[0]) + '</div>' +
+        (badgesHtml ? '<div class="ah-badges">' + badgesHtml + '</div>' : '') +
+        '<h1 class="ah-title">' + (a.title||'') + '</h1>' +
+        (a.lede ? '<p class="ah-lede">' + a.lede + '</p>' : '') +
+        (stampHtml ? '<div class="stamp" style="' + stampStyle + '">' + stampHtml + '</div>' : '') +
+      '</div>';
+
+    _charts = [];
+    var bodyHtml = sections.map(function(s,i){ return renderSection(s,i); }).join('');
+
+    document.getElementById('article-root').innerHTML = heroHtml + '<div class="article-body">' + bodyHtml + '</div>';
+
+    // Init charts after DOM inserted
+    Chart.defaults.font.family = "'JetBrains Mono',monospace";
+    Chart.defaults.font.size   = 10;
+    Chart.defaults.color       = '#8a8aaa';
+    var TIP = { backgroundColor:'#1a1a2e', titleColor:'#f0a84a', bodyColor:'#fff', padding:10, cornerRadius:6 };
+    _charts.forEach(function(c) {
+      var canvas = document.getElementById(c.id);
+      if (!canvas) return;
+      try {
+        var cfg = JSON.parse(JSON.stringify(c.config));
+        // Inject default tooltip style if not set
+        if (cfg.options && cfg.options.plugins && !cfg.options.plugins.tooltip) {
+          cfg.options.plugins.tooltip = TIP;
+        }
+        new Chart(canvas, cfg);
+      } catch(e) { console.warn('[OVC article] Chart error:', e); }
+    });
+  }
+
+  function renderSection(s, i) {
+    var t = (s.type||'').toLowerCase();
+    if (t === 'header' || t === 'section-header') {
+      return '<div class="sec-wrap"><div class="sec-eyebrow">' + (s.eyebrow||'') + '</div><h2 class="sec-title">' + (s.title||'') + '</h2></div>';
+    }
+    if (t === 'paragraph') {
+      return '<p class="body-p">' + (s.html||s.text||'') + '</p>';
+    }
+    if (t === 'callout') {
+      return '<div class="callout callout-' + (s.variant||'key') + '">' + (s.html||s.text||'') + '</div>';
+    }
+    if (t === 'chart') {
+      var cid = 'chartblk-' + i;
+      var h = s.height || 260;
+      _charts.push({ id: cid, config: s.config||{} });
+      return '<div class="chart-block">' +
+        '<div class="chart-block-hdr">' +
+          '<div>' +
+            (s.title ? '<div class="chart-block-title">' + s.title + '</div>' : '') +
+            (s.subtitle ? '<div class="chart-block-sub">' + s.subtitle + '</div>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div style="position:relative;height:' + h + 'px"><canvas id="' + cid + '"></canvas></div>' +
+        (s.note ? '<div class="chart-note">' + s.note + '</div>' : '') +
+      '</div>';
+    }
+    if (t === 'table') {
+      var ths = (s.headers||[]).map(function(h){ return '<th>' + h + '</th>'; }).join('');
+      var trs = (s.rows||[]).map(function(r) {
+        var cells = r.cells||r;
+        var cls = r.classes||[];
+        return '<tr>' + cells.map(function(c,ci){
+          var cc = cls[ci] ? ' class="' + cls[ci] + '"' : '';
+          return '<td' + cc + '>' + c + '</td>';
+        }).join('') + '</tr>';
+      }).join('');
+      return (s.title ? '<div class="sec-wrap" style="margin-top:2rem"><h2 class="sec-title">' + s.title + '</h2></div>' : '') +
+        '<div class="data-table-wrap"><table class="data-table"><thead><tr>' + ths + '</tr></thead><tbody>' + trs + '</tbody></table></div>';
+    }
+    if (t === 'keypoints' || t === 'key-points') {
+      var lis = (s.items||[]).map(function(it){ return '<li>' + it + '</li>'; }).join('');
+      return (s.title ? '<div class="sec-wrap" style="margin-top:2rem"><h2 class="sec-title">' + s.title + '</h2></div>' : '') +
+        '<ul class="kp-list">' + lis + '</ul>';
+    }
+    if (t === 'kpi-strip') {
+      var kpis = (s.items||[]).map(function(k){
+        return '<div class="kpi-item"><div class="kpi-label">' + k.label + '</div><div class="kpi-val ' + (k.cls||'') + '">' + k.val + '</div>' + (k.sub ? '<div class="kpi-sub">' + k.sub + '</div>' : '') + '</div>';
+      }).join('');
+      return (s.title ? '<div class="sec-wrap" style="margin-top:2rem"><h2 class="sec-title">' + s.title + '</h2></div>' : '') +
+        '<div class="kpi-strip" style="grid-template-columns:repeat(' + Math.min((s.items||[]).length,4) + ',1fr)">' + kpis + '</div>';
+    }
+    if (t === 'verdict') {
+      var vItems = (s.items||[]).map(function(k){ return '<div class="vb-item"><div class="vb-key">' + k.key + '</div><div class="vb-val ' + (k.cls||'') + '">' + k.val + '</div></div>'; }).join('');
+      return '<div class="verdict-box">' +
+        '<div class="vb-eyebrow">' + (s.eyebrow||'VERDICT') + '</div>' +
+        '<div class="vb-grid">' + vItems + '</div>' +
+        '<div class="vb-main"><div class="vb-main-verdict">' + (s.verdict||'') + '</div><div class="vb-main-price">' + (s.target||'') + '</div></div>' +
+      '</div>';
+    }
+    if (t === 'divider') return '<hr class="art-divider">';
+    return '';
+  }
+
+  function renderError(msg) {
+    document.getElementById('article-root').innerHTML =
+      '<div class="art-error">' +
+        '<div style="font-size:2.5rem;opacity:.2">◇</div>' +
+        '<div style="font-weight:700;color:var(--ink)">' + msg + '</div>' +
+        '<a href="../analyses.html" style="margin-top:1.5rem;font-size:.82rem;color:var(--gold);text-decoration:none">← Retour aux analyses</a>' +
+      '</div>';
+  }
+});
+</script>
+</body>
+</html>
