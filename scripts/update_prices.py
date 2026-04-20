@@ -16,8 +16,8 @@ import requests
 from datetime import datetime, timezone
 
 # ── Config
-SUPABASE_URL = os.environ.get('SUPABASE_URL', '').rstrip('/')
-SUPABASE_KEY = os.environ.get('SUPABASE_SERVICE_KEY', '')
+SUPABASE_URL = os.environ.get('SUPABASE_URL', '').strip().rstrip('/')
+SUPABASE_KEY = os.environ.get('SUPABASE_SERVICE_KEY', '').strip()
 DRY_RUN      = os.environ.get('DRY_RUN', 'false').lower() == 'true'
 
 if not SUPABASE_URL or not SUPABASE_KEY:
