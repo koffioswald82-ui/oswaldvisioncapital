@@ -112,6 +112,13 @@ h2.sec-title em{color:var(--gold);font-style:italic}
 .vb-main{text-align:center;padding:1.2rem;background:rgba(255,255,255,.06);border-radius:10px;border:1px solid rgba(255,255,255,.08)}
 .vb-main-verdict{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:#4ade80;margin-bottom:.3rem}
 .vb-main-price{font-size:.88rem;color:rgba(255,255,255,.5)}
+/* BYLINE */
+.ah-byline{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.73rem;color:rgba(255,255,255,.45);font-family:'JetBrains Mono',monospace}
+.ah-by-author{color:var(--gold-l);font-weight:600}
+.ah-by-sep{opacity:.3}
+/* TAGS */
+.ah-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.4rem}
+.ah-tag{font-size:.62rem;padding:.18rem .5rem;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.45);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
 /* DIVIDER */
 .art-divider{border:none;border-top:1px solid var(--line);margin:2.5rem 0}
 /* LOADING */
@@ -185,6 +192,8 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(function(res) {
         if (res.error || !res.data) { renderError('Article introuvable ou non publié.'); return; }
         renderArticle(res.data);
+        // Increment view counter (fire-and-forget via RPC)
+        _db.rpc('increment_article_views', { article_slug: slug }).catch(function(){});
       }).catch(function(e) { renderError('Erreur de chargement : ' + e.message); });
   } else {
     renderError('Connexion base de données non disponible.');
@@ -220,6 +229,13 @@ document.addEventListener('DOMContentLoaded', function() {
       return '<div class="stamp-item"><div class="stamp-key">' + s.key + '</div><div class="stamp-val ' + (s.cls||'') + '">' + s.val + '</div></div>';
     }).join('');
 
+    // Reading time + author meta bar
+    var rt = a.reading_time || 1;
+    var author = a.author || 'OVC Research';
+    var tagsHtml = (a.tags && a.tags.length)
+      ? '<div class="ah-tags">' + a.tags.map(function(t){ return '<span class="ah-tag">#' + t + '</span>'; }).join('') + '</div>'
+      : '';
+
     var heroHtml =
       '<div class="article-hero">' +
         '<div class="ah-watermark">' + (a.ticker||'') + '</div>' +
@@ -227,6 +243,8 @@ document.addEventListener('DOMContentLoaded', function() {
         (badgesHtml ? '<div class="ah-badges">' + badgesHtml + '</div>' : '') +
         '<h1 class="ah-title">' + (a.title||'') + '</h1>' +
         (a.lede ? '<p class="ah-lede">' + a.lede + '</p>' : '') +
+        '<div class="ah-byline"><span class="ah-by-author">✦ ' + author + '</span><span class="ah-by-sep">·</span><span class="ah-by-rt">⏱ ' + rt + ' min de lecture</span>' + (a.views > 0 ? '<span class="ah-by-sep">·</span><span class="ah-by-views">' + a.views + ' vues</span>' : '') + '</div>' +
+        tagsHtml +
         (stampHtml ? '<div class="stamp" style="' + stampStyle + '">' + stampHtml + '</div>' : '') +
       '</div>';
 
