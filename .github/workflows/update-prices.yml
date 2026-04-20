@@ -1,0 +1,52 @@
+name: 📈 Update Portfolio Prices
+
+on:
+  schedule:
+    # Après clôture Europe (17h30 UTC = 18h30 Paris)
+    - cron: '30 17 * * 1-5'
+    # Après clôture US (22h00 UTC = 00h00 Paris)
+    - cron: '0 22 * * 1-5'
+
+  # Déclenchement manuel depuis GitHub Actions
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run — affiche sans écrire dans Supabase'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+
+jobs:
+  update-prices:
+    name: Fetch & Update Prices
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run price updater
+        env:
+          SUPABASE_URL:         ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          DRY_RUN:              ${{ github.event.inputs.dry_run || 'false' }}
+        run: python scripts/update_prices.py
+
+      - name: Upload log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: price-update-log
+          path: '*.log'
+          if-no-files-found: ignore

@@ -186,3 +186,31 @@ BEGIN
   UPDATE articles SET views = views + 1 WHERE slug = article_slug;
 END; $$;
 GRANT EXECUTE ON FUNCTION increment_article_views(TEXT) TO anon;
+
+-- ══════════════════════════════════════════════════════
+-- MIGRATION : tables et colonnes ajoutées après le lancement
+-- Exécuter UNE SEULE FOIS dans Supabase SQL Editor
+-- ══════════════════════════════════════════════════════
+
+-- Colonne fx_rates dans fund_settings (stocke les taux EUR mis à jour par GitHub Actions)
+ALTER TABLE fund_settings ADD COLUMN IF NOT EXISTS fx_rates TEXT;
+
+-- Colonne strategy dans portfolio (ajoutée lors de la mise à jour CMS)
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS strategy TEXT;
+
+-- 7. Historique des benchmarks (S&P 500, Euro Stoxx 50 — mis à jour par GitHub Actions)
+CREATE TABLE IF NOT EXISTS benchmark_history (
+  id        SERIAL PRIMARY KEY,
+  symbol    TEXT NOT NULL,          -- ex: '^GSPC'
+  label     TEXT NOT NULL,          -- ex: 'S&P 500'
+  date      DATE NOT NULL,
+  close     NUMERIC(12,4) NOT NULL,
+  value     NUMERIC(10,4) NOT NULL, -- normalisé base 100
+  UNIQUE (symbol, date)
+);
+
+ALTER TABLE benchmark_history ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public read benchmark" ON benchmark_history FOR SELECT USING (true);
+CREATE POLICY "Auth write benchmark"  ON benchmark_history FOR ALL USING (auth.role() = 'authenticated');
+
+CREATE INDEX IF NOT EXISTS idx_bench_symbol_date ON benchmark_history (symbol, date DESC);
