@@ -1477,43 +1477,87 @@ document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
 })();
 
 // ── Recent Articles from Supabase ──────────────────────────
-function loadRecentArticles(){
-  if(!window._db) return;
+// Robuste: gère published_at NULL (articles publiés avant le trigger)
+// + retry jusqu'à 5x si _db pas encore prêt
+(function(){
+  var _tries = 0;
+  var _maxTries = 8;
+
   var tagClass = function(tags){
     if(!tags||!tags.length) return 't-e';
     var t = (tags[0]||'').toLowerCase();
-    if(t.includes('macro')||t.includes('secteur')) return 't-m';
-    if(t.includes('afrique')||t.includes('africa')||t.includes('brvm')) return 't-a';
+    if(t.includes('macro')||t.includes('secteur')||t.includes('sector')) return 't-m';
+    if(t.includes('afrique')||t.includes('africa')||t.includes('brvm')||t.includes('nigeria')||t.includes('ghana')) return 't-a';
     return 't-e';
   };
-  window._db.from('articles')
-    .select('slug,title,subtitle,tags,reading_time,published_at')
-    .eq('published', true)
-    .order('published_at',{ascending:false})
-    .limit(3)
-    .then(function(res){
-      if(!res||!res.data||!res.data.length) return; // keep fallback cards
-      var lang = document.documentElement.getAttribute('data-lang')||'fr';
-      var grid = document.getElementById('recent-grid');
-      if(!grid) return;
-      grid.innerHTML = res.data.map(function(a){
-        var date = a.published_at ? new Date(a.published_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}) : '';
-        var tags = a.tags||[];
-        var firstTag = tags[0]||'Research';
-        var tc = tagClass(tags);
-        var mins = a.reading_time ? a.reading_time+' min' : '';
-        return '<a href="article.html?slug='+encodeURIComponent(a.slug)+'" class="recent-card">'+
-          '<div class="rc-eyebrow">'+date+'</div>'+
-          '<div class="rc-title">'+(a.title||'')+'</div>'+
-          '<div class="rc-sub">'+(a.subtitle||'')+'</div>'+
-          '<div class="rc-footer">'+
-            '<span class="rc-tag '+tc+'">'+firstTag+'</span>'+
-            '<span class="rc-meta">'+mins+'</span>'+
-          '</div></a>';
-      }).join('');
-    });
-}
-setTimeout(function(){ loadRecentArticles(); }, 1200);
+
+  var renderArticles = function(articles){
+    var grid = document.getElementById('recent-grid');
+    if(!grid||!articles.length) return;
+    grid.innerHTML = articles.map(function(a){
+      // Date: published_at en priorité, sinon vide
+      var date = '';
+      if(a.published_at){
+        try{ date = new Date(a.published_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}); }catch(e){}
+      }
+      var tags = Array.isArray(a.tags) ? a.tags : (a.tags ? [a.tags] : []);
+      var firstTag = tags[0] || 'Research';
+      var tc = tagClass(tags);
+      var mins = a.reading_time ? a.reading_time+' min' : '';
+      var sub = (a.subtitle||a.description||'').substring(0,120);
+      if(sub.length===120) sub+='…';
+      return '<a href="article.html?slug='+encodeURIComponent(a.slug)+'" class="recent-card">'+
+        (date?'<div class="rc-eyebrow">'+date+'</div>':'')+
+        '<div class="rc-title">'+(a.title||'Sans titre')+'</div>'+
+        (sub?'<div class="rc-sub">'+sub+'</div>':'')+
+        '<div class="rc-footer">'+
+          '<span class="rc-tag '+tc+'">'+firstTag+'</span>'+
+          '<span class="rc-meta">'+mins+'</span>'+
+        '</div></a>';
+    }).join('');
+  };
+
+  function tryLoad(){
+    _tries++;
+    if(!window._db){
+      if(_tries < _maxTries) setTimeout(tryLoad, 600);
+      return;
+    }
+    // Double order: published_at DESC (NULLS LAST), puis slug pour les anciens
+    window._db.from('articles')
+      .select('slug,title,subtitle,description,tags,reading_time,published_at')
+      .eq('published', true)
+      .eq('archived', false)
+      .order('published_at', {ascending:false, nullsFirst:false})
+      .limit(6) // on prend 6 pour avoir du choix même si published_at est NULL
+      .then(function(res){
+        if(res && res.data && res.data.length){
+          // Trier manuellement: articles avec date d'abord, puis sans date
+          var withDate = res.data.filter(function(a){ return !!a.published_at; });
+          var noDate   = res.data.filter(function(a){ return !a.published_at; });
+          var sorted = withDate.concat(noDate).slice(0,3);
+          renderArticles(sorted);
+        } else if(res && res.error){
+          // En cas d'erreur RLS, essayer sans le filtre archived
+          window._db.from('articles')
+            .select('slug,title,subtitle,description,tags,reading_time,published_at')
+            .eq('published', true)
+            .order('slug', {ascending:false})
+            .limit(3)
+            .then(function(res2){
+              if(res2 && res2.data && res2.data.length) renderArticles(res2.data);
+            });
+        }
+        // Si 0 résultats, les cartes statiques de fallback restent affichées
+      })
+      .catch(function(){
+        if(_tries < _maxTries) setTimeout(tryLoad, 800);
+      });
+  }
+
+  // Démarrer après un court délai pour laisser supabase-client.js s'initialiser
+  setTimeout(tryLoad, 500);
+})();
 
 // ── Fund card live update
 (function(){
