@@ -93,6 +93,49 @@ h1.hero-h .u{text-decoration:underline;text-decoration-color:var(--gold);text-un
 .fc-btn-main:hover{background:#b5721e}
 .fc-btn-sec{flex:1;background:rgba(255,255,255,.05);color:rgba(255,255,255,.55);text-decoration:none;text-align:center;padding:.58rem;border-radius:8px;font-size:.72rem;font-weight:500;border:1px solid rgba(255,255,255,.08);transition:all .2s}
 .fc-btn-sec:hover{background:rgba(255,255,255,.1);color:#fff}
+/* ── DARK HERO */
+.hero{background:linear-gradient(135deg,#0d1220 0%,#1a1a2e 45%,#1e2547 100%)!important;grid-template-rows:auto 1fr;align-items:start!important}
+.hero::before{background:linear-gradient(135deg,rgba(30,37,71,.7) 0%,rgba(13,18,32,.5) 100%)!important}
+h1.hero-h{color:#fff!important}
+h1.hero-h .u{text-decoration-color:var(--gold)!important}
+.hero-desc{color:rgba(255,255,255,.62)!important}
+.hero-eyebrow{color:var(--gold-l)!important}
+.badge-live{background:rgba(26,122,74,.18)!important;color:#4ade80!important;border-color:rgba(74,222,128,.25)!important}
+.badge-live::before{background:#4ade80!important}
+.badge-g{background:rgba(30,79,170,.18)!important;color:#7fb3ff!important;border-color:rgba(127,179,255,.2)!important}
+.badge-a{background:rgba(94,53,177,.18)!important;color:#c4aaff!important;border-color:rgba(196,170,255,.2)!important}
+.btn-out{color:rgba(255,255,255,.75)!important;border-color:rgba(255,255,255,.18)!important}
+.btn-out:hover{border-color:var(--gold-l)!important;color:#fff!important}
+/* ── HERO LIVE STATS ROW */
+.hero-stats-row{grid-column:1/-1;padding:1.8rem 8vw 1.4rem;display:flex;align-items:center;gap:0;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.15)}
+.hsr-item{display:flex;flex-direction:column;align-items:flex-start;padding:0 2.5rem 0 0}
+.hsr-val{font-family:'Libre Baskerville',serif;font-size:1.9rem;font-weight:700;color:var(--gold-l);line-height:1;min-width:70px;display:block}
+.hsr-lbl{font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:.22rem}
+.hsr-sep{width:1px;height:36px;background:rgba(255,255,255,.08);margin:0 2rem 0 0;flex-shrink:0}
+.hsr-green .hsr-val{color:#4ade80}
+.hsr-live{display:flex;align-items:center;gap:.4rem;margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:rgba(255,255,255,.25);padding:.3rem .7rem;border:1px solid rgba(255,255,255,.08);border-radius:100px}
+.hsr-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+/* ── MARKET CLOCKS */
+.market-clocks{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin-top:.55rem}
+.mc-clock{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:.55rem .75rem}
+.mc-city{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.12rem}
+.mc-time{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;color:rgba(255,255,255,.75)}
+.mc-status{font-size:.52rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:.08rem}
+.mc-open{color:#4ade80}.mc-closed{color:rgba(255,255,255,.2)}
+/* ── RECENT ANALYSES SECTION */
+.recent-section{padding:6vh 8vw;background:var(--white)}
+.recent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2rem}
+.recent-card{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.6rem;text-decoration:none;color:inherit;transition:box-shadow .22s,transform .2s;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.recent-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-l));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.recent-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}.recent-card:hover::after{transform:scaleX(1)}
+.rc-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.rc-title{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;line-height:1.35;color:var(--ink);margin-bottom:.5rem;flex:1}
+.rc-sub{font-size:.76rem;color:var(--body);line-height:1.6;margin-bottom:.9rem}
+.rc-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:.6rem;margin-top:auto}
+.rc-tag{font-size:.62rem;font-weight:700;padding:.18rem .55rem;border-radius:100px}
+.rc-meta{font-size:.63rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.recent-cta-row{text-align:center;margin-top:2.2rem}
+.recent-empty{color:var(--muted);font-size:.85rem;text-align:center;padding:2rem;display:none}
 /* ── SECTIONS */
 section{padding:7vh 8vw;position:relative}
 .eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
@@ -260,9 +303,14 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:5vh 8vw 
 /* ── RESPONSIVE */
 @media(max-width:1024px){
   .hero{grid-template-columns:1fr;padding-top:4vh}
+  .hero-stats-row{grid-column:1/-1;padding:1.2rem 5vw;flex-wrap:wrap;gap:.8rem}
+  .hsr-sep{display:none}
+  .hsr-item{padding:0 1.5rem 0 0}
   .hero-right{padding:0 5vw 6vh;order:2}
-  .hero-left{order:1;min-height:300px}
+  .hero-left{order:2;min-height:auto}
+  .hero-stats-row{order:1}
   .hero::before{display:none}
+  .recent-grid{grid-template-columns:repeat(2,1fr)}
   .markets-grid{grid-template-columns:repeat(2,1fr)}
   .about-grid{grid-template-columns:1fr}
   .ft-grid{grid-template-columns:repeat(2,1fr)}
@@ -273,6 +321,9 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:5vh 8vw 
   .mobile-nav-toggle{display:flex}
   .section-nav{display:none}
   
+  .hero-stats-row{gap:.5rem}
+  .hsr-val{font-size:1.4rem}
+  .recent-grid{grid-template-columns:1fr}
   .markets-grid{grid-template-columns:1fr}
   .why-grid{grid-template-columns:1fr}
   .exp-grid{grid-template-columns:1fr}
@@ -569,19 +620,31 @@ html[data-lang=en] span[data-en]{display:inline}
     <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
   </a>
 </nav>
-<!-- LIVE DATA STRIP -->
-<div class="live-strip">
-  <div class="ls-item"><div class="ls-label"><span data-fr>Valeur de part</span><span data-en>Unit NAV</span></div><div class="ls-val" id="live-nav">—</div></div>
-  <div class="ls-sep"></div>
-  <div class="ls-item"><div class="ls-label"><span data-fr>Performance</span><span data-en>Return</span></div><div class="ls-val" id="live-perf">—</div></div>
-  <div class="ls-sep"></div>
-  <div class="ls-item"><div class="ls-label"><span data-fr>Analyses publiées</span><span data-en>Published</span></div><div class="ls-val" id="live-articles">—</div></div>
-  <div class="ls-sep"></div>
-  <div class="ls-item"><div class="ls-label"><span data-fr>Investisseurs</span><span data-en>Investors</span></div><div class="ls-val" id="live-subs">—</div></div>
-  <div class="ls-live"><div class="ls-dot"></div>LIVE</div>
-</div>
 <!-- HERO -->
 <section class="hero">
+<!-- LIVE STATS ROW (full-width, inside hero grid) -->
+<div class="hero-stats-row">
+  <div class="hsr-item">
+    <span class="hsr-val" id="live-nav">—</span>
+    <span class="hsr-lbl"><span data-fr>EUR · Valeur de part</span><span data-en>EUR · Unit NAV</span></span>
+  </div>
+  <div class="hsr-sep"></div>
+  <div class="hsr-item hsr-green">
+    <span class="hsr-val" id="live-perf">—</span>
+    <span class="hsr-lbl"><span data-fr>Performance depuis création</span><span data-en>Return since inception</span></span>
+  </div>
+  <div class="hsr-sep"></div>
+  <div class="hsr-item">
+    <span class="hsr-val" id="live-articles">—</span>
+    <span class="hsr-lbl"><span data-fr>Analyses publiées</span><span data-en>Analyses published</span></span>
+  </div>
+  <div class="hsr-sep"></div>
+  <div class="hsr-item">
+    <span class="hsr-val" id="live-subs">—</span>
+    <span class="hsr-lbl"><span data-fr>Investisseurs simulés</span><span data-en>Simulated investors</span></span>
+  </div>
+  <div class="hsr-live"><div class="hsr-dot"></div>LIVE</div>
+</div>
 <div class="hero-left">
 <div class="badges">
 <span class="badge badge-live"><span data-fr>Mise à jour hebdomadaire</span><span data-en>Updated weekly</span></span>
@@ -601,11 +664,6 @@ html[data-lang=en] span[data-en]{display:inline}
 <a href="analyses.html" class="btn-gold"><span data-fr> Lire les analyses</span><span data-en> Read the research</span></a>
 <a href="#newsletter" class="btn-out"><span data-fr>S'abonner gratuitement</span><span data-en>Subscribe for free</span></a>
 </div>
-<div class="hero-proof">
-<div><div class="proof-num">30<span>+</span></div><div class="proof-label"><span data-fr>Entreprises<br>analysées</span><span data-en>Companies<br>analysed</span></div></div>
-<div><div class="proof-num">4</div><div class="proof-label"><span data-fr>Zones<br>géographiques</span><span data-en>Geographic<br>regions</span></div></div>
-<div><div class="proof-num">100<span>%</span></div><div class="proof-label"><span data-fr>Indépendant</span><span data-en>Independent</span></div></div>
-<div><div class="proof-num">0<span>€</span></div><div class="proof-label"><span data-fr>Frais de<br>recherche</span><span data-en>Research<br>fees</span></div></div>
 </div>
 </div><div class="hero-right">
 <!-- LIVE FUND CARD -->
@@ -627,18 +685,29 @@ html[data-lang=en] span[data-en]{display:inline}
     <a href="mon-compte.html" class="fc-btn-sec"><span data-fr>Mon Compte</span><span data-en>My Account</span></a>
   </div>
 </div>
-<a href="Mcr/macro-trump-tariffs.html" class="mini-card">
-<div class="mc-eyebrow"><span data-fr>Analyse vedette</span><span data-en>Featured analysis</span></div>
-<div class="mc-title"><span data-fr>Tarifs Trump 2025 : opportunité pour l'Afrique ?</span><span data-en>Trump Tariffs 2025: opportunity for Africa?</span></div>
-<div class="mc-sub"><span data-fr>Impact sur les flux de capitaux vers la BRVM et l'Afrique sub-saharienne.</span><span data-en>Impact on capital flows toward the BRVM and sub-Saharan Africa.</span></div>
-<div class="mc-footer"><span class="tag t-m">Macro</span><span class="mc-read">12 min</span></div>
-</a>
-<a href="Analyse/nvidia.html" class="mini-card">
-<div class="mc-eyebrow">NVIDIA · NASDAQ: NVDA</div>
-<div class="mc-title"><span data-fr>La domination IA de NVIDIA peut-elle durer ?</span><span data-en>Can NVIDIA's AI dominance last?</span></div>
-<div class="mc-sub"><span data-fr>DCF, parts de marché GPU data centers, valorisation et concurrence.</span><span data-en>DCF model, data center GPU share, valuation & competition.</span></div>
-<div class="mc-footer"><span class="tag t-e">Equity</span><span class="mc-read">10 min</span></div>
-</a>
+<!-- MARKET CLOCKS -->
+<div class="market-clocks">
+  <div class="mc-clock" id="clk-abi">
+    <div class="mc-city">🇨🇮 Abidjan</div>
+    <div class="mc-time">--:--</div>
+    <div class="mc-status mc-closed">BRVM</div>
+  </div>
+  <div class="mc-clock" id="clk-par">
+    <div class="mc-city">🇫🇷 Paris</div>
+    <div class="mc-time">--:--</div>
+    <div class="mc-status mc-closed">Euronext</div>
+  </div>
+  <div class="mc-clock" id="clk-nyc">
+    <div class="mc-city">🇺🇸 New York</div>
+    <div class="mc-time">--:--</div>
+    <div class="mc-status mc-closed">NYSE</div>
+  </div>
+  <div class="mc-clock" id="clk-hkg">
+    <div class="mc-city">🇭🇰 Hong Kong</div>
+    <div class="mc-time">--:--</div>
+    <div class="mc-status mc-closed">HKEX</div>
+  </div>
+</div>
 </div>
 </section><!-- TICKER -->
 <div class="ticker-wrap">
@@ -664,7 +733,38 @@ html[data-lang=en] span[data-en]{display:inline}
 <span class="ti"><span class="ti-s">NESN</span>Nestlé<span class="dn">-0.4%</span></span>·
 <span class="ti"><span class="ti-s">SIFCA</span>SIFCA BRVM<span class="up">+0.8%</span></span>
 </div>
-</div><!-- 4 MARKETS -->
+</div>
+<!-- DERNIÈRES ANALYSES LIVE -->
+<section class="recent-section">
+  <div class="eyebrow reveal"><span data-fr>Directement depuis Supabase</span><span data-en>Straight from Supabase</span></div>
+  <h2 class="sh reveal"><span data-fr>Dernières <em>analyses publiées</em></span><span data-en>Latest <em>published research</em></span></h2>
+  <p class="sl reveal"><span data-fr>Chaque analyse est horodatée, sourcée et publiée sur la plateforme en temps réel. Mise à jour dès qu'une nouvelle thèse est validée.</span><span data-en>Every analysis is timestamped, sourced and published on the platform in real time. Updated as soon as a new thesis is validated.</span></p>
+  <div class="recent-grid" id="recent-grid">
+    <!-- Static fallback cards (hidden when JS loads) -->
+    <a href="Mcr/macro-trump-tariffs.html" class="recent-card">
+      <div class="rc-eyebrow">Apr. 2025</div>
+      <div class="rc-title"><span data-fr>Tarifs Trump 2025 : opportunité pour l'Afrique ?</span><span data-en>Trump Tariffs 2025: opportunity for Africa?</span></div>
+      <div class="rc-sub"><span data-fr>Impact sur les flux de capitaux vers la BRVM et l'Afrique sub-saharienne.</span><span data-en>Impact on capital flows toward the BRVM and sub-Saharan Africa.</span></div>
+      <div class="rc-footer"><span class="rc-tag t-m">Macro</span><span class="rc-meta">12 min</span></div>
+    </a>
+    <a href="Analyse/nvidia.html" class="recent-card">
+      <div class="rc-eyebrow">Mar. 2025</div>
+      <div class="rc-title"><span data-fr>NVIDIA : la domination IA peut-elle durer ?</span><span data-en>NVIDIA: Can AI dominance last?</span></div>
+      <div class="rc-sub"><span data-fr>DCF, parts de marché GPU data centers, valorisation et concurrence croissante.</span><span data-en>DCF, data center GPU share, valuation & growing competition.</span></div>
+      <div class="rc-footer"><span class="rc-tag t-e">Equity</span><span class="rc-meta">10 min</span></div>
+    </a>
+    <a href="Analyse/orange-ci.html" class="recent-card">
+      <div class="rc-eyebrow">Fév. 2025</div>
+      <div class="rc-title"><span data-fr>Orange CI : le dividende le plus fiable de la BRVM ?</span><span data-en>Orange CI: Most reliable BRVM dividend?</span></div>
+      <div class="rc-sub"><span data-fr>Orange Money, dividende stable, analyse fondamentale complète sur l'opérateur ivoirien.</span><span data-en>Orange Money, stable dividend, full fundamental analysis.</span></div>
+      <div class="rc-footer"><span class="rc-tag t-a"><span data-fr>Afrique</span><span data-en>Africa</span></span><span class="rc-meta">9 min</span></div>
+    </a>
+  </div>
+  <div class="recent-cta-row">
+    <a href="analyses.html" class="btn-gold"><span data-fr>Voir toutes les analyses →</span><span data-en>See all analyses →</span></a>
+  </div>
+</section>
+<!-- 4 MARKETS -->
 <section class="markets-section" id="markets">
 <div class="eyebrow reveal"><span data-fr>Univers d'investissement</span><span data-en>Investment universe</span></div>
 <h2 class="sh reveal">
@@ -1344,7 +1444,78 @@ document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
 <script src="js/supabase-client.js"></script>
 <script src="js/live.js"></script>
 <script>
-// Fund card live update
+// ── Market Clocks ──────────────────────────────────────────
+(function(){
+  var ZONES = [
+    {id:'clk-abi', tz:'Africa/Abidjan',  label:'BRVM',     oh:9,  om:30, ch:16, cm:0},
+    {id:'clk-par', tz:'Europe/Paris',    label:'Euronext', oh:9,  om:0,  ch:17, cm:30},
+    {id:'clk-nyc', tz:'America/New_York',label:'NYSE',     oh:9,  om:30, ch:16, cm:0},
+    {id:'clk-hkg', tz:'Asia/Hong_Kong',  label:'HKEX',     oh:9,  om:30, ch:16, cm:0}
+  ];
+  function tick(){
+    ZONES.forEach(function(z){
+      var el = document.getElementById(z.id);
+      if(!el) return;
+      var now = new Date();
+      var timeStr = now.toLocaleTimeString('fr-FR',{timeZone:z.tz,hour:'2-digit',minute:'2-digit'});
+      var day = now.toLocaleDateString('en-US',{timeZone:z.tz,weekday:'short'});
+      var hhmm = now.toLocaleTimeString('en-US',{timeZone:z.tz,hour:'2-digit',minute:'2-digit',hour12:false});
+      var parts = hhmm.split(':');
+      var h = parseInt(parts[0],10), m = parseInt(parts[1],10);
+      var mins = h*60+m;
+      var openM = z.oh*60+z.om, closeM = z.ch*60+z.cm;
+      var isWeekday = !['Sat','Sun'].includes(day);
+      var isOpen = isWeekday && mins >= openM && mins < closeM;
+      el.querySelector('.mc-time').textContent = timeStr;
+      var st = el.querySelector('.mc-status');
+      st.textContent = isOpen ? z.label+' · OUVERT' : z.label+' · FERMÉ';
+      st.className = 'mc-status '+(isOpen?'mc-open':'mc-closed');
+    });
+  }
+  tick();
+  setInterval(tick, 30000);
+})();
+
+// ── Recent Articles from Supabase ──────────────────────────
+function loadRecentArticles(){
+  if(!window._db) return;
+  var tagClass = function(tags){
+    if(!tags||!tags.length) return 't-e';
+    var t = (tags[0]||'').toLowerCase();
+    if(t.includes('macro')||t.includes('secteur')) return 't-m';
+    if(t.includes('afrique')||t.includes('africa')||t.includes('brvm')) return 't-a';
+    return 't-e';
+  };
+  window._db.from('articles')
+    .select('slug,title,subtitle,tags,reading_time,published_at')
+    .eq('published', true)
+    .order('published_at',{ascending:false})
+    .limit(3)
+    .then(function(res){
+      if(!res||!res.data||!res.data.length) return; // keep fallback cards
+      var lang = document.documentElement.getAttribute('data-lang')||'fr';
+      var grid = document.getElementById('recent-grid');
+      if(!grid) return;
+      grid.innerHTML = res.data.map(function(a){
+        var date = a.published_at ? new Date(a.published_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}) : '';
+        var tags = a.tags||[];
+        var firstTag = tags[0]||'Research';
+        var tc = tagClass(tags);
+        var mins = a.reading_time ? a.reading_time+' min' : '';
+        return '<a href="article.html?slug='+encodeURIComponent(a.slug)+'" class="recent-card">'+
+          '<div class="rc-eyebrow">'+date+'</div>'+
+          '<div class="rc-title">'+(a.title||'')+'</div>'+
+          '<div class="rc-sub">'+(a.subtitle||'')+'</div>'+
+          '<div class="rc-footer">'+
+            '<span class="rc-tag '+tc+'">'+firstTag+'</span>'+
+            '<span class="rc-meta">'+mins+'</span>'+
+          '</div></a>';
+      }).join('');
+    });
+}
+setTimeout(function(){ loadRecentArticles(); }, 1200);
+
+// ── Fund card live update
 (function(){
   function fmt2(n){ return n == null ? '—' : Number(n).toFixed(2); }
   function loadFundCard(){
