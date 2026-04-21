@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
 <title>Analyses & Thèses, Oswald Vision Capital</title>
+<link rel="manifest" href="manifest.json">
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root { --ink:#1a1a2e; --ink2:#2d3561; --body:#4a4a68; --muted:#8a8aaa; --line:#e8e4f0; --bg:#fafaf8; --white:#fff; --cream:#f5f2ec; --cream2:#eee9e0; --gold:#c9832a; --gold-l:#f0a84a; --gold-bg:#fef3e2; --blue:#1e4faa; --blue-bg:#eef3ff; --green:#1a7a4a; --green-bg:#e8f5ee; --red:#c0392b; --red-bg:#fde8e8; --purple:#5e35b1; --purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.13);
@@ -271,6 +274,7 @@ html[data-lang=en] span[data-en]{display:inline} /* ── ANIMATIONS */
     </div>
     <a href="performance.html">Performance</a>
     <a href="fund-simulator.html">OVC Fund</a>
+    <a href="mon-compte.html" style="font-size:.75rem;font-weight:600;color:var(--body);text-decoration:none;border:1px solid var(--line);padding:.38rem .85rem;border-radius:6px">Mon Compte</a>
     <a href="subscribe.html" class="nav-cta">Subscribe</a>
   </div>
   
@@ -306,6 +310,14 @@ html[data-lang=en] span[data-en]{display:inline} /* ── ANIMATIONS */
     </div>
   </div>
 </div>
+
+<!-- LIVE TICKER -->
+<div class="ticker-wrap" style="background:#1a1a2e;overflow:hidden;padding:.55rem 0">
+  <div class="ticker-inner" style="display:flex;animation:scrollT 34s linear infinite;white-space:nowrap">
+    <span class="ti" style="display:inline-flex;align-items:center;gap:.45rem;padding:0 1.8rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.45)"><span style="color:#f0a84a;font-weight:600">OVC</span>Chargement des cours…</span>
+  </div>
+</div>
+<style>@keyframes scrollT{from{transform:translateX(0)}to{transform:translateX(-50%)}}.ti{display:inline-flex;align-items:center;gap:.45rem;padding:0 1.8rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.45)}.ti-s{color:#f0a84a;font-weight:600}.up{color:#4ade80}.dn{color:#f87171}</style>
 
 <!-- ═══ LIST VIEW ═══ -->
 <div id="list-view"><!-- PAGE HEADER -->
@@ -937,6 +949,6 @@ function buildCmsCard(a, num) {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
-
+<script src="js/live.js"></script>
 </body>
 </html>

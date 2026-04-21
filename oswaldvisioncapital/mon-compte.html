@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
+<title>Mon Compte · Oswald Vision Capital</title>
+<link rel="manifest" href="manifest.json">
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa;--line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0;--gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2;--blue:#1e4faa;--blue-bg:#eef3ff;--green:#1a7a4a;--green-bg:#e8f5ee;--red:#c0392b;--red-bg:#fde8e8;--shadow:0 2px 20px rgba(26,26,46,.08);--shadow-lg:0 8px 40px rgba(26,26,46,.14)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+/* NAV */
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;justify-content:space-between;align-items:center}
+.lb-left{font-size:.68rem;color:rgba(255,255,255,.4)}.lb-left strong{color:var(--gold-l)}
+nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(26,26,46,.06)}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}.nav-logo em{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important}
+/* PAGE */
+.page-hero{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);padding:5vh 8vw 4vh;color:#fff;text-align:center}
+.ph-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-l);margin-bottom:.7rem}
+.ph-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;line-height:1.1}
+.ph-title em{color:var(--gold-l);font-style:italic}
+.ph-sub{font-size:.88rem;color:rgba(255,255,255,.55);margin-top:.6rem}
+/* SCREENS */
+.screen{display:none;max-width:560px;margin:5vh auto;padding:0 5vw 8vh}
+.screen.active{display:block}
+/* LOGIN CARD */
+.login-card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:2.5rem;box-shadow:var(--shadow-lg);text-align:center}
+.lc-icon{font-size:2.5rem;margin-bottom:1rem}
+.lc-title{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;margin-bottom:.4rem}
+.lc-sub{font-size:.84rem;color:var(--muted);line-height:1.65;margin-bottom:2rem}
+.lc-input{width:100%;padding:.85rem 1.1rem;border:1.5px solid var(--line);border-radius:10px;font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s;margin-bottom:.8rem}
+.lc-input:focus{border-color:var(--gold)}
+.lc-btn{width:100%;padding:.9rem;background:var(--ink);color:#fff;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .2s;letter-spacing:.02em}
+.lc-btn:hover{background:var(--ink2)}
+.lc-btn:disabled{opacity:.5;cursor:not-allowed}
+.lc-divider{border:none;border-top:1px solid var(--line);margin:1.5rem 0}
+.lc-note{font-size:.75rem;color:var(--muted);line-height:1.6}
+.lc-success{background:var(--green-bg);border:1px solid #b8e0ca;border-radius:10px;padding:1.2rem;font-size:.85rem;color:var(--green);line-height:1.7;margin-top:1rem;display:none}
+.lc-error{background:var(--red-bg);border:1px solid #f5c6c6;border-radius:10px;padding:1rem;font-size:.84rem;color:var(--red);margin-top:.8rem;display:none}
+/* DASHBOARD */
+.dash-header{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:1.8rem 2rem;margin-bottom:1.2rem;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
+.dh-left .dh-greeting{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--ink)}
+.dh-left .dh-since{font-size:.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:.2rem}
+.dh-badge{font-size:.65rem;font-weight:700;padding:.25rem .65rem;border-radius:100px;background:var(--green-bg);color:var(--green);border:1px solid #b8e0ca;letter-spacing:.05em}
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:1.2rem;box-shadow:var(--shadow)}
+.kpi-box{background:var(--white);padding:1.4rem 1rem;text-align:center}
+.kpi-lbl{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.kpi-val{font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700;color:var(--ink);line-height:1}
+.kpi-val.gold{color:var(--gold)}.kpi-val.g{color:var(--green)}.kpi-val.r{color:var(--red)}
+.kpi-sub{font-size:.62rem;color:var(--muted);margin-top:.25rem}
+/* DETAIL CARD */
+.detail-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:1.6rem 1.8rem;margin-bottom:1.2rem;box-shadow:var(--shadow)}
+.dc-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.dc-title::after{content:'';flex:1;height:1px;background:var(--line)}
+.dc-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid var(--line);font-size:.85rem}
+.dc-row:last-child{border-bottom:none}
+.dc-key{color:var(--muted)}
+.dc-val{font-weight:600;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.82rem}
+/* DISCLAIMER */
+.disclaimer{background:var(--cream);border:1px solid var(--cream2);border-radius:10px;padding:1rem 1.3rem;font-size:.75rem;color:var(--muted);line-height:1.65;margin-bottom:1.2rem}
+/* SIGNOUT */
+.signout-row{text-align:center;padding:.5rem 0}
+.signout-btn{background:none;border:1.5px solid var(--line);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.8rem;padding:.5rem 1.2rem;border-radius:8px;cursor:pointer;transition:all .2s}
+.signout-btn:hover{border-color:var(--red);color:var(--red)}
+/* NOT FOUND */
+.notfound-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:2.5rem;text-align:center;box-shadow:var(--shadow)}
+.nf-icon{font-size:2.5rem;margin-bottom:1rem}
+.nf-title{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
+.nf-sub{font-size:.85rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem}
+.nf-btn{display:inline-block;padding:.65rem 1.4rem;background:var(--gold);color:#fff;border-radius:8px;text-decoration:none;font-size:.82rem;font-weight:700}
+/* LOADING */
+.loading-state{text-align:center;padding:4rem;color:var(--muted);font-size:.9rem}
+.spinner{width:28px;height:28px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){.kpi-strip{grid-template-columns:repeat(2,1fr)}.nav-links{display:none}}
+footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-size:.72rem;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="lang-bar"><div class="lb-left"><strong>OVC</strong> · Oswald Vision Capital</div></div>
+<nav>
+  <a class="nav-logo" href="index.html">Oswald <em>Vision</em> Capital</a>
+  <div class="nav-links">
+    <a href="index.html">Accueil</a>
+    <a href="analyses.html">Analyses</a>
+    <a href="performance.html">Performance</a>
+    <a href="subscribe.html">Souscrire</a>
+    <a href="mon-compte.html" class="nav-cta" style="background:var(--gold)!important">Mon Compte</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="ph-eyebrow">Espace personnel · Simulation</div>
+  <h1 class="ph-title">Mon <em>Compte</em> OVC</h1>
+  <p class="ph-sub">Suivez l'évolution de votre simulation d'investissement en temps réel</p>
+</div>
+
+<!-- SCREEN: LOADING -->
+<div class="screen active" id="screen-loading">
+  <div class="loading-state">
+    <div class="spinner"></div>
+    Vérification de votre session...
+  </div>
+</div>
+
+<!-- SCREEN: LOGIN -->
+<div class="screen" id="screen-login">
+  <div class="login-card">
+    <div class="lc-icon">🔐</div>
+    <div class="lc-title">Accéder à mon espace</div>
+    <div class="lc-sub">Entrez votre adresse email de souscription.<br>Vous recevrez un lien de connexion sécurisé instantanément.</div>
+
+    <input type="email" class="lc-input" id="login-email" placeholder="votre@email.com" autocomplete="email">
+    <button class="lc-btn" id="login-btn" onclick="sendMagicLink()">Recevoir mon lien de connexion →</button>
+
+    <div class="lc-success" id="login-success">
+      ✓ Lien envoyé ! Vérifiez votre boîte mail (et les spams).<br>
+      Cliquez sur le lien pour accéder à votre tableau de bord.
+    </div>
+    <div class="lc-error" id="login-error"></div>
+
+    <hr class="lc-divider">
+    <div class="lc-note">
+      Vous n'avez pas encore de souscription ?
+      <a href="subscribe.html" style="color:var(--gold);font-weight:600">Créer une simulation →</a>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: DASHBOARD -->
+<div class="screen" id="screen-dashboard">
+  <div class="dash-header">
+    <div class="dh-left">
+      <div class="dh-greeting" id="dash-greeting">Bonjour !</div>
+      <div class="dh-since" id="dash-since"></div>
+    </div>
+    <div><span class="dh-badge">● Simulation active</span></div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-box">
+      <div class="kpi-lbl">Parts détenues</div>
+      <div class="kpi-val gold" id="dash-parts">—</div>
+      <div class="kpi-sub">parts OVC</div>
+    </div>
+    <div class="kpi-box">
+      <div class="kpi-lbl">VL d'entrée</div>
+      <div class="kpi-val" id="dash-nav-entry">—</div>
+      <div class="kpi-sub">EUR / part</div>
+    </div>
+    <div class="kpi-box">
+      <div class="kpi-lbl">VL actuelle</div>
+      <div class="kpi-val gold" id="dash-nav-now">—</div>
+      <div class="kpi-sub">EUR / part</div>
+    </div>
+    <div class="kpi-box">
+      <div class="kpi-lbl">Performance</div>
+      <div class="kpi-val" id="dash-perf">—</div>
+      <div class="kpi-sub" id="dash-gain-eur"></div>
+    </div>
+  </div>
+
+  <div class="detail-card">
+    <div class="dc-title">Détail de la simulation</div>
+    <div class="dc-row"><span class="dc-key">Montant simulé initial</span><span class="dc-val" id="dash-amount">—</span></div>
+    <div class="dc-row"><span class="dc-key">Valeur actuelle simulée</span><span class="dc-val" id="dash-value-now">—</span></div>
+    <div class="dc-row"><span class="dc-key">Gain / Perte simulé(e)</span><span class="dc-val" id="dash-gain">—</span></div>
+    <div class="dc-row"><span class="dc-key">Objectif déclaré</span><span class="dc-val" id="dash-objective">—</span></div>
+    <div class="dc-row"><span class="dc-key">Horizon</span><span class="dc-val" id="dash-horizon">—</span></div>
+    <div class="dc-row"><span class="dc-key">Profil de risque</span><span class="dc-val" id="dash-risk">—</span></div>
+    <div class="dc-row"><span class="dc-key">Date de souscription</span><span class="dc-val" id="dash-date">—</span></div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠ Cette simulation est purement éducative et ne représente aucun investissement réel.
+    Aucune somme d'argent n'est gérée par OVC. Les performances affichées sont simulées.
+    <a href="mentions-legales.html" style="color:var(--gold)">Mentions légales</a>
+  </div>
+
+  <div class="signout-row">
+    <button class="signout-btn" onclick="signOut()">Se déconnecter</button>
+  </div>
+</div>
+
+<!-- SCREEN: NOT FOUND -->
+<div class="screen" id="screen-notfound">
+  <div class="notfound-card">
+    <div class="nf-icon">🔍</div>
+    <div class="nf-title">Aucune souscription trouvée</div>
+    <div class="nf-sub">
+      Aucune simulation n'est associée à cette adresse email.<br>
+      Créez votre simulation gratuitement en quelques minutes.
+    </div>
+    <a href="subscribe.html" class="nf-btn">Créer ma simulation →</a>
+  </div>
+</div>
+
+<footer>© 2026 Oswald Vision Capital · Simulation éducative — aucun capital réel · <a href="mentions-legales.html" style="color:rgba(255,255,255,.4);text-decoration:none">Mentions légales</a></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script>
+(function () {
+
+  function show(id) {
+    ['screen-loading','screen-login','screen-dashboard','screen-notfound'].forEach(function(s){
+      var el = document.getElementById(s);
+      if (el) el.classList.toggle('active', s === id);
+    });
+  }
+
+  function fmt(n, dec) { return parseFloat(n).toFixed(dec || 2); }
+  function fmtDate(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
+  }
+
+  // ── Fetch latest published NAV
+  async function getLatestNav() {
+    try {
+      var res = await _db.from('nav_history')
+        .select('nav,date')
+        .order('date', { ascending: false })
+        .limit(1)
+        .single();
+      return res.data ? parseFloat(res.data.nav) : 100;
+    } catch(e) { return 100; }
+  }
+
+  // ── Populate dashboard
+  async function loadDashboard(user) {
+    if (!window._db) { show('screen-login'); return; }
+
+    var res = await _db.from('subscribers')
+      .select('*')
+      .eq('email', user.email)
+      .single();
+
+    if (res.error || !res.data) { show('screen-notfound'); return; }
+
+    var s = res.data;
+    var currentNav  = await getLatestNav();
+    var navEntry    = parseFloat(s.nav_entry) || 100;
+    var parts       = parseFloat(s.parts)     || 0;
+    var initAmount  = parseFloat(s.amount)    || 0;
+    var currentVal  = parts * currentNav;
+    var gainEur     = currentVal - initAmount;
+    var perfPct     = navEntry > 0 ? (currentNav - navEntry) / navEntry * 100 : 0;
+    var currency    = s.currency || 'EUR';
+
+    // Greeting
+    document.getElementById('dash-greeting').textContent = 'Bonjour, ' + (s.first_name || '') + ' 👋';
+    document.getElementById('dash-since').textContent    = 'Membre depuis ' + fmtDate(s.date);
+
+    // KPIs
+    document.getElementById('dash-parts').textContent     = fmt(parts, 4);
+    document.getElementById('dash-nav-entry').textContent = fmt(navEntry, 4);
+    document.getElementById('dash-nav-now').textContent   = fmt(currentNav, 4);
+
+    var perfEl = document.getElementById('dash-perf');
+    perfEl.textContent = (perfPct >= 0 ? '+' : '') + fmt(perfPct, 2) + '%';
+    perfEl.className   = 'kpi-val ' + (perfPct >= 0 ? 'g' : 'r');
+    document.getElementById('dash-gain-eur').textContent =
+      (gainEur >= 0 ? '+' : '') + fmt(gainEur, 2) + ' EUR simulé';
+
+    // Detail rows
+    document.getElementById('dash-amount').textContent    = initAmount.toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' ' + currency;
+    document.getElementById('dash-value-now').textContent = currentVal.toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' EUR simulé';
+    var gainStr = (gainEur >= 0 ? '+' : '') + fmt(gainEur, 2) + ' EUR (' + (perfPct >= 0 ? '+' : '') + fmt(perfPct, 2) + '%)';
+    document.getElementById('dash-gain').textContent      = gainStr;
+    document.getElementById('dash-objective').textContent = s.objective || '—';
+    document.getElementById('dash-horizon').textContent   = s.horizon   || '—';
+    document.getElementById('dash-risk').textContent      = s.risk      || '—';
+    document.getElementById('dash-date').textContent      = fmtDate(s.date);
+
+    show('screen-dashboard');
+  }
+
+  // ── Magic link login
+  window.sendMagicLink = async function () {
+    var email = (document.getElementById('login-email').value || '').trim();
+    var btn   = document.getElementById('login-btn');
+    var succ  = document.getElementById('login-success');
+    var err   = document.getElementById('login-error');
+
+    succ.style.display = 'none';
+    err.style.display  = 'none';
+
+    if (!email || !email.includes('@')) {
+      err.textContent    = 'Entrez une adresse email valide.';
+      err.style.display  = 'block';
+      return;
+    }
+    if (!window._db) {
+      err.textContent   = 'Service non disponible — réessayez plus tard.';
+      err.style.display = 'block';
+      return;
+    }
+
+    btn.disabled      = true;
+    btn.textContent   = 'Envoi en cours...';
+
+    try {
+      var { error } = await _db.auth.signInWithOtp({
+        email: email,
+        options: { emailRedirectTo: window.location.href }
+      });
+      if (error) throw error;
+      succ.style.display = 'block';
+      btn.textContent    = '✓ Lien envoyé';
+    } catch(e) {
+      err.textContent   = 'Erreur : ' + (e.message || 'Impossible d\'envoyer le lien.');
+      err.style.display = 'block';
+      btn.disabled      = false;
+      btn.textContent   = 'Recevoir mon lien de connexion →';
+    }
+  };
+
+  // ── Sign out
+  window.signOut = async function () {
+    if (window._db) await _db.auth.signOut().catch(function(){});
+    show('screen-login');
+  };
+
+  // ── Init: check session
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window._db) { show('screen-login'); return; }
+
+    // Handle magic link redirect (hash contains access_token)
+    _db.auth.onAuthStateChange(function (event, session) {
+      if (event === 'SIGNED_IN' && session && session.user) {
+        loadDashboard(session.user);
+      }
+    });
+
+    // Check existing session
+    _db.auth.getSession().then(function (res) {
+      var session = res.data && res.data.session;
+      if (session && session.user) {
+        loadDashboard(session.user);
+      } else {
+        show('screen-login');
+      }
+    }).catch(function () { show('screen-login'); });
+  });
+
+})();
+</script>
+</body>
+</html>

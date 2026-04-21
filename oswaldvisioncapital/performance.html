@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
 <title>Performance du Fonds  -  Oswald Vision Capital</title>
+<link rel="manifest" href="manifest.json">
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 <meta name="description" content="Valeur liquidative et performance hebdomadaire du fonds Oswald Vision Capital. Suivi de la VL, drawdown, alpha vs benchmarks.">
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -176,9 +179,18 @@ html[data-lang=en] span[data-en]{display:inline}
       </div>
     </div>
     <a href="performance.html" class="nav-active"><span data-fr>Performance</span><span data-en>Performance</span></a>
+    <a href="mon-compte.html" style="font-size:.75rem;font-weight:600;color:var(--body);text-decoration:none;border:1px solid var(--line);padding:.38rem .85rem;border-radius:6px">Mon Compte</a>
     <a href="subscribe.html" class="nav-cta"><span data-fr>Souscrire</span><span data-en>Subscribe</span></a>
   </div>
 </nav>
+
+<!-- LIVE TICKER -->
+<div style="background:#1a1a2e;overflow:hidden;padding:.55rem 0">
+  <div class="ticker-inner" style="display:flex;animation:scrollT 34s linear infinite;white-space:nowrap">
+    <span style="display:inline-flex;align-items:center;gap:.45rem;padding:0 1.8rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.45)"><span style="color:#f0a84a;font-weight:600">OVC</span>Chargement des cours…</span>
+  </div>
+</div>
+<style>.ticker-inner{display:flex;animation:scrollT 34s linear infinite;white-space:nowrap}@keyframes scrollT{from{transform:translateX(0)}to{transform:translateX(-50%)}}.ti{display:inline-flex;align-items:center;gap:.45rem;padding:0 1.8rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.45)}.ti-s{color:#f0a84a;font-weight:600}.up{color:#4ade80}.dn{color:#f87171}</style>
 
 <div class="page-hero">
   <div class="ph-eyebrow">OSWALD VISION CAPITAL · <span data-fr>FONDS DE RECHERCHE INDEPENDANT</span><span data-en>INDEPENDENT RESEARCH FUND</span></div>
@@ -1164,5 +1176,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }); // end DOMContentLoaded
 </script>
+<script src="js/live.js"></script>
 </body>
 </html>

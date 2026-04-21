@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
 <title>Oswald Vision Capital, Independent Investment Research</title>
+<link rel="manifest" href="manifest.json">
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{ --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa; --line:#e8e4f0;--bg:#fafaf8;--white:#ffffff;--cream:#f5f2ec;--cream2:#eee9e0; --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2; --blue:#1e4faa;--blue-bg:#eef3ff; --green:#1a7a4a;--green-bg:#e8f5ee; --red:#c0392b; --purple:#5e35b1;--purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.13);
@@ -470,6 +473,7 @@ html[data-lang=en] span[data-en]{display:inline}
     </div>
     <a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
     <a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+    <a href="mon-compte.html" style="font-size:.75rem;font-weight:600;color:var(--body);text-decoration:none;border:1px solid var(--line);padding:.38rem .85rem;border-radius:6px;transition:border-color .2s" onmouseover="this.style.borderColor='var(--ink)'" onmouseout="this.style.borderColor='var(--line)'">Mon Compte</a>
     <button onclick="openModal()" class="nav-cta btn-gold" style="border:none;cursor:pointer"><span data-fr>Souscrire</span><span data-en>Subscribe</span></button>
   </div>
 
@@ -498,6 +502,7 @@ html[data-lang=en] span[data-en]{display:inline}
     </div>
     <a href="performance.html" class="mno-link">Performance</a>
     <a href="fund-simulator.html" class="mno-link">Fonds OVC</a>
+    <a href="mon-compte.html" class="mno-link">Mon Compte</a>
     <div class="mno-cta">
       <button onclick="toggleMobileMenu(); openModal();" class="btn-gold" style="width:100%;padding:1rem;border-radius:12px;border:none;font-weight:700">
         <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
@@ -557,10 +562,10 @@ html[data-lang=en] span[data-en]{display:inline}
 <a href="#newsletter" class="btn-out"><span data-fr>S'abonner gratuitement</span><span data-en>Subscribe for free</span></a>
 </div>
 <div class="hero-proof">
-<div><div class="proof-num">30<span>+</span></div><div class="proof-label"><span data-fr>Entreprises<br>analysées</span><span data-en>Companies<br>analysed</span></div></div>
-<div><div class="proof-num">4</div><div class="proof-label"><span data-fr>Zones<br>géographiques</span><span data-en>Geographic<br>regions</span></div></div>
-<div><div class="proof-num">6<span>+</span></div><div class="proof-label">Frameworks<br>analytiques</div></div>
-<div><div class="proof-num">100<span>%</span></div><div class="proof-label"><span data-fr>Indépendant</span><span data-en>Independent</span></div></div>
+<div><div class="proof-num" id="live-nav">—</div><div class="proof-label"><span data-fr>Valeur de part<br>(EUR)</span><span data-en>Unit NAV<br>(EUR)</span></div></div>
+<div><div class="proof-num" id="live-perf">—</div><div class="proof-label"><span data-fr>Performance<br>depuis création</span><span data-en>Performance<br>since inception</span></div></div>
+<div><div class="proof-num" id="live-articles">—</div><div class="proof-label"><span data-fr>Analyses<br>publiées</span><span data-en>Published<br>analyses</span></div></div>
+<div><div class="proof-num" id="live-subs">—</div><div class="proof-label"><span data-fr>Investisseurs<br>simulés</span><span data-en>Simulated<br>investors</span></div></div>
 </div>
 </div><div class="hero-right">
 <a href="Mcr/macro-trump-tariffs.html" class="mini-card">
@@ -1282,5 +1287,8 @@ document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
 });
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/live.js"></script>
 </body>
 </html>

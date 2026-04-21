@@ -1,0 +1,50 @@
+{
+  "name": "Oswald Vision Capital",
+  "short_name": "OVC",
+  "description": "Analyses financières indépendantes · Fonds d'investissement simulé · 4 zones géographiques",
+  "start_url": "/oswaldvisioncapital/index.html",
+  "scope": "/oswaldvisioncapital/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Analyses",
+      "short_name": "Analyses",
+      "description": "Lire les thèses d'investissement",
+      "url": "/oswaldvisioncapital/analyses.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Performance",
+      "short_name": "Perf",
+      "description": "Valeur liquidative du fonds",
+      "url": "/oswaldvisioncapital/performance.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Mon Compte",
+      "short_name": "Compte",
+      "description": "Espace investisseur",
+      "url": "/oswaldvisioncapital/mon-compte.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["finance", "education", "business"]
+}
