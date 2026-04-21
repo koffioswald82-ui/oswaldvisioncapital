@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="description" content="Analyses financières indépendantes sur 30 entreprises · Afrique, Amériques, Europe, Asie · Fonds d'investissement simulé · Oswald Vision Capital">
 <title>Oswald Vision Capital, Independent Investment Research</title>
+<link rel="manifest" href="manifest.json">
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{ --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa; --line:#e8e4f0;--bg:#fafaf8;--white:#ffffff;--cream:#f5f2ec;--cream2:#eee9e0; --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2; --blue:#1e4faa;--blue-bg:#eef3ff; --green:#1a7a4a;--green-bg:#e8f5ee; --red:#c0392b; --purple:#5e35b1;--purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.13);
@@ -61,7 +65,35 @@ h1.hero-h .u{text-decoration:underline;text-decoration-color:var(--gold);text-un
 @keyframes scrollT{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ti{display:inline-flex;align-items:center;gap:.45rem;padding:0 1.8rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.45)}
 .ti-s{color:var(--gold-l);font-weight:600}
-.up{color:#4ade80}.dn{color:#f87171} /* ── SECTIONS */
+.up{color:#4ade80}.dn{color:#f87171}
+/* ── LIVE DATA STRIP */
+.live-strip{background:var(--ink);border-bottom:1px solid rgba(255,255,255,.07);padding:.75rem 8vw;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.ls-item{display:flex;flex-direction:column;gap:.05rem;padding:0 2.2rem 0 0}
+.ls-label{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.ls-val{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold-l);font-size:.92rem;min-width:55px}
+.ls-sep{width:1px;height:30px;background:rgba(255,255,255,.08);margin:0 1.5rem 0 0;flex-shrink:0}
+.ls-live{display:flex;align-items:center;gap:.4rem;margin-left:auto;font-size:.6rem;color:rgba(255,255,255,.28);font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+.ls-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+/* ── FUND CARD */
+.fund-card{background:linear-gradient(150deg,#1e2547 0%,var(--ink) 100%);color:#fff;border-radius:14px;padding:1.5rem;box-shadow:0 8px 32px rgba(26,26,46,.3);border:1px solid rgba(255,255,255,.06);margin-bottom:.75rem}
+.fc-live-badge{display:inline-flex;align-items:center;gap:.38rem;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.22);border-radius:100px;padding:.2rem .6rem;font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#4ade80;margin-bottom:.85rem;letter-spacing:.08em}
+.fc-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite}
+.fc-label{font-size:.58rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.15rem}
+.fc-nav-val{font-family:'Libre Baskerville',serif;font-size:2.2rem;font-weight:700;color:var(--gold-l);line-height:1}
+.fc-nav-unit{font-size:.7rem;color:rgba(255,255,255,.35);font-family:'JetBrains Mono',monospace}
+.fc-perf-row{display:flex;align-items:baseline;gap:.5rem;margin:.6rem 0 .5rem}
+.fc-perf-val{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:#4ade80}
+.fc-perf-label{font-size:.68rem;color:rgba(255,255,255,.35)}
+.fc-divider{height:1px;background:rgba(255,255,255,.05);margin:.7rem 0}
+.fc-row{display:flex;justify-content:space-between;align-items:center;padding:.2rem 0}
+.fc-row-lbl{font-size:.68rem;color:rgba(255,255,255,.35)}
+.fc-row-val{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:rgba(255,255,255,.75);font-weight:500}
+.fc-actions{display:flex;gap:.5rem;margin-top:.9rem}
+.fc-btn-main{flex:1;background:var(--gold);color:#fff;text-decoration:none;text-align:center;padding:.58rem;border-radius:8px;font-weight:700;font-size:.75rem;transition:background .2s}
+.fc-btn-main:hover{background:#b5721e}
+.fc-btn-sec{flex:1;background:rgba(255,255,255,.05);color:rgba(255,255,255,.55);text-decoration:none;text-align:center;padding:.58rem;border-radius:8px;font-size:.72rem;font-weight:500;border:1px solid rgba(255,255,255,.08);transition:all .2s}
+.fc-btn-sec:hover{background:rgba(255,255,255,.1);color:#fff}
+/* ── SECTIONS */
 section{padding:7vh 8vw;position:relative}
 .eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
 .eyebrow::after{content:'';display:inline-block;width:18px;height:1px;background:var(--gold)}
@@ -470,6 +502,7 @@ html[data-lang=en] span[data-en]{display:inline}
     </div>
     <a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
     <a href="fund-simulator.html"><span data-fr>Fonds OVC</span><span data-en>OVC Fund</span></a>
+    <a href="mon-compte.html" style="font-size:.75rem;font-weight:600;color:var(--body);text-decoration:none;border:1px solid var(--line);padding:.38rem .85rem;border-radius:6px;transition:border-color .2s,color .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--body)'"><span data-fr>Mon Compte</span><span data-en>My Account</span></a>
     <button onclick="openModal()" class="nav-cta btn-gold" style="border:none;cursor:pointer"><span data-fr>Souscrire</span><span data-en>Subscribe</span></button>
   </div>
 
@@ -498,6 +531,7 @@ html[data-lang=en] span[data-en]{display:inline}
     </div>
     <a href="performance.html" class="mno-link">Performance</a>
     <a href="fund-simulator.html" class="mno-link">Fonds OVC</a>
+    <a href="mon-compte.html" class="mno-link"><span data-fr>Mon Compte</span><span data-en>My Account</span></a>
     <div class="mno-cta">
       <button onclick="toggleMobileMenu(); openModal();" class="btn-gold" style="width:100%;padding:1rem;border-radius:12px;border:none;font-weight:700">
         <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
@@ -535,6 +569,17 @@ html[data-lang=en] span[data-en]{display:inline}
     <span data-fr>Souscrire au fonds</span><span data-en>Subscribe to fund</span>
   </a>
 </nav>
+<!-- LIVE DATA STRIP -->
+<div class="live-strip">
+  <div class="ls-item"><div class="ls-label"><span data-fr>Valeur de part</span><span data-en>Unit NAV</span></div><div class="ls-val" id="live-nav">—</div></div>
+  <div class="ls-sep"></div>
+  <div class="ls-item"><div class="ls-label"><span data-fr>Performance</span><span data-en>Return</span></div><div class="ls-val" id="live-perf">—</div></div>
+  <div class="ls-sep"></div>
+  <div class="ls-item"><div class="ls-label"><span data-fr>Analyses publiées</span><span data-en>Published</span></div><div class="ls-val" id="live-articles">—</div></div>
+  <div class="ls-sep"></div>
+  <div class="ls-item"><div class="ls-label"><span data-fr>Investisseurs</span><span data-en>Investors</span></div><div class="ls-val" id="live-subs">—</div></div>
+  <div class="ls-live"><div class="ls-dot"></div>LIVE</div>
+</div>
 <!-- HERO -->
 <section class="hero">
 <div class="hero-left">
@@ -559,10 +604,29 @@ html[data-lang=en] span[data-en]{display:inline}
 <div class="hero-proof">
 <div><div class="proof-num">30<span>+</span></div><div class="proof-label"><span data-fr>Entreprises<br>analysées</span><span data-en>Companies<br>analysed</span></div></div>
 <div><div class="proof-num">4</div><div class="proof-label"><span data-fr>Zones<br>géographiques</span><span data-en>Geographic<br>regions</span></div></div>
-<div><div class="proof-num">6<span>+</span></div><div class="proof-label">Frameworks<br>analytiques</div></div>
 <div><div class="proof-num">100<span>%</span></div><div class="proof-label"><span data-fr>Indépendant</span><span data-en>Independent</span></div></div>
+<div><div class="proof-num">0<span>€</span></div><div class="proof-label"><span data-fr>Frais de<br>recherche</span><span data-en>Research<br>fees</span></div></div>
 </div>
 </div><div class="hero-right">
+<!-- LIVE FUND CARD -->
+<div class="fund-card">
+  <div class="fc-live-badge"><div class="fc-dot"></div>FONDS OVC · LIVE</div>
+  <div class="fc-label"><span data-fr>Valeur liquidative</span><span data-en>Net Asset Value</span></div>
+  <div class="fc-nav-val" id="fc-nav">100.00</div>
+  <div class="fc-nav-unit">EUR / part · <span id="fc-date" style="opacity:.6">—</span></div>
+  <div class="fc-perf-row">
+    <div class="fc-perf-val" id="fc-perf">+0.00%</div>
+    <div class="fc-perf-label"><span data-fr>depuis création</span><span data-en>since inception</span></div>
+  </div>
+  <div class="fc-divider"></div>
+  <div class="fc-row"><span class="fc-row-lbl"><span data-fr>Lancement</span><span data-en>Launch</span></span><span class="fc-row-val">10 Jan. 2026</span></div>
+  <div class="fc-row"><span class="fc-row-lbl"><span data-fr>Univers</span><span data-en>Universe</span></span><span class="fc-row-val">30+ <span data-fr>entreprises</span><span data-en>companies</span></span></div>
+  <div class="fc-row"><span class="fc-row-lbl"><span data-fr>Capital min.</span><span data-en>Min. ticket</span></span><span class="fc-row-val">500 EUR <span style="opacity:.4;font-size:.65rem">(simulé)</span></span></div>
+  <div class="fc-actions">
+    <a href="#" onclick="openModal();return false" class="fc-btn-main"><span data-fr>Souscrire</span><span data-en>Subscribe</span></a>
+    <a href="mon-compte.html" class="fc-btn-sec"><span data-fr>Mon Compte</span><span data-en>My Account</span></a>
+  </div>
+</div>
 <a href="Mcr/macro-trump-tariffs.html" class="mini-card">
 <div class="mc-eyebrow"><span data-fr>Analyse vedette</span><span data-en>Featured analysis</span></div>
 <div class="mc-title"><span data-fr>Tarifs Trump 2025 : opportunité pour l'Afrique ?</span><span data-en>Trump Tariffs 2025: opportunity for Africa?</span></div>
@@ -574,12 +638,6 @@ html[data-lang=en] span[data-en]{display:inline}
 <div class="mc-title"><span data-fr>La domination IA de NVIDIA peut-elle durer ?</span><span data-en>Can NVIDIA's AI dominance last?</span></div>
 <div class="mc-sub"><span data-fr>DCF, parts de marché GPU data centers, valorisation et concurrence.</span><span data-en>DCF model, data center GPU share, valuation & competition.</span></div>
 <div class="mc-footer"><span class="tag t-e">Equity</span><span class="mc-read">10 min</span></div>
-</a>
-<a href="Analyse/orange-ci.html" class="mini-card">
-<div class="mc-eyebrow">Orange CI · BRVM: ORECI</div>
-<div class="mc-title"><span data-fr>Orange CI : le dividende le plus fiable de la BRVM ?</span><span data-en>Orange CI: the most reliable dividend on the BRVM?</span></div>
-<div class="mc-sub"><span data-fr>Orange Money, dividende stable, analyse fondamentale complète.</span><span data-en>Orange Money, stable dividend, full fundamental analysis.</span></div>
-<div class="mc-footer"><span class="tag t-a"><span data-fr>Afrique</span><span data-en>Africa</span></span><span class="mc-read">9 min</span></div>
 </a>
 </div>
 </section><!-- TICKER -->
@@ -1281,6 +1339,50 @@ document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
   });
 });
 
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/live.js"></script>
+<script>
+// Fund card live update
+(function(){
+  function fmt2(n){ return n == null ? '—' : Number(n).toFixed(2); }
+  function loadFundCard(){
+    if(!window._db) return;
+    window._db.from('nav_history').select('nav,date').order('date',{ascending:false}).limit(1)
+      .then(function(res){
+        if(!res||!res.data||!res.data.length) return;
+        var row = res.data[0];
+        var el = document.getElementById('fc-nav');
+        if(el) el.textContent = fmt2(row.nav);
+        var de = document.getElementById('fc-date');
+        if(de && row.date) de.textContent = new Date(row.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
+      });
+    // Performance since inception
+    window._db.from('nav_history').select('nav').order('date',{ascending:true}).limit(1)
+      .then(function(res2){
+        window._db.from('nav_history').select('nav').order('date',{ascending:false}).limit(1)
+          .then(function(res3){
+            if(!res2||!res2.data||!res3||!res3.data) return;
+            var first = res2.data[0] && res2.data[0].nav;
+            var last  = res3.data[0] && res3.data[0].nav;
+            if(!first||!last||first===0) return;
+            var perf = ((last - first)/first*100);
+            var sign = perf>=0?'+':'';
+            var pe = document.getElementById('fc-perf');
+            if(pe){ pe.textContent = sign+fmt2(perf)+'%'; pe.style.color = perf>=0?'#4ade80':'#f87171'; }
+          });
+      });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', function(){
+      // Wait for supabase-client.js to initialize
+      setTimeout(loadFundCard, 800);
+    });
+  } else {
+    setTimeout(loadFundCard, 800);
+  }
+})();
 </script>
 </body>
 </html>
