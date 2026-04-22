@@ -515,6 +515,51 @@ html[data-lang=en] span[data-en]{display:inline}
   .sn-cta{display:none}
 }
 
+/* ── FORMATION (index teaser) ────────────────────────── */
+.form-section{background:linear-gradient(160deg,#0a0f1e 0%,#141e35 60%,#1a1a2e 100%);padding:8vh 8vw;position:relative;overflow:hidden}
+.form-section::before{content:'';position:absolute;top:-20%;left:-5%;width:500px;height:500px;background:radial-gradient(ellipse,rgba(201,131,42,.1),transparent 65%);pointer-events:none}
+.form-section::after{content:'';position:absolute;bottom:-10%;right:-5%;width:400px;height:400px;background:radial-gradient(ellipse,rgba(94,53,177,.1),transparent 65%);pointer-events:none}
+.form-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:2rem;margin-bottom:3rem;position:relative}
+.form-badge{display:inline-flex;align-items:center;gap:.45rem;background:rgba(201,131,42,.12);border:1px solid rgba(201,131,42,.25);border-radius:100px;padding:.28rem .8rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--gold-l);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.9rem}
+.form-h{font-family:'Libre Baskerville',serif;font-size:clamp(1.6rem,3vw,2.6rem);font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:.9rem}
+.form-h em{font-style:italic;color:var(--gold-l)}
+.form-sub{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.8;max-width:460px}
+.form-cta-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:.6rem;flex-shrink:0}
+.form-cta-main{display:inline-flex;align-items:center;gap:.6rem;background:var(--gold);color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:.88rem;padding:.8rem 1.8rem;border-radius:10px;text-decoration:none;transition:background .2s,transform .18s;box-shadow:0 4px 20px rgba(201,131,42,.35)}
+.form-cta-main:hover{background:#b5721e;transform:translateY(-2px)}
+.form-cta-login{font-size:.72rem;color:rgba(255,255,255,.35);text-decoration:none;font-family:'JetBrains Mono',monospace;transition:color .18s}
+.form-cta-login:hover{color:rgba(255,255,255,.65)}
+.form-levels{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;position:relative}
+.fl-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;transition:border-color .25s,background .25s}
+.fl-card:hover{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.06)}
+.fl-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:18px 18px 0 0}
+.fl-deb::before{background:linear-gradient(90deg,#4ade80,#22c55e)}
+.fl-int::before{background:linear-gradient(90deg,var(--gold),var(--gold-l))}
+.fl-avd::before{background:linear-gradient(90deg,var(--purple),#7c3aed)}
+.fl-lock{position:absolute;top:1.2rem;right:1.2rem;width:28px;height:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem}
+.fl-level{font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.55rem}
+.fl-deb .fl-level{color:#4ade80}
+.fl-int .fl-level{color:var(--gold-l)}
+.fl-avd .fl-level{color:#a78bfa}
+.fl-title{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.4rem}
+.fl-count{font-size:.72rem;color:rgba(255,255,255,.3);font-family:'JetBrains Mono',monospace;margin-bottom:1.1rem}
+.fl-modules{display:flex;flex-direction:column;gap:.42rem}
+.fl-mod{font-size:.75rem;color:rgba(255,255,255,.25);display:flex;align-items:center;gap:.45rem;line-height:1.4}
+.fl-mod::before{content:'▸';font-size:.55rem;opacity:.3;flex-shrink:0}
+.fl-mod.visible{color:rgba(255,255,255,.55)}
+.fl-mod.visible::before{opacity:.6}
+.form-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.06);position:relative}
+.ff-stat{text-align:center}
+.ff-stat-n{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:var(--gold-l)}
+.ff-stat-l{font-size:.58rem;color:rgba(255,255,255,.25);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;margin-top:.1rem}
+.ff-stats{display:flex;gap:2.5rem;flex-wrap:wrap}
+.ff-note{font-size:.72rem;color:rgba(255,255,255,.25);font-style:italic;max-width:360px;line-height:1.7}
+@media(max-width:768px){
+  .form-levels{grid-template-columns:1fr}
+  .form-cta-wrap{align-items:flex-start}
+  .form-top{flex-direction:column}
+}
+
 /* ── GEO SECTORIELLE ──────────────────────────────────── */
 .geo-section{background:linear-gradient(180deg,var(--cream) 0%,var(--white) 100%);padding:7vh 8vw}
 .geo-tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:2.2rem;margin-bottom:0}
@@ -687,6 +732,11 @@ html[data-lang=en] span[data-en]{display:inline}
   <a href="#podcast" class="sn-link" data-section="podcast">
     <span class="sn-dot"></span>
     Podcast
+  </a>
+  <span class="sn-sep"></span>
+  <a href="#formation" class="sn-link" data-section="formation">
+    <span class="sn-dot"></span>
+    <span data-fr>Formation</span><span data-en>Education</span>
   </a>
   <span class="sn-sep"></span>
   <a href="#about" class="sn-link" data-section="about">
@@ -1430,6 +1480,76 @@ html[data-lang=en] span[data-en]{display:inline}
     </div>
   </div>
 </section>
+<!-- FORMATION (teaser — abonnés uniquement) -->
+<section class="form-section reveal" id="formation">
+  <div class="form-top">
+    <div>
+      <div class="form-badge">🎓 <span data-fr>Accès exclusif souscripteurs</span><span data-en>Exclusive subscriber access</span></div>
+      <h2 class="form-h"><span data-fr>Formation <em>Investisseur</em><br>incluse dans votre souscription</span><span data-en>Investor <em>Education</em><br>included in your subscription</span></h2>
+      <p class="form-sub"><span data-fr>9 modules structurés, 3 niveaux de maîtrise. Des bases de l'analyse fondamentale aux stratégies de portefeuille avancées — le même cadre que les gérants professionnels.</span><span data-en>9 structured modules, 3 mastery levels. From fundamental analysis basics to advanced portfolio strategies — the same framework used by professional fund managers.</span></p>
+    </div>
+    <div class="form-cta-wrap">
+      <a href="subscribe.html" class="form-cta-main">
+        <span data-fr>Souscrire au fonds →</span><span data-en>Subscribe to the fund →</span>
+      </a>
+      <a href="mon-compte.html" class="form-cta-login">
+        <span data-fr>Déjà souscripteur ? Se connecter</span><span data-en>Already subscribed? Log in</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="form-levels">
+    <!-- Débutant -->
+    <div class="fl-card fl-deb">
+      <div class="fl-lock">🔒</div>
+      <div class="fl-level"><span data-fr>Débutant</span><span data-en>Beginner</span></div>
+      <div class="fl-title"><span data-fr>Bases de l'investissement</span><span data-en>Investment basics</span></div>
+      <div class="fl-count">3 <span data-fr>modules · ~4h de contenu</span><span data-en>modules · ~4h of content</span></div>
+      <div class="fl-modules">
+        <div class="fl-mod visible"><span data-fr>Introduction aux marchés financiers</span><span data-en>Introduction to financial markets</span></div>
+        <div class="fl-mod visible"><span data-fr>Lire un bilan &amp; un compte de résultat</span><span data-en>Reading a balance sheet &amp; income statement</span></div>
+        <div class="fl-mod"><span data-fr>Valorisation P/E, EV/EBITDA, FCF</span><span data-en>P/E, EV/EBITDA, FCF valuation</span></div>
+      </div>
+    </div>
+
+    <!-- Intermédiaire -->
+    <div class="fl-card fl-int">
+      <div class="fl-lock">🔒</div>
+      <div class="fl-level"><span data-fr>Intermédiaire</span><span data-en>Intermediate</span></div>
+      <div class="fl-title"><span data-fr>Analyse &amp; stratégie</span><span data-en>Analysis &amp; strategy</span></div>
+      <div class="fl-count">3 <span data-fr>modules · ~6h de contenu</span><span data-en>modules · ~6h of content</span></div>
+      <div class="fl-modules">
+        <div class="fl-mod visible"><span data-fr>Construction d'un modèle DCF</span><span data-en>Building a DCF model</span></div>
+        <div class="fl-mod"><span data-fr>Analyse sectorielle &amp; concurrentielle</span><span data-en>Sector &amp; competitive analysis</span></div>
+        <div class="fl-mod"><span data-fr>Macro &amp; cycles économiques</span><span data-en>Macro &amp; economic cycles</span></div>
+      </div>
+    </div>
+
+    <!-- Avancé -->
+    <div class="fl-card fl-avd">
+      <div class="fl-lock">🔒</div>
+      <div class="fl-level"><span data-fr>Avancé</span><span data-en>Advanced</span></div>
+      <div class="fl-title"><span data-fr>Gestion de portefeuille</span><span data-en>Portfolio management</span></div>
+      <div class="fl-count">3 <span data-fr>modules · ~8h de contenu</span><span data-en>modules · ~8h of content</span></div>
+      <div class="fl-modules">
+        <div class="fl-mod"><span data-fr>Construction &amp; pondération d'un portefeuille</span><span data-en>Portfolio construction &amp; weighting</span></div>
+        <div class="fl-mod"><span data-fr>Gestion du risque &amp; VaR</span><span data-en>Risk management &amp; VaR</span></div>
+        <div class="fl-mod"><span data-fr>Marchés africains &amp; BRVM</span><span data-en>African markets &amp; BRVM</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <div class="ff-stats">
+      <div class="ff-stat"><div class="ff-stat-n">9</div><div class="ff-stat-l"><span data-fr>Modules</span><span data-en>Modules</span></div></div>
+      <div class="ff-stat"><div class="ff-stat-n">3</div><div class="ff-stat-l"><span data-fr>Niveaux</span><span data-en>Levels</span></div></div>
+      <div class="ff-stat"><div class="ff-stat-n">+18h</div><div class="ff-stat-l"><span data-fr>De contenu</span><span data-en>Of content</span></div></div>
+      <div class="ff-stat"><div class="ff-stat-n">100%</div><div class="ff-stat-l"><span data-fr>Inclus</span><span data-en>Included</span></div></div>
+    </div>
+    <p class="ff-note"><span data-fr>La formation est accessible depuis votre tableau de bord après souscription. Progression sauvegardée automatiquement.</span><span data-en>Training is accessible from your dashboard after subscribing. Progress saved automatically.</span></p>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section class="about-section" id="about">
 <div class="eyebrow reveal"><span data-fr>À propos</span><span data-en>About</span></div>
