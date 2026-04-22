@@ -98,7 +98,7 @@ def yahoo_history(symbol: str, months: int = 13) -> list[dict]:
 # ── Frankfurter FX rates
 def fetch_fx() -> dict:
     try:
-        r    = requests.get('https://api.frankfurter.app/latest?from=EUR&to=USD,GBP,HKD,JPY,CHF,CAD,SEK', timeout=10)
+        r    = requests.get('https://api.frankfurter.app/latest?from=EUR&to=USD,GBP,HKD,JPY,CHF,CAD,SEK,KRW', timeout=10)
         data = r.json()
         rates = data.get('rates', {})
         # Invert: how many EUR per 1 unit of currency
