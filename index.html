@@ -515,6 +515,77 @@ html[data-lang=en] span[data-en]{display:inline}
   .sn-cta{display:none}
 }
 
+/* ── GEO SECTORIELLE ──────────────────────────────────── */
+.geo-section{background:linear-gradient(180deg,var(--cream) 0%,var(--white) 100%);padding:7vh 8vw}
+.geo-tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:2.2rem;margin-bottom:0}
+.geo-tab{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.9rem 1.5rem;border:1.5px solid var(--line);border-radius:14px;background:var(--white);cursor:pointer;transition:all .22s;min-width:120px;position:relative;outline:none}
+.geo-tab:hover{border-color:var(--gold);box-shadow:0 4px 18px rgba(201,131,42,.1)}
+.geo-tab.active{border-color:var(--gold);background:var(--gold);color:#fff;box-shadow:0 6px 22px rgba(201,131,42,.25)}
+.geo-flag{font-size:1.6rem;line-height:1}
+.geo-tab-name{font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;color:var(--ink)}
+.geo-tab.active .geo-tab-name{color:#fff}
+.geo-tab-count{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.06em}
+.geo-tab.active .geo-tab-count{color:rgba(255,255,255,.7)}
+.geo-panel{display:none;animation:gpIn .35s ease}
+.geo-panel.active{display:block}
+@keyframes gpIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.zone-header{background:linear-gradient(135deg,#0a0f1e 0%,#1a1a2e 100%);border-radius:18px;padding:1.6rem 2rem;margin:1.5rem 0 1.4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;position:relative;overflow:hidden}
+.zone-header::before{content:'';position:absolute;top:-40%;right:-5%;width:300px;height:300px;background:radial-gradient(ellipse,rgba(201,131,42,.12),transparent 65%);pointer-events:none}
+
+.zh-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.35rem}
+.zh-title{font-family:'Libre Baskerville',serif;font-size:1.2rem;font-weight:700;color:#fff}
+.zh-title em{font-style:italic;color:var(--gold-l)}
+.zh-mkts{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}
+.zh-mkt{font-size:.65rem;font-weight:600;padding:.22rem .65rem;border:1px solid rgba(255,255,255,.12);border-radius:100px;color:rgba(255,255,255,.55);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+.zh-stat{text-align:right;flex-shrink:0}
+.zh-stat-n{font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:700;color:var(--gold-l);line-height:1}
+.zh-stat-l{font-size:.6rem;color:rgba(255,255,255,.3);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;margin-top:.15rem}
+.geo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
+.sec-card{background:var(--white);border:1.5px solid var(--line);border-radius:16px;padding:1.6rem 1.5rem;transition:all .22s;cursor:default;display:flex;flex-direction:column;gap:.7rem;position:relative;overflow:hidden}
+.sec-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-accent,var(--gold));border-radius:16px 16px 0 0;opacity:0;transition:opacity .22s}
+.sec-card:hover{box-shadow:0 8px 32px rgba(26,26,46,.1);transform:translateY(-2px);border-color:var(--card-accent,var(--gold))}
+.sec-card:hover::before{opacity:1}
+.sec-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+.sec-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.sec-badge{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;border-radius:4px}
+.sec-name{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);line-height:1.3}
+.sec-desc{font-size:.74rem;color:var(--body);line-height:1.65;flex:1}
+.sec-tickers{display:flex;gap:.3rem;flex-wrap:wrap}
+.sec-ticker{font-size:.58rem;font-weight:700;padding:.15rem .42rem;border-radius:4px;font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+.sec-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.4rem;padding-top:.9rem;border-top:1px solid var(--line)}
+.sec-link{font-size:.68rem;font-weight:700;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:.3rem;font-family:'JetBrains Mono',monospace;transition:gap .15s}
+.sec-link:hover{gap:.6rem}
+.sec-countries{display:flex;gap:.3rem;flex-wrap:wrap}
+.sec-country{font-size:.6rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+/* Zone accent colors */
+.z-africa{--card-accent:#5e35b1}
+.z-americas{--card-accent:#1e4faa}
+.z-europe{--card-accent:#1a7a4a}
+.z-global{--card-accent:#c9832a}
+/* Status */
+.s-ok{background:var(--gold-bg);color:var(--gold)}
+.s-wip{background:var(--blue-bg);color:var(--blue)}
+.s-soon{background:var(--cream);color:var(--muted);border:1px solid var(--cream2)}
+/* Icon bg */
+.ic-africa{background:rgba(94,53,177,.08)}
+.ic-americas{background:rgba(30,79,170,.08)}
+.ic-europe{background:rgba(26,122,74,.08)}
+.ic-global{background:rgba(201,131,42,.1)}
+/* Ticker colors */
+.tk-a{background:var(--purple-bg);color:var(--purple)}
+.tk-b{background:var(--blue-bg);color:var(--blue)}
+.tk-g{background:var(--green-bg);color:var(--green)}
+.tk-o{background:var(--gold-bg);color:var(--gold)}
+.tk-m{background:var(--cream);color:var(--muted);border:1px solid var(--cream2)}
+@media(max-width:640px){
+  .geo-tab{min-width:80px;padding:.7rem .9rem}
+  .geo-flag{font-size:1.3rem}
+  .geo-tab-name{font-size:.7rem}
+  .geo-grid{grid-template-columns:1fr}
+  .zone-header{flex-direction:column}
+  .zh-stat{text-align:left}
+}
+
 </style>
 </head>
 <body><!-- LANG BAR -->
@@ -916,113 +987,342 @@ html[data-lang=en] span[data-en]{display:inline}
 </div>
 </section>
 
-<!-- ── ANALYSE SECTORIELLE ── -->
-<section id="sectorielle" style="background:var(--cream);padding:7vh 8vw">
+<!-- ── ANALYSE SECTORIELLE — Géographique ── -->
+<section id="sectorielle" class="geo-section">
   <div class="eyebrow reveal"><span data-fr>Couverture sectorielle</span><span data-en>Sector coverage</span></div>
-  <h2 class="sh reveal"><span data-fr>Analyse <em>sectorielle</em> — 8 secteurs couverts</span><span data-en>Sector <em>analysis</em> — 8 covered sectors</span></h2>
-  <p class="sl reveal"><span data-fr>Chaque secteur analysé avec ses propres métriques, dynamiques et risques. Des semi-conducteurs aux télécoms africains, une lecture sectorielle rigoureuse et non cosmétique.</span><span data-en>Each sector analyzed with its own metrics, dynamics and risks. From semiconductors to African telecoms, rigorous sector-level analysis that goes beyond the surface.</span></p>
+  <h2 class="sh reveal"><span data-fr>Secteurs par <em>zone géographique</em></span><span data-en>Sectors by <em>geographic zone</em></span></h2>
+  <p class="sl reveal"><span data-fr>Choisissez un marché ou un continent pour explorer les secteurs couverts, les entreprises analysées et les articles publiés.</span><span data-en>Select a market or continent to explore covered sectors, analyzed companies and published research.</span></p>
 
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--cream2);border:1px solid var(--cream2);border-radius:18px;overflow:hidden;margin-top:0" class="reveal">
-
-    <!-- Semi-conducteurs -->
-    <div style="background:var(--white);padding:1.8rem 1.5rem;transition:background .2s;cursor:default" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='var(--white)'">
-      <div style="font-size:1.8rem;margin-bottom:.8rem">💻</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--gold-bg);color:var(--gold);padding:.2rem .55rem;border-radius:4px;display:inline-block;margin-bottom:.8rem"><span data-fr>COUVERT</span><span data-en>COVERED</span></div>
-      <div style="font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.3rem"><span data-fr>Semi-conducteurs</span><span data-en>Semiconductors</span></div>
-      <p style="font-size:.76rem;color:var(--body);line-height:1.6;margin-bottom:.9rem"><span data-fr>GPU, EUV, TSMC, design vs. fab. Cycle semis, AI buildout, export controls.</span><span data-en>GPU, EUV, TSMC, design vs. fab. Semis cycle, AI buildout, export controls.</span></p>
-      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
-        <span style="font-size:.6rem;background:var(--gold-bg);color:var(--gold);padding:.15rem .45rem;border-radius:4px;font-weight:700">NVDA</span>
-        <span style="font-size:.6rem;background:var(--gold-bg);color:var(--gold);padding:.15rem .45rem;border-radius:4px;font-weight:700">ASML</span>
-      </div>
-    </div>
-
-    <!-- Télécoms Afrique -->
-    <div style="background:var(--white);padding:1.8rem 1.5rem;transition:background .2s;cursor:default" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='var(--white)'">
-      <div style="font-size:1.8rem;margin-bottom:.8rem">📡</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--gold-bg);color:var(--gold);padding:.2rem .55rem;border-radius:4px;display:inline-block;margin-bottom:.8rem"><span data-fr>COUVERT</span><span data-en>COVERED</span></div>
-      <div style="font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.3rem"><span data-fr>Télécoms Afrique</span><span data-en>Africa Telecoms</span></div>
-      <p style="font-size:.76rem;color:var(--body);line-height:1.6;margin-bottom:.9rem"><span data-fr>Orange Money, Mobile Money, ARPU, dividendes BRVM. Monopoles régionaux et régulation UEMOA.</span><span data-en>Orange Money, Mobile Money, ARPU, BRVM dividends. Regional monopolies and UEMOA regulation.</span></p>
-      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
-        <span style="font-size:.6rem;background:var(--purple-bg);color:var(--purple);padding:.15rem .45rem;border-radius:4px;font-weight:700">ORECI</span>
-        <span style="font-size:.6rem;background:var(--purple-bg);color:var(--purple);padding:.15rem .45rem;border-radius:4px;font-weight:700">MTN</span>
-      </div>
-    </div>
-
-    <!-- Cloud & Software -->
-    <div style="background:var(--white);padding:1.8rem 1.5rem;transition:background .2s;cursor:default" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='var(--white)'">
-      <div style="font-size:1.8rem;margin-bottom:.8rem">☁️</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--blue-bg);color:var(--blue);padding:.2rem .55rem;border-radius:4px;display:inline-block;margin-bottom:.8rem"><span data-fr>EN COURS</span><span data-en>IN PROGRESS</span></div>
-      <div style="font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.3rem">Cloud &amp; Software</div>
-      <p style="font-size:.76rem;color:var(--body);line-height:1.6;margin-bottom:.9rem"><span data-fr>Azure, AWS, SaaS métriques (ARR, NRR, CAC/LTV). Hyperscalers vs. pure plays.</span><span data-en>Azure, AWS, SaaS metrics (ARR, NRR, CAC/LTV). Hyperscalers vs. pure plays.</span></p>
-      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
-        <span style="font-size:.6rem;background:var(--blue-bg);color:var(--blue);padding:.15rem .45rem;border-radius:4px;font-weight:700">MSFT</span>
-        <span style="font-size:.6rem;background:var(--blue-bg);color:var(--blue);padding:.15rem .45rem;border-radius:4px;font-weight:700">AMZN</span>
-      </div>
-    </div>
-
-    <!-- Agro-industrie -->
-    <div style="background:var(--white);padding:1.8rem 1.5rem;transition:background .2s;cursor:default" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='var(--white)'">
-      <div style="font-size:1.8rem;margin-bottom:.8rem">🌾</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--green-bg);color:var(--green);padding:.2rem .55rem;border-radius:4px;display:inline-block;margin-bottom:.8rem"><span data-fr>À VENIR</span><span data-en>COMING</span></div>
-      <div style="font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.3rem"><span data-fr>Agro-industrie Afrique</span><span data-en>Africa Agribusiness</span></div>
-      <p style="font-size:.76rem;color:var(--body);line-height:1.6;margin-bottom:.9rem"><span data-fr>Hévéa, huile de palme, cacao. Cycle matières premières, dynamiques UEMOA et exposition aux prix mondiaux.</span><span data-en>Rubber, palm oil, cocoa. Commodity cycles, UEMOA dynamics and global price exposure.</span></p>
-      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
-        <span style="font-size:.6rem;background:var(--green-bg);color:var(--green);padding:.15rem .45rem;border-radius:4px;font-weight:700">SIFCA</span>
-      </div>
-    </div>
-
-    <!-- Banques & Fintech -->
-    <div style="background:var(--white);padding:1.8rem 1.5rem;transition:background .2s;cursor:default" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='var(--white)'">
-      <div style="font-size:1.8rem;margin-bottom:.8rem">🏦</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--green-bg);color:var(--green);padding:.2rem .55rem;border-radius:4px;display:inline-block;margin-bottom:.8rem"><span data-fr>À VENIR</span><span data-en>COMING</span></div>
-      <div style="font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.3rem"><span data-fr>Banques &amp; Fintech</span><span data-en>Banks &amp; Fintech</span></div>
-      <p style="font-size:.76rem;color:var(--body);line-height:1.6;margin-bottom:.9rem"><span data-fr>NIM, ratio Tier 1, NPL. Banques BRVM (NSIA), fintechs africaines et paiement digital (Adyen).</span><span data-en>NIM, Tier 1 ratio, NPL. BRVM banks (NSIA), African fintechs and digital payment (Adyen).</span></p>
-      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
-        <span style="font-size:.6rem;background:var(--green-bg);color:var(--green);padding:.15rem .45rem;border-radius:4px;font-weight:700">NSIAC</span>
-        <span style="font-size:.6rem;background:var(--green-bg);color:var(--green);padding:.15rem .45rem;border-radius:4px;font-weight:700">ADYEN</span>
-      </div>
-    </div>
-
-    <!-- Consommation défensive -->
-    <div style="background:var(--white);padding:1.8rem 1.5rem;transition:background .2s;cursor:default" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='var(--white)'">
-      <div style="font-size:1.8rem;margin-bottom:.8rem">🛒</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--green-bg);color:var(--green);padding:.2rem .55rem;border-radius:4px;display:inline-block;margin-bottom:.8rem"><span data-fr>À VENIR</span><span data-en>COMING</span></div>
-      <div style="font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.3rem"><span data-fr>Consommation défensive</span><span data-en>Consumer Staples</span></div>
-      <p style="font-size:.76rem;color:var(--body);line-height:1.6;margin-bottom:.9rem"><span data-fr>Pricing power, dividend yield, résilience récession. Nestlé, L'Oréal, Coca-Cola — les vrais moats.</span><span data-en>Pricing power, dividend yield, recession resilience. Nestlé, L'Oréal, Coca-Cola — real moats.</span></p>
-      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
-        <span style="font-size:.6rem;background:var(--cream);color:var(--muted);padding:.15rem .45rem;border-radius:4px;font-weight:700;border:1px solid var(--cream2)">NESN</span>
-        <span style="font-size:.6rem;background:var(--cream);color:var(--muted);padding:.15rem .45rem;border-radius:4px;font-weight:700;border:1px solid var(--cream2)">KO</span>
-      </div>
-    </div>
-
-    <!-- E-commerce & Retail tech -->
-    <div style="background:var(--white);padding:1.8rem 1.5rem;transition:background .2s;cursor:default" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='var(--white)'">
-      <div style="font-size:1.8rem;margin-bottom:.8rem">📦</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--green-bg);color:var(--green);padding:.2rem .55rem;border-radius:4px;display:inline-block;margin-bottom:.8rem"><span data-fr>À VENIR</span><span data-en>COMING</span></div>
-      <div style="font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.3rem">E-commerce &amp; Retail Tech</div>
-      <p style="font-size:.76rem;color:var(--body);line-height:1.6;margin-bottom:.9rem"><span data-fr>GMV, take rate, logistique last-mile. Shopify, Sea Limited, Alibaba — plateformes vs. retailers.</span><span data-en>GMV, take rate, last-mile logistics. Shopify, Sea Limited, Alibaba — platforms vs. retailers.</span></p>
-      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
-        <span style="font-size:.6rem;background:var(--cream);color:var(--muted);padding:.15rem .45rem;border-radius:4px;font-weight:700;border:1px solid var(--cream2)">SHOP</span>
-        <span style="font-size:.6rem;background:var(--cream);color:var(--muted);padding:.15rem .45rem;border-radius:4px;font-weight:700;border:1px solid var(--cream2)">SE</span>
-      </div>
-    </div>
-
-    <!-- Santé & Pharma -->
-    <div style="background:var(--white);padding:1.8rem 1.5rem;transition:background .2s;cursor:default" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='var(--white)'">
-      <div style="font-size:1.8rem;margin-bottom:.8rem">💊</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--green-bg);color:var(--green);padding:.2rem .55pm;border-radius:4px;display:inline-block;margin-bottom:.8rem"><span data-fr>À VENIR</span><span data-en>COMING</span></div>
-      <div style="font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.3rem"><span data-fr>Santé &amp; Pharma</span><span data-en>Healthcare &amp; Pharma</span></div>
-      <p style="font-size:.76rem;color:var(--body);line-height:1.6;margin-bottom:.9rem"><span data-fr>Pipeline R&amp;D, pricing US, patent cliff. Roche, Novartis — défensif et pricing power exceptionnel.</span><span data-en>R&amp;D pipeline, US pricing, patent cliff. Roche, Novartis — defensive with exceptional pricing power.</span></p>
-      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
-        <span style="font-size:.6rem;background:var(--cream);color:var(--muted);padding:.15rem .45rem;border-radius:4px;font-weight:700;border:1px solid var(--cream2)">ROG</span>
-      </div>
-    </div>
-
+  <!-- Zone tabs -->
+  <div class="geo-tabs reveal">
+    <button class="geo-tab active" onclick="switchZone('africa',this)">
+      <span class="geo-flag">🌍</span>
+      <span class="geo-tab-name"><span data-fr>Afrique</span><span data-en>Africa</span></span>
+      <span class="geo-tab-count">4 <span data-fr>secteurs</span><span data-en>sectors</span></span>
+    </button>
+    <button class="geo-tab" onclick="switchZone('americas',this)">
+      <span class="geo-flag">🇺🇸</span>
+      <span class="geo-tab-name"><span data-fr>Amériques</span><span data-en>Americas</span></span>
+      <span class="geo-tab-count">3 <span data-fr>secteurs</span><span data-en>sectors</span></span>
+    </button>
+    <button class="geo-tab" onclick="switchZone('europe',this)">
+      <span class="geo-flag">🇪🇺</span>
+      <span class="geo-tab-name">Europe</span>
+      <span class="geo-tab-count">3 <span data-fr>secteurs</span><span data-en>sectors</span></span>
+    </button>
+    <button class="geo-tab" onclick="switchZone('global',this)">
+      <span class="geo-flag">🔬</span>
+      <span class="geo-tab-name">Global Tech</span>
+      <span class="geo-tab-count">2 <span data-fr>secteurs</span><span data-en>sectors</span></span>
+    </button>
   </div>
 
-  <div style="margin-top:2.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-    <p style="font-size:.78rem;color:var(--muted);font-style:italic"><span data-fr>🟡 Couvert = analyse publiée · 🔵 En cours = en rédaction · 🟢 À venir = dans la roadmap</span><span data-en>🟡 Covered = analysis published · 🔵 In progress = being written · 🟢 Coming = on the roadmap</span></p>
-    <a href="analyses.html" class="btn-gold" style="font-size:.82rem;padding:.65rem 1.3rem"><span data-fr>Voir toutes les analyses →</span><span data-en>See all analyses →</span></a>
+  <!-- ── AFRIQUE ── -->
+  <div class="geo-panel active" id="zone-africa">
+    <div class="zone-header">
+      <div>
+        <div class="zh-label"><span data-fr>Zone géographique</span><span data-en>Geographic zone</span></div>
+        <div class="zh-title">🌍 <em><span data-fr>Afrique subsaharienne</span><span data-en>Sub-Saharan Africa</span></em></div>
+        <div class="zh-mkts">
+          <span class="zh-mkt">🇨🇮 BRVM · Abidjan</span>
+          <span class="zh-mkt">🇿🇦 JSE · Johannesburg</span>
+          <span class="zh-mkt">🇳🇬 NGX · Lagos</span>
+          <span class="zh-mkt">🇸🇳 BRVM · Dakar</span>
+          <span class="zh-mkt">🇬🇭 GSE · Accra</span>
+        </div>
+      </div>
+      <div class="zh-stat">
+        <div class="zh-stat-n">4</div>
+        <div class="zh-stat-l"><span data-fr>Secteurs suivis</span><span data-en>Tracked sectors</span></div>
+      </div>
+    </div>
+    <div class="geo-grid">
+      <!-- Télécoms -->
+      <div class="sec-card z-africa">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-africa">📡</div>
+          <span class="sec-badge s-ok"><span data-fr>COUVERT</span><span data-en>COVERED</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Télécoms Afrique</span><span data-en>Africa Telecoms</span></div>
+        <p class="sec-desc"><span data-fr>Orange Money, Mobile Money, ARPU BRVM. Monopoles régionaux, régulation UEMOA et dynamiques de dividendes à deux chiffres.</span><span data-en>Orange Money, Mobile Money, BRVM ARPU. Regional monopolies, UEMOA regulation and double-digit dividend dynamics.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-a">ORECI</span>
+          <span class="sec-ticker tk-a">MTN</span>
+          <span class="sec-ticker tk-m">SNTS</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇨🇮 CI</span><span class="sec-country">🇿🇦 ZA</span><span class="sec-country">🇸🇳 SN</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Lire l'analyse</span><span data-en>Read analysis</span> →</a>
+        </div>
+      </div>
+      <!-- Agro -->
+      <div class="sec-card z-africa">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-africa">🌾</div>
+          <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Agro-industrie</span><span data-en>Agribusiness</span></div>
+        <p class="sec-desc"><span data-fr>Hévéa, huile de palme, cacao. Cycles matières premières, exposition aux prix mondiaux et rendements UEMOA.</span><span data-en>Rubber, palm oil, cocoa. Commodity cycles, global price exposure and UEMOA returns.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-g">SIFCA</span>
+          <span class="sec-ticker tk-m">PALCI</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇨🇮 CI</span><span class="sec-country">🇬🇭 GH</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Explorer</span><span data-en>Explore</span> →</a>
+        </div>
+      </div>
+      <!-- Banques BRVM -->
+      <div class="sec-card z-africa">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-africa">🏦</div>
+          <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Banques &amp; Fintech BRVM</span><span data-en>Banks &amp; Fintech BRVM</span></div>
+        <p class="sec-desc"><span data-fr>NIM, Tier 1, NPL. Banques panafricaines cotées BRVM — solidité bilancielle, rendements et exposition FCFA.</span><span data-en>NIM, Tier 1, NPL. Pan-African banks listed on BRVM — balance sheet solidity, yields and FCFA exposure.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-a">NSIAC</span>
+          <span class="sec-ticker tk-m">ETIT</span>
+          <span class="sec-ticker tk-m">SGBCI</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇨🇮 CI</span><span class="sec-country">🇸🇳 SN</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Explorer</span><span data-en>Explore</span> →</a>
+        </div>
+      </div>
+      <!-- Énergie & Mines -->
+      <div class="sec-card z-africa">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-africa">⛏️</div>
+          <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Énergie &amp; Mines</span><span data-en>Energy &amp; Mining</span></div>
+        <p class="sec-desc"><span data-fr>Or, pétrole, lithium. Juniors et majors africains — cycle des commodités, risque souverain et flux FDI vers le continent.</span><span data-en>Gold, oil, lithium. African juniors and majors — commodity cycles, sovereign risk and FDI flows to the continent.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-m">AngloGold</span>
+          <span class="sec-ticker tk-m">Tullow</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇿🇦 ZA</span><span class="sec-country">🇬🇭 GH</span><span class="sec-country">🇳🇬 NG</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Explorer</span><span data-en>Explore</span> →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AMÉRIQUES ── -->
+  <div class="geo-panel" id="zone-americas">
+    <div class="zone-header">
+      <div>
+        <div class="zh-label"><span data-fr>Zone géographique</span><span data-en>Geographic zone</span></div>
+        <div class="zh-title">🇺🇸 <em><span data-fr>Amériques</span><span data-en>Americas</span></em></div>
+        <div class="zh-mkts">
+          <span class="zh-mkt">🇺🇸 NYSE · New York</span>
+          <span class="zh-mkt">🇺🇸 NASDAQ · New York</span>
+          <span class="zh-mkt">🇨🇦 TSX · Toronto</span>
+          <span class="zh-mkt">🇧🇷 B3 · São Paulo</span>
+        </div>
+      </div>
+      <div class="zh-stat">
+        <div class="zh-stat-n">3</div>
+        <div class="zh-stat-l"><span data-fr>Secteurs suivis</span><span data-en>Tracked sectors</span></div>
+      </div>
+    </div>
+    <div class="geo-grid">
+      <!-- Semi-conducteurs USA -->
+      <div class="sec-card z-americas">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-americas">💻</div>
+          <span class="sec-badge s-ok"><span data-fr>COUVERT</span><span data-en>COVERED</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Semi-conducteurs</span><span data-en>Semiconductors</span></div>
+        <p class="sec-desc"><span data-fr>GPU data center, IA buildout, export controls US-Chine. Cycle semis, TSMC dependency et montée d'AMD.</span><span data-en>Data center GPU, AI buildout, US-China export controls. Semis cycle, TSMC dependency and AMD rise.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-b">NVDA</span>
+          <span class="sec-ticker tk-m">AMD</span>
+          <span class="sec-ticker tk-m">QCOM</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇺🇸 NASDAQ</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Lire l'analyse</span><span data-en>Read analysis</span> →</a>
+        </div>
+      </div>
+      <!-- Cloud Americas -->
+      <div class="sec-card z-americas">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-americas">☁️</div>
+          <span class="sec-badge s-wip"><span data-fr>EN COURS</span><span data-en>IN PROGRESS</span></span>
+        </div>
+        <div class="sec-name">Cloud &amp; Software</div>
+        <p class="sec-desc"><span data-fr>Hyperscalers vs. pure SaaS. ARR, NRR, Rule of 40 — métriques qui comptent vraiment dans l'évaluation des éditeurs logiciels.</span><span data-en>Hyperscalers vs. pure SaaS. ARR, NRR, Rule of 40 — metrics that truly matter in software valuation.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-b">MSFT</span>
+          <span class="sec-ticker tk-b">AMZN</span>
+          <span class="sec-ticker tk-m">GOOGL</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇺🇸 NASDAQ</span><span class="sec-country">🇺🇸 NYSE</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Explorer</span><span data-en>Explore</span> →</a>
+        </div>
+      </div>
+      <!-- Consommation -->
+      <div class="sec-card z-americas">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-americas">🛒</div>
+          <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Consommation défensive</span><span data-en>Consumer Staples</span></div>
+        <p class="sec-desc"><span data-fr>Pricing power, dividendes croissants, moats séculaires. Coca-Cola, P&amp;G — les valeurs refuges en période de récession.</span><span data-en>Pricing power, growing dividends, secular moats. Coca-Cola, P&amp;G — safe havens in recession periods.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-m">KO</span>
+          <span class="sec-ticker tk-m">PG</span>
+          <span class="sec-ticker tk-m">WMT</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇺🇸 NYSE</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Explorer</span><span data-en>Explore</span> →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EUROPE ── -->
+  <div class="geo-panel" id="zone-europe">
+    <div class="zone-header">
+      <div>
+        <div class="zh-label"><span data-fr>Zone géographique</span><span data-en>Geographic zone</span></div>
+        <div class="zh-title">🇪🇺 <em>Europe</em></div>
+        <div class="zh-mkts">
+          <span class="zh-mkt">🇫🇷 Euronext Paris</span>
+          <span class="zh-mkt">🇨🇭 SIX · Zurich</span>
+          <span class="zh-mkt">🇳🇱 Euronext Amsterdam</span>
+          <span class="zh-mkt">🇩🇪 XETRA · Francfort</span>
+        </div>
+      </div>
+      <div class="zh-stat">
+        <div class="zh-stat-n">3</div>
+        <div class="zh-stat-l"><span data-fr>Secteurs suivis</span><span data-en>Tracked sectors</span></div>
+      </div>
+    </div>
+    <div class="geo-grid">
+      <!-- Semis Europe = ASML -->
+      <div class="sec-card z-europe">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-europe">🔬</div>
+          <span class="sec-badge s-ok"><span data-fr>COUVERT</span><span data-en>COVERED</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Semi-conducteurs EUV</span><span data-en>EUV Semiconductors</span></div>
+        <p class="sec-desc"><span data-fr>ASML — monopole mondial sur la lithographie EUV. Barrières à l'entrée absolues, pricing power maximal et dépendance géopolitique critique.</span><span data-en>ASML — global monopoly on EUV lithography. Absolute entry barriers, maximum pricing power and critical geopolitical dependency.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-g">ASML</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇳🇱 AMS</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Lire l'analyse</span><span data-en>Read analysis</span> →</a>
+        </div>
+      </div>
+      <!-- Santé -->
+      <div class="sec-card z-europe">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-europe">💊</div>
+          <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Santé &amp; Pharma</span><span data-en>Healthcare &amp; Pharma</span></div>
+        <p class="sec-desc"><span data-fr>Pipeline R&amp;D, patent cliff, pricing US. Roche et Novartis — défensif de premier rang avec pricing power exceptionnel et dividendes croissants.</span><span data-en>R&amp;D pipeline, patent cliff, US pricing. Roche and Novartis — top-tier defensive with exceptional pricing power and growing dividends.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-m">ROG</span>
+          <span class="sec-ticker tk-m">NOVN</span>
+          <span class="sec-ticker tk-m">SAN</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇨🇭 SIX</span><span class="sec-country">🇫🇷 EPA</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Explorer</span><span data-en>Explore</span> →</a>
+        </div>
+      </div>
+      <!-- Fintech Europe -->
+      <div class="sec-card z-europe">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-europe">💳</div>
+          <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Fintech &amp; Paiements</span><span data-en>Fintech &amp; Payments</span></div>
+        <p class="sec-desc"><span data-fr>Volume de paiement, take rate, économies d'échelle. Adyen — l'infrastructure invisible du commerce mondial moderne.</span><span data-en>Payment volume, take rate, economies of scale. Adyen — the invisible infrastructure of modern global commerce.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-m">ADYEN</span>
+          <span class="sec-ticker tk-m">WDI</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇳🇱 AMS</span><span class="sec-country">🇩🇪 FRA</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Explorer</span><span data-en>Explore</span> →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GLOBAL TECH ── -->
+  <div class="geo-panel" id="zone-global">
+    <div class="zone-header">
+      <div>
+        <div class="zh-label"><span data-fr>Thématique transversale</span><span data-en>Cross-region theme</span></div>
+        <div class="zh-title">🔬 <em>Global Tech &amp; IA</em></div>
+        <div class="zh-mkts">
+          <span class="zh-mkt">🇺🇸 NASDAQ</span>
+          <span class="zh-mkt">🇳🇱 Euronext</span>
+          <span class="zh-mkt">🇹🇼 TWSE · Taipei</span>
+          <span class="zh-mkt">🇰🇷 KRX · Seoul</span>
+        </div>
+      </div>
+      <div class="zh-stat">
+        <div class="zh-stat-n">2</div>
+        <div class="zh-stat-l"><span data-fr>Secteurs suivis</span><span data-en>Tracked sectors</span></div>
+      </div>
+    </div>
+    <div class="geo-grid">
+      <!-- Semis Global -->
+      <div class="sec-card z-global">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-global">💻</div>
+          <span class="sec-badge s-ok"><span data-fr>COUVERT</span><span data-en>COVERED</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Chaîne semis mondiale</span><span data-en>Global semis chain</span></div>
+        <p class="sec-desc"><span data-fr>De la conception (fabless) à la fabrication (foundry) et à l'équipement. TSMC, NVDA, ASML — la chaîne d'approvisionnement la plus stratégique du 21e siècle.</span><span data-en>From design (fabless) to manufacturing (foundry) and equipment. TSMC, NVDA, ASML — the most strategic supply chain of the 21st century.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-o">NVDA</span>
+          <span class="sec-ticker tk-o">ASML</span>
+          <span class="sec-ticker tk-m">TSM</span>
+          <span class="sec-ticker tk-m">005930</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇺🇸</span><span class="sec-country">🇳🇱</span><span class="sec-country">🇹🇼</span><span class="sec-country">🇰🇷</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Lire l'analyse</span><span data-en>Read analysis</span> →</a>
+        </div>
+      </div>
+      <!-- IA Infrastructure -->
+      <div class="sec-card z-global">
+        <div class="sec-card-top">
+          <div class="sec-icon ic-global">🤖</div>
+          <span class="sec-badge s-wip"><span data-fr>EN COURS</span><span data-en>IN PROGRESS</span></span>
+        </div>
+        <div class="sec-name"><span data-fr>Infrastructure IA</span><span data-en>AI Infrastructure</span></div>
+        <p class="sec-desc"><span data-fr>Data centers, réseaux neuronaux, modèles fondationnels. Qui contrôle l'infrastructure de l'IA contrôle les prochaines décennies de croissance économique mondiale.</span><span data-en>Data centers, neural networks, foundation models. Who controls AI infrastructure controls the next decades of global economic growth.</span></p>
+        <div class="sec-tickers">
+          <span class="sec-ticker tk-o">MSFT</span>
+          <span class="sec-ticker tk-o">GOOGL</span>
+          <span class="sec-ticker tk-m">META</span>
+          <span class="sec-ticker tk-m">AMZN</span>
+        </div>
+        <div class="sec-footer">
+          <div class="sec-countries"><span class="sec-country">🇺🇸</span><span class="sec-country">🇬🇧</span><span class="sec-country">🇫🇷</span></div>
+          <a href="analyses.html" class="sec-link"><span data-fr>Explorer</span><span data-en>Explore</span> →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend + CTA -->
+  <div style="margin-top:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+    <p style="font-size:.74rem;color:var(--muted);font-style:italic"><span data-fr>🟡 Couvert = analyse publiée · 🔵 En cours = en rédaction · ⚪ À venir = roadmap</span><span data-en>🟡 Covered = analysis published · 🔵 In progress = being written · ⚪ Coming = roadmap</span></p>
+    <a href="analyses.html" class="btn-gold" style="font-size:.82rem;padding:.65rem 1.3rem"><span data-fr>Toutes les analyses →</span><span data-en>All analyses →</span></a>
   </div>
 </section>
 
@@ -1536,6 +1836,15 @@ document.getElementById('m-form').addEventListener('submit', function(e) {
     .catch(function(){btn.disabled=false;btn.textContent=lang==='fr'?'Réessayer':'Try again';});
 });
 mUpdateBar(1);
+
+// ── Geographic zone switcher ──────────────────────────────
+function switchZone(zone, btn){
+  document.querySelectorAll('.geo-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.geo-panel').forEach(function(p){ p.classList.remove('active'); });
+  var panel = document.getElementById('zone-'+zone);
+  if(panel) panel.classList.add('active');
+}
 
 function setLang(l){ document.documentElement.setAttribute('data-lang',l); document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
 document.getElementById('mf-lang').value = l;
