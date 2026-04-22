@@ -34,7 +34,7 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install yfinance requests
 
       - name: Run price updater
         env:
