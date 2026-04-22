@@ -214,3 +214,81 @@ CREATE POLICY "Public read benchmark" ON benchmark_history FOR SELECT USING (tru
 CREATE POLICY "Auth write benchmark"  ON benchmark_history FOR ALL USING (auth.role() = 'authenticated');
 
 CREATE INDEX IF NOT EXISTS idx_bench_symbol_date ON benchmark_history (symbol, date DESC);
+
+-- ══════════════════════════════════════════════════════
+-- MIGRATION : Audio podcast — Supabase Storage integration
+-- Exécuter UNE SEULE FOIS dans Supabase SQL Editor
+-- ══════════════════════════════════════════════════════
+
+-- Colonnes audio sur articles (type='podcast' ou articles avec audio)
+ALTER TABLE articles ADD COLUMN IF NOT EXISTS audio_fr_url    TEXT;
+ALTER TABLE articles ADD COLUMN IF NOT EXISTS audio_en_url    TEXT;
+ALTER TABLE articles ADD COLUMN IF NOT EXISTS audio_duration_sec INT DEFAULT 0;
+
+-- Table dédiée aux épisodes podcast
+CREATE TABLE IF NOT EXISTS episodes (
+  id              SERIAL PRIMARY KEY,
+  ep_number       INT NOT NULL,
+  slug            TEXT UNIQUE NOT NULL,
+  title_fr        TEXT NOT NULL,
+  title_en        TEXT,
+  desc_fr         TEXT,
+  desc_en         TEXT,
+  tags            TEXT[] DEFAULT '{}',
+  audio_fr_path   TEXT,  -- path in 'audio-files' bucket: fr/ep001.mp3
+  audio_en_path   TEXT,  -- path in 'audio-files' bucket: en/ep001.mp3
+  duration_sec    INT DEFAULT 0,
+  published       BOOLEAN DEFAULT false,
+  published_at    DATE,
+  created_at      TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE episodes ENABLE ROW LEVEL SECURITY;
+-- Métadonnées lisibles par tous (titre, description, durée)
+CREATE POLICY "Public read episodes"   ON episodes FOR SELECT USING (published = true);
+-- Seul l'admin peut créer/modifier les épisodes
+CREATE POLICY "Auth write episodes"    ON episodes FOR ALL USING (auth.role() = 'authenticated');
+
+-- ── Supabase Storage bucket 'audio-files' ──────────────
+-- À créer manuellement dans le Dashboard :
+--   Storage → New Bucket → Name: audio-files → Private (non public)
+-- Ou via SQL :
+-- INSERT INTO storage.buckets (id, name, public)
+--   VALUES ('audio-files', 'audio-files', false)
+--   ON CONFLICT DO NOTHING;
+
+-- Politique de lecture : utilisateurs authentifiés (abonnés connectés) uniquement
+CREATE POLICY "Auth read audio" ON storage.objects
+  FOR SELECT USING (
+    bucket_id = 'audio-files'
+    AND auth.role() = 'authenticated'
+  );
+
+-- Politique d'écriture (upload) : admin uniquement
+CREATE POLICY "Auth upload audio" ON storage.objects
+  FOR INSERT WITH CHECK (
+    bucket_id = 'audio-files'
+    AND auth.role() = 'authenticated'
+  );
+
+CREATE POLICY "Auth delete audio" ON storage.objects
+  FOR DELETE USING (
+    bucket_id = 'audio-files'
+    AND auth.role() = 'authenticated'
+  );
+
+-- ── Exemples d'insertion d'épisodes ────────────────────
+-- INSERT INTO episodes (ep_number, slug, title_fr, title_en, desc_fr, tags,
+--   audio_fr_path, audio_en_path, duration_sec, published, published_at) VALUES
+-- (3, 'ep003-nvidia-ia', 'NVIDIA et l''IA : peut-on encore investir ?',
+--  'NVIDIA & AI: Can you still invest?',
+--  'Après un run de +500% en 3 ans, NVIDIA est-elle encore une opportunité ?',
+--  ARRAY['tech','equity'], 'fr/ep003.mp3', 'en/ep003.mp3', 1680, true, '2026-04-01'),
+-- (2, 'ep002-brvm-2026', 'BRVM 2026 : les marchés africains que personne ne couvre',
+--  'BRVM 2026: the African markets nobody covers',
+--  'La Bourse Régionale des Valeurs Mobilières est l''une des places les moins analysées.',
+--  ARRAY['africa','macro'], 'fr/ep002.mp3', 'en/ep002.mp3', 1320, true, '2026-03-01'),
+-- (1, 'ep001-tarifs-trump', 'Tarifs Trump 2025 : opportunité ou piège pour l''Afrique ?',
+--  'Trump Tariffs 2025: opportunity or trap for Africa?',
+--  'La guerre commerciale US-Chine redistribue les flux de capitaux mondiaux.',
+--  ARRAY['macro'], 'fr/ep001.mp3', 'en/ep001.mp3', 1080, true, '2026-02-01');

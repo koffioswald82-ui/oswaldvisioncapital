@@ -9,6 +9,8 @@
 <link rel="manifest" href="manifest.json">
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
 <style>
 :root{
   --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa;
@@ -147,6 +149,21 @@ footer{background:var(--white);border-top:1px solid var(--line);padding:3vh 8vw;
 /* ── REVEAL */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── AUTH GATE */
+.auth-gate-overlay{position:fixed;inset:0;z-index:1000;background:rgba(10,15,30,.82);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.auth-gate-modal{background:var(--white);border-radius:20px;padding:2.5rem 2rem;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.28);position:relative}
+.ag-close{position:absolute;top:.9rem;right:1rem;background:none;border:none;font-size:1.1rem;color:var(--muted);cursor:pointer;padding:.3rem;transition:color .15s}
+.ag-close:hover{color:var(--ink)}
+.ag-icon{font-size:2.8rem;margin-bottom:1rem}
+.ag-title{font-family:'Libre Baskerville',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:.7rem}
+.ag-desc{font-size:.85rem;color:var(--body);line-height:1.75;margin-bottom:1.6rem}
+.ag-actions{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.ag-btn-primary{padding:.65rem 1.5rem;background:var(--gold);color:#fff;border-radius:8px;font-weight:700;font-size:.82rem;text-decoration:none;transition:background .2s}
+.ag-btn-primary:hover{background:#b5721e}
+.ag-btn-secondary{padding:.65rem 1.5rem;background:transparent;color:var(--gold);border:1.5px solid var(--gold);border-radius:8px;font-weight:700;font-size:.82rem;text-decoration:none;transition:all .2s}
+.ag-btn-secondary:hover{background:var(--gold-bg)}
+.ep-play-locked{opacity:.5;cursor:default;pointer-events:none}
 
 [data-fr],[data-en]{display:none}
 html[data-lang=fr] [data-fr]{display:revert}
@@ -322,6 +339,23 @@ html[data-lang=en] span[data-en]{display:inline}
   <div class="ft-copy">© 2026 Oswald Vision Capital · <span data-fr>Contenu éducatif indépendant</span><span data-en>Independent educational content</span></div>
 </footer>
 
+<!-- Hidden audio element -->
+<audio id="ovc-audio" preload="none" crossorigin="anonymous"></audio>
+
+<!-- AUTH GATE MODAL -->
+<div class="auth-gate-overlay" id="auth-gate" style="display:none">
+  <div class="auth-gate-modal">
+    <button class="ag-close" onclick="closeAuthGate()">✕</button>
+    <div class="ag-icon">🎧</div>
+    <h3 class="ag-title"><span data-fr>Contenu réservé aux abonnés</span><span data-en>Subscriber-only content</span></h3>
+    <p class="ag-desc"><span data-fr>La lecture audio est disponible pour les investisseurs OVC. Connectez-vous à votre compte ou souscrivez pour accéder aux épisodes.</span><span data-en>Audio playback is available for OVC investors. Log in to your account or subscribe to access episodes.</span></p>
+    <div class="ag-actions">
+      <a href="mon-compte.html" class="ag-btn-primary"><span data-fr>Se connecter</span><span data-en>Log in</span></a>
+      <a href="subscribe.html" class="ag-btn-secondary"><span data-fr>Souscrire</span><span data-en>Subscribe</span></a>
+    </div>
+  </div>
+</div>
+
 <!-- PLAYER BAR -->
 <div class="player-overlay" id="player">
   <div class="player-bar">
@@ -345,99 +379,190 @@ html[data-lang=en] span[data-en]{display:inline}
 </div>
 
 <script>
-// Lang
+// ── Lang ──────────────────────────────────────────────────
 function setLang(l){
   document.documentElement.setAttribute('data-lang',l);
   document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
 }
 setLang('fr');
 
-// Reveal on scroll
+// ── Reveal on scroll ──────────────────────────────────────
 const obs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
 },{threshold:.06});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// Filter
+// ── Filter ────────────────────────────────────────────────
 function filterEp(tag, btn){
   document.querySelectorAll('.fb-btn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   document.querySelectorAll('#ep-grid .ep-card, #ep-grid .ep-soon').forEach(function(c){
-    if(tag === 'all'){
-      c.style.display = '';
-    } else {
-      var tags = (c.dataset.tags || '');
-      c.style.display = tags.includes(tag) ? '' : 'none';
-    }
+    c.style.display = (tag==='all' || (c.dataset.tags||'').includes(tag)) ? '' : 'none';
   });
 }
 
-// Simulated player
-var _playing = false;
-var _progress = 0;
-var _interval = null;
+// ── Episode registry ──────────────────────────────────────
+// path_fr / path_en = path inside the 'audio-files' Supabase Storage bucket
 var EPISODES = {
-  3: { title:'NVIDIA et l\'IA — OVC Podcast EP.003', num:'03', dur:'28:00', durSec:1680 },
-  2: { title:'BRVM 2026 — OVC Podcast EP.002',        num:'02', dur:'22:00', durSec:1320 },
-  1: { title:'Tarifs Trump 2025 — OVC Podcast EP.001', num:'01', dur:'18:00', durSec:1080 }
+  3: {
+    title_fr: 'NVIDIA et l\'IA — OVC Podcast EP.003',
+    title_en: 'NVIDIA & AI — OVC Podcast EP.003',
+    num: '03', dur: '28:00', durSec: 1680,
+    path_fr: 'fr/ep003.mp3', path_en: 'en/ep003.mp3'
+  },
+  2: {
+    title_fr: 'BRVM 2026 — OVC Podcast EP.002',
+    title_en: 'BRVM 2026 — OVC Podcast EP.002',
+    num: '02', dur: '22:00', durSec: 1320,
+    path_fr: 'fr/ep002.mp3', path_en: 'en/ep002.mp3'
+  },
+  1: {
+    title_fr: 'Tarifs Trump 2025 — OVC Podcast EP.001',
+    title_en: 'Trump Tariffs 2025 — OVC Podcast EP.001',
+    num: '01', dur: '18:00', durSec: 1080,
+    path_fr: 'fr/ep001.mp3', path_en: 'en/ep001.mp3'
+  }
 };
-var _curEp = null;
+
+var _audio = document.getElementById('ovc-audio');
+var _curEp  = null;
 
 function fmtTime(sec){
   var m = Math.floor(sec/60), s = Math.floor(sec%60);
   return m+':'+(s<10?'0':'')+s;
 }
 
-function playEp(n, card){
+// ── Auth gate ─────────────────────────────────────────────
+function closeAuthGate(){ document.getElementById('auth-gate').style.display = 'none'; }
+
+async function _getUser(){
+  if(!window._db) return null;
+  try {
+    var res = await window._db.auth.getUser();
+    return (res && res.data && res.data.user) ? res.data.user : null;
+  } catch(e){ return null; }
+}
+
+// ── Signed URL from private Supabase Storage bucket ───────
+async function _getAudioUrl(path){
+  if(!window._db) return null;
+  try {
+    // Try signed URL (private bucket — proper auth gating)
+    var { data: sd, error: se } = await window._db.storage
+      .from('audio-files')
+      .createSignedUrl(path, 3600); // 1-hour token
+    if(sd && sd.signedUrl) return sd.signedUrl;
+
+    // Fallback: public URL (if bucket is set to public in Supabase dashboard)
+    var { data: pd } = window._db.storage
+      .from('audio-files')
+      .getPublicUrl(path);
+    return (pd && pd.publicUrl) ? pd.publicUrl : null;
+  } catch(e){ return null; }
+}
+
+// ── Play episode ──────────────────────────────────────────
+async function playEp(n, card){
   _curEp = EPISODES[n];
   if(!_curEp) return;
-  document.getElementById('pb-art').textContent = _curEp.num;
-  document.getElementById('pb-title').textContent = _curEp.title;
-  document.getElementById('pb-dur').textContent = _curEp.dur;
-  _progress = 0;
-  document.getElementById('pb-fill').style.width = '0%';
-  document.getElementById('pb-cur').textContent = '0:00';
+
+  // Auth check — must be signed in to OVC account
+  var user = await _getUser();
+  if(!user){
+    document.getElementById('auth-gate').style.display = 'flex';
+    return;
+  }
+
+  var lang = document.documentElement.getAttribute('data-lang') || 'fr';
+  var path = lang === 'en' ? _curEp.path_en : _curEp.path_fr;
+  var audioUrl = await _getAudioUrl(path);
+
+  if(!audioUrl){
+    var msg = lang === 'en'
+      ? 'Audio file not yet available. Please check back soon.'
+      : 'Fichier audio non encore disponible. Revenez bientôt.';
+    alert(msg);
+    return;
+  }
+
+  // Update player bar
+  var title = lang === 'en' ? _curEp.title_en : _curEp.title_fr;
+  document.getElementById('pb-art').textContent   = _curEp.num;
+  document.getElementById('pb-title').textContent  = title;
+  document.getElementById('pb-dur').textContent    = _curEp.dur;
+  document.getElementById('pb-cur').textContent    = '0:00';
+  document.getElementById('pb-fill').style.width   = '0%';
   document.getElementById('player').classList.add('open');
-  startPlay();
-}
 
-function startPlay(){
-  _playing = true;
+  // Load + play
+  _audio.src = audioUrl;
+  _audio.load();
+  _audio.play().catch(function(e){ console.warn('[OVC Audio]', e); });
   document.getElementById('pb-play').textContent = '⏸';
-  clearInterval(_interval);
-  _interval = setInterval(function(){
-    if(!_playing) return;
-    _progress = Math.min(_progress + 1, _curEp.durSec);
-    var pct = (_progress / _curEp.durSec * 100).toFixed(1);
-    document.getElementById('pb-fill').style.width = pct + '%';
-    document.getElementById('pb-cur').textContent = fmtTime(_progress);
-    if(_progress >= _curEp.durSec){ clearInterval(_interval); _playing = false; document.getElementById('pb-play').textContent = '▶'; }
-  }, 1000);
 }
 
+// ── Audio element events ──────────────────────────────────
+_audio.addEventListener('timeupdate', function(){
+  if(!_audio.duration || isNaN(_audio.duration)) return;
+  var pct = (_audio.currentTime / _audio.duration * 100).toFixed(1);
+  document.getElementById('pb-fill').style.width = pct + '%';
+  document.getElementById('pb-cur').textContent  = fmtTime(Math.floor(_audio.currentTime));
+});
+
+_audio.addEventListener('loadedmetadata', function(){
+  if(_audio.duration && !isNaN(_audio.duration)){
+    document.getElementById('pb-dur').textContent = fmtTime(Math.floor(_audio.duration));
+  }
+});
+
+_audio.addEventListener('ended', function(){
+  document.getElementById('pb-play').textContent = '▶';
+});
+
+_audio.addEventListener('error', function(){
+  document.getElementById('pb-title').textContent += ' · ⚠ Erreur de chargement';
+});
+
+// ── Player controls ───────────────────────────────────────
 function togglePlay(){
-  if(!_curEp) return;
-  _playing = !_playing;
-  document.getElementById('pb-play').textContent = _playing ? '⏸' : '▶';
-  if(_playing) startPlay();
+  if(!_curEp || !_audio.src) return;
+  if(_audio.paused){
+    _audio.play();
+    document.getElementById('pb-play').textContent = '⏸';
+  } else {
+    _audio.pause();
+    document.getElementById('pb-play').textContent = '▶';
+  }
 }
 
-function skipBack(){ if(_curEp){ _progress = Math.max(0,_progress-15); document.getElementById('pb-cur').textContent = fmtTime(_progress); } }
-function skipFwd(){  if(_curEp){ _progress = Math.min(_curEp.durSec,_progress+15); document.getElementById('pb-cur').textContent = fmtTime(_progress); } }
+function skipBack(){ if(_audio.src) _audio.currentTime = Math.max(0, _audio.currentTime - 15); }
+function skipFwd(){  if(_audio.src) _audio.currentTime = Math.min(_audio.duration||0, _audio.currentTime + 15); }
 
 function seekBar(e){
-  if(!_curEp) return;
-  var bar = e.currentTarget;
-  var pct = e.offsetX / bar.offsetWidth;
-  _progress = Math.floor(pct * _curEp.durSec);
-  document.getElementById('pb-fill').style.width = (pct*100).toFixed(1)+'%';
-  document.getElementById('pb-cur').textContent = fmtTime(_progress);
+  if(!_audio.src || !_audio.duration) return;
+  var pct = e.offsetX / e.currentTarget.offsetWidth;
+  _audio.currentTime = pct * _audio.duration;
 }
 
 function closePlayer(){
-  clearInterval(_interval);
-  _playing = false;
+  _audio.pause();
   document.getElementById('player').classList.remove('open');
+}
+
+// ── Lock/unlock UI on auth state change ───────────────────
+if(window._db){
+  window._db.auth.onAuthStateChange(function(event, session){
+    // Refresh lock icons when user logs in/out
+    document.querySelectorAll('.ep-card .ep-play').forEach(function(btn){
+      if(session){
+        btn.textContent = '▶ ';
+        btn.innerHTML += (document.documentElement.getAttribute('data-lang')==='en') ? 'Play' : 'Écouter';
+      } else {
+        btn.textContent = '🔒 ';
+        btn.innerHTML += (document.documentElement.getAttribute('data-lang')==='en') ? 'Members only' : 'Abonnés';
+      }
+    });
+  });
 }
 </script>
 </body>
