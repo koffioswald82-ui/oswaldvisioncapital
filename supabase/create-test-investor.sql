@@ -33,12 +33,13 @@ BEGIN
       '', '', '', ''
     );
 
-    -- 2. Lier l'identité email
+    -- 2. Lier l'identité email (provider_id = email pour le provider 'email')
     INSERT INTO auth.identities (
-      id, user_id, identity_data, provider,
+      id, user_id, provider_id, identity_data, provider,
       last_sign_in_at, created_at, updated_at
     ) VALUES (
       gen_random_uuid(), new_uid,
+      'investisseur@ovc.test',
       json_build_object('sub', new_uid::text, 'email', 'investisseur@ovc.test'),
       'email', now(), now(), now()
     );
