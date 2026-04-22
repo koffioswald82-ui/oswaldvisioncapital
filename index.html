@@ -1524,10 +1524,12 @@ document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
       return;
     }
     // Double order: published_at DESC (NULLS LAST), puis slug pour les anciens
+    // Note: on n'ajoute pas .eq('archived', false) car archived peut être NULL
+    // sur les anciens articles — la RLS Supabase gère déjà archived IS NULL OR false
     window._db.from('articles')
       .select('slug,title,subtitle,description,tags,reading_time,published_at')
       .eq('published', true)
-      .eq('archived', false)
+      .not('archived', 'is', true)
       .order('published_at', {ascending:false, nullsFirst:false})
       .limit(6) // on prend 6 pour avoir du choix même si published_at est NULL
       .then(function(res){

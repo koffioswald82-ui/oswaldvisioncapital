@@ -246,45 +246,61 @@
       var subCount = results[1];
       var navData = results[2];
 
-      // live-nav: current NAV value
+      // live-nav: current NAV value (fallback: 100.00 if nav_history empty)
       var elNav = document.getElementById('live-nav');
-      if (elNav && navData && navData.nav) {
-        animateCounter(elNav, navData.nav, 2, '');
+      if (elNav) {
+        var currentNav = (navData && navData.nav) ? navData.nav : 100;
+        animateCounter(elNav, currentNav, 2, '');
       }
 
-      // live-perf: performance % — we need at least one more data point
-      // Attempt to fetch first NAV to compute inception performance
+      // live-perf: performance % since inception
       var elPerf = document.getElementById('live-perf');
-      if (elPerf && navData && navData.nav && window._db) {
-        try {
-          window._db
-            .from('nav_history')
-            .select('nav,date')
-            .order('date', { ascending: true })
-            .limit(1)
-            .then(function (res) {
-              if (res && res.data && res.data.length) {
-                var firstNav = res.data[0].nav;
-                if (firstNav && firstNav !== 0) {
-                  var perf = ((navData.nav - firstNav) / firstNav) * 100;
-                  animateCounter(elPerf, perf, 2, '%');
+      if (elPerf) {
+        if (navData && navData.nav && window._db) {
+          try {
+            window._db
+              .from('nav_history')
+              .select('nav,date')
+              .order('date', { ascending: true })
+              .limit(1)
+              .then(function (res) {
+                if (res && res.data && res.data.length) {
+                  var firstNav = res.data[0].nav;
+                  if (firstNav && firstNav !== 0) {
+                    var perf = ((navData.nav - firstNav) / firstNav) * 100;
+                    animateCounter(elPerf, perf, 2, '%');
+                  }
+                } else {
+                  // nav_history a 1 seule entrée ou vide : perf = 0%
+                  elPerf.textContent = '+0.00%';
                 }
-              }
-            })
-            .catch(function () {});
-        } catch (e) {}
+              })
+              .catch(function () { elPerf.textContent = '+0.00%'; });
+          } catch (e) { elPerf.textContent = '+0.00%'; }
+        } else {
+          // nav_history vide : fonds à sa valeur initiale
+          elPerf.textContent = '+0.00%';
+        }
       }
 
       // live-articles: article count
       var elArticles = document.getElementById('live-articles');
-      if (elArticles && articleCount > 0) {
-        animateCounter(elArticles, articleCount, 0, '');
+      if (elArticles) {
+        if (articleCount > 0) {
+          animateCounter(elArticles, articleCount, 0, '');
+        } else {
+          elArticles.textContent = '0';
+        }
       }
 
-      // live-subs: subscriber count
+      // live-subs: subscriber count (table requires auth → souvent 0 en public)
       var elSubs = document.getElementById('live-subs');
-      if (elSubs && subCount > 0) {
-        animateCounter(elSubs, subCount, 0, '');
+      if (elSubs) {
+        if (subCount > 0) {
+          animateCounter(elSubs, subCount, 0, '');
+        } else {
+          elSubs.textContent = '—';
+        }
       }
     });
   }
