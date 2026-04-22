@@ -175,10 +175,19 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
   <div class="login-card">
     <div class="lc-icon">🔐</div>
     <div class="lc-title">Accéder à mon espace</div>
-    <div class="lc-sub">Entrez votre adresse email de souscription.<br>Vous recevrez un lien de connexion sécurisé instantanément.</div>
+    <div class="lc-sub" id="lc-sub-text">Connectez-vous avec votre email et mot de passe.</div>
 
     <input type="email" class="lc-input" id="login-email" placeholder="votre@email.com" autocomplete="email">
-    <button class="lc-btn" id="login-btn" onclick="sendMagicLink()">Recevoir mon lien de connexion →</button>
+    <div id="pw-field">
+      <input type="password" class="lc-input" id="login-password" placeholder="Mot de passe" autocomplete="current-password" style="margin-top:.6rem">
+    </div>
+    <button class="lc-btn" id="login-btn" onclick="doLogin()">Se connecter →</button>
+
+    <div style="text-align:center;margin-top:.8rem">
+      <button onclick="toggleLoginMode()" id="toggle-mode-btn" style="background:none;border:none;color:var(--gold);font-size:.8rem;cursor:pointer;text-decoration:underline;font-family:'Outfit',sans-serif">
+        Connexion par lien magique (sans mot de passe)
+      </button>
+    </div>
 
     <div class="lc-success" id="login-success">
       ✓ Lien envoyé ! Vérifiez votre boîte mail (et les spams).<br>
@@ -494,6 +503,63 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
 
     show('screen-dashboard');
   }
+
+  // ── Login mode toggle
+  var _magicMode = false;
+  window.toggleLoginMode = function () {
+    _magicMode = !_magicMode;
+    var pwField  = document.getElementById('pw-field');
+    var btn      = document.getElementById('login-btn');
+    var toggleBtn = document.getElementById('toggle-mode-btn');
+    var sub      = document.getElementById('lc-sub-text');
+    document.getElementById('login-success').style.display = 'none';
+    document.getElementById('login-error').style.display   = 'none';
+    if (_magicMode) {
+      pwField.style.display  = 'none';
+      btn.textContent        = 'Recevoir mon lien de connexion →';
+      btn.onclick            = sendMagicLink;
+      toggleBtn.textContent  = 'Connexion avec mot de passe';
+      sub.textContent        = 'Entrez votre email — vous recevrez un lien sécurisé instantanément.';
+    } else {
+      pwField.style.display  = 'block';
+      btn.textContent        = 'Se connecter →';
+      btn.onclick            = doLogin;
+      toggleBtn.textContent  = 'Connexion par lien magique (sans mot de passe)';
+      sub.textContent        = 'Connectez-vous avec votre email et mot de passe.';
+    }
+  };
+
+  // ── Email + password login
+  window.doLogin = async function () {
+    var email = (document.getElementById('login-email').value || '').trim();
+    var pass  = (document.getElementById('login-password').value || '');
+    var btn   = document.getElementById('login-btn');
+    var err   = document.getElementById('login-error');
+    document.getElementById('login-success').style.display = 'none';
+    err.style.display = 'none';
+
+    if (!email || !email.includes('@')) {
+      err.textContent = 'Entrez une adresse email valide.';
+      err.style.display = 'block'; return;
+    }
+    if (!pass) {
+      err.textContent = 'Entrez votre mot de passe.';
+      err.style.display = 'block'; return;
+    }
+    if (!window._db) {
+      err.textContent = 'Service non disponible — réessayez plus tard.';
+      err.style.display = 'block'; return;
+    }
+    btn.disabled = true; btn.textContent = 'Connexion…';
+    try {
+      var { error } = await _db.auth.signInWithPassword({ email: email, password: pass });
+      if (error) throw error;
+    } catch(e) {
+      err.textContent  = 'Identifiants incorrects. Vérifiez votre email et mot de passe.';
+      err.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Se connecter →';
+    }
+  };
 
   // ── Magic link login
   window.sendMagicLink = async function () {
