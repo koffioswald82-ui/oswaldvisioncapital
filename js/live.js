@@ -289,7 +289,8 @@
         if (articleCount > 0) {
           animateCounter(elArticles, articleCount, 0, '');
         } else {
-          elArticles.textContent = '0';
+          // DB vide ou non connectée — on affiche le fallback statique
+          elArticles.textContent = '2+';
         }
       }
 

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="description" content="OVC Podcast — Décryptage des marchés, macro, equity research Afrique et marchés globaux. Oswald Vision Capital.">
+<title>Podcast · Oswald Vision Capital</title>
+<link rel="manifest" href="manifest.json">
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa;
+  --line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0;
+  --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2;
+  --blue:#1e4faa;--blue-bg:#eef3ff;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --red:#c0392b;--red-bg:#fde8e8;
+  --purple:#5e35b1;--purple-bg:#f0ebff;
+  --shadow:0 2px 20px rgba(26,26,46,.08);--shadow-lg:0 8px 40px rgba(26,26,46,.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.6}
+
+/* ── LANG BAR */
+.lang-bar{background:var(--ink);padding:.3rem 5vw;display:flex;align-items:center;justify-content:space-between}
+.lang-bar-left{font-size:.68rem;color:rgba(255,255,255,.4);letter-spacing:.06em}
+.lang-bar-left strong{color:var(--gold-l)}
+.lang-btns{display:flex;border:1px solid rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.lbtn{padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:500;letter-spacing:.1em;background:transparent;border:none;color:rgba(255,255,255,.45);cursor:pointer;transition:all .15s}
+.lbtn.active{background:var(--gold);color:var(--ink);font-weight:700}
+
+/* ── NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 12px rgba(26,26,46,.06)}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.nav-logo em{font-style:italic;color:var(--gold)}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+.nav-cta{background:var(--gold)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important}
+@media(max-width:768px){.nav-links{display:none}}
+
+/* ── HERO */
+.pod-hero{background:linear-gradient(135deg,#0a0f1e 0%,#141e35 55%,#1a1a2e 100%);padding:8vh 8vw 6vh;color:#fff;position:relative;overflow:hidden}
+.pod-hero::before{content:'';position:absolute;top:-20%;right:-5%;width:500px;height:500px;background:radial-gradient(ellipse,rgba(201,131,42,.12),transparent 65%);pointer-events:none}
+.pod-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,131,42,.3),transparent)}
+.ph-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);border-radius:100px;padding:.25rem .75rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#4ade80;letter-spacing:.1em;margin-bottom:1.2rem}
+.ph-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.6)}}
+.ph-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-l);margin-bottom:.9rem}
+.ph-title{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4.5vw,3.6rem);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:1.2rem;color:#fff}
+.ph-title em{font-style:italic;color:var(--gold-l)}
+.ph-sub{font-size:.95rem;color:rgba(255,255,255,.55);line-height:1.8;max-width:560px;margin-bottom:2rem}
+.ph-platforms{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:2.2rem}
+.ph-plat{display:inline-flex;align-items:center;gap:.45rem;padding:.45rem 1rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;font-size:.72rem;color:rgba(255,255,255,.6);text-decoration:none;transition:all .2s;font-family:'JetBrains Mono',monospace}
+.ph-plat:hover{background:rgba(201,131,42,.12);border-color:rgba(201,131,42,.3);color:var(--gold-l)}
+.ph-stats{display:flex;gap:2.5rem;border-top:1px solid rgba(255,255,255,.07);padding-top:1.8rem;flex-wrap:wrap}
+.ph-stat-num{font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:700;color:var(--gold-l);line-height:1}
+.ph-stat-lbl{font-size:.64rem;color:rgba(255,255,255,.3);margin-top:.15rem;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+
+/* ── FILTER BAR */
+.filter-bar{background:var(--white);border-bottom:1px solid var(--line);padding:.75rem 8vw;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;position:sticky;top:60px;z-index:100;box-shadow:0 2px 8px rgba(26,26,46,.04)}
+.fb-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:.3rem;font-family:'JetBrains Mono',monospace}
+.fb-btn{padding:.32rem .85rem;border:1.5px solid var(--line);border-radius:100px;font-size:.72rem;font-weight:600;color:var(--muted);background:var(--white);cursor:pointer;transition:all .18s;font-family:'Outfit',sans-serif}
+.fb-btn:hover{border-color:var(--gold);color:var(--gold)}
+.fb-btn.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.fb-sep{width:1px;height:18px;background:var(--line);flex-shrink:0;margin:0 .2rem}
+
+/* ── EPISODES GRID */
+.episodes-section{padding:5vh 8vw 8vh}
+.ep-grid{display:flex;flex-direction:column;gap:1.2rem;max-width:860px;margin:0 auto}
+
+/* ── EPISODE CARD */
+.ep-card{background:var(--white);border:1.5px solid var(--line);border-radius:16px;padding:1.6rem 2rem;box-shadow:var(--shadow);transition:box-shadow .22s,transform .2s,border-color .2s;display:flex;gap:1.6rem;align-items:flex-start;cursor:pointer;text-decoration:none;color:inherit}
+.ep-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px);border-color:rgba(201,131,42,.25)}
+.ep-card.featured{border-color:rgba(201,131,42,.3);background:linear-gradient(135deg,#fffdf8,var(--white))}
+.ep-num{flex-shrink:0;width:52px;height:52px;border-radius:12px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;color:#fff;position:relative}
+.ep-num.new::after{content:'NEW';position:absolute;top:-7px;right:-7px;background:var(--green);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.42rem;font-weight:700;padding:.12rem .3rem;border-radius:3px;letter-spacing:.06em}
+.ep-num-inner{font-size:.68rem;font-weight:700;font-family:'JetBrains Mono',monospace}
+.ep-body{flex:1;min-width:0}
+.ep-meta{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin-bottom:.5rem}
+.ep-tag{font-size:.6rem;font-weight:700;letter-spacing:.06em;padding:.18rem .55rem;border-radius:100px}
+.ep-tag-m{background:var(--blue-bg);color:var(--blue)}
+.ep-tag-a{background:var(--purple-bg);color:var(--purple)}
+.ep-tag-e{background:var(--green-bg);color:var(--green)}
+.ep-tag-s{background:var(--gold-bg);color:var(--gold)}
+.ep-date{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted)}
+.ep-title{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:.45rem}
+.ep-desc{font-size:.83rem;color:var(--body);line-height:1.75;margin-bottom:.9rem}
+.ep-footer{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.ep-dur{display:flex;align-items:center;gap:.35rem;font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--muted)}
+.ep-dur-icon{width:14px;height:14px;border-radius:50%;background:var(--gold-bg);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ep-dur-icon::after{content:'';width:0;height:0;border-style:solid;border-width:3px 0 3px 5px;border-color:transparent transparent transparent var(--gold);margin-left:1px}
+.ep-guests{font-size:.7rem;color:var(--muted)}
+.ep-guests strong{color:var(--ink)}
+.ep-play{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:.4rem;font-size:.73rem;font-weight:700;color:var(--gold);font-family:'JetBrains Mono',monospace;padding:.38rem .9rem;border:1.5px solid rgba(201,131,42,.35);border-radius:100px;transition:all .2s}
+.ep-card:hover .ep-play{background:var(--gold);color:#fff;border-color:var(--gold)}
+
+/* ── COMING SOON */
+.ep-soon{background:var(--cream);border:1.5px dashed var(--cream2);border-radius:16px;padding:1.4rem 2rem;display:flex;align-items:center;gap:1.5rem;opacity:.65}
+.ep-soon-num{width:52px;height:52px;border-radius:12px;background:var(--cream2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ep-soon-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:.3rem}
+.ep-soon-title{font-family:'Libre Baskerville',serif;font-size:.9rem;color:var(--body)}
+
+/* ── NEWSLETTER */
+.pod-nl{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);padding:6vh 8vw;color:#fff;text-align:center;position:relative;overflow:hidden}
+.pod-nl::before{content:'';position:absolute;top:-40%;right:-8%;width:500px;height:500px;background:radial-gradient(ellipse,rgba(201,131,42,.1),transparent 65%);pointer-events:none}
+.nl-inner{max-width:560px;margin:0 auto;position:relative}
+.nl-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-l);margin-bottom:.6rem}
+.nl-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:700;color:#fff;margin-bottom:.6rem}
+.nl-sub{font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:1.8rem}
+.nl-form{display:flex;gap:0;max-width:440px;margin:0 auto;border-radius:10px;overflow:hidden;box-shadow:0 4px 22px rgba(0,0,0,.25)}
+.nl-form input{flex:1;padding:.85rem 1.2rem;background:var(--white);border:none;font-family:'Outfit',sans-serif;font-size:.86rem;color:var(--ink);outline:none}
+.nl-form button{padding:.85rem 1.4rem;background:var(--gold);border:none;font-family:'Outfit',sans-serif;font-weight:700;font-size:.8rem;color:#fff;cursor:pointer;transition:background .2s;white-space:nowrap}
+.nl-form button:hover{background:#b5721e}
+
+/* ── FOOTER */
+footer{background:var(--white);border-top:1px solid var(--line);padding:3vh 8vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
+.ft-logo{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink)}
+.ft-logo em{color:var(--gold);font-style:italic}
+.ft-links{display:flex;gap:1.5rem}
+.ft-links a{font-size:.76rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.ft-links a:hover{color:var(--ink)}
+.ft-copy{font-size:.7rem;color:var(--muted);width:100%;text-align:center;padding-top:1rem;border-top:1px solid var(--line)}
+
+/* ── PLAYER MODAL */
+.player-overlay{position:fixed;bottom:0;left:0;right:0;z-index:500;transform:translateY(100%);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.player-overlay.open{transform:translateY(0)}
+.player-bar{background:#0d1220;border-top:1px solid rgba(255,255,255,.08);padding:.9rem 5vw;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+.pb-art{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--ink2));flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:#fff}
+.pb-info{flex:1;min-width:0}
+.pb-title{font-size:.78rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pb-sub{font-size:.63rem;color:rgba(255,255,255,.35);font-family:'JetBrains Mono',monospace;margin-top:.1rem}
+.pb-controls{display:flex;align-items:center;gap:.8rem}
+.pb-btn{width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,.07);color:rgba(255,255,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .18s}
+.pb-btn:hover{background:var(--gold);color:#fff}
+.pb-btn.play{background:var(--gold);color:#fff;width:44px;height:44px;font-size:1rem}
+.pb-progress{flex:1;min-width:120px;display:flex;align-items:center;gap:.6rem}
+.pb-time{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.3);white-space:nowrap}
+.pb-bar{flex:1;height:3px;background:rgba(255,255,255,.12);border-radius:2px;cursor:pointer;position:relative}
+.pb-fill{height:100%;background:var(--gold);border-radius:2px;width:30%}
+.pb-close{background:none;border:none;color:rgba(255,255,255,.25);cursor:pointer;font-size:.85rem;padding:.3rem;transition:color .15s}
+.pb-close:hover{color:rgba(255,255,255,.7)}
+
+/* ── REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+[data-fr],[data-en]{display:none}
+html[data-lang=fr] [data-fr]{display:revert}
+html[data-lang=en] [data-en]{display:revert}
+span[data-fr],span[data-en]{display:none}
+html[data-lang=fr] span[data-fr]{display:inline}
+html[data-lang=en] span[data-en]{display:inline}
+</style>
+</head>
+<body>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <span class="lang-bar-left"><strong data-fr>Recherche financière et économique indépendante</strong><strong data-en>Independent economic and financial research</strong> · Oswald Vision Capital</span>
+  <div class="lang-btns">
+    <button class="lbtn active" onclick="setLang('fr')">FR</button>
+    <button class="lbtn" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Oswald<em>Vision</em>Capital</a>
+  <div class="nav-links">
+    <a href="analyses.html"><span data-fr>Equity Research</span><span data-en>Equity Research</span></a>
+    <a href="macro.html"><span data-fr>Macro</span><span data-en>Macro</span></a>
+    <a href="podcast.html" class="active"><span data-fr>Podcast</span><span data-en>Podcast</span></a>
+    <a href="performance.html"><span data-fr>Performance</span><span data-en>Performance</span></a>
+    <a href="mon-compte.html" style="font-size:.75rem;font-weight:600;color:var(--body);text-decoration:none;border:1px solid var(--line);padding:.38rem .85rem;border-radius:6px;transition:border-color .2s,color .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--body)'"><span data-fr>Mon Compte</span><span data-en>My Account</span></a>
+    <a href="subscribe.html" class="nav-cta"><span data-fr>Souscrire</span><span data-en>Subscribe</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="pod-hero">
+  <div class="ph-badge"><div class="ph-dot"></div><span data-fr>Nouveau · Épisode 003 disponible</span><span data-en>New · Episode 003 available</span></div>
+  <div class="ph-eyebrow"><span data-fr>Finance · Marchés · Afrique · Tech</span><span data-en>Finance · Markets · Africa · Tech</span></div>
+  <h1 class="ph-title">OVC <em>Podcast</em></h1>
+  <p class="ph-sub"><span data-fr>Décryptage des marchés financiers, analyses macro, deep-dives sectoriels. La finance rigoureuse, en audio.</span><span data-en>Financial markets breakdown, macro analysis, sector deep-dives. Rigorous finance, in audio.</span></p>
+  <div class="ph-platforms">
+    <a href="#" class="ph-plat" onclick="return false">🎧 <span data-fr>Écouter ici</span><span data-en>Listen here</span></a>
+    <a href="#" class="ph-plat" onclick="return false">Spotify</a>
+    <a href="#" class="ph-plat" onclick="return false">Apple Podcasts</a>
+    <a href="#" class="ph-plat" onclick="return false">YouTube</a>
+  </div>
+  <div class="ph-stats">
+    <div><div class="ph-stat-num">3</div><div class="ph-stat-lbl"><span data-fr>Épisodes</span><span data-en>Episodes</span></div></div>
+    <div><div class="ph-stat-num">~25 min</div><div class="ph-stat-lbl"><span data-fr>Durée moyenne</span><span data-en>Avg duration</span></div></div>
+    <div><div class="ph-stat-num">100%</div><div class="ph-stat-lbl"><span data-fr>Gratuit</span><span data-en>Free</span></div></div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="fb-label"><span data-fr>Filtrer</span><span data-en>Filter</span></span>
+  <button class="fb-btn on" onclick="filterEp('all',this)"><span data-fr>Tous</span><span data-en>All</span></button>
+  <button class="fb-btn" onclick="filterEp('macro',this)">Macro</button>
+  <button class="fb-btn" onclick="filterEp('equity',this)">Equity</button>
+  <button class="fb-btn" onclick="filterEp('africa',this)"><span data-fr>Afrique</span><span data-en>Africa</span></button>
+  <button class="fb-btn" onclick="filterEp('tech',this)">Tech</button>
+</div>
+
+<!-- EPISODES -->
+<section class="episodes-section">
+  <div class="ep-grid" id="ep-grid">
+
+    <!-- EP 003 -->
+    <a class="ep-card featured reveal" data-tags="tech equity" href="#" onclick="playEp(3,this);return false">
+      <div class="ep-num new"><div class="ep-num-inner">EP<br>003</div></div>
+      <div class="ep-body">
+        <div class="ep-meta">
+          <span class="ep-tag ep-tag-s">Tech · Semis</span>
+          <span class="ep-tag ep-tag-e">Equity</span>
+          <span class="ep-date"><span data-fr>Avr. 2026</span><span data-en>Apr. 2026</span></span>
+        </div>
+        <div class="ep-title"><span data-fr>NVIDIA et l'IA : peut-on encore investir à ces niveaux de valorisation ?</span><span data-en>NVIDIA & AI: Can you still invest at these valuation levels?</span></div>
+        <p class="ep-desc"><span data-fr>Après un run de +500% en 3 ans, NVIDIA est-elle encore une opportunité ? On décortique le DCF, les parts de marché GPU data center, la montée en puissance d'AMD et l'arrivée des chips propriétaires de Google, Amazon et Microsoft. Catalyst ou trap ?</span><span data-en>After a +500% run over 3 years, is NVIDIA still an opportunity? We break down the DCF, data center GPU market share, AMD's rise, and Google/Amazon/Microsoft custom chip developments. Catalyst or trap?</span></p>
+        <div class="ep-footer">
+          <div class="ep-dur"><div class="ep-dur-icon"></div>28 min</div>
+          <div class="ep-guests"><span data-fr>Par</span><span data-en>By</span> <strong>Oswald J. KOFFI</strong></div>
+          <div class="ep-play">▶ <span data-fr>Écouter</span><span data-en>Play</span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- EP 002 -->
+    <a class="ep-card reveal" data-tags="africa macro" href="#" onclick="playEp(2,this);return false" style="transition-delay:.08s">
+      <div class="ep-num" style="background:var(--purple)"><div class="ep-num-inner">EP<br>002</div></div>
+      <div class="ep-body">
+        <div class="ep-meta">
+          <span class="ep-tag ep-tag-a">Afrique</span>
+          <span class="ep-tag ep-tag-m">Macro</span>
+          <span class="ep-date"><span data-fr>Mars 2026</span><span data-en>Mar. 2026</span></span>
+        </div>
+        <div class="ep-title"><span data-fr>BRVM 2026 : les marchés africains que personne ne couvre — et pourquoi c'est une opportunité</span><span data-en>BRVM 2026: the African markets nobody covers — and why that's an opportunity</span></div>
+        <p class="ep-desc"><span data-fr>La Bourse Régionale des Valeurs Mobilières est l'une des places financières les moins analysées au monde. Orange CI, SIFCA, NSIA Banque — rendements à deux chiffres, dividendes stables, décorrélation totale des marchés occidentaux. On explique comment y accéder et ce qui les rend uniques.</span><span data-en>The Regional Securities Exchange is one of the least analyzed financial markets in the world. Orange CI, SIFCA, NSIA Bank — double-digit returns, stable dividends, total decorrelation from Western markets. We explain how to access them and what makes them unique.</span></p>
+        <div class="ep-footer">
+          <div class="ep-dur"><div class="ep-dur-icon"></div>22 min</div>
+          <div class="ep-guests"><span data-fr>Par</span><span data-en>By</span> <strong>Oswald J. KOFFI</strong></div>
+          <div class="ep-play">▶ <span data-fr>Écouter</span><span data-en>Play</span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- EP 001 -->
+    <a class="ep-card reveal" data-tags="macro" href="#" onclick="playEp(1,this);return false" style="transition-delay:.16s">
+      <div class="ep-num" style="background:var(--blue)"><div class="ep-num-inner">EP<br>001</div></div>
+      <div class="ep-body">
+        <div class="ep-meta">
+          <span class="ep-tag ep-tag-m">Macro</span>
+          <span class="ep-date"><span data-fr>Fév. 2026</span><span data-en>Feb. 2026</span></span>
+        </div>
+        <div class="ep-title"><span data-fr>Tarifs Trump 2025 : opportunité ou piège pour l'Afrique subsaharienne ?</span><span data-en>Trump Tariffs 2025: opportunity or trap for sub-Saharan Africa?</span></div>
+        <p class="ep-desc"><span data-fr>La guerre commerciale US-Chine redistribue les flux de capitaux mondiaux. L'Afrique subsaharienne pourrait en être la grande bénéficiaire — ou pas. On analyse les flux FDI, l'impact sur la BRVM, le secteur agro-industriel ivoirien et les conséquences sur le franc CFA.</span><span data-en>The US-China trade war is reshuffling global capital flows. Sub-Saharan Africa could be the big winner — or not. We analyze FDI flows, BRVM impact, Ivorian agribusiness and implications for the CFA franc.</span></p>
+        <div class="ep-footer">
+          <div class="ep-dur"><div class="ep-dur-icon"></div>18 min</div>
+          <div class="ep-guests"><span data-fr>Par</span><span data-en>By</span> <strong>Oswald J. KOFFI</strong></div>
+          <div class="ep-play">▶ <span data-fr>Écouter</span><span data-en>Play</span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- COMING SOON -->
+    <div class="ep-soon reveal" style="transition-delay:.24s" data-tags="tech macro">
+      <div class="ep-soon-num">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#c9c9d0" stroke-width="1.5"/><path d="M12 6v6l4 2" stroke="#c9c9d0" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="ep-soon-label"><span data-fr>Bientôt disponible</span><span data-en>Coming soon</span> · EP. 004</div>
+        <div class="ep-soon-title"><span data-fr>Semi-conducteurs IA — la chaîne d'approvisionnement mondiale sous tension géopolitique</span><span data-en>AI Semiconductors — global supply chain under geopolitical pressure</span></div>
+      </div>
+    </div>
+
+    <div class="ep-soon reveal" style="transition-delay:.3s" data-tags="africa equity">
+      <div class="ep-soon-num">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#c9c9d0" stroke-width="1.5"/><path d="M12 6v6l4 2" stroke="#c9c9d0" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="ep-soon-label"><span data-fr>Bientôt disponible</span><span data-en>Coming soon</span> · EP. 005</div>
+        <div class="ep-soon-title"><span data-fr>Orange CI & dividendes africains : le rendement le plus fiable de la BRVM ?</span><span data-en>Orange CI & African dividends: the most reliable yield on the BRVM?</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="pod-nl">
+  <div class="nl-inner">
+    <div class="nl-eyebrow"><span data-fr>Notifié à chaque nouvel épisode</span><span data-en>Notified for each new episode</span></div>
+    <h2 class="nl-title"><span data-fr>Ne manquez aucun <em style="color:var(--gold-l)">épisode</em></span><span data-en>Never miss an <em style="color:var(--gold-l)">episode</em></span></h2>
+    <p class="nl-sub"><span data-fr>Chaque semaine ou quinzaine : un nouvel épisode + le résumé écrit dans votre boîte mail.</span><span data-en>Every week or two: a new episode + written summary in your inbox.</span></p>
+    <form class="nl-form" action="https://formspree.io/f/mvzdzvko" method="POST">
+      <input type="hidden" name="source" value="podcast_subscribe">
+      <input type="email" name="email" placeholder="votre@email.com" required>
+      <button type="submit"><span data-fr>S'abonner</span><span data-en>Subscribe</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo">Oswald<em>Vision</em>Capital</div>
+  <div class="ft-links">
+    <a href="index.html">Home</a>
+    <a href="analyses.html">Analyses</a>
+    <a href="macro.html">Macro</a>
+    <a href="podcast.html">Podcast</a>
+    <a href="performance.html">Performance</a>
+    <a href="subscribe.html"><span data-fr>Souscrire</span><span data-en>Subscribe</span></a>
+    <a href="mentions-legales.html"><span data-fr>Mentions légales</span><span data-en>Legal</span></a>
+  </div>
+  <div class="ft-copy">© 2026 Oswald Vision Capital · <span data-fr>Contenu éducatif indépendant</span><span data-en>Independent educational content</span></div>
+</footer>
+
+<!-- PLAYER BAR -->
+<div class="player-overlay" id="player">
+  <div class="player-bar">
+    <div class="pb-art" id="pb-art">03</div>
+    <div class="pb-info">
+      <div class="pb-title" id="pb-title">NVIDIA et l'IA — OVC Podcast EP.003</div>
+      <div class="pb-sub">Oswald Vision Capital · 28 min</div>
+    </div>
+    <div class="pb-controls">
+      <button class="pb-btn" onclick="skipBack()" title="-15s">⏮</button>
+      <button class="pb-btn play" id="pb-play" onclick="togglePlay()">▶</button>
+      <button class="pb-btn" onclick="skipFwd()" title="+15s">⏭</button>
+    </div>
+    <div class="pb-progress">
+      <span class="pb-time" id="pb-cur">0:00</span>
+      <div class="pb-bar" onclick="seekBar(event)"><div class="pb-fill" id="pb-fill"></div></div>
+      <span class="pb-time" id="pb-dur">28:00</span>
+    </div>
+    <button class="pb-close" onclick="closePlayer()" title="Fermer">✕</button>
+  </div>
+</div>
+
+<script>
+// Lang
+function setLang(l){
+  document.documentElement.setAttribute('data-lang',l);
+  document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+}
+setLang('fr');
+
+// Reveal on scroll
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.06});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Filter
+function filterEp(tag, btn){
+  document.querySelectorAll('.fb-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('#ep-grid .ep-card, #ep-grid .ep-soon').forEach(function(c){
+    if(tag === 'all'){
+      c.style.display = '';
+    } else {
+      var tags = (c.dataset.tags || '');
+      c.style.display = tags.includes(tag) ? '' : 'none';
+    }
+  });
+}
+
+// Simulated player
+var _playing = false;
+var _progress = 0;
+var _interval = null;
+var EPISODES = {
+  3: { title:'NVIDIA et l\'IA — OVC Podcast EP.003', num:'03', dur:'28:00', durSec:1680 },
+  2: { title:'BRVM 2026 — OVC Podcast EP.002',        num:'02', dur:'22:00', durSec:1320 },
+  1: { title:'Tarifs Trump 2025 — OVC Podcast EP.001', num:'01', dur:'18:00', durSec:1080 }
+};
+var _curEp = null;
+
+function fmtTime(sec){
+  var m = Math.floor(sec/60), s = Math.floor(sec%60);
+  return m+':'+(s<10?'0':'')+s;
+}
+
+function playEp(n, card){
+  _curEp = EPISODES[n];
+  if(!_curEp) return;
+  document.getElementById('pb-art').textContent = _curEp.num;
+  document.getElementById('pb-title').textContent = _curEp.title;
+  document.getElementById('pb-dur').textContent = _curEp.dur;
+  _progress = 0;
+  document.getElementById('pb-fill').style.width = '0%';
+  document.getElementById('pb-cur').textContent = '0:00';
+  document.getElementById('player').classList.add('open');
+  startPlay();
+}
+
+function startPlay(){
+  _playing = true;
+  document.getElementById('pb-play').textContent = '⏸';
+  clearInterval(_interval);
+  _interval = setInterval(function(){
+    if(!_playing) return;
+    _progress = Math.min(_progress + 1, _curEp.durSec);
+    var pct = (_progress / _curEp.durSec * 100).toFixed(1);
+    document.getElementById('pb-fill').style.width = pct + '%';
+    document.getElementById('pb-cur').textContent = fmtTime(_progress);
+    if(_progress >= _curEp.durSec){ clearInterval(_interval); _playing = false; document.getElementById('pb-play').textContent = '▶'; }
+  }, 1000);
+}
+
+function togglePlay(){
+  if(!_curEp) return;
+  _playing = !_playing;
+  document.getElementById('pb-play').textContent = _playing ? '⏸' : '▶';
+  if(_playing) startPlay();
+}
+
+function skipBack(){ if(_curEp){ _progress = Math.max(0,_progress-15); document.getElementById('pb-cur').textContent = fmtTime(_progress); } }
+function skipFwd(){  if(_curEp){ _progress = Math.min(_curEp.durSec,_progress+15); document.getElementById('pb-cur').textContent = fmtTime(_progress); } }
+
+function seekBar(e){
+  if(!_curEp) return;
+  var bar = e.currentTarget;
+  var pct = e.offsetX / bar.offsetWidth;
+  _progress = Math.floor(pct * _curEp.durSec);
+  document.getElementById('pb-fill').style.width = (pct*100).toFixed(1)+'%';
+  document.getElementById('pb-cur').textContent = fmtTime(_progress);
+}
+
+function closePlayer(){
+  clearInterval(_interval);
+  _playing = false;
+  document.getElementById('player').classList.remove('open');
+}
+</script>
+</body>
+</html>

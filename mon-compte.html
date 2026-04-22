@@ -9,7 +9,7 @@
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa;--line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0;--gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2;--blue:#1e4faa;--blue-bg:#eef3ff;--green:#1a7a4a;--green-bg:#e8f5ee;--red:#c0392b;--red-bg:#fde8e8;--shadow:0 2px 20px rgba(26,26,46,.08);--shadow-lg:0 8px 40px rgba(26,26,46,.14)}
+:root{--ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa;--line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0;--gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2;--blue:#1e4faa;--blue-bg:#eef3ff;--green:#1a7a4a;--green-bg:#e8f5ee;--red:#c0392b;--red-bg:#fde8e8;--purple:#5e35b1;--purple-bg:#f0ebff;--shadow:0 2px 20px rgba(26,26,46,.08);--shadow-lg:0 8px 40px rgba(26,26,46,.14)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -22,16 +22,24 @@ nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1p
 .nav-links a{font-size:.78rem;font-weight:500;color:var(--body);text-decoration:none;transition:color .2s}.nav-links a:hover{color:var(--ink)}
 .nav-cta{background:var(--ink)!important;color:#fff!important;padding:.42rem 1rem;border-radius:6px;font-weight:700!important;font-size:.75rem!important}
 /* PAGE */
-.page-hero{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);padding:5vh 8vw 4vh;color:#fff;text-align:center}
+.page-hero{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);padding:5vh 8vw 0;color:#fff;text-align:center}
 .ph-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-l);margin-bottom:.7rem}
 .ph-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;line-height:1.1}
 .ph-title em{color:var(--gold-l);font-style:italic}
-.ph-sub{font-size:.88rem;color:rgba(255,255,255,.55);margin-top:.6rem}
+.ph-sub{font-size:.88rem;color:rgba(255,255,255,.55);margin-top:.6rem;margin-bottom:0}
+/* DASH TABS (inside hero) */
+.dash-tabs{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.1);margin-top:2rem}
+.dtab{flex:1;padding:.9rem .5rem;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.4);border:none;background:transparent;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;border-bottom:3px solid transparent;letter-spacing:.02em}
+.dtab:hover:not(.on){color:rgba(255,255,255,.75)}
+.dtab.on{color:#fff;border-bottom-color:var(--gold-l)}
 /* SCREENS */
-.screen{display:none;max-width:560px;margin:5vh auto;padding:0 5vw 8vh}
+.screen{display:none;max-width:900px;margin:0 auto;padding:3vh 5vw 8vh}
 .screen.active{display:block}
+/* PANEL */
+.panel{display:none}.panel.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 /* LOGIN CARD */
-.login-card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:2.5rem;box-shadow:var(--shadow-lg);text-align:center}
+.login-card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:2.5rem;box-shadow:var(--shadow-lg);text-align:center;max-width:520px;margin:0 auto}
 .lc-icon{font-size:2.5rem;margin-bottom:1rem}
 .lc-title{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;margin-bottom:.4rem}
 .lc-sub{font-size:.84rem;color:var(--muted);line-height:1.65;margin-bottom:2rem}
@@ -44,7 +52,7 @@ nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1p
 .lc-note{font-size:.75rem;color:var(--muted);line-height:1.6}
 .lc-success{background:var(--green-bg);border:1px solid #b8e0ca;border-radius:10px;padding:1.2rem;font-size:.85rem;color:var(--green);line-height:1.7;margin-top:1rem;display:none}
 .lc-error{background:var(--red-bg);border:1px solid #f5c6c6;border-radius:10px;padding:1rem;font-size:.84rem;color:var(--red);margin-top:.8rem;display:none}
-/* DASHBOARD */
+/* DASHBOARD HEADER */
 .dash-header{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:1.8rem 2rem;margin-bottom:1.2rem;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
 .dh-left .dh-greeting{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--ink)}
 .dh-left .dh-since{font-size:.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:.2rem}
@@ -71,7 +79,7 @@ nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1p
 .signout-btn{background:none;border:1.5px solid var(--line);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.8rem;padding:.5rem 1.2rem;border-radius:8px;cursor:pointer;transition:all .2s}
 .signout-btn:hover{border-color:var(--red);color:var(--red)}
 /* NOT FOUND */
-.notfound-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:2.5rem;text-align:center;box-shadow:var(--shadow)}
+.notfound-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:2.5rem;text-align:center;box-shadow:var(--shadow);max-width:520px;margin:0 auto}
 .nf-icon{font-size:2.5rem;margin-bottom:1rem}
 .nf-title{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
 .nf-sub{font-size:.85rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem}
@@ -80,7 +88,52 @@ nav{background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1p
 .loading-state{text-align:center;padding:4rem;color:var(--muted);font-size:.9rem}
 .spinner{width:28px;height:28px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:600px){.kpi-strip{grid-template-columns:repeat(2,1fr)}.nav-links{display:none}}
+/* ── FORMATION SECTION */
+.learn-intro{background:linear-gradient(135deg,#0d1220,#1a1a2e);border-radius:16px;padding:1.8rem 2rem;margin-bottom:1.5rem;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.learn-intro-text h3{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.3rem}
+.learn-intro-text p{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.65;max-width:440px}
+.learn-badge{background:rgba(201,131,42,.15);border:1px solid rgba(201,131,42,.3);border-radius:8px;padding:.6rem 1rem;text-align:center;flex-shrink:0}
+.learn-badge-v{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:700;color:var(--gold-l)}
+.learn-badge-l{font-size:.6rem;color:rgba(255,255,255,.35);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-top:.12rem}
+/* Level selector */
+.level-tabs{display:flex;gap:.6rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.lvl-btn{padding:.55rem 1.3rem;border-radius:100px;border:1.5px solid var(--line);font-size:.76rem;font-weight:700;cursor:pointer;background:var(--white);font-family:'Outfit',sans-serif;transition:all .18s;display:flex;align-items:center;gap:.45rem}
+.lvl-btn:hover{border-color:var(--gold);color:var(--gold)}
+.lvl-btn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.lvl-btn.on.beg{background:#1a7a4a;border-color:#1a7a4a}
+.lvl-btn.on.int{background:var(--blue);border-color:var(--blue)}
+.lvl-btn.on.adv{background:var(--purple);border-color:var(--purple)}
+.lvl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.beg-dot{background:#4ade80}.int-dot{background:#7fb3ff}.adv-dot{background:#c4aaff}
+/* Modules grid */
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.mod-card{background:var(--white);border:1.5px solid var(--line);border-radius:14px;padding:1.4rem;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s,border-color .2s;cursor:pointer;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column}
+.mod-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px);border-color:rgba(201,131,42,.25)}
+.mod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;transition:opacity .25s}
+.mod-card.beg::before{background:linear-gradient(90deg,#1a7a4a,#4ade80)}
+.mod-card.int::before{background:linear-gradient(90deg,var(--blue),#7fb3ff)}
+.mod-card.adv::before{background:linear-gradient(90deg,var(--purple),#c4aaff)}
+.mod-num{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.1em;margin-bottom:.6rem}
+.mod-icon{font-size:1.6rem;margin-bottom:.6rem}
+.mod-title{font-family:'Libre Baskerville',serif;font-size:.93rem;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:.4rem}
+.mod-desc{font-size:.77rem;color:var(--body);line-height:1.65;flex:1;margin-bottom:.9rem}
+.mod-footer{display:flex;align-items:center;justify-content:space-between}
+.mod-dur{font-size:.65rem;font-family:'JetBrains Mono',monospace;color:var(--muted)}
+.mod-tag{font-size:.6rem;font-weight:700;padding:.15rem .5rem;border-radius:100px}
+.tag-beg{background:var(--green-bg);color:var(--green)}
+.tag-int{background:var(--blue-bg);color:var(--blue)}
+.tag-adv{background:var(--purple-bg);color:var(--purple)}
+.mod-lock{position:absolute;top:.9rem;right:.9rem;width:24px;height:24px;background:var(--cream);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem}
+/* Level panel */
+.lvl-panel{display:none}.lvl-panel.on{display:block;animation:fadeIn .2s ease}
+/* Progress bar */
+.learn-progress{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:1.2rem;box-shadow:var(--shadow)}
+.lp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.lp-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lp-pct{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;color:var(--gold)}
+.lp-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.lp-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:3px;transition:width .5s ease}
+@media(max-width:600px){.kpi-strip{grid-template-columns:repeat(2,1fr)}.nav-links{display:none}.modules-grid{grid-template-columns:1fr}}
 footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-size:.72rem;text-align:center}
 </style>
 </head>
@@ -101,7 +154,12 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
 <div class="page-hero">
   <div class="ph-eyebrow">Espace personnel · Simulation</div>
   <h1 class="ph-title">Mon <em>Compte</em> OVC</h1>
-  <p class="ph-sub">Suivez l'évolution de votre simulation d'investissement en temps réel</p>
+  <p class="ph-sub">Simulation d'investissement, formation gratuite et suivi de portefeuille</p>
+  <div class="dash-tabs" id="dash-tabs" style="display:none">
+    <button class="dtab on" onclick="switchTab('portfolio',this)">📊 Portefeuille</button>
+    <button class="dtab" onclick="switchTab('learn',this)">🎓 Formation</button>
+    <button class="dtab" onclick="switchTab('analyses',this)">📄 Mes Analyses</button>
+  </div>
 </div>
 
 <!-- SCREEN: LOADING -->
@@ -143,51 +201,199 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
       <div class="dh-greeting" id="dash-greeting">Bonjour !</div>
       <div class="dh-since" id="dash-since"></div>
     </div>
-    <div><span class="dh-badge">● Simulation active</span></div>
-  </div>
-
-  <div class="kpi-strip">
-    <div class="kpi-box">
-      <div class="kpi-lbl">Parts détenues</div>
-      <div class="kpi-val gold" id="dash-parts">—</div>
-      <div class="kpi-sub">parts OVC</div>
-    </div>
-    <div class="kpi-box">
-      <div class="kpi-lbl">VL d'entrée</div>
-      <div class="kpi-val" id="dash-nav-entry">—</div>
-      <div class="kpi-sub">EUR / part</div>
-    </div>
-    <div class="kpi-box">
-      <div class="kpi-lbl">VL actuelle</div>
-      <div class="kpi-val gold" id="dash-nav-now">—</div>
-      <div class="kpi-sub">EUR / part</div>
-    </div>
-    <div class="kpi-box">
-      <div class="kpi-lbl">Performance</div>
-      <div class="kpi-val" id="dash-perf">—</div>
-      <div class="kpi-sub" id="dash-gain-eur"></div>
+    <div style="display:flex;align-items:center;gap:.6rem">
+      <span class="dh-badge">● Simulation active</span>
+      <button class="signout-btn" onclick="signOut()" style="font-size:.7rem;padding:.3rem .8rem">Déconnexion</button>
     </div>
   </div>
 
-  <div class="detail-card">
-    <div class="dc-title">Détail de la simulation</div>
-    <div class="dc-row"><span class="dc-key">Montant simulé initial</span><span class="dc-val" id="dash-amount">—</span></div>
-    <div class="dc-row"><span class="dc-key">Valeur actuelle simulée</span><span class="dc-val" id="dash-value-now">—</span></div>
-    <div class="dc-row"><span class="dc-key">Gain / Perte simulé(e)</span><span class="dc-val" id="dash-gain">—</span></div>
-    <div class="dc-row"><span class="dc-key">Objectif déclaré</span><span class="dc-val" id="dash-objective">—</span></div>
-    <div class="dc-row"><span class="dc-key">Horizon</span><span class="dc-val" id="dash-horizon">—</span></div>
-    <div class="dc-row"><span class="dc-key">Profil de risque</span><span class="dc-val" id="dash-risk">—</span></div>
-    <div class="dc-row"><span class="dc-key">Date de souscription</span><span class="dc-val" id="dash-date">—</span></div>
+  <!-- ── PANEL: PORTEFEUILLE -->
+  <div class="panel on" id="panel-portfolio">
+    <div class="kpi-strip">
+      <div class="kpi-box">
+        <div class="kpi-lbl">Parts détenues</div>
+        <div class="kpi-val gold" id="dash-parts">—</div>
+        <div class="kpi-sub">parts OVC</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-lbl">VL d'entrée</div>
+        <div class="kpi-val" id="dash-nav-entry">—</div>
+        <div class="kpi-sub">EUR / part</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-lbl">VL actuelle</div>
+        <div class="kpi-val gold" id="dash-nav-now">—</div>
+        <div class="kpi-sub">EUR / part</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-lbl">Performance</div>
+        <div class="kpi-val" id="dash-perf">—</div>
+        <div class="kpi-sub" id="dash-gain-eur"></div>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="dc-title">Détail de la simulation</div>
+      <div class="dc-row"><span class="dc-key">Montant simulé initial</span><span class="dc-val" id="dash-amount">—</span></div>
+      <div class="dc-row"><span class="dc-key">Valeur actuelle simulée</span><span class="dc-val" id="dash-value-now">—</span></div>
+      <div class="dc-row"><span class="dc-key">Gain / Perte simulé(e)</span><span class="dc-val" id="dash-gain">—</span></div>
+      <div class="dc-row"><span class="dc-key">Objectif déclaré</span><span class="dc-val" id="dash-objective">—</span></div>
+      <div class="dc-row"><span class="dc-key">Horizon</span><span class="dc-val" id="dash-horizon">—</span></div>
+      <div class="dc-row"><span class="dc-key">Profil de risque</span><span class="dc-val" id="dash-risk">—</span></div>
+      <div class="dc-row"><span class="dc-key">Date de souscription</span><span class="dc-val" id="dash-date">—</span></div>
+    </div>
+    <div class="disclaimer">
+      ⚠ Cette simulation est purement éducative et ne représente aucun investissement réel.
+      Aucune somme d'argent n'est gérée par OVC. Les performances affichées sont simulées.
+      <a href="mentions-legales.html" style="color:var(--gold)">Mentions légales</a>
+    </div>
   </div>
 
-  <div class="disclaimer">
-    ⚠ Cette simulation est purement éducative et ne représente aucun investissement réel.
-    Aucune somme d'argent n'est gérée par OVC. Les performances affichées sont simulées.
-    <a href="mentions-legales.html" style="color:var(--gold)">Mentions légales</a>
+  <!-- ── PANEL: FORMATION -->
+  <div class="panel" id="panel-learn">
+    <div class="learn-intro">
+      <div class="learn-intro-text">
+        <h3>🎓 Formation OVC — accès gratuit inclus</h3>
+        <p>En tant que membre OVC, vous accédez gratuitement à tous les modules de formation. De l'initiation aux marchés financiers jusqu'à la modélisation DCF avancée. À votre rythme.</p>
+      </div>
+      <div class="learn-badge">
+        <div class="learn-badge-v">9</div>
+        <div class="learn-badge-l">Modules</div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="learn-progress">
+      <div class="lp-top">
+        <span class="lp-label">Votre progression globale</span>
+        <span class="lp-pct" id="learn-pct">0%</span>
+      </div>
+      <div class="lp-bar"><div class="lp-fill" id="learn-bar" style="width:0%"></div></div>
+    </div>
+
+    <!-- Level tabs -->
+    <div class="level-tabs">
+      <button class="lvl-btn beg on" onclick="switchLevel('beg',this)"><span class="lvl-dot beg-dot"></span>Débutant</button>
+      <button class="lvl-btn int" onclick="switchLevel('int',this)"><span class="lvl-dot int-dot"></span>Intermédiaire</button>
+      <button class="lvl-btn adv" onclick="switchLevel('adv',this)"><span class="lvl-dot adv-dot"></span>Avancé</button>
+    </div>
+
+    <!-- NIVEAU: DÉBUTANT -->
+    <div class="lvl-panel on" id="lvl-beg">
+      <div class="modules-grid">
+        <div class="mod-card beg" onclick="openModule(1)">
+          <div class="mod-num">MODULE 01</div>
+          <div class="mod-icon">💰</div>
+          <div class="mod-title">Les bases de l'investissement</div>
+          <p class="mod-desc">Actions, obligations, fonds — comprendre les instruments financiers essentiels. Pourquoi investir et comment commencer avec 500 EUR.</p>
+          <div class="mod-footer">
+            <span class="mod-dur">⏱ 20 min</span>
+            <span class="mod-tag tag-beg">Débutant</span>
+          </div>
+        </div>
+        <div class="mod-card beg" onclick="openModule(2)">
+          <div class="mod-num">MODULE 02</div>
+          <div class="mod-icon">📊</div>
+          <div class="mod-title">Lire un rapport annuel</div>
+          <p class="mod-desc">Comment décrypter un 10-K ou rapport annuel : bilan, compte de résultat, flux de trésorerie. Les métriques à regarder en premier.</p>
+          <div class="mod-footer">
+            <span class="mod-dur">⏱ 25 min</span>
+            <span class="mod-tag tag-beg">Débutant</span>
+          </div>
+        </div>
+        <div class="mod-card beg" onclick="openModule(3)">
+          <div class="mod-num">MODULE 03</div>
+          <div class="mod-icon">🌍</div>
+          <div class="mod-title">Introduction aux marchés africains</div>
+          <p class="mod-desc">BRVM, JSE, NSE — comment accéder aux bourses africaines, leurs spécificités et pourquoi elles offrent des opportunités uniques.</p>
+          <div class="mod-footer">
+            <span class="mod-dur">⏱ 18 min</span>
+            <span class="mod-tag tag-beg">Débutant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NIVEAU: INTERMÉDIAIRE -->
+    <div class="lvl-panel" id="lvl-int">
+      <div class="modules-grid">
+        <div class="mod-card int" onclick="openModule(4)">
+          <div class="mod-num">MODULE 04</div>
+          <div class="mod-icon">🔬</div>
+          <div class="mod-title">L'analyse fondamentale</div>
+          <p class="mod-desc">P/E, EV/EBITDA, ROE, ROA, FCF Yield — les métriques clés et comment les interpréter dans différents contextes sectoriels.</p>
+          <div class="mod-footer">
+            <span class="mod-dur">⏱ 35 min</span>
+            <span class="mod-tag tag-int">Intermédiaire</span>
+          </div>
+        </div>
+        <div class="mod-card int" onclick="openModule(5)">
+          <div class="mod-num">MODULE 05</div>
+          <div class="mod-icon">📐</div>
+          <div class="mod-title">Introduction au DCF</div>
+          <p class="mod-desc">Construire un modèle DCF simple : projections de flux, taux d'actualisation WACC et valeur terminale. Exemple pratique sur Orange CI.</p>
+          <div class="mod-footer">
+            <span class="mod-dur">⏱ 40 min</span>
+            <span class="mod-tag tag-int">Intermédiaire</span>
+          </div>
+        </div>
+        <div class="mod-card int" onclick="openModule(6)">
+          <div class="mod-num">MODULE 06</div>
+          <div class="mod-icon">⚖️</div>
+          <div class="mod-title">Évaluation par les comparables</div>
+          <p class="mod-desc">Méthode des multiples de marché : EV/Sales, P/Book, Price-to-FCF. Construire un peer group pertinent et identifier les sur/sous-valorisations.</p>
+          <div class="mod-footer">
+            <span class="mod-dur">⏱ 30 min</span>
+            <span class="mod-tag tag-int">Intermédiaire</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NIVEAU: AVANCÉ -->
+    <div class="lvl-panel" id="lvl-adv">
+      <div class="modules-grid">
+        <div class="mod-card adv" onclick="openModule(7)">
+          <div class="mod-num">MODULE 07</div>
+          <div class="mod-icon">🏗️</div>
+          <div class="mod-title">Modélisation DCF avancée</div>
+          <p class="mod-desc">DCF 3-étapes, modèle Gordon-Shapiro, scénarios bull/base/bear, analyse de sensibilité WACC × croissance. Reproduire le modèle OVC sur NVIDIA.</p>
+          <div class="mod-footer">
+            <span class="mod-dur">⏱ 55 min</span>
+            <span class="mod-tag tag-adv">Avancé</span>
+          </div>
+        </div>
+        <div class="mod-card adv" onclick="openModule(8)">
+          <div class="mod-num">MODULE 08</div>
+          <div class="mod-icon">🧩</div>
+          <div class="mod-title">Analyse sectorielle comparative</div>
+          <p class="mod-desc">Porter's 5 Forces, chaîne de valeur, analyse concurrentielle. Comparer des secteurs hétérogènes (Tech US vs. Télécom Afrique) avec les bons outils.</p>
+          <div class="mod-footer">
+            <span class="mod-dur">⏱ 45 min</span>
+            <span class="mod-tag tag-adv">Avancé</span>
+          </div>
+        </div>
+        <div class="mod-card adv" onclick="openModule(9)">
+          <div class="mod-num">MODULE 09</div>
+          <div class="mod-icon">🎯</div>
+          <div class="mod-title">Construction & gestion de portefeuille</div>
+          <p class="mod-desc">Allocation d'actifs, corrélations, VaR, rééquilibrage. Construire un portefeuille global diversifié sur 4 zones géographiques — la méthode OVC.</p>
+          <div class="mod-footer">
+            <span class="mod-dur">⏱ 50 min</span>
+            <span class="mod-tag tag-adv">Avancé</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="signout-row">
-    <button class="signout-btn" onclick="signOut()">Se déconnecter</button>
+  <!-- ── PANEL: MES ANALYSES -->
+  <div class="panel" id="panel-analyses">
+    <div class="detail-card" style="text-align:center;padding:2.5rem">
+      <div style="font-size:2rem;margin-bottom:1rem">📄</div>
+      <div style="font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;margin-bottom:.5rem">Vos analyses sauvegardées</div>
+      <p style="font-size:.83rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">Retrouvez ici les analyses que vous avez marquées comme favorites depuis les pages <strong>Equity Research</strong> et <strong>Macro</strong>. Cette fonctionnalité arrive prochainement.</p>
+      <a href="analyses.html" style="display:inline-block;padding:.65rem 1.4rem;background:var(--ink);color:#fff;border-radius:8px;text-decoration:none;font-size:.82rem;font-weight:700">Parcourir les analyses →</a>
+    </div>
   </div>
 </div>
 
@@ -282,6 +488,10 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
     document.getElementById('dash-risk').textContent      = s.risk      || '—';
     document.getElementById('dash-date').textContent      = fmtDate(s.date);
 
+    // Show dashboard tabs
+    var tabs = document.getElementById('dash-tabs');
+    if (tabs) tabs.style.display = 'flex';
+
     show('screen-dashboard');
   }
 
@@ -328,6 +538,8 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
   // ── Sign out
   window.signOut = async function () {
     if (window._db) await _db.auth.signOut().catch(function(){});
+    var tabs = document.getElementById('dash-tabs');
+    if (tabs) tabs.style.display = 'none';
     show('screen-login');
   };
 
@@ -354,6 +566,100 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
   });
 
 })();
+
+// ── Dashboard tab switching
+window.switchTab = function(tab, btn) {
+  // Update tab buttons
+  document.querySelectorAll('.dtab').forEach(function(b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  // Update panels
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('on'); });
+  var panel = document.getElementById('panel-' + tab);
+  if (panel) panel.classList.add('on');
+};
+
+// ── Level switching in Formation
+window.switchLevel = function(level, btn) {
+  document.querySelectorAll('.lvl-btn').forEach(function(b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  document.querySelectorAll('.lvl-panel').forEach(function(p) { p.classList.remove('on'); });
+  var lp = document.getElementById('lvl-' + level);
+  if (lp) lp.classList.add('on');
+};
+
+// ── Module open (simulate — content à venir)
+var _completedModules = JSON.parse(localStorage.getItem('ovc_modules') || '[]');
+
+window.openModule = function(n) {
+  // Mark as started/viewed
+  if (!_completedModules.includes(n)) {
+    _completedModules.push(n);
+    localStorage.setItem('ovc_modules', JSON.stringify(_completedModules));
+    updateProgress();
+  }
+  // Show a simple modal with placeholder content
+  var MODULES = {
+    1:  { title:'Les bases de l\'investissement',     dur:'20 min', level:'Débutant',       color:'#1a7a4a' },
+    2:  { title:'Lire un rapport annuel',             dur:'25 min', level:'Débutant',       color:'#1a7a4a' },
+    3:  { title:'Introduction aux marchés africains', dur:'18 min', level:'Débutant',       color:'#1a7a4a' },
+    4:  { title:'L\'analyse fondamentale',            dur:'35 min', level:'Intermédiaire',  color:'#1e4faa' },
+    5:  { title:'Introduction au DCF',                dur:'40 min', level:'Intermédiaire',  color:'#1e4faa' },
+    6:  { title:'Évaluation par les comparables',     dur:'30 min', level:'Intermédiaire',  color:'#1e4faa' },
+    7:  { title:'Modélisation DCF avancée',           dur:'55 min', level:'Avancé',         color:'#5e35b1' },
+    8:  { title:'Analyse sectorielle comparative',    dur:'45 min', level:'Avancé',         color:'#5e35b1' },
+    9:  { title:'Construction & gestion de portefeuille', dur:'50 min', level:'Avancé',    color:'#5e35b1' }
+  };
+  var m = MODULES[n]; if (!m) return;
+  // Create/show modal
+  var existing = document.getElementById('mod-modal');
+  if (existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'mod-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(10,15,30,.85);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:2rem';
+  modal.innerHTML = '<div style="background:#fff;border-radius:20px;max-width:520px;width:100%;padding:2.5rem;position:relative;max-height:85vh;overflow-y:auto">' +
+    '<button onclick="document.getElementById(\'mod-modal\').remove()" style="position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;border:none;background:#f5f2ec;cursor:pointer;font-size:.9rem">✕</button>' +
+    '<div style="display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:100px;margin-bottom:1rem;background:' + m.color + '22;color:' + m.color + '">' + m.level + ' · ' + m.dur + '</div>' +
+    '<h2 style="font-family:\'Libre Baskerville\',serif;font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:.8rem;line-height:1.3">' + m.title + '</h2>' +
+    '<p style="font-size:.85rem;color:#4a4a68;line-height:1.8;margin-bottom:1.5rem">Ce module de formation est en cours de préparation. Le contenu complet — avec exemples pratiques sur des positions OVC réelles — sera disponible très prochainement. Vous serez notifié par email dès sa publication.</p>' +
+    '<div style="background:#fafaf8;border:1px solid #e8e4f0;border-radius:12px;padding:1.2rem;margin-bottom:1.5rem">' +
+    '<div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a8aaa;margin-bottom:.7rem">Ce que vous apprendrez</div>' +
+    getModulePoints(n) + '</div>' +
+    '<div style="display:flex;gap:.8rem">' +
+    '<button onclick="document.getElementById(\'mod-modal\').remove()" style="flex:1;padding:.85rem;background:#1a1a2e;color:#fff;border:none;border-radius:10px;font-family:\'Outfit\',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer">← Retour</button>' +
+    '<button onclick="alert(\'Vous serez notifié dès la publication !\')" style="flex:1;padding:.85rem;background:#c9832a;color:#fff;border:none;border-radius:10px;font-family:\'Outfit\',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer">Être notifié →</button>' +
+    '</div></div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
+};
+
+function getModulePoints(n) {
+  var pts = {
+    1: ['Comprendre les classes d\'actifs (actions, obligations, ETF)', 'Le concept de rendement ajusté au risque', 'Commencer à investir avec un petit capital', 'Les erreurs classiques des débutants à éviter'],
+    2: ['Anatomie d\'un bilan consolidé', 'Lire le compte de résultat et les marges', 'Analyser les flux de trésorerie (FCF)', 'Identifier les signaux d\'alerte comptables'],
+    3: ['Fonctionnement de la BRVM, JSE et NSE', 'Comment passer des ordres sur ces marchés', 'Risques spécifiques (change, liquidité, réglementation)', 'Les secteurs les plus porteurs en Afrique subsaharienne'],
+    4: ['Calculer et interpréter P/E, PEG, EV/EBITDA', 'ROE, ROCE et leur signification sectorielle', 'FCF Yield et Free Cash Flow Margin', 'Comparer des entreprises dans différents contextes'],
+    5: ['Construire les projections de flux sur 5-10 ans', 'Calculer le WACC (coût moyen pondéré du capital)', 'Estimer la valeur terminale', 'Synthèse en valeur intrinsèque par action'],
+    6: ['Sélectionner un peer group pertinent', 'Calculer et corriger les multiples de marché', 'Identifier les primes et décotes justifiées', 'Pondérer les méthodes pour une fourchette de valeur'],
+    7: ['DCF en 3 phases de croissance', 'Modèle Gordon-Shapiro pour les dividendes', 'Matrice de sensibilité WACC × taux de croissance', 'Reproductibilité sur NVIDIA — cas pratique OVC'],
+    8: ['Appliquer Porter\'s 5 Forces à des secteurs réels', 'Cartographier la chaîne de valeur', 'Analyse concurrentielle Tech US vs. Télécom Afrique', 'Scoring qualitatif pour la décision d\'investissement'],
+    9: ['Construire une allocation d\'actifs multi-zones', 'Mesurer et gérer les corrélations de portefeuille', 'VaR historique et paramétrique simplifié', 'Règles de rééquilibrage et discipline d\'investissement']
+  };
+  var list = pts[n] || [];
+  return list.map(function(p){ return '<div style="display:flex;gap:.6rem;padding:.35rem 0;font-size:.8rem;color:#4a4a68;border-bottom:1px solid #f0f0f5"><span style="color:#c9832a;flex-shrink:0">✓</span>' + p + '</div>'; }).join('');
+}
+
+function updateProgress() {
+  var total = 9;
+  var done = _completedModules.length;
+  var pct = Math.round((done / total) * 100);
+  var bar = document.getElementById('learn-bar');
+  var lbl = document.getElementById('learn-pct');
+  if (bar) bar.style.width = pct + '%';
+  if (lbl) lbl.textContent = pct + '%';
+}
+
+// Init progress from localStorage
+updateProgress();
 </script>
 </body>
 </html>
