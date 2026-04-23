@@ -412,10 +412,15 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
     <div class="nf-icon">🔍</div>
     <div class="nf-title">Aucune souscription trouvée</div>
     <div class="nf-sub">
-      Aucune simulation n'est associée à cette adresse email.<br>
+      Aucune simulation n'est associée à <b id="nf-email"></b>.<br>
       Créez votre simulation gratuitement en quelques minutes.
     </div>
     <a href="subscribe.html" class="nf-btn">Créer ma simulation →</a>
+    <div style="text-align:center;margin-top:1rem">
+      <button onclick="signOut()" style="background:none;border:none;color:var(--muted,#aaa);font-size:.82rem;cursor:pointer;text-decoration:underline;font-family:'Outfit',sans-serif">
+        Se connecter avec un autre compte →
+      </button>
+    </div>
   </div>
 </div>
 
@@ -460,7 +465,12 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
       .eq('email', user.email)
       .single();
 
-    if (res.error || !res.data) { show('screen-notfound'); return; }
+    if (res.error || !res.data) {
+      // Not found in subscribers — offer to sign out and try another account
+      document.getElementById('nf-email').textContent = user.email || '';
+      show('screen-notfound');
+      return;
+    }
 
     var s = res.data;
     var currentNav  = await getLatestNav();
