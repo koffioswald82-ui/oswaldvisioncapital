@@ -157,6 +157,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
   <p class="ph-sub">Simulation d'investissement, formation gratuite et suivi de portefeuille</p>
   <div class="dash-tabs" id="dash-tabs" style="display:none">
     <button class="dtab on" onclick="switchTab('portfolio',this)">📊 Portefeuille</button>
+    <button class="dtab" onclick="switchTab('perf',this)">📈 Performance</button>
     <button class="dtab" onclick="switchTab('learn',this)">🎓 Formation</button>
     <button class="dtab" onclick="switchTab('analyses',this)">📄 Mes Analyses</button>
   </div>
@@ -254,6 +255,57 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
       ⚠ Cette simulation est purement éducative et ne représente aucun investissement réel.
       Aucune somme d'argent n'est gérée par OVC. Les performances affichées sont simulées.
       <a href="mentions-legales.html" style="color:var(--gold)">Mentions légales</a>
+    </div>
+  </div>
+
+  <!-- ── PANEL: PERFORMANCE -->
+  <div class="panel" id="panel-perf">
+    <div class="kpi-strip" id="perf-kpis" style="margin-bottom:1.2rem">
+      <div class="kpi-box">
+        <div class="kpi-lbl">Perf. personnelle</div>
+        <div class="kpi-val" id="pk-personal">—</div>
+        <div class="kpi-sub">depuis souscription</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-lbl">Perf. fonds (lancement)</div>
+        <div class="kpi-val" id="pk-fund">—</div>
+        <div class="kpi-sub">depuis création OVC</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-lbl">VL actuelle</div>
+        <div class="kpi-val gold" id="pk-nav">—</div>
+        <div class="kpi-sub">EUR / part</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-lbl">Dernière publication</div>
+        <div class="kpi-val" id="pk-date" style="font-size:1rem">—</div>
+        <div class="kpi-sub">date VL</div>
+      </div>
+    </div>
+
+    <div class="detail-card" style="margin-bottom:1.2rem">
+      <div class="dc-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Historique VL du fonds</span>
+        <span style="font-size:.72rem;color:var(--muted);font-weight:400">Base 100 au lancement</span>
+      </div>
+      <div style="position:relative;height:220px;margin-top:.8rem">
+        <canvas id="nav-chart"></canvas>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="dc-title">Historique des valeurs liquidatives</div>
+      <div style="overflow-x:auto;margin-top:.6rem">
+        <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+          <thead><tr style="border-bottom:1px solid var(--line)">
+            <th style="text-align:left;padding:.5rem .4rem;color:var(--muted);font-weight:500">Date</th>
+            <th style="text-align:right;padding:.5rem .4rem;color:var(--muted);font-weight:500">VL (EUR)</th>
+            <th style="text-align:right;padding:.5rem .4rem;color:var(--muted);font-weight:500">Variation</th>
+            <th style="text-align:right;padding:.5rem .4rem;color:var(--muted);font-weight:500">Cumul</th>
+          </tr></thead>
+          <tbody id="nav-history-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -427,6 +479,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
 <footer>© 2026 Oswald Vision Capital · Simulation éducative — aucun capital réel · <a href="mentions-legales.html" style="color:rgba(255,255,255,.4);text-decoration:none">Mentions légales</a></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <script src="js/supabase-client.js"></script>
 <script>
 (function () {
@@ -701,13 +754,130 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
 
 // ── Dashboard tab switching
 window.switchTab = function(tab, btn) {
-  // Update tab buttons
   document.querySelectorAll('.dtab').forEach(function(b) { b.classList.remove('on'); });
   btn.classList.add('on');
-  // Update panels
   document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('on'); });
   var panel = document.getElementById('panel-' + tab);
   if (panel) panel.classList.add('on');
+  if (tab === 'perf') loadPerfPanel();
+};
+
+// ── Performance panel
+var _perfLoaded = false;
+var _navChart = null;
+
+window.loadPerfPanel = async function() {
+  if (_perfLoaded) return;
+  if (!window._db) return;
+
+  try {
+    var res = await _db.from('nav_history')
+      .select('date,nav,wchg,cum')
+      .order('date', { ascending: true });
+
+    var rows = (res.data || []);
+    if (!rows.length) {
+      document.getElementById('nav-history-tbody').innerHTML =
+        '<tr><td colspan="4" style="text-align:center;padding:1.5rem;color:var(--muted)">Aucun historique publié</td></tr>';
+      return;
+    }
+
+    var NAV_L = 100;
+    // Latest row
+    var last  = rows[rows.length - 1];
+    var nav   = parseFloat(last.nav) || NAV_L;
+    var navOk = nav <= 2000;
+    var cum   = parseFloat(last.cum) || 0;
+    var navDisplay = navOk ? nav : NAV_L * (1 + cum / 100);
+
+    // KPIs
+    var perfEl = document.getElementById('pk-personal');
+    if (perfEl) {
+      perfEl.textContent = (cum >= 0 ? '+' : '') + cum.toFixed(2) + '%';
+      perfEl.className = 'kpi-val ' + (cum >= 0 ? 'g' : 'r');
+    }
+    var fundEl = document.getElementById('pk-fund');
+    if (fundEl) {
+      fundEl.textContent = (cum >= 0 ? '+' : '') + cum.toFixed(2) + '%';
+      fundEl.className = 'kpi-val ' + (cum >= 0 ? 'g' : 'r');
+    }
+    var navEl = document.getElementById('pk-nav');
+    if (navEl) navEl.textContent = navDisplay.toFixed(4);
+    var dateEl = document.getElementById('pk-date');
+    if (dateEl) dateEl.textContent = last.date ? new Date(last.date).toLocaleDateString('fr-FR') : '—';
+
+    // Chart
+    var labels = rows.map(function(r) { return r.date ? new Date(r.date).toLocaleDateString('fr-FR', {month:'short',year:'2-digit'}) : ''; });
+    var navValues = rows.map(function(r) {
+      var c = parseFloat(r.cum) || 0;
+      return parseFloat((NAV_L * (1 + c / 100)).toFixed(4));
+    });
+
+    var ctx = document.getElementById('nav-chart');
+    if (ctx && window.Chart) {
+      if (_navChart) _navChart.destroy();
+      _navChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'VL OVC (base 100)',
+            data: navValues,
+            borderColor: '#c9832a',
+            backgroundColor: 'rgba(201,131,42,.08)',
+            borderWidth: 2,
+            pointRadius: rows.length > 20 ? 0 : 3,
+            pointHoverRadius: 5,
+            fill: true,
+            tension: 0.35
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(c) { return ' ' + c.parsed.y.toFixed(4) + ' EUR/part'; }
+              }
+            }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#8a8aaa', maxTicksLimit: 8 } },
+            y: { grid: { color: 'rgba(0,0,0,.05)' }, ticks: { font: { size: 11 }, color: '#8a8aaa',
+              callback: function(v) { return v.toFixed(1); }
+            }}
+          }
+        }
+      });
+    }
+
+    // Table
+    var tbody = document.getElementById('nav-history-tbody');
+    var html  = '';
+    var sorted = rows.slice().reverse();
+    sorted.forEach(function(r) {
+      var wchg = parseFloat(r.wchg) || 0;
+      var cumR = parseFloat(r.cum)  || 0;
+      var wCls = wchg >= 0 ? 'color:#1a7a4a' : 'color:#c0392b';
+      var cCls = cumR >= 0 ? 'color:#1a7a4a' : 'color:#c0392b';
+      var navR = parseFloat(r.nav) || NAV_L;
+      var navOkR = navR <= 2000;
+      var navDisp = navOkR ? navR.toFixed(4) : (NAV_L * (1 + cumR / 100)).toFixed(4);
+      html += '<tr style="border-bottom:1px solid var(--line)">' +
+        '<td style="padding:.45rem .4rem">' + (r.date ? new Date(r.date).toLocaleDateString('fr-FR') : '—') + '</td>' +
+        '<td style="text-align:right;padding:.45rem .4rem;font-family:\'JetBrains Mono\',monospace">' + navDisp + '</td>' +
+        '<td style="text-align:right;padding:.45rem .4rem;font-family:\'JetBrains Mono\',monospace;' + wCls + '">' + (wchg >= 0 ? '+' : '') + wchg.toFixed(2) + '%</td>' +
+        '<td style="text-align:right;padding:.45rem .4rem;font-family:\'JetBrains Mono\',monospace;' + cCls + '">' + (cumR >= 0 ? '+' : '') + cumR.toFixed(2) + '%</td>' +
+        '</tr>';
+    });
+    tbody.innerHTML = html || '<tr><td colspan="4" style="text-align:center;padding:1rem;color:var(--muted)">Aucune donnée</td></tr>';
+
+    _perfLoaded = true;
+  } catch(e) {
+    console.error('[OVC] loadPerfPanel:', e);
+  }
 };
 
 // ── Level switching in Formation

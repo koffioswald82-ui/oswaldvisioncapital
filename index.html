@@ -9,6 +9,7 @@
 <link rel="manifest" href="manifest.json">
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 :root{ --ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa; --line:#e8e4f0;--bg:#fafaf8;--white:#ffffff;--cream:#f5f2ec;--cream2:#eee9e0; --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2; --blue:#1e4faa;--blue-bg:#eef3ff; --green:#1a7a4a;--green-bg:#e8f5ee; --red:#c0392b; --purple:#5e35b1;--purple-bg:#f0ebff; --shadow:0 2px 20px rgba(26,26,46,.08); --shadow-lg:0 8px 40px rgba(26,26,46,.13);
 }
@@ -591,7 +592,12 @@ html[data-lang=en] span[data-en]{display:inline}
 .sec-card:hover{box-shadow:0 8px 32px rgba(26,26,46,.1);transform:translateY(-2px);border-color:var(--card-accent,var(--gold))}
 .sec-card:hover::before{opacity:1}
 .sec-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
-.sec-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.sec-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0}
+.sec-icon i{font-size:1.35rem;line-height:1}
+.ic-africa i{color:#5e35b1}
+.ic-americas i{color:#1e4faa}
+.ic-europe i{color:#1a7a4a}
+.ic-global i{color:#c9832a}
 .sec-badge{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;border-radius:4px}
 .sec-name{font-family:'Libre Baskerville',serif;font-size:.95rem;font-weight:700;color:var(--ink);line-height:1.3}
 .sec-desc{font-size:.74rem;color:var(--body);line-height:1.65;flex:1}
@@ -1090,7 +1096,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Télécoms -->
       <div class="sec-card z-africa">
         <div class="sec-card-top">
-          <div class="sec-icon ic-africa">📡</div>
+          <div class="sec-icon ic-africa"><i class="bi bi-broadcast"></i></div>
           <span class="sec-badge s-ok"><span data-fr>COUVERT</span><span data-en>COVERED</span></span>
         </div>
         <div class="sec-name"><span data-fr>Télécoms Afrique</span><span data-en>Africa Telecoms</span></div>
@@ -1108,7 +1114,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Agro -->
       <div class="sec-card z-africa">
         <div class="sec-card-top">
-          <div class="sec-icon ic-africa">🌾</div>
+          <div class="sec-icon ic-africa"><i class="bi bi-tree-fill"></i></div>
           <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
         </div>
         <div class="sec-name"><span data-fr>Agro-industrie</span><span data-en>Agribusiness</span></div>
@@ -1125,7 +1131,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Banques BRVM -->
       <div class="sec-card z-africa">
         <div class="sec-card-top">
-          <div class="sec-icon ic-africa">🏦</div>
+          <div class="sec-icon ic-africa"><i class="bi bi-bank2"></i></div>
           <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
         </div>
         <div class="sec-name"><span data-fr>Banques &amp; Fintech BRVM</span><span data-en>Banks &amp; Fintech BRVM</span></div>
@@ -1143,7 +1149,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Énergie & Mines -->
       <div class="sec-card z-africa">
         <div class="sec-card-top">
-          <div class="sec-icon ic-africa">⛏️</div>
+          <div class="sec-icon ic-africa"><i class="bi bi-lightning-charge-fill"></i></div>
           <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
         </div>
         <div class="sec-name"><span data-fr>Énergie &amp; Mines</span><span data-en>Energy &amp; Mining</span></div>
@@ -1182,7 +1188,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Semi-conducteurs USA -->
       <div class="sec-card z-americas">
         <div class="sec-card-top">
-          <div class="sec-icon ic-americas">💻</div>
+          <div class="sec-icon ic-americas"><i class="bi bi-cpu-fill"></i></div>
           <span class="sec-badge s-ok"><span data-fr>COUVERT</span><span data-en>COVERED</span></span>
         </div>
         <div class="sec-name"><span data-fr>Semi-conducteurs</span><span data-en>Semiconductors</span></div>
@@ -1200,7 +1206,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Cloud Americas -->
       <div class="sec-card z-americas">
         <div class="sec-card-top">
-          <div class="sec-icon ic-americas">☁️</div>
+          <div class="sec-icon ic-americas"><i class="bi bi-cloud-fill"></i></div>
           <span class="sec-badge s-wip"><span data-fr>EN COURS</span><span data-en>IN PROGRESS</span></span>
         </div>
         <div class="sec-name">Cloud &amp; Software</div>
@@ -1218,7 +1224,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Consommation -->
       <div class="sec-card z-americas">
         <div class="sec-card-top">
-          <div class="sec-icon ic-americas">🛒</div>
+          <div class="sec-icon ic-americas"><i class="bi bi-basket3-fill"></i></div>
           <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
         </div>
         <div class="sec-name"><span data-fr>Consommation défensive</span><span data-en>Consumer Staples</span></div>
@@ -1258,7 +1264,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Semis Europe = ASML -->
       <div class="sec-card z-europe">
         <div class="sec-card-top">
-          <div class="sec-icon ic-europe">🔬</div>
+          <div class="sec-icon ic-europe"><i class="bi bi-cpu"></i></div>
           <span class="sec-badge s-ok"><span data-fr>COUVERT</span><span data-en>COVERED</span></span>
         </div>
         <div class="sec-name"><span data-fr>Semi-conducteurs EUV</span><span data-en>EUV Semiconductors</span></div>
@@ -1274,7 +1280,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Santé -->
       <div class="sec-card z-europe">
         <div class="sec-card-top">
-          <div class="sec-icon ic-europe">💊</div>
+          <div class="sec-icon ic-europe"><i class="bi bi-capsule-pill"></i></div>
           <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
         </div>
         <div class="sec-name"><span data-fr>Santé &amp; Pharma</span><span data-en>Healthcare &amp; Pharma</span></div>
@@ -1292,7 +1298,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Fintech Europe -->
       <div class="sec-card z-europe">
         <div class="sec-card-top">
-          <div class="sec-icon ic-europe">💳</div>
+          <div class="sec-icon ic-europe"><i class="bi bi-credit-card-2-front-fill"></i></div>
           <span class="sec-badge s-soon"><span data-fr>À VENIR</span><span data-en>COMING</span></span>
         </div>
         <div class="sec-name"><span data-fr>Fintech &amp; Paiements</span><span data-en>Fintech &amp; Payments</span></div>
@@ -1331,7 +1337,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- Semis Global -->
       <div class="sec-card z-global">
         <div class="sec-card-top">
-          <div class="sec-icon ic-global">💻</div>
+          <div class="sec-icon ic-global"><i class="bi bi-cpu-fill"></i></div>
           <span class="sec-badge s-ok"><span data-fr>COUVERT</span><span data-en>COVERED</span></span>
         </div>
         <div class="sec-name"><span data-fr>Chaîne semis mondiale</span><span data-en>Global semis chain</span></div>
@@ -1350,7 +1356,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <!-- IA Infrastructure -->
       <div class="sec-card z-global">
         <div class="sec-card-top">
-          <div class="sec-icon ic-global">🤖</div>
+          <div class="sec-icon ic-global"><i class="bi bi-robot"></i></div>
           <span class="sec-badge s-wip"><span data-fr>EN COURS</span><span data-en>IN PROGRESS</span></span>
         </div>
         <div class="sec-name"><span data-fr>Infrastructure IA</span><span data-en>AI Infrastructure</span></div>
