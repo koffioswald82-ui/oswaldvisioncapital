@@ -552,12 +552,38 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
     }
     btn.disabled = true; btn.textContent = 'Connexion…';
     try {
-      var { error } = await _db.auth.signInWithPassword({ email: email, password: pass });
+      var { data, error } = await _db.auth.signInWithPassword({ email: email, password: pass });
       if (error) throw error;
+      // onAuthStateChange handles the redirect to dashboard
     } catch(e) {
-      err.textContent  = 'Identifiants incorrects. Vérifiez votre email et mot de passe.';
+      var msg = e.message || '';
+      if (msg.toLowerCase().includes('invalid') || msg.toLowerCase().includes('credentials')) {
+        err.innerHTML = 'Email ou mot de passe incorrect.<br><small>Si vous vous êtes connecté par lien magique, vous n\'avez pas de mot de passe — utilisez <a href="#" onclick="resetPassword(event)" style="color:var(--gold)">réinitialiser mon mot de passe</a>.</small>';
+      } else {
+        err.innerHTML = 'Erreur : ' + msg;
+      }
       err.style.display = 'block';
       btn.disabled = false; btn.textContent = 'Se connecter →';
+    }
+  };
+
+  window.resetPassword = async function(e) {
+    if (e) e.preventDefault();
+    var email = (document.getElementById('login-email').value || '').trim();
+    var err   = document.getElementById('login-error');
+    var succ  = document.getElementById('login-success');
+    if (!email || !email.includes('@')) {
+      err.textContent = 'Entrez d\'abord votre adresse email ci-dessus.';
+      err.style.display = 'block'; return;
+    }
+    try {
+      await _db.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+      succ.innerHTML = '✓ Email envoyé à <b>' + email + '</b>.<br>Cliquez sur le lien pour définir votre mot de passe.';
+      succ.style.display = 'block';
+      err.style.display  = 'none';
+    } catch(ex) {
+      err.textContent = 'Erreur : ' + (ex.message || 'impossible d\'envoyer l\'email.');
+      err.style.display = 'block';
     }
   };
 
