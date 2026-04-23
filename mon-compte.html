@@ -444,16 +444,31 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
     return new Date(d).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
   }
 
-  // ── Fetch latest published NAV
+  var NAV_LAUNCH = 100.00;
+
+  // ── Fetch latest published NAV — returns {nav, cum, date}
   async function getLatestNav() {
     try {
       var res = await _db.from('nav_history')
-        .select('nav,date')
+        .select('nav,cum,date,parts')
         .order('date', { ascending: false })
         .limit(1)
         .single();
-      return res.data ? parseFloat(res.data.nav) : 100;
-    } catch(e) { return 100; }
+      if (!res.data) return { nav: NAV_LAUNCH, cum: 0, date: null };
+      var nav  = parseFloat(res.data.nav)  || NAV_LAUNCH;
+      var cum  = parseFloat(res.data.cum)  || 0;
+      var pts  = parseFloat(res.data.parts)|| 0;
+      // Sanity: if nav looks like total capital (>> 1000 EUR/part), recompute from cum
+      // cum = (nav - NAV_LAUNCH) / NAV_LAUNCH * 100 → nav = NAV_LAUNCH * (1 + cum/100)
+      var navOk = nav <= 2000; // up to +1900% per part seems safe upper bound
+      return {
+        nav:  navOk ? nav : NAV_LAUNCH * (1 + cum / 100),
+        cum:  cum,
+        date: res.data.date,
+        raw:  nav,
+        sane: navOk
+      };
+    } catch(e) { return { nav: NAV_LAUNCH, cum: 0, date: null, sane: true }; }
   }
 
   // ── Populate dashboard
@@ -466,21 +481,31 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
       .single();
 
     if (res.error || !res.data) {
-      // Not found in subscribers — offer to sign out and try another account
       document.getElementById('nf-email').textContent = user.email || '';
       show('screen-notfound');
       return;
     }
 
-    var s = res.data;
-    var currentNav  = await getLatestNav();
-    var navEntry    = parseFloat(s.nav_entry) || 100;
-    var parts       = parseFloat(s.parts)     || 0;
-    var initAmount  = parseFloat(s.amount)    || 0;
-    var currentVal  = parts * currentNav;
-    var gainEur     = currentVal - initAmount;
-    var perfPct     = navEntry > 0 ? (currentNav - navEntry) / navEntry * 100 : 0;
-    var currency    = s.currency || 'EUR';
+    var s          = res.data;
+    var navInfo    = await getLatestNav();
+    var currentNav = navInfo.nav;
+    var navEntry   = parseFloat(s.nav_entry) || NAV_LAUNCH;
+    var parts      = parseFloat(s.parts)     || 0;
+    var initAmount = parseFloat(s.amount)    || 0;
+    var currency   = s.currency || 'EUR';
+
+    // Personal performance: (currentNav - navEntry) / navEntry × 100
+    // If navEntry matches launch NAV, use stored cum (already computed correctly)
+    var perfPct;
+    if (Math.abs(navEntry - NAV_LAUNCH) < 0.01) {
+      // Subscriber entered at launch price — fund cum perf IS their personal perf
+      perfPct = navInfo.cum;
+    } else {
+      perfPct = navEntry > 0 ? (currentNav - navEntry) / navEntry * 100 : 0;
+    }
+
+    var currentVal = initAmount * (1 + perfPct / 100);
+    var gainEur    = currentVal - initAmount;
 
     // Greeting
     document.getElementById('dash-greeting').textContent = 'Bonjour, ' + (s.first_name || '') + ' 👋';
@@ -506,6 +531,11 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
     document.getElementById('dash-horizon').textContent   = s.horizon   || '—';
     document.getElementById('dash-risk').textContent      = s.risk      || '—';
     document.getElementById('dash-date').textContent      = fmtDate(s.date);
+
+    // Warning if raw NAV was out of range (data issue in nav_history)
+    if (navInfo.sane === false) {
+      console.warn('[OVC] NAV brute incohérente (' + navInfo.raw + ' EUR/part) — reconstruction depuis cum=' + navInfo.cum + '%');
+    }
 
     // Show dashboard tabs
     var tabs = document.getElementById('dash-tabs');
