@@ -531,7 +531,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
     var res = await _db.from('subscribers')
       .select('*')
       .eq('email', user.email)
-      .single();
+      .order('id', { ascending: true })
+      .limit(1)
+      .maybeSingle();
 
     if (res.error || !res.data) {
       document.getElementById('nf-email').textContent = user.email || '';
