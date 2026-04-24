@@ -301,3 +301,22 @@ CREATE POLICY "Auth delete audio" ON storage.objects
 --  'Trump Tariffs 2025: opportunity or trap for Africa?',
 --  'La guerre commerciale US-Chine redistribue les flux de capitaux mondiaux.',
 --  ARRAY['macro'], 'fr/ep001.mp3', 'en/ep001.mp3', 1080, true, '2026-02-01');
+
+-- ══════════════════════════════════════════════════════
+-- SNAPSHOTS — Sauvegardes automatiques avant modifications
+-- Exécuter UNE SEULE FOIS dans Supabase SQL Editor
+-- ══════════════════════════════════════════════════════
+CREATE TABLE IF NOT EXISTS fund_snapshots (
+  id              SERIAL PRIMARY KEY,
+  snapshot_at     TIMESTAMPTZ DEFAULT now(),
+  trigger_label   TEXT NOT NULL,          -- 'fund_params' | 'add_position' | 'remove_position' | 'publish_vl' | 'manual'
+  cash            NUMERIC(15,2),
+  parts           NUMERIC(15,4),
+  nav_computed    NUMERIC(10,4),
+  portfolio_json  JSONB DEFAULT '[]',
+  nav_history_json JSONB DEFAULT '[]',
+  note            TEXT DEFAULT ''
+);
+
+ALTER TABLE fund_snapshots ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Admin all snapshots" ON fund_snapshots FOR ALL USING (auth.role() = 'authenticated');
