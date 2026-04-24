@@ -9,9 +9,10 @@ CREATE TABLE fund_settings (
 -- Insérer la valeur par défaut pour la configuration globale du fonds
 INSERT INTO fund_settings (id, cash, parts) VALUES (1, 100000, 1000);
 
--- Autoriser uniquement les administrateurs connectés
 ALTER TABLE fund_settings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Admin All Access" ON fund_settings FOR ALL USING (auth.role() = 'authenticated');
+-- Lecture publique nécessaire pour performance.html (calcul de la NAV côté visiteur)
+CREATE POLICY "Public Read" ON fund_settings FOR SELECT USING (true);
 
 -- 2. Table du Portefeuille (Portfolio)
 CREATE TABLE portfolio (
@@ -21,6 +22,11 @@ CREATE TABLE portfolio (
   sector text,
   entry_price numeric(10,4) NOT NULL,
   current_price numeric(10,4) NOT NULL,
+
+
+
+
+  
   currency text NOT NULL,
   api_method text NOT NULL,
   qty numeric(15,4) DEFAULT 0
@@ -197,6 +203,9 @@ ALTER TABLE fund_settings ADD COLUMN IF NOT EXISTS fx_rates TEXT;
 
 -- Colonne strategy dans portfolio (ajoutée lors de la mise à jour CMS)
 ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS strategy TEXT;
+
+-- Poids cible (%) de chaque position — nécessaire pour la page performance.html (visiteurs anonymes)
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS target_weight numeric(5,2) DEFAULT 0;
 
 -- 7. Historique des benchmarks (S&P 500, Euro Stoxx 50 — mis à jour par GitHub Actions)
 CREATE TABLE IF NOT EXISTS benchmark_history (

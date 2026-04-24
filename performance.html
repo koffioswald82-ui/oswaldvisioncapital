@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var _fx = (function() {
     try { return JSON.parse(localStorage.getItem('ovc_fx_rates') || 'null'); } catch(e) { return null; }
   })();
-  var FX_RATES = _fx && _fx.fetchedAt ? _fx : { USD:0.9225, GBP:1.1712, HKD:0.1183, JPY:0.0062, CHF:1.0560, CAD:0.6760, SEK:0.0875, XOF:XOF_EUR, EUR:1 };
+  var FX_RATES = _fx && _fx.fetchedAt ? _fx : { USD:0.9225, GBP:1.1712, HKD:0.1183, JPY:0.0062, CHF:1.0560, CAD:0.6760, SEK:0.0875, KRW:0.000068, XOF:XOF_EUR, EUR:1 };
 
   // ════════════════════════════════════════════════
   // STATE  -  toujours lire depuis localStorage
@@ -512,9 +512,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // CALCULS
   // ════════════════════════════════════════════════
   function toEUR(price, currency) {
-    if (currency === 'XOF') return price * FX_RATES.XOF;
-    if (currency === 'GBP') return price * FX_RATES.GBP;
-    if (currency === 'USD') return price * FX_RATES.USD;
+    var r = FX_RATES[currency];
+    if (r) return price * r;
     return price;
   }
 
@@ -1016,37 +1015,55 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       var r1 = await _db.from('portfolio').select('*');
       var r2 = await _db.from('nav_history').select('*').order('date');
-      var r3 = await _db.from('fund_settings').select('*').eq('id', 1).single();
+      var r3 = await _db.from('fund_settings').select('*').eq('id', 1).maybeSingle();
 
       var portfolio  = r1.data;
       var navHistory = r2.data;
       var settings   = r3.data;
 
-      if (!navHistory || navHistory.length === 0) return; // Supabase vide
+      // Ne pas bloquer si portfolio vide — rien à afficher
+      if (!portfolio || portfolio.length === 0) return;
 
       var state = readState() || {};
 
-      if (portfolio && portfolio.length > 0) {
-        state.portfolio = portfolio.map(function(p) {
-          return { ticker:p.ticker, name:p.name, zone:p.zone, sector:p.sector||'',
-                   entryPrice:parseFloat(p.entry_price), currentPrice:parseFloat(p.current_price),
-                   currency:p.currency, apiMethod:p.api_method||'manual', qty:parseFloat(p.qty)||0 };
-        });
-        var prices = {};
-        state.portfolio.forEach(function(p){ prices[p.ticker] = p.currentPrice; });
-        state.prices = prices;
-      }
+      state.portfolio = portfolio.map(function(p) {
+        return { ticker:p.ticker, name:p.name, zone:p.zone, sector:p.sector||'',
+                 entryPrice:parseFloat(p.entry_price), currentPrice:parseFloat(p.current_price),
+                 currency:p.currency, apiMethod:p.api_method||'manual',
+                 qty:parseFloat(p.qty)||0, weight:parseFloat(p.target_weight)||0 };
+      });
+      var prices = {};
+      state.portfolio.forEach(function(p){ prices[p.ticker] = p.currentPrice; });
+      state.prices = prices;
 
       if (navHistory && navHistory.length > 0) {
         state.navHistory = navHistory.map(function(h) {
           return { date:h.date, nav:parseFloat(h.nav), capital:parseFloat(h.capital||0),
                    cash:parseFloat(h.cash||0), parts:parseFloat(h.parts||0), note:h.note||'' };
         });
+      } else {
+        state.navHistory = [];
       }
 
       if (settings) {
         state.cash  = parseFloat(settings.cash);
         state.parts = parseFloat(settings.parts);
+        // Appliquer les taux de change mis à jour par GitHub Actions
+        if (settings.fx_rates) {
+          try {
+            var fxData = typeof settings.fx_rates === 'string' ? JSON.parse(settings.fx_rates) : settings.fx_rates;
+            if (fxData && typeof fxData === 'object') {
+              Object.keys(fxData).forEach(function(k) { if (typeof fxData[k] === 'number') FX_RATES[k] = fxData[k]; });
+              if (FX_RATES.XOF) XOF_EUR = FX_RATES.XOF;
+              localStorage.setItem('ovc_fx_rates', JSON.stringify(Object.assign({}, FX_RATES, { fetchedAt: Date.now() })));
+            }
+          } catch(e) {}
+        }
+      } else if (state.navHistory.length > 0) {
+        // Fallback : utiliser le dernier point de nav_history (fund_settings non accessible publiquement)
+        var last = state.navHistory[state.navHistory.length - 1];
+        if (!isNaN(parseFloat(last.cash))  && parseFloat(last.cash)  > 0) state.cash  = parseFloat(last.cash);
+        if (!isNaN(parseFloat(last.parts)) && parseFloat(last.parts) > 0) state.parts = parseFloat(last.parts);
       }
 
       // Sync localStorage pour la compatibilite
