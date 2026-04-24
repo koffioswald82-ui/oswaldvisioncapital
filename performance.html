@@ -1047,7 +1047,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (settings) {
         state.cash  = parseFloat(settings.cash);
-        state.parts = parseFloat(settings.parts);
+        var sParts  = parseFloat(settings.parts);
+        // Sanity check : parts < 100 est aberrant pour un fonds lancé à 1000 parts
+        if (sParts >= 100) {
+          state.parts = sParts;
+        } else if (state.navHistory.length > 0) {
+          var nhLast = state.navHistory[state.navHistory.length - 1];
+          state.parts = parseFloat(nhLast.parts) > 0 ? parseFloat(nhLast.parts) : 1000;
+        } else {
+          state.parts = 1000;
+        }
         // Appliquer les taux de change mis à jour par GitHub Actions
         if (settings.fx_rates) {
           try {
