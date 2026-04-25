@@ -286,6 +286,9 @@
       var elNav = document.getElementById('live-nav');
       if (elNav && navData && navData.nav) {
         animateCounter(elNav, navData.nav, 2, '');
+        if (typeof window._onNavReady === 'function') {
+          window._onNavReady(parseFloat(navData.nav));
+        }
       }
 
       // live-perf: performance % since inception (base NAV_LAUNCH = 100)

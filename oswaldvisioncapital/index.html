@@ -848,7 +848,7 @@ html[data-lang=en] span[data-en]{display:inline}
 <span class="ac-tag">Growth & Value</span>
 </div>
 <div class="ac-stats">
-<div class="ac-stat"><div class="ac-sv">30</div><div class="ac-sl"><span data-fr>Positions</span><span data-en>Positions</span></div></div>
+<div class="ac-stat"><div class="ac-sv" id="about-pos-val">—</div><div class="ac-sl"><span data-fr>Positions</span><span data-en>Positions</span></div></div>
 <div class="ac-stat"><div class="ac-sv">4</div><div class="ac-sl"><span data-fr>Continents</span><span data-en>Continents</span></div></div>
 <div class="ac-stat"><div class="ac-sv">6+</div><div class="ac-sl">Frameworks</div></div>
 <div class="ac-stat"><div class="ac-sv">∞</div><div class="ac-sl"><span data-fr>Ambition</span><span data-en>Ambition</span></div></div>
@@ -947,9 +947,9 @@ Every project, every reflection, every piece of content published here is part o
       <div class="mh-title"><span data-fr>Souscrire au fonds <em>Oswald Vision Capital</em></span><span data-en>Subscribe to <em>Oswald Vision Capital</em></span></div>
       <div class="mh-sub"><span data-fr>Fonds virtuel de recherche — capital non engagé</span><span data-en>Research virtual fund — no capital committed</span></div>
       <div class="modal-kpis">
-        <div class="mk"><div class="mk-v">100 EUR</div><div class="mk-k"><span data-fr>Valeur de part</span><span data-en>Unit NAV</span></div></div>
+        <div class="mk"><div class="mk-v" id="modal-nav-val">— EUR</div><div class="mk-k"><span data-fr>Valeur de part</span><span data-en>Unit NAV</span></div></div>
         <div class="mk"><div class="mk-v">500 EUR</div><div class="mk-k"><span data-fr>Ticket minimum</span><span data-en>Min. ticket</span></div></div>
-        <div class="mk"><div class="mk-v">30 <span data-fr>entreprises</span><span data-en>companies</span></div><div class="mk-k">4 zones</div></div>
+        <div class="mk"><div class="mk-v"><span id="modal-co-val">—</span> <span data-fr>entreprises</span><span data-en>companies</span></div><div class="mk-k"><span id="modal-zones-val">—</span> zones</div></div>
       </div>
     </div>
 
@@ -1237,10 +1237,43 @@ document.getElementById('m-form').addEventListener('submit', function(e) {
 });
 mUpdateBar(1);
 
-function setLang(l){ document.documentElement.setAttribute('data-lang',l); document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
-document.getElementById('mf-lang').value = l;
+function setLang(l){
+  document.documentElement.setAttribute('data-lang',l);
+  document.querySelectorAll('.lbtn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+  document.getElementById('mf-lang').value = l;
+  document.querySelectorAll('option[data-fr]').forEach(function(opt){
+    opt.textContent = l==='en'?(opt.getAttribute('data-en')||opt.getAttribute('data-fr')):opt.getAttribute('data-fr');
+  });
 }
 setLang('fr');
+
+// Called by live.js once NAV is computed from Supabase
+window._onNavReady = function(nav) {
+  mNAV = nav;
+  var el = document.getElementById('modal-nav-val');
+  if (el) el.textContent = nav.toFixed(2) + ' EUR';
+};
+
+// Fetch portfolio stats for modal header + about card
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    if (!window._db) return;
+    window._db.from('portfolio').select('ticker,qty,zone')
+      .then(function(r) {
+        var rows = r.data || [];
+        var active = rows.filter(function(p){ return parseFloat(p.qty) > 0; });
+        var co = active.length;
+        var zn = new Set(active.filter(function(p){ return p.zone; }).map(function(p){ return p.zone; })).size;
+        var elCo  = document.getElementById('modal-co-val');
+        var elZn  = document.getElementById('modal-zones-val');
+        var elPos = document.getElementById('about-pos-val');
+        if (elCo  && co > 0) elCo.textContent  = co;
+        if (elZn  && zn > 0) elZn.textContent  = zn;
+        if (elPos && co > 0) elPos.textContent  = co;
+      })
+      .catch(function(){});
+  }, 300);
+});
 function swPf(id,btn){ document.querySelectorAll('.pf-panel').forEach(p=>p.classList.remove('on')); document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('on')); document.getElementById('pf-'+id).classList.add('on'); btn.classList.add('on');
 }
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.08});

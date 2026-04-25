@@ -258,19 +258,19 @@ html[data-lang=en] span[data-en]{display:inline}
 
   <div class="fund-kpis">
     <div class="fk">
-      <div class="fk-val gold">100.00</div>
+      <div class="fk-val gold" id="fk-nav-val">—</div>
       <div class="fk-key"><span data-fr>EUR valeur de part</span><span data-en>EUR unit NAV</span></div>
     </div>
     <div class="fk">
-      <div class="fk-val">500 EUR</div>
+      <div class="fk-val" id="fk-min-ticket">500 EUR</div>
       <div class="fk-key"><span data-fr>Ticket minimum</span><span data-en>Min. ticket</span></div>
     </div>
     <div class="fk">
-      <div class="fk-val">30</div>
+      <div class="fk-val" id="fk-companies-val">—</div>
       <div class="fk-key"><span data-fr>Entreprises</span><span data-en>Companies</span></div>
     </div>
     <div class="fk">
-      <div class="fk-val green">4 zones</div>
+      <div class="fk-val green" id="fk-zones-val">— zones</div>
       <div class="fk-key"><span data-fr>Afrique · Amériques · EU · Asie</span><span data-en>Africa · Americas · EU · Asia</span></div>
     </div>
   </div>
@@ -374,9 +374,9 @@ html[data-lang=en] span[data-en]{display:inline}
       <div class="field">
         <label><span data-fr>Fréquence de suivi souhaitée</span><span data-en>Desired reporting frequency</span></label>
         <select id="f-freq" name="frequence_suivi">
-          <option value="hebdomadaire"><span data-fr>Hebdomadaire, chaque vendredi</span><span data-en>Weekly, every Friday</span></option>
-          <option value="mensuel"><span data-fr>Mensuel, premier lundi du mois</span><span data-en>Monthly, first Monday of month</span></option>
-          <option value="trimestriel"><span data-fr>Trimestriel, après chaque earnings</span><span data-en>Quarterly, after each earnings</span></option>
+          <option value="hebdomadaire" data-fr="Hebdomadaire, chaque vendredi" data-en="Weekly, every Friday">Hebdomadaire, chaque vendredi</option>
+          <option value="mensuel" data-fr="Mensuel, premier lundi du mois" data-en="Monthly, first Monday of month">Mensuel, premier lundi du mois</option>
+          <option value="trimestriel" data-fr="Trimestriel, après chaque earnings" data-en="Quarterly, after each earnings">Trimestriel, après chaque earnings</option>
         </select>
       </div>
 
@@ -444,10 +444,10 @@ html[data-lang=en] span[data-en]{display:inline}
       <div class="field">
         <label><span data-fr>Expérience en investissement</span><span data-en>Investment experience</span></label>
         <select id="f-exp" name="experience">
-          <option value="debutant"><span data-fr>Débutant, moins d'1 an</span><span data-en>Beginner, less than 1 year</span></option>
-          <option value="intermediaire" selected><span data-fr>Intermédiaire, 1 à 5 ans</span><span data-en>Intermediate, 1 to 5 years</span></option>
-          <option value="confirme"><span data-fr>Confirmé, plus de 5 ans</span><span data-en>Experienced, more than 5 years</span></option>
-          <option value="professionnel"><span data-fr>Professionnel / Finance</span><span data-en>Professional / Finance</span></option>
+          <option value="debutant" data-fr="Débutant, moins d'1 an" data-en="Beginner, less than 1 year">Débutant, moins d'1 an</option>
+          <option value="intermediaire" selected data-fr="Intermédiaire, 1 à 5 ans" data-en="Intermediate, 1 to 5 years">Intermédiaire, 1 à 5 ans</option>
+          <option value="confirme" data-fr="Confirmé, plus de 5 ans" data-en="Experienced, more than 5 years">Confirmé, plus de 5 ans</option>
+          <option value="professionnel" data-fr="Professionnel / Finance" data-en="Professional / Finance">Professionnel / Finance</option>
         </select>
       </div>
 
@@ -501,12 +501,12 @@ html[data-lang=en] span[data-en]{display:inline}
         <div class="field">
           <label><span data-fr>Comment vous avez découvert OVC</span><span data-en>How you found OVC</span></label>
           <select id="f-source" name="source">
-            <option value=""><span data-fr>Choisir...</span><span data-en>Select...</span></option>
+            <option value="" data-fr="Choisir..." data-en="Select...">Choisir...</option>
             <option value="linkedin">LinkedIn</option>
             <option value="twitter">X / Twitter</option>
             <option value="instagram">Instagram</option>
-            <option value="bouche_a_oreille"><span data-fr>Bouche à oreille</span><span data-en>Word of mouth</span></option>
-            <option value="web"><span data-fr>Recherche web</span><span data-en>Web search</span></option>
+            <option value="bouche_a_oreille" data-fr="Bouche à oreille" data-en="Word of mouth">Bouche à oreille</option>
+            <option value="web" data-fr="Recherche web" data-en="Web search">Recherche web</option>
             <option value="autres">Autres</option>
           </select>
         </div>
@@ -600,6 +600,11 @@ document.addEventListener('DOMContentLoaded', function() {
       b.classList.toggle('active', b.textContent === l.toUpperCase());
     });
     document.getElementById('f-lang').value = l;
+    document.querySelectorAll('option[data-fr]').forEach(function(opt) {
+      opt.textContent = l === 'en'
+        ? (opt.getAttribute('data-en') || opt.getAttribute('data-fr'))
+        : opt.getAttribute('data-fr');
+    });
   }
   window.setLang = setLang;
   setLang('fr');
@@ -640,6 +645,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var fNavEl = document.getElementById('f-nav-at-sub');
     if (fNavEl) fNavEl.value = NAV.toFixed(2);
     document.querySelectorAll('.dyn-nav').forEach(function(el) { el.textContent = NAV.toFixed(2); });
+    var fkNavEl = document.getElementById('fk-nav-val');
+    if (fkNavEl) fkNavEl.textContent = NAV.toFixed(2);
     var amtEl = document.getElementById('f-amount');
     if (amtEl && parseFloat(amtEl.value) >= 500) updateAmtHint(parseFloat(amtEl.value));
   }
@@ -687,6 +694,24 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch(e) { console.error('[SUB] Erreur fetch NAV:', e); }
   }
   fetchNavSupabase();
+
+  // Fetch portfolio stats: company count + distinct zones
+  async function fetchPortfolioStats() {
+    if (!window._db) return;
+    try {
+      var r = await window._db.from('portfolio').select('ticker,qty,zone');
+      var rows = r.data || [];
+      var active = rows.filter(function(p) { return parseFloat(p.qty) > 0; });
+      var companies = active.length;
+      var zones = new Set(active.filter(function(p) { return p.zone; }).map(function(p) { return p.zone; })).size;
+      var elComp  = document.getElementById('fk-companies-val');
+      var elZones = document.getElementById('fk-zones-val');
+      if (elComp  && companies > 0) elComp.textContent  = companies;
+      if (elZones && zones > 0)     elZones.textContent = zones + ' zones';
+    } catch(e) {}
+  }
+  fetchPortfolioStats();
+
   var selAmt = 0;
   var selObj = '';
   var selRisk = 3;
