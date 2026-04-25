@@ -46,6 +46,9 @@
   // ── NAV History (shared) ──────────────────────────────────
 
   var _navCache = null; // { nav, date }
+  var NAV_LAUNCH = 100;
+
+  var FX_DEFAULTS = { USD:0.855139, EUR:1, GBP:1.155068, KRW:0.000578, HKD:0.10917, CHF:1.089681, CAD:0.625547, JPY:0.005362 };
 
   function fetchLatestNav() {
     return new Promise(function (resolve) {
@@ -68,6 +71,39 @@
       } catch (e) {
         resolve(null);
       }
+    });
+  }
+
+  // Fallback: compute live NAV from fund_settings + portfolio when nav_history is empty
+  function computeNavLive() {
+    if (!window._db) return Promise.resolve(null);
+    return Promise.all([
+      window._db.from('fund_settings').select('cash,parts,fx_rates').eq('id', 1).maybeSingle(),
+      window._db.from('portfolio').select('qty,current_price,currency')
+    ]).then(function (results) {
+      var fsRes = results[0]; var portRes = results[1];
+      var fs = fsRes && fsRes.data;
+      var positions = (portRes && portRes.data) || [];
+      if (!fs || !(parseFloat(fs.parts) > 0)) return null;
+      var fx = Object.assign({}, FX_DEFAULTS);
+      try {
+        var stored = typeof fs.fx_rates === 'string' ? JSON.parse(fs.fx_rates) : (fs.fx_rates || {});
+        Object.keys(stored).forEach(function (k) { if (typeof stored[k] === 'number') fx[k] = stored[k]; });
+      } catch (e) {}
+      var posVal = 0;
+      positions.forEach(function (p) {
+        posVal += (parseFloat(p.qty) || 0) * (parseFloat(p.current_price) || 0) * (fx[p.currency] || 1);
+      });
+      var nav = (parseFloat(fs.cash) + posVal) / parseFloat(fs.parts);
+      if (isNaN(nav) || nav <= 0) return null;
+      return { nav: parseFloat(nav.toFixed(4)), date: null, computed: true };
+    }).catch(function () { return null; });
+  }
+
+  function fetchNavWithFallback() {
+    return fetchLatestNav().then(function (navData) {
+      if (navData) return navData;
+      return computeNavLive();
     });
   }
 
@@ -113,7 +149,7 @@
     var inner = document.querySelector('.ticker-inner');
     if (!inner) return;
 
-    var navPromise = fetchLatestNav();
+    var navPromise = fetchNavWithFallback();
 
     var portfolioPromise = new Promise(function (resolve) {
       if (!window._db) { resolve([]); return; }
@@ -239,7 +275,7 @@
     });
 
     // --- Latest NAV ---
-    var navPromise = fetchLatestNav();
+    var navPromise = fetchNavWithFallback();
 
     Promise.all([articlesPromise, subsPromise, navPromise]).then(function (results) {
       var articleCount = results[0];
@@ -252,27 +288,34 @@
         animateCounter(elNav, navData.nav, 2, '');
       }
 
-      // live-perf: performance % — we need at least one more data point
-      // Attempt to fetch first NAV to compute inception performance
+      // live-perf: performance % since inception (base NAV_LAUNCH = 100)
       var elPerf = document.getElementById('live-perf');
-      if (elPerf && navData && navData.nav && window._db) {
-        try {
-          window._db
-            .from('nav_history')
-            .select('nav,date')
-            .order('date', { ascending: true })
-            .limit(1)
-            .then(function (res) {
-              if (res && res.data && res.data.length) {
-                var firstNav = res.data[0].nav;
-                if (firstNav && firstNav !== 0) {
-                  var perf = ((navData.nav - firstNav) / firstNav) * 100;
-                  animateCounter(elPerf, perf, 2, '%');
-                }
-              }
-            })
-            .catch(function () {});
-        } catch (e) {}
+      if (elPerf && navData && navData.nav) {
+        if (window._db) {
+          try {
+            window._db
+              .from('nav_history')
+              .select('nav,date')
+              .order('date', { ascending: true })
+              .limit(1)
+              .then(function (res) {
+                var firstNav = (res && res.data && res.data.length) ? parseFloat(res.data[0].nav) : NAV_LAUNCH;
+                if (!firstNav || firstNav <= 0) firstNav = NAV_LAUNCH;
+                var perf = ((navData.nav - firstNav) / firstNav) * 100;
+                animateCounter(elPerf, perf, 2, '%');
+              })
+              .catch(function () {
+                var perf = ((navData.nav - NAV_LAUNCH) / NAV_LAUNCH) * 100;
+                animateCounter(elPerf, perf, 2, '%');
+              });
+          } catch (e) {
+            var perf = ((navData.nav - NAV_LAUNCH) / NAV_LAUNCH) * 100;
+            animateCounter(elPerf, perf, 2, '%');
+          }
+        } else {
+          var perf = ((navData.nav - NAV_LAUNCH) / NAV_LAUNCH) * 100;
+          animateCounter(elPerf, perf, 2, '%');
+        }
       }
 
       // live-articles: article count
