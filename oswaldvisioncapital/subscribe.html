@@ -664,32 +664,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Fetch live NAV from Supabase (nav_history → fund_settings fallback)
   var FX_SUB_DEFAULTS = { USD:0.855139, EUR:1, GBP:1.155068, KRW:0.000578, HKD:0.10917, CHF:1.089681, CAD:0.625547, JPY:0.005362 };
-  (function fetchNavSupabase() {
+  async function fetchNavSupabase() {
+    console.log('[SUB] _db=', !!window._db);
     if (!window._db) return;
-    window._db.from('nav_history').select('nav,date').order('date', { ascending: false }).limit(1)
-      .then(function(res) {
-        if (res && res.data && res.data.length) {
-          var row = res.data[0];
-          applyNavUpdate(parseFloat(row.nav), new Date(row.date + 'T12:00:00').toLocaleDateString('fr-FR'));
-          return;
-        }
-        // Fallback: compute from fund_settings + portfolio
-        Promise.all([
-          window._db.from('fund_settings').select('cash,parts,fx_rates').eq('id',1).maybeSingle(),
-          window._db.from('portfolio').select('qty,current_price,currency')
-        ]).then(function(r) {
-          var fs = r[0] && r[0].data;
-          var pos = (r[1] && r[1].data) || [];
-          if (!fs || !(parseFloat(fs.parts) > 0)) return;
-          var fx = Object.assign({}, FX_SUB_DEFAULTS);
-          try { var st = typeof fs.fx_rates === 'string' ? JSON.parse(fs.fx_rates) : (fs.fx_rates||{}); Object.keys(st).forEach(function(k){ if(typeof st[k]==='number') fx[k]=st[k]; }); } catch(e) {}
-          var pv = 0;
-          pos.forEach(function(p){ pv += (parseFloat(p.qty)||0)*(parseFloat(p.current_price)||0)*(fx[p.currency]||1); });
-          var nav = (parseFloat(fs.cash) + pv) / parseFloat(fs.parts);
-          if (!isNaN(nav) && nav > 0) applyNavUpdate(nav, null);
-        }).catch(function(){});
-      }).catch(function(){});
-  })();
+    try {
+      // Try nav_history first
+      var r1 = await window._db.from('nav_history').select('nav,date').order('date', { ascending: false }).limit(1);
+      console.log('[SUB] nav_history=', r1.data, r1.error);
+      if (r1.data && r1.data.length) {
+        var row = r1.data[0];
+        applyNavUpdate(parseFloat(row.nav), new Date(row.date + 'T12:00:00').toLocaleDateString('fr-FR'));
+        return;
+      }
+      // Fallback: compute from fund_settings + portfolio
+      var r2 = await window._db.from('fund_settings').select('*').eq('id', 1).maybeSingle();
+      var r3 = await window._db.from('portfolio').select('qty,current_price,currency');
+      console.log('[SUB] fund_settings=', r2.data, r2.error);
+      console.log('[SUB] portfolio rows=', r3.data && r3.data.length);
+      var fs  = r2.data;
+      var pos = r3.data || [];
+      if (!fs || !(parseFloat(fs.parts) > 0)) { console.warn('[SUB] fund_settings manquant ou parts=0'); return; }
+      var fx = Object.assign({}, FX_SUB_DEFAULTS);
+      try { var st = typeof fs.fx_rates === 'string' ? JSON.parse(fs.fx_rates) : (fs.fx_rates||{}); Object.keys(st).forEach(function(k){ if(typeof st[k]==='number') fx[k]=st[k]; }); } catch(e) {}
+      var pv = 0;
+      pos.forEach(function(p){ pv += (parseFloat(p.qty)||0)*(parseFloat(p.current_price)||0)*(fx[p.currency]||1); });
+      var nav = (parseFloat(fs.cash) + pv) / parseFloat(fs.parts);
+      console.log('[SUB] cash=', fs.cash, 'posVal=', pv.toFixed(2), 'parts=', fs.parts, '→ NAV=', nav.toFixed(4));
+      if (!isNaN(nav) && nav > 0) applyNavUpdate(nav, null);
+    } catch(e) { console.error('[SUB] Erreur fetch NAV:', e); }
+  }
+  fetchNavSupabase();
   var selAmt = 0;
   var selObj = '';
   var selRisk = 3;
