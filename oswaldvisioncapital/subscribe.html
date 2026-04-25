@@ -604,14 +604,6 @@ document.addEventListener('DOMContentLoaded', function() {
   window.setLang = setLang;
   setLang('fr');
 
-  // Display current NAV in banner
-  (function() {
-    var bannerNav  = document.getElementById('banner-nav');
-    var bannerDate = document.getElementById('banner-date');
-    if (bannerNav)  bannerNav.textContent  = NAV.toFixed(2) + ' EUR';
-    if (bannerDate) bannerDate.textContent = NAV_DATE;
-  })();
-
   // ── INIT DATES
   var tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -635,19 +627,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var NAV = 100;
   var NAV_DATE = '10/01/2026';
 
-  // Init from localStorage (admin device) — instant
-  (function() {
-    var hist = readNavHistory();
-    if (hist.length > 0) {
-      NAV = parseFloat(hist[hist.length-1].nav) || 100;
-      var d = hist[hist.length-1].date;
-      NAV_DATE = new Date(d + 'T12:00:00').toLocaleDateString('fr-FR');
-    }
-  })();
-
   // Apply NAV everywhere in the page
   function applyNavUpdate(nav, navDate) {
-    NAV = parseFloat(nav.toFixed(2));
+    var n = parseFloat(nav);
+    if (isNaN(n) || n <= 0) return;
+    NAV = parseFloat(n.toFixed(2));
     if (navDate) NAV_DATE = navDate;
     var bannerNav  = document.getElementById('banner-nav');
     var bannerDate = document.getElementById('banner-date');
@@ -655,12 +639,21 @@ document.addEventListener('DOMContentLoaded', function() {
     if (bannerDate && navDate) bannerDate.textContent = NAV_DATE;
     var fNavEl = document.getElementById('f-nav-at-sub');
     if (fNavEl) fNavEl.value = NAV.toFixed(2);
-    // Update dynamic NAV spans in step text
     document.querySelectorAll('.dyn-nav').forEach(function(el) { el.textContent = NAV.toFixed(2); });
-    // Re-trigger amount hint if already filled
     var amtEl = document.getElementById('f-amount');
     if (amtEl && parseFloat(amtEl.value) >= 500) updateAmtHint(parseFloat(amtEl.value));
   }
+
+  // Init from localStorage (admin device) then show banner
+  (function() {
+    var hist = readNavHistory();
+    if (hist.length > 0) {
+      NAV = parseFloat(hist[hist.length-1].nav) || 100;
+      var d = hist[hist.length-1].date;
+      NAV_DATE = new Date(d + 'T12:00:00').toLocaleDateString('fr-FR');
+    }
+    applyNavUpdate(NAV, NAV_DATE);
+  })();
 
   // Fetch live NAV from Supabase (nav_history → fund_settings fallback)
   var FX_SUB_DEFAULTS = { USD:0.855139, EUR:1, GBP:1.155068, KRW:0.000578, HKD:0.10917, CHF:1.089681, CAD:0.625547, JPY:0.005362 };
