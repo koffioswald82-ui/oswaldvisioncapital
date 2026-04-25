@@ -3,17 +3,10 @@
 //  Strategy: Cache-first for static assets, network-first for HTML
 // ============================================================
 
-var CACHE_NAME = 'ovc-v3';
+var CACHE_NAME = 'ovc-v4';
+// JS files intentionally excluded — always fetch fresh (contain live data logic)
 var STATIC_ASSETS = [
-  '/oswaldvisioncapital/index.html',
-  '/oswaldvisioncapital/analyses.html',
-  '/oswaldvisioncapital/performance.html',
-  '/oswaldvisioncapital/macro.html',
-  '/oswaldvisioncapital/mon-compte.html',
-  '/oswaldvisioncapital/mentions-legales.html',
-  '/oswaldvisioncapital/manifest.json',
-  '/oswaldvisioncapital/js/live.js',
-  '/oswaldvisioncapital/js/supabase-client.js'
+  '/oswaldvisioncapital/manifest.json'
 ];
 
 // Install: pre-cache static shell
@@ -43,17 +36,19 @@ self.addEventListener('activate', function (event) {
   self.clients.claim();
 });
 
-// Fetch: network-first for HTML/API, cache-first for fonts/JS/CSS
+// Fetch handler
 self.addEventListener('fetch', function (event) {
   var url = new URL(event.request.url);
 
-  // Skip non-GET and cross-origin API calls (Supabase, Yahoo Finance)
+  // Skip non-GET and external API calls
   if (event.request.method !== 'GET') return;
   if (url.hostname.includes('supabase') ||
       url.hostname.includes('yahoo') ||
-      url.hostname.includes('frankfurter')) return;
+      url.hostname.includes('frankfurter') ||
+      url.hostname.includes('jsdelivr') ||
+      url.hostname.includes('cdn')) return;
 
-  // Google Fonts: cache-first (very stable)
+  // Google Fonts: cache-first (never changes)
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
     event.respondWith(
       caches.match(event.request).then(function (cached) {
@@ -62,6 +57,16 @@ self.addEventListener('fetch', function (event) {
           caches.open(CACHE_NAME).then(function (cache) { cache.put(event.request, clone); });
           return response;
         });
+      })
+    );
+    return;
+  }
+
+  // JS files: always network-first, no caching (live data logic changes often)
+  if (url.pathname.endsWith('.js')) {
+    event.respondWith(
+      fetch(event.request).catch(function () {
+        return caches.match(event.request);
       })
     );
     return;
@@ -86,7 +91,7 @@ self.addEventListener('fetch', function (event) {
     return;
   }
 
-  // Static assets (JS, CSS, images): cache-first
+  // Other static assets (CSS, images): cache-first
   event.respondWith(
     caches.match(event.request).then(function (cached) {
       if (cached) return cached;
