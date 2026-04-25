@@ -341,7 +341,7 @@ html[data-lang=en] span[data-en]{display:inline}
     <input type="hidden" name="_subject" id="f-subject" value="Nouvelle souscription OVC">
     <input type="hidden" name="langue" id="f-lang" value="fr">
     <input type="hidden" name="horizon_ans" id="f-horizon" value="3">
-    <input type="hidden" name="vl_au_moment_souscription" id="f-nav-at-sub" value="100.00">
+    <input type="hidden" name="vl_au_moment_souscription" id="f-nav-at-sub" value="100.00"><!-- updated dynamically -->
     <input type="hidden" name="nombre_parts_calcule" id="f-units-calc" value="0">
     <input type="hidden" name="risque_score" id="f-risk" value="3">
     <input type="hidden" name="objectif" id="f-objective" value="">
@@ -350,7 +350,7 @@ html[data-lang=en] span[data-en]{display:inline}
     <!-- STEP 1 : MONTANT -->
     <div class="step-panel on" id="step-1">
       <h2 class="sp-title"><span data-fr>Votre investissement <em>simulé</em></span><span data-en>Your <em>simulated</em> investment</span></h2>
-      <p class="sp-sub"><span data-fr>Combien souhaitez-vous simuler dans le fonds ? La valeur de part actuelle est de 100 EUR.</span><span data-en>How much would you like to simulate in the fund? The current unit NAV is 100 EUR.</span></p>
+      <p class="sp-sub"><span data-fr>Combien souhaitez-vous simuler dans le fonds ? La valeur de part actuelle est de <span class="dyn-nav">100</span> EUR.</span><span data-en>How much would you like to simulate in the fund? The current unit NAV is <span class="dyn-nav">100</span> EUR.</span></p>
 
       <div class="field">
         <label><span data-fr>Montant simulé</span><span data-en>Simulated amount</span> <span class="req">*</span></label>
@@ -632,18 +632,63 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch(e) {}
     return [];
   }
-  var NAV = (function() {
-    var hist = readNavHistory();
-    if (hist.length > 0) return parseFloat(hist[hist.length-1].nav) || 100;
-    return 100;
-  })();
-  var NAV_DATE = (function() {
+  var NAV = 100;
+  var NAV_DATE = '10/01/2026';
+
+  // Init from localStorage (admin device) — instant
+  (function() {
     var hist = readNavHistory();
     if (hist.length > 0) {
+      NAV = parseFloat(hist[hist.length-1].nav) || 100;
       var d = hist[hist.length-1].date;
-      return new Date(d + 'T12:00:00').toLocaleDateString('fr-FR');
+      NAV_DATE = new Date(d + 'T12:00:00').toLocaleDateString('fr-FR');
     }
-    return '10/01/2026';
+  })();
+
+  // Apply NAV everywhere in the page
+  function applyNavUpdate(nav, navDate) {
+    NAV = parseFloat(nav.toFixed(2));
+    if (navDate) NAV_DATE = navDate;
+    var bannerNav  = document.getElementById('banner-nav');
+    var bannerDate = document.getElementById('banner-date');
+    if (bannerNav)  bannerNav.textContent = NAV.toFixed(2) + ' EUR';
+    if (bannerDate && navDate) bannerDate.textContent = NAV_DATE;
+    var fNavEl = document.getElementById('f-nav-at-sub');
+    if (fNavEl) fNavEl.value = NAV.toFixed(2);
+    // Update dynamic NAV spans in step text
+    document.querySelectorAll('.dyn-nav').forEach(function(el) { el.textContent = NAV.toFixed(2); });
+    // Re-trigger amount hint if already filled
+    var amtEl = document.getElementById('f-amount');
+    if (amtEl && parseFloat(amtEl.value) >= 500) updateAmtHint(parseFloat(amtEl.value));
+  }
+
+  // Fetch live NAV from Supabase (nav_history → fund_settings fallback)
+  var FX_SUB_DEFAULTS = { USD:0.855139, EUR:1, GBP:1.155068, KRW:0.000578, HKD:0.10917, CHF:1.089681, CAD:0.625547, JPY:0.005362 };
+  (function fetchNavSupabase() {
+    if (!window._db) return;
+    window._db.from('nav_history').select('nav,date').order('date', { ascending: false }).limit(1)
+      .then(function(res) {
+        if (res && res.data && res.data.length) {
+          var row = res.data[0];
+          applyNavUpdate(parseFloat(row.nav), new Date(row.date + 'T12:00:00').toLocaleDateString('fr-FR'));
+          return;
+        }
+        // Fallback: compute from fund_settings + portfolio
+        Promise.all([
+          window._db.from('fund_settings').select('cash,parts,fx_rates').eq('id',1).maybeSingle(),
+          window._db.from('portfolio').select('qty,current_price,currency')
+        ]).then(function(r) {
+          var fs = r[0] && r[0].data;
+          var pos = (r[1] && r[1].data) || [];
+          if (!fs || !(parseFloat(fs.parts) > 0)) return;
+          var fx = Object.assign({}, FX_SUB_DEFAULTS);
+          try { var st = typeof fs.fx_rates === 'string' ? JSON.parse(fs.fx_rates) : (fs.fx_rates||{}); Object.keys(st).forEach(function(k){ if(typeof st[k]==='number') fx[k]=st[k]; }); } catch(e) {}
+          var pv = 0;
+          pos.forEach(function(p){ pv += (parseFloat(p.qty)||0)*(parseFloat(p.current_price)||0)*(fx[p.currency]||1); });
+          var nav = (parseFloat(fs.cash) + pv) / parseFloat(fs.parts);
+          if (!isNaN(nav) && nav > 0) applyNavUpdate(nav, null);
+        }).catch(function(){});
+      }).catch(function(){});
   })();
   var selAmt = 0;
   var selObj = '';
@@ -678,7 +723,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (v >= 500) {
       var units = (v / NAV).toFixed(2);
       hint.className = 'field-hint highlight';
-      hint.textContent = units + (lang === 'fr' ? ' parts à 100 EUR = ' : ' units at 100 EUR = ') + v.toLocaleString('fr-FR') + ' EUR';
+      hint.textContent = units + (lang === 'fr' ? ' parts à ' + NAV.toFixed(2) + ' EUR = ' : ' units at ' + NAV.toFixed(2) + ' EUR = ') + v.toLocaleString('fr-FR') + ' EUR';
     } else {
       hint.className = 'field-hint';
       hint.textContent = lang === 'fr' ? 'Entrez un montant pour voir le nombre de parts calculé.' : 'Enter an amount to see the calculated number of units.';
