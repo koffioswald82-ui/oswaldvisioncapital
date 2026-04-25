@@ -3,7 +3,7 @@
 //  Strategy: Cache-first for static assets, network-first for HTML
 // ============================================================
 
-var CACHE_NAME = 'ovc-v4';
+var CACHE_NAME = 'ovc-v5';
 // JS files intentionally excluded — always fetch fresh (contain live data logic)
 var STATIC_ASSETS = [
   '/oswaldvisioncapital/manifest.json'
@@ -72,15 +72,17 @@ self.addEventListener('fetch', function (event) {
     return;
   }
 
-  // HTML pages: network-first with cache fallback
+  // HTML pages: network-first, always serve fresh — cache only as offline fallback
   if (event.request.headers.get('accept') &&
       event.request.headers.get('accept').includes('text/html')) {
     event.respondWith(
       fetch(event.request)
         .then(function (response) {
-          var clone = response.clone();
-          caches.open(CACHE_NAME).then(function (cache) { cache.put(event.request, clone); });
-          return response;
+          try {
+            var clone = response.clone();
+            caches.open(CACHE_NAME).then(function (cache) { cache.put(event.request, clone); });
+          } catch(e) {}
+          return response; // always return fresh response, even if caching fails
         })
         .catch(function () {
           return caches.match(event.request).then(function (cached) {
