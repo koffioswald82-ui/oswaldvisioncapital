@@ -3,7 +3,7 @@
 //  Strategy: Cache-first for static assets, network-first for HTML
 // ============================================================
 
-var CACHE_NAME = 'ovc-v1';
+var CACHE_NAME = 'ovc-v3';
 var STATIC_ASSETS = [
   '/oswaldvisioncapital/index.html',
   '/oswaldvisioncapital/analyses.html',
