@@ -1,3 +1,10 @@
+-- ⚠️ Les policies "Admin All Access" / "Auth ..." ci-dessous sont ici à titre
+-- de référence pour un déploiement neuf. Sur la base existante, elles ont été
+-- resserrées par supabase/migrations/2026-07-24-fix-admin-rls.sql (table
+-- public.admins au lieu de auth.role()='authenticated', qui autorisait
+-- n'importe quel compte connecté à écrire). Exécutez cette migration après
+-- ce fichier sur un déploiement neuf, ou seule sur une base existante.
+
 -- 1. Table des paramètres du fonds (Cash, parts en circulation)
 CREATE TABLE fund_settings (
   id integer PRIMARY KEY DEFAULT 1,
