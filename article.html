@@ -163,6 +163,7 @@ h2.sec-title em{color:var(--gold);font-style:italic}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../js/supabase-client.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -251,7 +252,10 @@ document.addEventListener('DOMContentLoaded', function() {
     _charts = [];
     var bodyHtml = sections.map(function(s,i){ return renderSection(s,i); }).join('');
 
-    document.getElementById('article-root').innerHTML = heroHtml + '<div class="article-body">' + bodyHtml + '</div>';
+    var fullHtml = heroHtml + '<div class="article-body">' + bodyHtml + '</div>';
+    document.getElementById('article-root').innerHTML = window.DOMPurify
+      ? DOMPurify.sanitize(fullHtml, { ADD_TAGS: ['canvas'], ADD_ATTR: ['id'] })
+      : fullHtml;
 
     // Init charts after DOM inserted
     Chart.defaults.font.family = "'JetBrains Mono',monospace";

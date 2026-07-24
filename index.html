@@ -2024,6 +2024,7 @@ document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 <script src="js/live.js"></script>
 <script>
 // ── Market Clocks ──────────────────────────────────────────
@@ -2076,7 +2077,7 @@ document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
   var renderArticles = function(articles){
     var grid = document.getElementById('recent-grid');
     if(!grid||!articles.length) return;
-    grid.innerHTML = articles.map(function(a){
+    var _cardsHtml = articles.map(function(a){
       // Date: published_at en priorité, sinon vide
       var date = '';
       if(a.published_at){
@@ -2097,6 +2098,7 @@ document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
           '<span class="rc-meta">'+mins+'</span>'+
         '</div></a>';
     }).join('');
+    grid.innerHTML = window.DOMPurify ? DOMPurify.sanitize(_cardsHtml) : _cardsHtml;
   };
 
   function tryLoad(){
