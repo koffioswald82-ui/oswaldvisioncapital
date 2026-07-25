@@ -184,6 +184,18 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 /* FORMSPREE NOTE */
 .form-note{background:var(--blue-bg);border:1px solid rgba(30,79,170,.12);border-radius:8px;padding:.65rem .9rem;margin-bottom:1.6rem;font-size:.74rem;color:var(--blue);line-height:1.55}
 
+/* LIVE PROFILE */
+.profile-note{border-radius:10px;border:1px solid;padding:1rem 1.2rem;margin-top:.4rem}
+.profile-note.p-prudent{background:var(--green-bg);border-color:var(--green)}
+.profile-note.p-equilibre{background:var(--gold-bg);border-color:var(--gold)}
+.profile-note.p-offensif{background:var(--red-bg);border-color:var(--red)}
+.pn-title{font-weight:700;font-size:.85rem}
+.profile-note.p-prudent .pn-title{color:var(--green)}
+.profile-note.p-equilibre .pn-title{color:var(--gold)}
+.profile-note.p-offensif .pn-title{color:var(--red)}
+.pn-text{font-size:.78rem;color:var(--body);line-height:1.6}
+.pn-disclaimer{font-size:.66rem;color:var(--muted);margin-top:.5rem;font-style:italic}
+
 /* LANG */
 [data-fr],[data-en]{display:none}
 html[data-lang=fr] [data-fr]{display:revert}
@@ -451,6 +463,14 @@ html[data-lang=en] span[data-en]{display:inline}
         </select>
       </div>
 
+      <div class="field" id="live-profile-wrap" style="display:none">
+        <div class="profile-note" id="live-profile-note">
+          <div class="pn-title" id="pn-title"></div>
+          <p class="pn-text" id="pn-text"></p>
+          <p class="pn-disclaimer"><span data-fr>Indicatif, basé sur vos réponses — ne constitue pas un conseil en investissement personnalisé.</span><span data-en>Indicative, based on your answers — not personalized investment advice.</span></p>
+        </div>
+      </div>
+
       <div class="btn-row">
         <button type="button" class="btn-bck" onclick="next(1)"><span data-fr>Retour</span><span data-en>Back</span></button>
         <button type="button" class="btn-fwd" onclick="next(3)"><span data-fr>Continuer</span><span data-en>Continue</span> &rarr;</button>
@@ -650,6 +670,62 @@ document.addEventListener('DOMContentLoaded', function() {
   var selRisk = 3;
   var curStep = 1;
 
+  // ── Partagé entre le résultat live (étape 2) et le récap (étape 4)
+  var objMap = {
+    croissance: {fr:'Croissance (Growth)', en:'Growth'},
+    revenu:     {fr:'Revenu (Income)', en:'Income'},
+    equilibre:  {fr:'Équilibre (Balanced)', en:'Balanced'},
+    afrique:    {fr:'Marchés africains', en:'African markets'}
+  };
+  var riskMap = {
+    fr: ['Très faible','Faible','Modéré','Élevé','Très élevé'],
+    en: ['Very low','Low','Moderate','High','Very high']
+  };
+
+  // ── PROFIL LIVE (étape 2) ────────────────────────────────
+  var profileTitleMap = {
+    prudent:   {fr:'🟢 Profil prudent', en:'🟢 Cautious profile'},
+    equilibre: {fr:'🟡 Profil équilibré', en:'🟡 Balanced profile'},
+    offensif:  {fr:'🔴 Profil offensif', en:'🔴 Growth-seeking profile'}
+  };
+  var profileTextMap = {
+    prudent: {
+      fr:'Priorité à la stabilité du capital. Avec cet horizon et cette tolérance au risque, une allocation dominée par les valeurs de rendement (Income) et les positions BRVM à dividendes élevés est cohérente avec vos réponses.',
+      en:'Capital stability comes first. With this horizon and risk tolerance, an allocation weighted toward income stocks and high-dividend BRVM positions fits your answers.'
+    },
+    equilibre: {
+      fr:'Vous recherchez un compromis entre croissance et stabilité. Un mix Growth + Value réparti sur les 4 zones suivies par OVC correspond à ce profil.',
+      en:'You are looking for a compromise between growth and stability. A Growth + Value mix spread across OVC\'s 4 tracked zones fits this profile.'
+    },
+    offensif: {
+      fr:'Vous acceptez une volatilité élevée en échange d\'un potentiel de croissance supérieur. Les positions technologie et marchés émergents (dont l\'Afrique/BRVM) correspondent le mieux à ce profil.',
+      en:'You accept higher volatility for greater growth potential. Technology and emerging-market positions (including Africa/BRVM) fit this profile best.'
+    }
+  };
+
+  function renderLiveProfile() {
+    var wrap = document.getElementById('live-profile-wrap');
+    if (!wrap) return;
+    if (!selObj) { wrap.style.display = 'none'; return; }
+
+    var hz = parseInt(document.getElementById('r-horizon').value, 10) || 3;
+    var score = selRisk;
+    if (selObj === 'croissance') score += 0.5;
+    if (selObj === 'revenu')     score -= 0.5;
+    if (selObj === 'afrique')    score += 0.3;
+    if (hz <= 2) score -= 0.5;
+    if (hz >= 5) score += 0.3;
+    score = Math.max(1, Math.min(5, score));
+    var profile = score <= 2.2 ? 'prudent' : (score <= 3.6 ? 'equilibre' : 'offensif');
+
+    document.getElementById('pn-title').innerHTML =
+      '<span data-fr>' + profileTitleMap[profile].fr + '</span><span data-en>' + profileTitleMap[profile].en + '</span>';
+    document.getElementById('pn-text').innerHTML =
+      '<span data-fr>' + profileTextMap[profile].fr + '</span><span data-en>' + profileTextMap[profile].en + '</span>';
+    document.getElementById('live-profile-note').className = 'profile-note p-' + profile;
+    wrap.style.display = '';
+  }
+
   // ── AMOUNT
   window.pickAmt = function(v) {
     document.getElementById('f-amount').value = v;
@@ -694,6 +770,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var pct = ((v - 1) / 4) * 100;
     document.getElementById('r-horizon').style.background =
       'linear-gradient(to right, var(--gold) 0%, var(--gold) ' + pct + '%, var(--line) ' + pct + '%, var(--line) 100%)';
+    renderLiveProfile();
   };
 
   // ── OBJECTIVE
@@ -702,6 +779,7 @@ document.addEventListener('DOMContentLoaded', function() {
     card.classList.add('sel');
     selObj = card.dataset.v;
     document.getElementById('f-objective').value = selObj;
+    renderLiveProfile();
   };
 
   // ── RISK
@@ -714,6 +792,7 @@ document.addEventListener('DOMContentLoaded', function() {
         c.classList.add(v <= 2 ? 'r' + v : v === 3 ? 'r3' : 'r' + v);
       }
     });
+    renderLiveProfile();
   };
   pickRisk(3);
 
@@ -797,17 +876,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var dtFmt = dt ? new Date(dt + 'T12:00:00').toLocaleDateString('fr-FR') : 'n.d.';
     var hz = document.getElementById('r-horizon').value;
     var hzUnit = lang === 'fr' ? (hz === '1' ? 'an' : 'ans') : (hz === '1' ? 'year' : 'years');
-
-    var objMap = {
-      croissance: {fr:'Croissance (Growth)', en:'Growth'},
-      revenu:     {fr:'Revenu (Income)', en:'Income'},
-      equilibre:  {fr:'Équilibre (Balanced)', en:'Balanced'},
-      afrique:    {fr:'Marchés africains', en:'African markets'}
-    };
-    var riskMap = {
-      fr: ['Très faible','Faible','Modéré','Élevé','Très élevé'],
-      en: ['Very low','Low','Moderate','High','Very high']
-    };
+    // objMap / riskMap : déclarés en portée partagée plus haut (utilisés aussi par renderLiveProfile)
 
     document.getElementById('s-amount').textContent  = amt.toLocaleString('fr-FR') + ' EUR';
     var sNavEl = document.getElementById('s-nav-val');

@@ -582,9 +582,11 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
     document.getElementById('dash-value-now').textContent = currentVal.toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' EUR simulé';
     var gainStr = (gainEur >= 0 ? '+' : '') + fmt(gainEur, 2) + ' EUR (' + (perfPct >= 0 ? '+' : '') + fmt(perfPct, 2) + '%)';
     document.getElementById('dash-gain').textContent      = gainStr;
-    document.getElementById('dash-objective').textContent = s.objective || '—';
-    document.getElementById('dash-horizon').textContent   = s.horizon   || '—';
-    document.getElementById('dash-risk').textContent      = s.risk      || '—';
+    var objLabels = { croissance:'Croissance (Growth)', revenu:'Revenu (Income)', equilibre:'Équilibre (Balanced)', afrique:'Marchés africains' };
+    var riskLabels = ['Très faible','Faible','Modéré','Élevé','Très élevé'];
+    document.getElementById('dash-objective').textContent = objLabels[s.objective] || s.objective || '—';
+    document.getElementById('dash-horizon').textContent   = s.horizon ? (s.horizon + (s.horizon === '1' ? ' an' : ' ans')) : '—';
+    document.getElementById('dash-risk').textContent      = riskLabels[parseInt(s.risk, 10) - 1] || s.risk || '—';
     document.getElementById('dash-date').textContent      = fmtDate(s.date);
 
     // Warning if raw NAV was out of range (data issue in nav_history)
