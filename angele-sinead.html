@@ -106,6 +106,15 @@ body{font-family:'Outfit',sans-serif;background:#0a0f1e;color:var(--ink);min-hei
 .saved-item{font-size:.72rem;padding:.4rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--cream);cursor:pointer;font-family:'JetBrains Mono',monospace}
 .saved-item:hover{border-color:var(--gold)}
 
+.news-item{padding:.6rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--white)}
+.news-item a{font-size:.82rem;font-weight:600;color:var(--ink);text-decoration:none}
+.news-item a:hover{color:var(--gold)}
+.news-meta{font-size:.66rem;color:var(--muted);margin-top:.2rem;font-family:'JetBrains Mono',monospace}
+.note-item{padding:.6rem .8rem;border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;background:var(--cream)}
+.note-item .note-title{font-size:.82rem;font-weight:600;color:var(--ink)}
+.note-item .note-meta{font-size:.66rem;color:var(--muted);margin-top:.2rem;font-family:'JetBrains Mono',monospace}
+.note-item .note-tags span{display:inline-block;font-size:.62rem;padding:.1rem .45rem;border-radius:100px;background:var(--gold-bg);color:var(--gold);margin-right:.3rem;margin-top:.3rem}
+
 .export-box{background:var(--ink);color:rgba(255,255,255,.85);border-radius:8px;padding:1rem;font-family:'JetBrains Mono',monospace;font-size:.76rem;line-height:1.8;white-space:pre-wrap}
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:.7rem 1.3rem;border-radius:8px;font-size:.8rem;opacity:0;pointer-events:none;transition:all .25s;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -304,6 +313,32 @@ body{font-family:'Outfit',sans-serif;background:#0a0f1e;color:var(--ink);min-hei
       </div>
     </div>
 
+    <!-- VEILLE -->
+    <div class="card">
+      <div class="card-title">Veille</div>
+      <div class="card-sub">Fil d'actualités (Google News) + carnet de notes manuel, tous les deux liés au ticker en cours.</div>
+
+      <div class="field-row" style="align-items:end">
+        <div class="field" style="grid-column:1/4">
+          <label>Requête d'actualité</label>
+          <input type="text" id="in-news-query" placeholder="ex: nom de l'entreprise, secteur, BRVM...">
+        </div>
+        <div class="field" style="max-width:160px">
+          <button class="btn-outline" onclick="fetchNews()" style="width:100%">Actualiser</button>
+        </div>
+      </div>
+      <div id="news-list" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.2rem"></div>
+
+      <div class="card-sub" style="margin-top:.4rem">Carnet manuel :</div>
+      <div class="field-row">
+        <div class="field"><label>URL</label><input type="text" id="in-note-url" placeholder="https://..."></div>
+        <div class="field"><label>Titre / observation</label><input type="text" id="in-note-title" placeholder="Ce que tu as retenu"></div>
+        <div class="field"><label>Tags (virgules)</label><input type="text" id="in-note-tags" placeholder="thèse, risque, catalyseur"></div>
+      </div>
+      <button class="btn-gold" onclick="addVeilleNote()">Ajouter au carnet</button>
+      <div id="veille-notes-list" style="display:flex;flex-direction:column;gap:.5rem;margin-top:1rem"></div>
+    </div>
+
     <!-- EXPORT / SAUVEGARDE -->
     <div class="card">
       <div class="card-title">Prêt pour publication</div>
@@ -322,6 +357,7 @@ body{font-family:'Outfit',sans-serif;background:#0a0f1e;color:var(--ink);min-hei
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-client.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -626,7 +662,10 @@ document.addEventListener('DOMContentLoaded', function() {
     el('in-current-price').value = p.current_price || '';
     el('fund-status').textContent = 'Aucune donnée récupérée pour l\'instant.';
     el('peers-table').innerHTML = '';
+    el('in-news-query').value = p.name || p.ticker;
+    el('news-list').innerHTML = '';
     loadSavedAnalyses(ticker);
+    loadVeilleNotes(ticker);
     recalcAll();
   };
 
@@ -700,6 +739,80 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   // ════════════════════════════════════════════
+  // VEILLE — fil Google News (Edge Function) + carnet manuel (veille_notes)
+  // ════════════════════════════════════════════
+  var NEWS_FN_URL = 'https://bnmjhmijhgxpjbrtwbdv.supabase.co/functions/v1/news-feed';
+  var SUPABASE_ANON = 'sb_publishable_wGAN6IdcQOzPdvN7uEcn2w_yHQlh_RK';
+
+  function fmtNewsDate(pubDate) {
+    try { return new Date(pubDate).toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'}); }
+    catch(e) { return pubDate || ''; }
+  }
+
+  window.fetchNews = async function() {
+    var query = (el('in-news-query').value || '').trim();
+    var listEl = el('news-list');
+    if (!query) { listEl.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Entrez une requête (nom d\'entreprise, secteur, marché...).</span>'; return; }
+    listEl.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Recherche en cours...</span>';
+    try {
+      var r = await fetch(NEWS_FN_URL, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer ' + SUPABASE_ANON },
+        body: JSON.stringify({ query: query })
+      });
+      var d = await r.json();
+      if (!d.results || !d.results.length) { listEl.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Aucun résultat.</span>'; return; }
+      var newsHtml = d.results.map(function(item) {
+        return '<div class="news-item">' +
+          '<a href="' + item.link + '" target="_blank" rel="noopener">' + item.title + '</a>' +
+          '<div class="news-meta">' + (item.source||'') + ' · ' + fmtNewsDate(item.pubDate) + '</div>' +
+        '</div>';
+      }).join('');
+      listEl.innerHTML = window.DOMPurify ? DOMPurify.sanitize(newsHtml) : newsHtml;
+    } catch(e) {
+      listEl.innerHTML = '<span style="font-size:.72rem;color:var(--red)">Erreur : ' + e.message + '</span>';
+    }
+  };
+
+  window.addVeilleNote = async function() {
+    var ticker = (el('in-ticker').value || '').trim().toUpperCase() || null;
+    var title  = (el('in-note-title').value || '').trim();
+    var url    = (el('in-note-url').value || '').trim() || null;
+    var tags   = (el('in-note-tags').value || '').split(',').map(function(t){ return t.trim(); }).filter(Boolean);
+    if (!title) { toast('Ajoutez au moins un titre/observation', 'err'); return; }
+    if (!window._db) { toast('Supabase non connecté', 'err'); return; }
+    try {
+      var { error } = await _db.from('veille_notes').insert({ ticker:ticker, title:title, url:url, tags:tags });
+      if (error) throw error;
+      el('in-note-url').value = '';
+      el('in-note-title').value = '';
+      el('in-note-tags').value = '';
+      toast('Note ajoutée au carnet', 'ok');
+      loadVeilleNotes(ticker);
+    } catch(e) { toast('Erreur : ' + e.message, 'err'); }
+  };
+
+  function loadVeilleNotes(ticker) {
+    var listEl = el('veille-notes-list');
+    listEl.innerHTML = '';
+    if (!window._db || !ticker) return;
+    _db.from('veille_notes').select('*').eq('ticker', ticker).order('created_at', {ascending:false}).limit(20)
+      .then(function(res) {
+        if (!res || !res.data || !res.data.length) return;
+        var notesHtml = res.data.map(function(n) {
+          var tagsHtml = (n.tags||[]).map(function(t){ return '<span>' + t + '</span>'; }).join('');
+          return '<div class="note-item">' +
+            '<div class="note-title">' + (n.url ? '<a href="' + n.url + '" target="_blank" rel="noopener">' + n.title + '</a>' : n.title) + '</div>' +
+            '<div class="note-meta">' + fmtNewsDate(n.created_at) + '</div>' +
+            (tagsHtml ? '<div class="note-tags">' + tagsHtml + '</div>' : '') +
+          '</div>';
+        }).join('');
+        listEl.innerHTML = window.DOMPurify ? DOMPurify.sanitize(notesHtml) : notesHtml;
+      })
+      .catch(function(){});
+  }
+
+  // ════════════════════════════════════════════
   // SAUVEGARDE / CHARGEMENT
   // ════════════════════════════════════════════
   function loadSavedAnalyses(ticker) {
@@ -743,6 +856,9 @@ document.addEventListener('DOMContentLoaded', function() {
         el('in-peers').value = (a.conviction && a.conviction.peers) ? a.conviction.peers.join(', ') : '';
         el('peers-table').innerHTML = '';
         el('fund-status').textContent = 'Aucune donnée récupérée pour l\'instant.';
+        el('in-news-query').value = a.ticker || '';
+        el('news-list').innerHTML = '';
+        loadVeilleNotes(a.ticker);
         recalcConviction();
         toast('Analyse #' + id + ' chargée', 'ok');
       })
@@ -810,6 +926,12 @@ document.addEventListener('DOMContentLoaded', function() {
     el('in-peers').value = '';
     el('peers-table').innerHTML = '';
     el('fund-status').textContent = 'Aucune donnée récupérée pour l\'instant.';
+    el('in-news-query').value = '';
+    el('news-list').innerHTML = '';
+    el('in-note-url').value = '';
+    el('in-note-title').value = '';
+    el('in-note-tags').value = '';
+    el('veille-notes-list').innerHTML = '';
   };
 
   buildConvictionTable();
