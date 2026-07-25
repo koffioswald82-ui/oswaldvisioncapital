@@ -148,6 +148,65 @@ def fetch_fx() -> dict:
         print(f'  [FX ERR] {exc}')
         return {}
 
+# ── Fondamentaux via yfinance (A&S Terminal — DCF/comparables) ───
+def fetch_fundamentals(symbols: list) -> dict:
+    """Fetch revenue/FCF/dette/actions/multiples par ticker via yfinance.info.
+    Une requête par ticker (.info n'a pas de mode batch) — champs absents
+    stockés comme null, jamais une valeur inventée."""
+    out = {}
+    if not symbols:
+        return out
+    try:
+        import yfinance as yf
+    except Exception as exc:
+        print(f'  [Fundamentals ERR] yfinance indisponible: {exc}')
+        return out
+    for sym in symbols:
+        try:
+            info = yf.Ticker(sym).info
+            out[sym] = {
+                'currency':           info.get('currency'),
+                'total_revenue':      info.get('totalRevenue'),
+                'free_cashflow':      info.get('freeCashflow'),
+                'total_debt':         info.get('totalDebt'),
+                'total_cash':         info.get('totalCash'),
+                'shares_outstanding': info.get('sharesOutstanding'),
+                'trailing_pe':        info.get('trailingPE'),
+                'ev_ebitda':          info.get('enterpriseToEbitda'),
+                'roe':                info.get('returnOnEquity'),
+            }
+        except Exception as exc:
+            print(f'  [Fundamentals ERR] {sym}: {exc}')
+        time.sleep(0.5)
+    return out
+
+def store_fundamentals(data: dict, ticker_map: dict):
+    """ticker_map : symbole Yahoo interrogé -> ticker OVC à stocker (gère le
+    suffixe .BV des tickers BRVM, comme pour les prix)."""
+    rows = []
+    now_iso = datetime.now(timezone.utc).isoformat()
+    for sym, vals in data.items():
+        if not vals:
+            continue
+        row = {'ticker': ticker_map.get(sym, sym), 'updated_at': now_iso}
+        row.update(vals)
+        rows.append(row)
+    if not rows:
+        print('  [Fundamentals] Aucune donnée à stocker')
+        return
+    if DRY_RUN:
+        print(f'  [DRY] Would upsert fundamentals for {len(rows)} tickers')
+        return
+    r = requests.post(
+        f'{SUPABASE_URL}/rest/v1/fundamentals_cache',
+        headers={**SB_HEADERS, 'Prefer': 'resolution=merge-duplicates'},
+        json=rows, timeout=30
+    )
+    if r.status_code not in (200, 201):
+        print(f'  [Fundamentals ERR] {r.status_code}: {r.text[:200]}')
+    else:
+        print(f'  [Fundamentals] {len(rows)} tickers mis à jour')
+
 # ── Benchmark upsert ──────────────────────────────────────
 def store_benchmark(symbol: str, label: str):
     rows = yahoo_history(symbol)
@@ -250,6 +309,34 @@ def main():
             print(f'  [ERR] {t}: {exc}')
             errors += 1
         time.sleep(0.1)
+
+    # 6b. Fondamentaux (revenus, FCF, dette, actions, multiples) — A&S Terminal
+    print('\n[Fundamentals] Récupération des fondamentaux…')
+    try:
+        watchlist_rows = sb_get('watchlist', '?select=ticker')
+    except Exception as exc:
+        print(f'  [WARN] watchlist indisponible (migration pas encore exécutée ?) : {exc}')
+        watchlist_rows = []
+    watchlist_tickers = [w['ticker'] for w in watchlist_rows]
+
+    # symbole Yahoo à interroger -> ticker OVC à stocker (gère le .BV des BRVM)
+    fund_ticker_map = {}
+    for t in yahoo_tickers + manual_tickers:
+        fund_ticker_map[t] = t
+    for t in brvm_tickers:
+        fund_ticker_map[t + '.BV'] = t
+    for t in watchlist_tickers:
+        if t not in fund_ticker_map.values():
+            fund_ticker_map[t] = t
+
+    fund_symbols = list(fund_ticker_map.keys())
+    MAX_FUNDAMENTALS = 30
+    if len(fund_symbols) > MAX_FUNDAMENTALS:
+        print(f'  [WARN] {len(fund_symbols)} tickers à traiter, plafonné à {MAX_FUNDAMENTALS} pour ce run')
+        fund_symbols = fund_symbols[:MAX_FUNDAMENTALS]
+
+    fund_data = fetch_fundamentals(fund_symbols)
+    store_fundamentals(fund_data, fund_ticker_map)
 
     # 6. FX rates → fund_settings.fx_rates
     print('\n[FX] Récupération des taux de change…')

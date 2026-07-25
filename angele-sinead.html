@@ -163,6 +163,16 @@ body{font-family:'Outfit',sans-serif;background:#0a0f1e;color:var(--ink);min-hei
       <div class="saved-list" id="saved-list"></div>
     </div>
 
+    <!-- DONNÉES AUTOMATIQUES -->
+    <div class="card">
+      <div class="card-title">
+        Données automatiques
+        <button class="btn-outline" onclick="fetchFundamentals()">Récupérer les fondamentaux</button>
+      </div>
+      <div class="card-sub">Récupérées par le job GitHub Actions (yfinance) — pas de service à la demande fragile. Un ticker jamais vu est ajouté à la liste d'attente et disponible après le prochain passage (ou en déclenchant le workflow manuellement depuis l'admin).</div>
+      <div id="fund-status" style="font-size:.8rem;color:var(--muted)">Aucune donnée récupérée pour l'instant.</div>
+    </div>
+
     <!-- FORMULAIRE DCF -->
     <div class="card">
       <div class="card-title">
@@ -274,6 +284,24 @@ body{font-family:'Outfit',sans-serif;background:#0a0f1e;color:var(--ink);min-hei
           </tr>
         </tfoot>
       </table>
+    </div>
+
+    <!-- COMPARABLES SECTORIELS -->
+    <div class="card">
+      <div class="card-title">Comparables sectoriels</div>
+      <div class="card-sub">Multiples de 3-5 pairs, pour sanity-checker la valorisation plutôt que de juger un chiffre dans le vide.</div>
+      <div class="field-row" style="align-items:end">
+        <div class="field" style="grid-column:1/4">
+          <label>Tickers pairs (séparés par des virgules)</label>
+          <input type="text" id="in-peers" placeholder="ex: MSFT, GOOGL, META">
+        </div>
+        <div class="field" style="max-width:200px">
+          <button class="btn-outline" onclick="fetchComparables()" style="width:100%">Comparer</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="matrix-table" id="peers-table"></table>
+      </div>
     </div>
 
     <!-- EXPORT / SAUVEGARDE -->
@@ -549,7 +577,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     var total = parseFloat(el('conv-total').textContent) || 0;
     var reco = el('conv-reco-pill').textContent;
-    return { criteria:criteria, total:total, reco:reco };
+    var peers = (el('in-peers') && el('in-peers').value) ? el('in-peers').value.split(',').map(function(t){ return t.trim().toUpperCase(); }).filter(Boolean) : [];
+    return { criteria:criteria, total:total, reco:reco, peers:peers };
   }
 
   // ════════════════════════════════════════════
@@ -595,8 +624,79 @@ document.addEventListener('DOMContentLoaded', function() {
     el('in-ticker').value = p.ticker;
     el('in-currency').value = p.currency || '';
     el('in-current-price').value = p.current_price || '';
+    el('fund-status').textContent = 'Aucune donnée récupérée pour l\'instant.';
+    el('peers-table').innerHTML = '';
     loadSavedAnalyses(ticker);
     recalcAll();
+  };
+
+  // ════════════════════════════════════════════
+  // FONDAMENTAUX AUTOMATIQUES (fundamentals_cache, alimenté par
+  // scripts/update_prices.py via yfinance — pas d'appel direct à Yahoo
+  // depuis le navigateur, testé fragile pour ce type de données)
+  // ════════════════════════════════════════════
+  function addToWatchlist(tickers, addedFor) {
+    if (!window._db || !tickers.length) return;
+    var rows = tickers.map(function(t){ return { ticker:t, added_for:addedFor }; });
+    _db.from('watchlist').upsert(rows, { onConflict:'ticker', ignoreDuplicates:true }).then(function(){}).catch(function(){});
+  }
+
+  window.fetchFundamentals = async function() {
+    var ticker = (el('in-ticker').value || '').trim().toUpperCase();
+    var statusEl = el('fund-status');
+    if (!ticker) { statusEl.textContent = 'Renseignez un ticker d\'abord.'; return; }
+    if (!window._db) { statusEl.textContent = 'Supabase non connecté.'; return; }
+
+    statusEl.textContent = 'Recherche dans le cache...';
+    try {
+      var res = await _db.from('fundamentals_cache').select('*').eq('ticker', ticker).maybeSingle();
+      if (res.data) {
+        var f = res.data;
+        if (CURRENT_MODE === 'fcf' && f.free_cashflow != null) el('in-cf0').value = f.free_cashflow;
+        if (f.total_debt != null || f.total_cash != null) el('in-netdebt').value = (f.total_debt || 0) - (f.total_cash || 0);
+        if (f.shares_outstanding != null) el('in-shares').value = f.shares_outstanding;
+        var age = f.updated_at ? new Date(f.updated_at).toLocaleDateString('fr-FR') : '?';
+        statusEl.innerHTML = '✓ Trouvé (mis à jour le ' + age + ') — FCF: ' + fmt(f.free_cashflow,0) + ', Dette nette: ' + fmt((f.total_debt||0)-(f.total_cash||0),0) + ', Actions: ' + fmt(f.shares_outstanding,0) + '. P/E: ' + fmt(f.trailing_pe,1) + ' · EV/EBITDA: ' + fmt(f.ev_ebitda,1) + ' · ROE: ' + (f.roe!=null ? (f.roe*100).toFixed(1)+'%' : '—');
+        recalcAll();
+      } else {
+        addToWatchlist([ticker], 'prospect');
+        statusEl.textContent = 'Pas encore en cache — ajouté à la liste d\'attente. Disponible après le prochain passage automatique, ou déclenchez "⚙ GitHub Actions" depuis l\'admin pour l\'obtenir maintenant.';
+      }
+    } catch(e) {
+      statusEl.textContent = 'Erreur : ' + e.message;
+    }
+  };
+
+  // ════════════════════════════════════════════
+  // COMPARABLES SECTORIELS
+  // ════════════════════════════════════════════
+  window.fetchComparables = async function() {
+    var raw = (el('in-peers').value || '').split(',').map(function(t){ return t.trim().toUpperCase(); }).filter(Boolean);
+    var table = el('peers-table');
+    if (!raw.length) { table.innerHTML = ''; return; }
+    if (!window._db) { table.innerHTML = '<tr><td>Supabase non connecté</td></tr>'; return; }
+
+    var mainTicker = (el('in-ticker').value || '').trim().toUpperCase();
+    var allTickers = mainTicker ? [mainTicker].concat(raw) : raw;
+
+    var res = await _db.from('fundamentals_cache').select('*').in('ticker', allTickers);
+    var cache = {};
+    (res.data || []).forEach(function(f){ cache[f.ticker] = f; });
+
+    var missing = allTickers.filter(function(t){ return !cache[t]; });
+    if (missing.length) addToWatchlist(missing, 'comparable');
+
+    var rows = allTickers.map(function(t) {
+      var f = cache[t];
+      var isMain = t === mainTicker;
+      return '<tr' + (isMain ? ' style="font-weight:700;background:var(--gold-bg)"' : '') + '>' +
+        '<td class="axis">' + t + (isMain ? ' (analysé)' : '') + '</td>' +
+        '<td>' + (f ? fmt(f.trailing_pe,1) : 'n.d. — en attente') + '</td>' +
+        '<td>' + (f ? fmt(f.ev_ebitda,1) : '—') + '</td>' +
+        '<td>' + (f && f.roe != null ? (f.roe*100).toFixed(1)+'%' : '—') + '</td>' +
+      '</tr>';
+    }).join('');
+    table.innerHTML = '<thead><tr><th>Ticker</th><th>P/E</th><th>EV/EBITDA</th><th>ROE</th></tr></thead><tbody>' + rows + '</tbody>';
   };
 
   // ════════════════════════════════════════════
@@ -640,6 +740,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (i) i.value = c.note;
           });
         }
+        el('in-peers').value = (a.conviction && a.conviction.peers) ? a.conviction.peers.join(', ') : '';
+        el('peers-table').innerHTML = '';
+        el('fund-status').textContent = 'Aucune donnée récupérée pour l\'instant.';
         recalcConviction();
         toast('Analyse #' + id + ' chargée', 'ok');
       })
@@ -704,6 +807,9 @@ document.addEventListener('DOMContentLoaded', function() {
     buildConvictionTable();
     recalcConviction();
     el('saved-list').innerHTML = '';
+    el('in-peers').value = '';
+    el('peers-table').innerHTML = '';
+    el('fund-status').textContent = 'Aucune donnée récupérée pour l\'instant.';
   };
 
   buildConvictionTable();
