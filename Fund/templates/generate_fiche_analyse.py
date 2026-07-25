@@ -2,7 +2,7 @@
 """
 OVC — Générateur de la fiche de travail "Analyse & Score de conviction"
 Usage : python3 generate_fiche_analyse.py
-Sortie : OVC-Fiche-Analyse-Conviction.xlsx (dans le même dossier)
+Sortie : template-fiche-analyse-conviction.xlsx (dans le même dossier)
 """
 
 import openpyxl
@@ -313,5 +313,5 @@ ws4.column_dimensions['B'].width = 14
 ws4.column_dimensions['C'].width = 30
 ws4.sheet_view.showGridLines = False
 
-wb.save('OVC-Fiche-Analyse-Conviction.xlsx')
-print('Fichier généré : OVC-Fiche-Analyse-Conviction.xlsx')
+wb.save('template-fiche-analyse-conviction.xlsx')
+print('Fichier généré : template-fiche-analyse-conviction.xlsx')
