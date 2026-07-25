@@ -212,7 +212,7 @@ html[data-lang=en] span[data-en]{display:inline}
   </div>
   <div class="kpi-item">
     <div class="kpi-val" id="kpi-alpha">n.d.</div>
-    <div class="kpi-key">Alpha <span data-fr>vs MSCI World</span><span data-en>vs MSCI World</span></div>
+    <div class="kpi-key">Alpha <span data-fr>vs S&amp;P 500</span><span data-en>vs S&amp;P 500</span></div>
     <div class="kpi-delta neu" id="kpi-alpha-sub"><span data-fr>Données insuffisantes</span><span data-en>Insufficient data</span></div>
   </div>
   <div class="kpi-item">
@@ -224,6 +224,29 @@ html[data-lang=en] span[data-en]{display:inline}
     <div class="kpi-val" id="kpi-weeks">0</div>
     <div class="kpi-key"><span data-fr>Semaines de suivi</span><span data-en>Weeks tracked</span></div>
     <div class="kpi-delta neu"><span data-fr>Mises a jour hebdo</span><span data-en>Weekly updates</span></div>
+  </div>
+</div>
+
+<div class="kpi-strip" style="grid-template-columns:repeat(4,1fr)">
+  <div class="kpi-item">
+    <div class="kpi-val" id="kpi-vol">n.d.</div>
+    <div class="kpi-key"><span data-fr>Volatilité annualisée</span><span data-en>Annualized volatility</span></div>
+    <div class="kpi-delta neu"><span data-fr>Rendements hebdo, ×√52</span><span data-en>Weekly returns, ×√52</span></div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-val" id="kpi-sharpe">n.d.</div>
+    <div class="kpi-key"><span data-fr>Ratio de Sharpe</span><span data-en>Sharpe ratio</span></div>
+    <div class="kpi-delta neu"><span data-fr>Taux sans risque = 0%</span><span data-en>Risk-free rate = 0%</span></div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-val" id="kpi-corr-sp500">n.d.</div>
+    <div class="kpi-key"><span data-fr>Corrélation</span><span data-en>Correlation</span> S&amp;P 500</div>
+    <div class="kpi-delta neu"><span data-fr>Rendements hebdo appariés</span><span data-en>Paired weekly returns</span></div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-val" id="kpi-corr-stoxx">n.d.</div>
+    <div class="kpi-key"><span data-fr>Corrélation</span><span data-en>Correlation</span> Euro Stoxx 50</div>
+    <div class="kpi-delta neu"><span data-fr>Rendements hebdo appariés</span><span data-en>Paired weekly returns</span></div>
   </div>
 </div>
 
@@ -362,6 +385,27 @@ html[data-lang=en] span[data-en]{display:inline}
     </div>
   </div>
 
+  <!-- JOURNAL DE DÉCISIONS -->
+  <div class="section-block" id="tx-journal-wrap" style="display:none">
+    <div class="sb-header">
+      <div class="sb-title"><span data-fr>Journal de décisions</span><span data-en>Decision log</span></div>
+      <div class="sb-sub" style="font-size:.68rem;color:var(--muted)"><span data-fr>50 dernières opérations du fonds — transparence totale sur chaque mouvement</span><span data-en>Fund's last 50 operations — full transparency on every move</span></div>
+    </div>
+    <div class="vl-hist-wrap">
+      <table class="vl-hist-table">
+        <thead><tr>
+          <th>Date</th>
+          <th><span data-fr>Type</span><span data-en>Type</span></th>
+          <th><span data-fr>Titre</span><span data-en>Ticker</span></th>
+          <th><span data-fr>Quantité</span><span data-en>Qty</span></th>
+          <th><span data-fr>Montant</span><span data-en>Amount</span></th>
+          <th><span data-fr>Note / thèse</span><span data-en>Note / thesis</span></th>
+        </tr></thead>
+        <tbody id="tx-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- RISK POLICY -->
   <div class="section-block">
     <div class="sb-header">
@@ -466,6 +510,7 @@ html[data-lang=en] span[data-en]{display:inline}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-client.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -555,6 +600,86 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ════════════════════════════════════════════════
+  // MÉTRIQUES DE RISQUE — vol / Sharpe (rf=0%) / corrélation
+  // Seuil minimum 8 semaines de donnees pour eviter des chiffres non significatifs
+  // ════════════════════════════════════════════════
+  var RISK_MIN_WEEKS = 8;
+
+  function fundWeeklyReturns(navHistory) {
+    var pts = [{date:LAUNCH_DATE, nav:NAV_LAUNCH}].concat(navHistory || []);
+    var rets = [];
+    for (var i = 1; i < pts.length; i++) {
+      var prev = pts[i-1].nav, cur = pts[i].nav;
+      if (prev > 0) rets.push({ date: pts[i].date, r: (cur - prev) / prev });
+    }
+    return rets;
+  }
+
+  function mean(arr) { return arr.length ? arr.reduce(function(a,b){ return a+b; }, 0) / arr.length : 0; }
+
+  function stdevSample(arr) {
+    if (arr.length < 2) return 0;
+    var m = mean(arr);
+    var sq = arr.reduce(function(a,v){ return a + Math.pow(v-m, 2); }, 0);
+    return Math.sqrt(sq / (arr.length - 1));
+  }
+
+  // Point du benchmark dont la date est la plus proche (tolérance en jours) — pas d'interpolation
+  function nearestClose(series, dateStr, toleranceDays) {
+    if (!series || !series.length) return null;
+    var target = new Date(dateStr + 'T12:00:00').getTime();
+    var best = null, bestDiff = Infinity;
+    series.forEach(function(pt) {
+      var t = new Date(pt.date + 'T12:00:00').getTime();
+      var diff = Math.abs(t - target);
+      if (diff < bestDiff) { bestDiff = diff; best = pt; }
+    });
+    if (!best) return null;
+    return (bestDiff / 86400000) <= toleranceDays ? parseFloat(best.close) : null;
+  }
+
+  function computeVolAnnualized(navHistory) {
+    var rets = fundWeeklyReturns(navHistory).map(function(x){ return x.r; });
+    if (rets.length < RISK_MIN_WEEKS) return null;
+    return stdevSample(rets) * Math.sqrt(52) * 100; // en %
+  }
+
+  function computeSharpe(navHistory) {
+    var rets = fundWeeklyReturns(navHistory).map(function(x){ return x.r; });
+    if (rets.length < RISK_MIN_WEEKS) return null;
+    var vol = stdevSample(rets) * Math.sqrt(52);
+    if (!vol) return null;
+    return (mean(rets) * 52) / vol; // rf = 0%
+  }
+
+  function pearsonCorr(xs, ys) {
+    var n = xs.length;
+    var mx = mean(xs), my = mean(ys);
+    var num = 0, dx2 = 0, dy2 = 0;
+    for (var i = 0; i < n; i++) {
+      var dx = xs[i]-mx, dy = ys[i]-my;
+      num += dx*dy; dx2 += dx*dx; dy2 += dy*dy;
+    }
+    var den = Math.sqrt(dx2*dy2);
+    return den ? num/den : null;
+  }
+
+  // Rendements hebdo appariés fonds/benchmark par nearest-date join (±4j), sans interpolation
+  function computeCorrelation(navHistory, benchSeries) {
+    if (!benchSeries || !benchSeries.length) return null;
+    var pts        = [{date:LAUNCH_DATE}].concat((navHistory||[]).map(function(h){ return {date:h.date}; }));
+    var fundRets   = fundWeeklyReturns(navHistory);
+    var benchCloses = pts.map(function(p){ return nearestClose(benchSeries, p.date, 4); });
+    var xs = [], ys = [];
+    for (var i = 1; i < pts.length; i++) {
+      if (benchCloses[i] == null || benchCloses[i-1] == null) continue;
+      xs.push(fundRets[i-1].r);
+      ys.push((benchCloses[i] - benchCloses[i-1]) / benchCloses[i-1]);
+    }
+    return xs.length >= RISK_MIN_WEEKS ? pearsonCorr(xs, ys) : null;
+  }
+
+  // ════════════════════════════════════════════════
   // API YAHOO  -  fund-nav peut aussi actualiser les prix
   // ════════════════════════════════════════════════
   function fetchLivePrices(portfolio, prices, callback) {
@@ -597,11 +722,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function render(state, overridePrices) {
-    var portfolio  = (state && state.portfolio) || [];
-    var prices     = overridePrices || (state && state.prices) || {};
-    var navHistory = (state && state.navHistory) || readHistory();
-    var cash       = state ? (state.cash  || 0)    : 0;
-    var parts      = state ? (state.parts || 1000) : 1000;
+    var portfolio   = (state && state.portfolio) || [];
+    var prices      = overridePrices || (state && state.prices) || {};
+    var navHistory  = (state && state.navHistory) || readHistory();
+    var cash        = state ? (state.cash  || 0)    : 0;
+    var parts       = state ? (state.parts || 1000) : 1000;
+    var benchSP500  = (state && state.benchSP500) || [];
+    var benchStoxx  = (state && state.benchStoxx) || [];
 
     // Use override prices for VL computation
     var stateForVL = state ? JSON.parse(JSON.stringify(state)) : null;
@@ -613,6 +740,18 @@ document.addEventListener('DOMContentLoaded', function() {
     var lastDate   = navHistory.length > 0 ? navHistory[navHistory.length-1].date : LAUNCH_DATE;
     var lastPublVL = navHistory.length > 0 ? navHistory[navHistory.length-1].nav : NAV_LAUNCH;
 
+    // ── Alpha réel vs S&P 500 (remplace l'ancien placeholder "vs MSCI World")
+    var spClose0   = nearestClose(benchSP500, LAUNCH_DATE, 4);
+    var spCloseNow = nearestClose(benchSP500, lastDate, 4);
+    var spPerf     = (spClose0 && spCloseNow) ? (spCloseNow - spClose0) / spClose0 * 100 : null;
+    var alpha      = spPerf != null ? perf - spPerf : null;
+
+    // ── Métriques de risque
+    var vol       = computeVolAnnualized(navHistory);
+    var sharpe    = computeSharpe(navHistory);
+    var corrSP    = computeCorrelation(navHistory, benchSP500);
+    var corrStoxx = computeCorrelation(navHistory, benchStoxx);
+
     // ── KPIs
     function setKPI(id, txt, cls) {
       var e = document.getElementById(id);
@@ -623,9 +762,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setKPI('kpi-nav',   currentVL.toFixed(2),    currentVL >= NAV_LAUNCH ? 'gold' : 'dn');
     setKPI('kpi-perf',  fmtPct(perf),             perf >= 0 ? 'up' : 'dn');
-    setKPI('kpi-alpha', navHistory.length >= 2 ? fmtPct(perf) : 'n.d.', perf >= 0 ? 'up' : 'dn');
+    setKPI('kpi-alpha', alpha != null ? fmtPct(alpha) : 'n.d.', alpha != null && alpha >= 0 ? 'up' : 'dn');
     setKPI('kpi-dd',    maxDD.toFixed(2) + '%',   maxDD < -3 ? 'dn' : '');
     setKPI('kpi-weeks', navHistory.length + '',   'gold');
+
+    setKPI('kpi-vol',        vol       != null ? vol.toFixed(2) + '%' : 'n.d.', '');
+    setKPI('kpi-sharpe',     sharpe    != null ? sharpe.toFixed(2)    : 'n.d.', sharpe    != null && sharpe    >= 0 ? 'up' : 'dn');
+    setKPI('kpi-corr-sp500', corrSP    != null ? corrSP.toFixed(2)    : 'n.d.', '');
+    setKPI('kpi-corr-stoxx', corrStoxx != null ? corrStoxx.toFixed(2) : 'n.d.', '');
+
+    var alphaSubEl = document.getElementById('kpi-alpha-sub');
+    if (alphaSubEl) {
+      alphaSubEl.innerHTML = alpha != null
+        ? '<span data-fr>S&amp;P 500 : ' + fmtPct(spPerf) + '</span><span data-en>S&amp;P 500: ' + fmtPct(spPerf) + '</span>'
+        : '<span data-fr>Données insuffisantes</span><span data-en>Insufficient data</span>';
+    }
 
     var ndEl = document.getElementById('kpi-nav-delta');
     if (ndEl) {
@@ -691,13 +842,45 @@ document.addEventListener('DOMContentLoaded', function() {
           '<td><strong>' + h.nav.toFixed(4) + '</strong></td>' +
           '<td class="' + (chg > 0 ? 'up' : chg < 0 ? 'dn' : '') + '">' + (idx > 0 ? fmtPct(chg) : '--') + '</td>' +
           '<td class="' + (cum > 0 ? 'up' : cum < 0 ? 'dn' : '') + '">' + fmtPct(cum) + '</td>' +
-          '<td style="color:var(--muted)">' + (h.note || '') + '</td>';
+          '<td style="color:var(--muted)">' + safeHtml(h.note || '') + '</td>';
         htbody.appendChild(tr);
       });
     }
 
+    // ── JOURNAL DE DÉCISIONS (transactions publiques)
+    renderTransactions(state.transactions || []);
+
     // ── UPDATE CHARTS (destroy + recreate)
-    renderCharts(portfolio, prices, navHistory);
+    renderCharts(portfolio, prices, navHistory, benchSP500, benchStoxx);
+  }
+
+  // Échappe/nettoie tout texte libre saisi par l'admin avant insertion DOM
+  function safeHtml(str) {
+    return window.DOMPurify ? DOMPurify.sanitize(str, { ALLOWED_TAGS: [] }) : String(str).replace(/</g, '&lt;');
+  }
+
+  var TX_TYPE_LABEL = { buy:'Achat', sell:'Vente', dividend:'Dividende', fee:'Frais', cash:'Mouvement cash' };
+
+  function renderTransactions(list) {
+    var wrap = document.getElementById('tx-journal-wrap');
+    var tbody = document.getElementById('tx-tbody');
+    if (!wrap || !tbody) return;
+    if (!list || list.length === 0) { wrap.style.display = 'none'; return; }
+    wrap.style.display = '';
+    tbody.innerHTML = '';
+    list.forEach(function(t) {
+      var tr = document.createElement('tr');
+      var typeLabel = TX_TYPE_LABEL[t.type] || t.type || '--';
+      var typeCls = t.type === 'buy' ? 'up' : (t.type === 'sell' ? 'dn' : '');
+      tr.innerHTML =
+        '<td>' + fmtDate(t.date) + '</td>' +
+        '<td class="' + typeCls + '">' + safeHtml(typeLabel) + '</td>' +
+        '<td class="mono gold">' + safeHtml(t.ticker || '--') + '</td>' +
+        '<td class="mono">' + (t.qty != null ? parseFloat(t.qty).toFixed(4) : '--') + '</td>' +
+        '<td class="mono">' + (t.total_eur != null ? parseFloat(t.total_eur).toLocaleString('fr-FR', {maximumFractionDigits:0}) + ' EUR' : '--') + '</td>' +
+        '<td style="color:var(--muted)">' + safeHtml(t.note || '') + '</td>';
+      tbody.appendChild(tr);
+    });
   }
 
   // ── ALLOCATION BAR BREAKDOWN
@@ -794,24 +977,39 @@ document.addEventListener('DOMContentLoaded', function() {
   var GOLD = '#c9832a', BLUE = '#1e4faa', GREEN = '#1a7a4a', RED = '#c0392b';
   var TIP  = { backgroundColor:'#1a1a2e', titleColor:'#f0a84a', bodyColor:'#fff', padding:10, cornerRadius:6 };
 
-  function renderCharts(portfolio, prices, navHistory) {
+  // Série benchmark normalisée base 100, ancrée sur LAUNCH_DATE (pas sur benchmark_history.value,
+  // qui est recalculée sur une fenêtre glissante par le job GitHub Actions — voir scripts/update_prices.py)
+  function benchNormalizedSeries(allPts, benchSeries) {
+    var close0 = nearestClose(benchSeries, LAUNCH_DATE, 4);
+    if (!close0) return null;
+    return allPts.map(function(h) {
+      var c = nearestClose(benchSeries, h.date, 4);
+      return c != null ? parseFloat((c / close0 * 100).toFixed(2)) : null; // trou plutôt qu'une valeur inventée
+    });
+  }
+
+  function renderCharts(portfolio, prices, navHistory, benchSP500, benchStoxx) {
     var allPts  = [{date:LAUNCH_DATE, nav:NAV_LAUNCH}].concat(navHistory);
     var labels  = allPts.map(function(h) { return fmtDate(h.date); });
     var navVals = allPts.map(function(h) { return parseFloat(h.nav.toFixed(4)); });
-    var msciV   = allPts.map(function(h) { return h.msci || NAV_LAUNCH; });
+    var spV     = benchNormalizedSeries(allPts, benchSP500);
+    var stoxxV  = benchNormalizedSeries(allPts, benchStoxx);
+
+    var navDatasets = [
+      { label:'OVC', data:navVals, borderColor:GOLD, backgroundColor:'rgba(201,131,42,.1)', fill:true, borderWidth:2.5, pointRadius:4, tension:.3 }
+    ];
+    if (spV)    navDatasets.push({ label:'S&P 500 (base 100)', data:spV, borderColor:BLUE, borderDash:[4,3], borderWidth:1.5, pointRadius:2, tension:.3, spanGaps:false });
+    if (stoxxV) navDatasets.push({ label:'Euro Stoxx 50 (base 100)', data:stoxxV, borderColor:GREEN, borderDash:[2,2], borderWidth:1.5, pointRadius:2, tension:.3, spanGaps:false });
 
     // NAV chart
     destroyChart('chart-nav');
     var cnav = document.getElementById('chart-nav');
     if (cnav) chartInstances['chart-nav'] = new Chart(cnav, {
       type: 'line',
-      data: { labels:labels, datasets: [
-        { label:'OVC', data:navVals, borderColor:GOLD, backgroundColor:'rgba(201,131,42,.1)', fill:true, borderWidth:2.5, pointRadius:4, tension:.3 },
-        { label:'MSCI World (base 100)', data:msciV, borderColor:BLUE, borderDash:[4,3], borderWidth:1.5, pointRadius:2, tension:.3 }
-      ]},
+      data: { labels:labels, datasets: navDatasets },
       options: { responsive:true, maintainAspectRatio:false,
         plugins:{ legend:{position:'bottom',labels:{boxWidth:10,padding:12}},
-          tooltip:{...TIP, callbacks:{label:function(c){ return ' ' + c.dataset.label + ': ' + c.raw.toFixed(2); }}} },
+          tooltip:{...TIP, callbacks:{label:function(c){ return c.raw != null ? ' ' + c.dataset.label + ': ' + c.raw.toFixed(2) : ' ' + c.dataset.label + ': —'; }}} },
         scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(0,0,0,.04)'}, ticks:{callback:function(v){ return v.toFixed(0); }}} }
       }
     });
@@ -1016,6 +1214,12 @@ document.addEventListener('DOMContentLoaded', function() {
       var r1 = await _db.from('portfolio').select('*');
       var r2 = await _db.from('nav_history').select('*').order('date');
       var r3 = await _db.from('fund_settings').select('*').eq('id', 1).maybeSingle();
+      var r4 = await _db.from('transactions').select('*').order('date', {ascending:false}).limit(50)
+        .then(function(r){ return r; }).catch(function(){ return {data:[]}; });
+      var r5 = await _db.from('benchmark_history').select('date,close').eq('symbol', '^GSPC').order('date')
+        .then(function(r){ return r; }).catch(function(){ return {data:[]}; });
+      var r6 = await _db.from('benchmark_history').select('date,close').eq('symbol', '^STOXX50E').order('date')
+        .then(function(r){ return r; }).catch(function(){ return {data:[]}; });
 
       var portfolio  = r1.data;
       var navHistory = r2.data;
@@ -1044,6 +1248,9 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         state.navHistory = [];
       }
+      state.transactions = (r4 && r4.data) ? r4.data : [];
+      state.benchSP500   = (r5 && r5.data) ? r5.data : [];
+      state.benchStoxx   = (r6 && r6.data) ? r6.data : [];
 
       if (settings) {
         state.cash  = parseFloat(settings.cash);

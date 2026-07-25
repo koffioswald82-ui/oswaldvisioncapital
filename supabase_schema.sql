@@ -80,6 +80,9 @@ CREATE TABLE transactions (
 
 ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Admin All Access" ON transactions FOR ALL USING (auth.role() = 'authenticated');
+-- Lecture publique ("journal de décisions") ajoutée par
+-- supabase/migrations/2026-07-25-public-read-transactions.sql
+CREATE POLICY "Public Read" ON transactions FOR SELECT USING (true);
 
 -- 5. Souscripteurs (Subscribers via les formulaires)
 CREATE TABLE subscribers (
