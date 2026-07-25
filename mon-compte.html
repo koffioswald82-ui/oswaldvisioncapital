@@ -8,6 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 :root{--ink:#1a1a2e;--ink2:#2d3561;--body:#4a4a68;--muted:#8a8aaa;--line:#e8e4f0;--bg:#fafaf8;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0;--gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2;--blue:#1e4faa;--blue-bg:#eef3ff;--green:#1a7a4a;--green-bg:#e8f5ee;--red:#c0392b;--red-bg:#fde8e8;--purple:#5e35b1;--purple-bg:#f0ebff;--shadow:0 2px 20px rgba(26,26,46,.08);--shadow-lg:0 8px 40px rgba(26,26,46,.14)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -156,10 +157,10 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
   <h1 class="ph-title">Mon <em>Compte</em> OVC</h1>
   <p class="ph-sub">Simulation d'investissement, formation gratuite et suivi de portefeuille</p>
   <div class="dash-tabs" id="dash-tabs" style="display:none">
-    <button class="dtab on" onclick="switchTab('portfolio',this)">📊 Portefeuille</button>
-    <button class="dtab" onclick="switchTab('perf',this)">📈 Performance</button>
-    <button class="dtab" onclick="switchTab('learn',this)">🎓 Formation</button>
-    <button class="dtab" onclick="switchTab('analyses',this)">📄 Mes Analyses</button>
+    <button class="dtab on" onclick="switchTab('portfolio',this)"><i class="bi bi-briefcase"></i> Portefeuille</button>
+    <button class="dtab" onclick="switchTab('perf',this)"><i class="bi bi-graph-up-arrow"></i> Performance</button>
+    <button class="dtab" onclick="switchTab('learn',this)"><i class="bi bi-mortarboard"></i> Formation</button>
+    <button class="dtab" onclick="switchTab('analyses',this)"><i class="bi bi-file-earmark-text"></i> Mes Analyses</button>
   </div>
 </div>
 
@@ -174,7 +175,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
 <!-- SCREEN: LOGIN -->
 <div class="screen" id="screen-login">
   <div class="login-card">
-    <div class="lc-icon">🔐</div>
+    <div class="lc-icon"><i class="bi bi-shield-lock"></i></div>
     <div class="lc-title">Accéder à mon espace</div>
     <div class="lc-sub" id="lc-sub-text">Connectez-vous avec votre email et mot de passe.</div>
 
@@ -313,7 +314,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
   <div class="panel" id="panel-learn">
     <div class="learn-intro">
       <div class="learn-intro-text">
-        <h3>🎓 Formation OVC — accès gratuit inclus</h3>
+        <h3>Formation OVC — accès gratuit inclus</h3>
         <p>En tant que membre OVC, vous accédez gratuitement à tous les modules de formation. De l'initiation aux marchés financiers jusqu'à la modélisation DCF avancée. À votre rythme.</p>
       </div>
       <div class="learn-badge">
@@ -343,7 +344,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
       <div class="modules-grid">
         <div class="mod-card beg" onclick="openModule(1)">
           <div class="mod-num">MODULE 01</div>
-          <div class="mod-icon">💰</div>
+          <div class="mod-icon"><i class="bi bi-piggy-bank"></i></div>
           <div class="mod-title">Les bases de l'investissement</div>
           <p class="mod-desc">Actions, obligations, fonds — comprendre les instruments financiers essentiels. Pourquoi investir et comment commencer avec 500 EUR.</p>
           <div class="mod-footer">
@@ -353,7 +354,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
         </div>
         <div class="mod-card beg" onclick="openModule(2)">
           <div class="mod-num">MODULE 02</div>
-          <div class="mod-icon">📊</div>
+          <div class="mod-icon"><i class="bi bi-clipboard-data"></i></div>
           <div class="mod-title">Lire un rapport annuel</div>
           <p class="mod-desc">Comment décrypter un 10-K ou rapport annuel : bilan, compte de résultat, flux de trésorerie. Les métriques à regarder en premier.</p>
           <div class="mod-footer">
@@ -363,7 +364,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
         </div>
         <div class="mod-card beg" onclick="openModule(3)">
           <div class="mod-num">MODULE 03</div>
-          <div class="mod-icon">🌍</div>
+          <div class="mod-icon"><i class="bi bi-globe2"></i></div>
           <div class="mod-title">Introduction aux marchés africains</div>
           <p class="mod-desc">BRVM, JSE, NSE — comment accéder aux bourses africaines, leurs spécificités et pourquoi elles offrent des opportunités uniques.</p>
           <div class="mod-footer">
@@ -379,7 +380,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
       <div class="modules-grid">
         <div class="mod-card int" onclick="openModule(4)">
           <div class="mod-num">MODULE 04</div>
-          <div class="mod-icon">🔬</div>
+          <div class="mod-icon"><i class="bi bi-search"></i></div>
           <div class="mod-title">L'analyse fondamentale</div>
           <p class="mod-desc">P/E, EV/EBITDA, ROE, ROA, FCF Yield — les métriques clés et comment les interpréter dans différents contextes sectoriels.</p>
           <div class="mod-footer">
@@ -389,7 +390,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
         </div>
         <div class="mod-card int" onclick="openModule(5)">
           <div class="mod-num">MODULE 05</div>
-          <div class="mod-icon">📐</div>
+          <div class="mod-icon"><i class="bi bi-calculator"></i></div>
           <div class="mod-title">Introduction au DCF</div>
           <p class="mod-desc">Construire un modèle DCF simple : projections de flux, taux d'actualisation WACC et valeur terminale. Exemple pratique sur Orange CI.</p>
           <div class="mod-footer">
@@ -415,7 +416,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
       <div class="modules-grid">
         <div class="mod-card adv" onclick="openModule(7)">
           <div class="mod-num">MODULE 07</div>
-          <div class="mod-icon">🏗️</div>
+          <div class="mod-icon"><i class="bi bi-diagram-3"></i></div>
           <div class="mod-title">Modélisation DCF avancée</div>
           <p class="mod-desc">DCF 3-étapes, modèle Gordon-Shapiro, scénarios bull/base/bear, analyse de sensibilité WACC × croissance. Reproduire le modèle OVC sur NVIDIA.</p>
           <div class="mod-footer">
@@ -425,7 +426,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
         </div>
         <div class="mod-card adv" onclick="openModule(8)">
           <div class="mod-num">MODULE 08</div>
-          <div class="mod-icon">🧩</div>
+          <div class="mod-icon"><i class="bi bi-grid-3x3-gap"></i></div>
           <div class="mod-title">Analyse sectorielle comparative</div>
           <p class="mod-desc">Porter's 5 Forces, chaîne de valeur, analyse concurrentielle. Comparer des secteurs hétérogènes (Tech US vs. Télécom Afrique) avec les bons outils.</p>
           <div class="mod-footer">
@@ -435,7 +436,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
         </div>
         <div class="mod-card adv" onclick="openModule(9)">
           <div class="mod-num">MODULE 09</div>
-          <div class="mod-icon">🎯</div>
+          <div class="mod-icon"><i class="bi bi-bullseye"></i></div>
           <div class="mod-title">Construction & gestion de portefeuille</div>
           <p class="mod-desc">Allocation d'actifs, corrélations, VaR, rééquilibrage. Construire un portefeuille global diversifié sur 4 zones géographiques — la méthode OVC.</p>
           <div class="mod-footer">
@@ -450,7 +451,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
   <!-- ── PANEL: MES ANALYSES -->
   <div class="panel" id="panel-analyses">
     <div class="detail-card" style="text-align:center;padding:2.5rem">
-      <div style="font-size:2rem;margin-bottom:1rem">📄</div>
+      <div style="font-size:2rem;margin-bottom:1rem"><i class="bi bi-file-earmark-text"></i></div>
       <div style="font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;margin-bottom:.5rem">Vos analyses sauvegardées</div>
       <p style="font-size:.83rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">Retrouvez ici les analyses que vous avez marquées comme favorites depuis les pages <strong>Equity Research</strong> et <strong>Macro</strong>. Cette fonctionnalité arrive prochainement.</p>
       <a href="analyses.html" style="display:inline-block;padding:.65rem 1.4rem;background:var(--ink);color:#fff;border-radius:8px;text-decoration:none;font-size:.82rem;font-weight:700">Parcourir les analyses →</a>
@@ -461,7 +462,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
 <!-- SCREEN: NOT FOUND -->
 <div class="screen" id="screen-notfound">
   <div class="notfound-card">
-    <div class="nf-icon">🔍</div>
+    <div class="nf-icon"><i class="bi bi-search"></i></div>
     <div class="nf-title">Aucune souscription trouvée</div>
     <div class="nf-sub">
       Aucune simulation n'est associée à <b id="nf-email"></b>.<br>
@@ -563,7 +564,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.3);padding:1.5rem 5vw;font-
     var gainEur    = currentVal - initAmount;
 
     // Greeting
-    document.getElementById('dash-greeting').textContent = 'Bonjour, ' + (s.first_name || '') + ' 👋';
+    document.getElementById('dash-greeting').textContent = 'Bonjour, ' + (s.first_name || '');
     document.getElementById('dash-since').textContent    = 'Membre depuis ' + fmtDate(s.date);
 
     // KPIs

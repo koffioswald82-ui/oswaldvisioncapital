@@ -9,6 +9,7 @@
 <link rel="manifest" href="manifest.json">
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
 <style>
@@ -204,7 +205,7 @@ html[data-lang=en] span[data-en]{display:inline}
   <h1 class="ph-title">OVC <em>Podcast</em></h1>
   <p class="ph-sub"><span data-fr>Décryptage des marchés financiers, analyses macro, deep-dives sectoriels. La finance rigoureuse, en audio.</span><span data-en>Financial markets breakdown, macro analysis, sector deep-dives. Rigorous finance, in audio.</span></p>
   <div class="ph-platforms">
-    <a href="#" class="ph-plat" onclick="return false">🎧 <span data-fr>Écouter ici</span><span data-en>Listen here</span></a>
+    <a href="#" class="ph-plat" onclick="return false"><i class="bi bi-headphones"></i> <span data-fr>Écouter ici</span><span data-en>Listen here</span></a>
     <a href="#" class="ph-plat" onclick="return false">Spotify</a>
     <a href="#" class="ph-plat" onclick="return false">Apple Podcasts</a>
     <a href="#" class="ph-plat" onclick="return false">YouTube</a>
@@ -346,7 +347,7 @@ html[data-lang=en] span[data-en]{display:inline}
 <div class="auth-gate-overlay" id="auth-gate" style="display:none">
   <div class="auth-gate-modal">
     <button class="ag-close" onclick="closeAuthGate()">✕</button>
-    <div class="ag-icon">🎧</div>
+    <div class="ag-icon"><i class="bi bi-headphones"></i></div>
     <h3 class="ag-title"><span data-fr>Contenu réservé aux abonnés</span><span data-en>Subscriber-only content</span></h3>
     <p class="ag-desc"><span data-fr>La lecture audio est disponible pour les investisseurs OVC. Connectez-vous à votre compte ou souscrivez pour accéder aux épisodes.</span><span data-en>Audio playback is available for OVC investors. Log in to your account or subscribe to access episodes.</span></p>
     <div class="ag-actions">
@@ -558,7 +559,7 @@ if(window._db){
         btn.textContent = '▶ ';
         btn.innerHTML += (document.documentElement.getAttribute('data-lang')==='en') ? 'Play' : 'Écouter';
       } else {
-        btn.textContent = '🔒 ';
+        btn.innerHTML = '<i class="bi bi-lock-fill"></i> ';
         btn.innerHTML += (document.documentElement.getAttribute('data-lang')==='en') ? 'Members only' : 'Abonnés';
       }
     });

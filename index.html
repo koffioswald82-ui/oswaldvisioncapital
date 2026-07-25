@@ -538,6 +538,8 @@ html[data-lang=en] span[data-en]{display:inline}
 .fl-int::before{background:linear-gradient(90deg,var(--gold),var(--gold-l))}
 .fl-avd::before{background:linear-gradient(90deg,var(--purple),#7c3aed)}
 .fl-lock{position:absolute;top:1.2rem;right:1.2rem;width:28px;height:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem}
+.leg-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:.3rem}
+.leg-dot.gold{background:var(--gold)}.leg-dot.blue{background:var(--blue)}.leg-dot.muted{background:var(--muted)}
 .fl-level{font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.55rem}
 .fl-deb .fl-level{color:#4ade80}
 .fl-int .fl-level{color:var(--gold-l)}
@@ -1052,7 +1054,7 @@ html[data-lang=en] span[data-en]{display:inline}
   <!-- Zone tabs -->
   <div class="geo-tabs reveal">
     <button class="geo-tab active" onclick="switchZone('africa',this)">
-      <span class="geo-flag">🌍</span>
+      <span class="geo-flag"><i class="bi bi-globe2"></i></span>
       <span class="geo-tab-name"><span data-fr>Afrique</span><span data-en>Africa</span></span>
       <span class="geo-tab-count">4 <span data-fr>secteurs</span><span data-en>sectors</span></span>
     </button>
@@ -1067,7 +1069,7 @@ html[data-lang=en] span[data-en]{display:inline}
       <span class="geo-tab-count">3 <span data-fr>secteurs</span><span data-en>sectors</span></span>
     </button>
     <button class="geo-tab" onclick="switchZone('global',this)">
-      <span class="geo-flag">🔬</span>
+      <span class="geo-flag"><i class="bi bi-cpu-fill"></i></span>
       <span class="geo-tab-name">Global Tech</span>
       <span class="geo-tab-count">2 <span data-fr>secteurs</span><span data-en>sectors</span></span>
     </button>
@@ -1078,7 +1080,7 @@ html[data-lang=en] span[data-en]{display:inline}
     <div class="zone-header">
       <div>
         <div class="zh-label"><span data-fr>Zone géographique</span><span data-en>Geographic zone</span></div>
-        <div class="zh-title">🌍 <em><span data-fr>Afrique subsaharienne</span><span data-en>Sub-Saharan Africa</span></em></div>
+        <div class="zh-title"><em><span data-fr>Afrique subsaharienne</span><span data-en>Sub-Saharan Africa</span></em></div>
         <div class="zh-mkts">
           <span class="zh-mkt">🇨🇮 BRVM · Abidjan</span>
           <span class="zh-mkt">🇿🇦 JSE · Johannesburg</span>
@@ -1092,7 +1094,7 @@ html[data-lang=en] span[data-en]{display:inline}
         <div class="zh-stat-l"><span data-fr>Secteurs suivis</span><span data-en>Tracked sectors</span></div>
       </div>
     </div>
-    <a href="analyses.html?zone=africa#hub-afrique" style="display:inline-block;margin:0 0 1.2rem;font-size:.78rem;font-weight:700;color:var(--gold-l);text-decoration:none;border:1px solid rgba(240,168,74,.35);border-radius:100px;padding:.5rem 1.1rem"><span data-fr>🌍 Hub Afrique &amp; BRVM →</span><span data-en>🌍 Africa &amp; BRVM hub →</span></a>
+    <a href="analyses.html?zone=africa#hub-afrique" style="display:inline-block;margin:0 0 1.2rem;font-size:.78rem;font-weight:700;color:var(--gold-l);text-decoration:none;border:1px solid rgba(240,168,74,.35);border-radius:100px;padding:.5rem 1.1rem"><span data-fr>Hub Afrique &amp; BRVM →</span><span data-en>Africa &amp; BRVM hub →</span></a>
     <div class="geo-grid">
       <!-- Télécoms -->
       <div class="sec-card z-africa">
@@ -1321,7 +1323,7 @@ html[data-lang=en] span[data-en]{display:inline}
     <div class="zone-header">
       <div>
         <div class="zh-label"><span data-fr>Thématique transversale</span><span data-en>Cross-region theme</span></div>
-        <div class="zh-title">🔬 <em>Global Tech &amp; IA</em></div>
+        <div class="zh-title"><em>Global Tech &amp; IA</em></div>
         <div class="zh-mkts">
           <span class="zh-mkt">🇺🇸 NASDAQ</span>
           <span class="zh-mkt">🇳🇱 Euronext</span>
@@ -1378,7 +1380,10 @@ html[data-lang=en] span[data-en]{display:inline}
 
   <!-- Legend + CTA -->
   <div style="margin-top:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-    <p style="font-size:.74rem;color:var(--muted);font-style:italic"><span data-fr>🟡 Couvert = analyse publiée · 🔵 En cours = en rédaction · ⚪ À venir = roadmap</span><span data-en>🟡 Covered = analysis published · 🔵 In progress = being written · ⚪ Coming = roadmap</span></p>
+    <p style="font-size:.74rem;color:var(--muted);font-style:italic">
+      <span data-fr><span class="leg-dot gold"></span>Couvert = analyse publiée · <span class="leg-dot blue"></span>En cours = en rédaction · <span class="leg-dot muted"></span>À venir = roadmap</span>
+      <span data-en><span class="leg-dot gold"></span>Covered = analysis published · <span class="leg-dot blue"></span>In progress = being written · <span class="leg-dot muted"></span>Coming = roadmap</span>
+    </p>
     <a href="analyses.html" class="btn-gold" style="font-size:.82rem;padding:.65rem 1.3rem"><span data-fr>Toutes les analyses →</span><span data-en>All analyses →</span></a>
   </div>
 </section>
@@ -1491,7 +1496,7 @@ html[data-lang=en] span[data-en]{display:inline}
 <section class="form-section reveal" id="formation">
   <div class="form-top">
     <div>
-      <div class="form-badge">🎓 <span data-fr>Accès exclusif souscripteurs</span><span data-en>Exclusive subscriber access</span></div>
+      <div class="form-badge"><span data-fr>Accès exclusif souscripteurs</span><span data-en>Exclusive subscriber access</span></div>
       <h2 class="form-h"><span data-fr>Formation <em>Investisseur</em><br>incluse dans votre souscription</span><span data-en>Investor <em>Education</em><br>included in your subscription</span></h2>
       <p class="form-sub"><span data-fr>9 modules structurés, 3 niveaux de maîtrise. Des bases de l'analyse fondamentale aux stratégies de portefeuille avancées — le même cadre que les gérants professionnels.</span><span data-en>9 structured modules, 3 mastery levels. From fundamental analysis basics to advanced portfolio strategies — the same framework used by professional fund managers.</span></p>
     </div>
@@ -1508,7 +1513,7 @@ html[data-lang=en] span[data-en]{display:inline}
   <div class="form-levels">
     <!-- Débutant -->
     <div class="fl-card fl-deb">
-      <div class="fl-lock">🔒</div>
+      <div class="fl-lock"><i class="bi bi-lock-fill"></i></div>
       <div class="fl-level"><span data-fr>Débutant</span><span data-en>Beginner</span></div>
       <div class="fl-title"><span data-fr>Bases de l'investissement</span><span data-en>Investment basics</span></div>
       <div class="fl-count">3 <span data-fr>modules · ~4h de contenu</span><span data-en>modules · ~4h of content</span></div>
@@ -1521,7 +1526,7 @@ html[data-lang=en] span[data-en]{display:inline}
 
     <!-- Intermédiaire -->
     <div class="fl-card fl-int">
-      <div class="fl-lock">🔒</div>
+      <div class="fl-lock"><i class="bi bi-lock-fill"></i></div>
       <div class="fl-level"><span data-fr>Intermédiaire</span><span data-en>Intermediate</span></div>
       <div class="fl-title"><span data-fr>Analyse &amp; stratégie</span><span data-en>Analysis &amp; strategy</span></div>
       <div class="fl-count">3 <span data-fr>modules · ~6h de contenu</span><span data-en>modules · ~6h of content</span></div>
@@ -1534,7 +1539,7 @@ html[data-lang=en] span[data-en]{display:inline}
 
     <!-- Avancé -->
     <div class="fl-card fl-avd">
-      <div class="fl-lock">🔒</div>
+      <div class="fl-lock"><i class="bi bi-lock-fill"></i></div>
       <div class="fl-level"><span data-fr>Avancé</span><span data-en>Advanced</span></div>
       <div class="fl-title"><span data-fr>Gestion de portefeuille</span><span data-en>Portfolio management</span></div>
       <div class="fl-count">3 <span data-fr>modules · ~8h de contenu</span><span data-en>modules · ~8h of content</span></div>
