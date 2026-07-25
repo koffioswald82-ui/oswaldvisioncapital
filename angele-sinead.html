@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Angele &amp; Sinead — Recherche &amp; Modélisation · Oswald Vision Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1a2e;--ink2:#2d3561;--body:#3a3a52;--muted:#8a8aaa;
+  --line:#e8e4f0;--bg:#f0f0f5;--white:#fff;--cream:#f5f2ec;--cream2:#eee9e0;
+  --gold:#c9832a;--gold-l:#f0a84a;--gold-bg:#fef3e2;
+  --blue:#1e4faa;--blue-bg:#eef3ff;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --red:#c0392b;--red-bg:#fde8e8;
+  --shadow:0 2px 14px rgba(26,26,46,.07);
+  --shadow-lg:0 8px 40px rgba(26,26,46,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#0a0f1e;color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;font-size:14px}
+
+/* LOGIN — patron identique à admin-ovc-secret.html pour cohérence */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(160deg,#070a12,#0f1628,#141e35)}
+.login-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2.5rem;width:min(100%,380px);text-align:center}
+.login-logo{font-family:'Libre Baskerville',serif;font-size:.82rem;color:rgba(255,255,255,.25);letter-spacing:.06em;margin-bottom:1.8rem}
+.login-title{font-family:'Libre Baskerville',serif;font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.35rem}
+.login-title em{color:var(--gold-l);font-style:italic}
+.login-sub{font-size:.78rem;color:rgba(255,255,255,.3);margin-bottom:1.8rem}
+.login-input{width:100%;padding:.78rem 1rem;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.9rem;color:#fff;outline:none;text-align:center;letter-spacing:.1em;margin-bottom:.9rem;transition:border-color .2s}
+.login-input:focus{border-color:var(--gold)}
+.login-input.shake{animation:shake .3s ease;border-color:var(--red)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.login-btn{width:100%;padding:.8rem;background:var(--gold);color:#fff;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;margin-bottom:.8rem;transition:background .2s}
+.login-btn:hover{background:#b5721e}
+.login-btn:disabled{opacity:.6;cursor:default}
+
+/* APP */
+.app{display:none;min-height:100vh;background:var(--bg)}
+.app.show{display:block}
+.topbar{background:var(--ink);height:50px;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.tb-logo{font-family:'Libre Baskerville',serif;font-size:.88rem;font-weight:700;color:rgba(255,255,255,.4)}.tb-logo em{color:var(--gold-l);font-style:italic}
+.tb-right{display:flex;align-items:center;gap:.8rem}
+.tb-btn{font-size:.72rem;color:rgba(255,255,255,.3);background:transparent;border:1px solid rgba(255,255,255,.1);padding:.22rem .6rem;border-radius:4px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s;text-decoration:none;display:inline-flex;align-items:center}
+.tb-btn:hover{color:var(--gold-l);border-color:rgba(201,131,42,.3)}
+
+.body{padding:1.5rem;max-width:1200px;margin:0 auto}
+.card{background:var(--white);border:1.5px solid var(--line);border-radius:12px;padding:1.3rem;box-shadow:var(--shadow);margin-bottom:1.2rem}
+.card-title{font-family:'Libre Baskerville',serif;font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap}
+.card-sub{font-size:.72rem;color:var(--muted);margin-top:-.6rem;margin-bottom:1rem}
+
+.field-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:.8rem}
+.field label{display:block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.3rem}
+.field input,.field select{width:100%;padding:.55rem .7rem;border:1.5px solid var(--line);border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ink);background:var(--white)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--gold)}
+.field input:read-only{background:var(--cream)}
+.field-err{border-color:var(--red)!important}
+.err-msg{font-size:.66rem;color:var(--red);margin-top:.3rem;display:none}
+.err-msg.show{display:block}
+
+.mode-toggle{display:flex;gap:.4rem;margin-bottom:1rem}
+.mode-btn{padding:.45rem 1rem;border:1.5px solid var(--line);border-radius:100px;background:var(--white);font-size:.75rem;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Outfit',sans-serif}
+.mode-btn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+
+.scenario-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media (max-width:800px){.scenario-cols{grid-template-columns:1fr}}
+.scen-col{border-radius:10px;padding:1rem;border:1.5px solid var(--line)}
+.scen-col.bear{background:var(--red-bg);border-color:rgba(192,57,43,.25)}
+.scen-col.base{background:var(--gold-bg);border-color:rgba(201,131,42,.3)}
+.scen-col.bull{background:var(--green-bg);border-color:rgba(26,122,74,.25)}
+.scen-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:.5rem}
+.scen-col.bear .scen-label{color:var(--red)}.scen-col.base .scen-label{color:var(--gold)}.scen-col.bull .scen-label{color:var(--green)}
+.scen-val{font-family:'Libre Baskerville',serif;font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1}
+.scen-unit{font-size:.68rem;color:var(--muted);margin-top:.15rem}
+.scen-upside{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;margin-top:.5rem}
+.scen-upside.up{color:var(--green)}.scen-upside.dn{color:var(--red)}
+.scen-detail{font-size:.68rem;color:var(--body);margin-top:.6rem;line-height:1.6}
+.scen-delta{display:flex;gap:.5rem;margin-top:.6rem}
+.scen-delta input{width:100%;padding:.35rem .5rem;font-size:.72rem;border:1px solid var(--line);border-radius:5px;font-family:'JetBrains Mono',monospace}
+
+.matrix-table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:.72rem}
+.matrix-table th,.matrix-table td{padding:.4rem .5rem;text-align:center;border:1px solid var(--line)}
+.matrix-table thead th{background:var(--ink);color:#fff;font-size:.62rem}
+.matrix-table td.axis{background:var(--cream);font-weight:700;color:var(--ink)}
+.matrix-table td.invalid{background:var(--cream2);color:var(--muted)}
+.matrix-table td.base-cell{outline:2px solid var(--gold);outline-offset:-2px;font-weight:700}
+.matrix-note{font-size:.68rem;color:var(--muted);margin-top:.6rem}
+
+.conv-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.conv-table th{text-align:left;font-size:.64rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:.4rem .5rem;border-bottom:2px solid var(--line)}
+.conv-table td{padding:.5rem;border-bottom:1px solid var(--line);vertical-align:middle}
+.conv-table input[type=number]{width:60px;padding:.3rem;text-align:center;border:1.5px solid var(--line);border-radius:5px;font-family:'JetBrains Mono',monospace}
+.conv-total-row td{font-weight:700;background:var(--gold-bg);font-family:'JetBrains Mono',monospace}
+.reco-pill{display:inline-block;padding:.35rem 1rem;border-radius:100px;font-weight:700;font-size:.85rem;font-family:'JetBrains Mono',monospace}
+.reco-pill.BUY{background:var(--green-bg);color:var(--green)}
+.reco-pill.HOLD{background:var(--gold-bg);color:var(--gold)}
+.reco-pill.NEUTRAL{background:var(--cream2);color:var(--muted)}
+.reco-pill.SELL{background:var(--red-bg);color:var(--red)}
+
+.btn-gold{background:var(--gold);color:#fff;border:none;padding:.65rem 1.4rem;border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:'Outfit',sans-serif}
+.btn-gold:hover{background:#b5721e}
+.btn-outline{background:transparent;border:1.5px solid var(--line);color:var(--body);padding:.6rem 1.3rem;border-radius:8px;font-weight:600;font-size:.8rem;cursor:pointer;font-family:'Outfit',sans-serif}
+.btn-outline:hover{border-color:var(--ink);color:var(--ink)}
+
+.saved-list{display:flex;flex-wrap:wrap;gap:.5rem}
+.saved-item{font-size:.72rem;padding:.4rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--cream);cursor:pointer;font-family:'JetBrains Mono',monospace}
+.saved-item:hover{border-color:var(--gold)}
+
+.export-box{background:var(--ink);color:rgba(255,255,255,.85);border-radius:8px;padding:1rem;font-family:'JetBrains Mono',monospace;font-size:.76rem;line-height:1.8;white-space:pre-wrap}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:.7rem 1.3rem;border-radius:8px;font-size:.8rem;opacity:0;pointer-events:none;transition:all .25s;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--red)}
+</style>
+</head>
+<body>
+
+<div class="login-wrap" id="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">OSWALD VISION CAPITAL</div>
+    <div class="login-title">Angele <em>&amp;</em> Sinead</div>
+    <div class="login-sub">Recherche &amp; modélisation — accès restreint</div>
+    <input type="email" class="login-input" id="admin-email" placeholder="Email administrateur..." onkeydown="if(event.key==='Enter')login()" style="margin-bottom:.6rem">
+    <input type="password" class="login-input" id="pwd" placeholder="Mot de passe..." onkeydown="if(event.key==='Enter')login()">
+    <button class="login-btn" onclick="login()">Accéder</button>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="tb-logo">Angele <em>&amp;</em> Sinead</div>
+    <div class="tb-right">
+      <a class="tb-btn" href="admin-ovc-secret.html">← Admin</a>
+      <button class="tb-btn" onclick="logout()">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- TICKER + ANALYSES SAUVEGARDÉES -->
+    <div class="card">
+      <div class="card-title">Titre analysé</div>
+      <div class="field-row">
+        <div class="field">
+          <label>Ticker existant (portefeuille)</label>
+          <select id="sel-portfolio-ticker" onchange="onPickPortfolioTicker(this.value)">
+            <option value="">— saisie libre —</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Ticker</label>
+          <input type="text" id="in-ticker" placeholder="ex: NVDA">
+        </div>
+        <div class="field">
+          <label>Devise</label>
+          <input type="text" id="in-currency" placeholder="EUR / USD / XOF">
+        </div>
+        <div class="field">
+          <label>Cours actuel</label>
+          <input type="number" step="0.0001" id="in-current-price" oninput="recalcAll()">
+        </div>
+      </div>
+      <div class="card-sub" id="saved-label">Analyses sauvegardées pour ce ticker :</div>
+      <div class="saved-list" id="saved-list"></div>
+    </div>
+
+    <!-- FORMULAIRE DCF -->
+    <div class="card">
+      <div class="card-title">
+        Hypothèses DCF
+        <div class="mode-toggle">
+          <button class="mode-btn on" id="mode-fcf" onclick="setMode('fcf')">Mode FCF</button>
+          <button class="mode-btn" id="mode-dividend" onclick="setMode('dividend')">Mode Dividende (Gordon-Shapiro)</button>
+        </div>
+      </div>
+      <div class="card-sub">3 phases : croissance explicite (N1 ans) → fade linéaire vers le taux terminal (N2 ans) → perpétuité. Cohérent avec la méthodologie enseignée (modules 05/07, mon-compte.html).</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label id="lbl-cf0">FCF de départ (FCF₀)</label>
+          <input type="number" step="0.01" id="in-cf0" value="100" oninput="recalcAll()">
+        </div>
+        <div class="field">
+          <label>Croissance phase 1 — g1 (%)</label>
+          <input type="number" step="0.1" id="in-g1" value="8" oninput="recalcAll()">
+        </div>
+        <div class="field">
+          <label>Durée phase 1 — N1 (ans)</label>
+          <input type="number" step="1" min="1" max="10" id="in-n1" value="5" oninput="recalcAll()">
+        </div>
+        <div class="field">
+          <label>Durée phase 2 (fade) — N2 (ans)</label>
+          <input type="number" step="1" min="0" max="10" id="in-n2" value="5" oninput="recalcAll()">
+        </div>
+        <div class="field">
+          <label>Croissance terminale — g (%)</label>
+          <input type="number" step="0.1" id="in-gterm" value="3" oninput="recalcAll()">
+        </div>
+        <div class="field">
+          <label>WACC (%)</label>
+          <input type="number" step="0.1" id="in-wacc" value="10" oninput="recalcAll()">
+        </div>
+        <div class="field" id="field-netdebt">
+          <label>Dette nette</label>
+          <input type="number" step="0.01" id="in-netdebt" value="0" oninput="recalcAll()">
+        </div>
+        <div class="field" id="field-shares">
+          <label>Actions en circulation</label>
+          <input type="number" step="1" id="in-shares" value="1000" oninput="recalcAll()">
+          <div class="err-msg" id="err-shares">Requis, doit être &gt; 0</div>
+        </div>
+      </div>
+      <div class="err-msg" id="err-gwacc" style="font-size:.72rem">⚠ La croissance terminale doit être strictement inférieure au WACC — calcul bloqué tant que ce n'est pas corrigé.</div>
+
+      <div class="card-sub" style="margin-top:1rem">Ajustements Bear / Bull (points de %, par rapport à la base — valeurs par défaut modifiables) :</div>
+      <div class="field-row">
+        <div class="field"><label>Bear : g1 (pts)</label><input type="number" step="0.5" id="in-bear-g1d" value="-4" oninput="recalcAll()"></div>
+        <div class="field"><label>Bear : WACC (pts)</label><input type="number" step="0.25" id="in-bear-waccd" value="1.5" oninput="recalcAll()"></div>
+        <div class="field"><label>Bull : g1 (pts)</label><input type="number" step="0.5" id="in-bull-g1d" value="4" oninput="recalcAll()"></div>
+        <div class="field"><label>Bull : WACC (pts)</label><input type="number" step="0.25" id="in-bull-waccd" value="-0.75" oninput="recalcAll()"></div>
+      </div>
+    </div>
+
+    <!-- RÉSULTATS -->
+    <div class="card">
+      <div class="card-title">Valeur intrinsèque par scénario</div>
+      <div class="scenario-cols">
+        <div class="scen-col bear">
+          <div class="scen-label">Bear</div>
+          <div class="scen-val" id="res-bear-val">—</div>
+          <div class="scen-unit">valeur / action</div>
+          <div class="scen-upside" id="res-bear-upside">—</div>
+          <div class="scen-detail" id="res-bear-detail"></div>
+        </div>
+        <div class="scen-col base">
+          <div class="scen-label">Base</div>
+          <div class="scen-val" id="res-base-val">—</div>
+          <div class="scen-unit">valeur / action</div>
+          <div class="scen-upside" id="res-base-upside">—</div>
+          <div class="scen-detail" id="res-base-detail"></div>
+        </div>
+        <div class="scen-col bull">
+          <div class="scen-label">Bull</div>
+          <div class="scen-val" id="res-bull-val">—</div>
+          <div class="scen-unit">valeur / action</div>
+          <div class="scen-upside" id="res-bull-upside">—</div>
+          <div class="scen-detail" id="res-bull-detail"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATRICE DE SENSIBILITÉ -->
+    <div class="card">
+      <div class="card-title">Matrice de sensibilité — WACC × croissance terminale</div>
+      <div style="overflow-x:auto">
+        <table class="matrix-table" id="matrix-table"></table>
+      </div>
+      <div class="matrix-note">Valeur intrinsèque / action (scénario Base), autres hypothèses figées. Cellules grisées : g ≥ WACC (formule invalide). Cellule encadrée : hypothèses de base.</div>
+    </div>
+
+    <!-- SCORE DE CONVICTION -->
+    <div class="card">
+      <div class="card-title">
+        Score de conviction
+        <span class="reco-pill" id="conv-reco-pill">—</span>
+      </div>
+      <div class="card-sub">Même grille que la fiche Excel de référence (Fund/templates/template-fiche-analyse-conviction.xlsx) — reste cohérente entre les deux outils.</div>
+      <table class="conv-table">
+        <thead><tr><th>Critère</th><th style="width:70px">Poids</th><th style="width:80px">Note /10</th><th style="width:90px">Contribution</th></tr></thead>
+        <tbody id="conv-tbody"></tbody>
+        <tfoot>
+          <tr class="conv-total-row">
+            <td colspan="3">SCORE PONDÉRÉ TOTAL</td>
+            <td id="conv-total">0.00</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- EXPORT / SAUVEGARDE -->
+    <div class="card">
+      <div class="card-title">Prêt pour publication</div>
+      <div class="card-sub">Résumé copiable à reporter manuellement dans le CMS (admin-ovc-secret.html) lors de la création de l'article.</div>
+      <div class="export-box" id="export-box">—</div>
+      <div style="display:flex;gap:.7rem;margin-top:1rem;flex-wrap:wrap">
+        <button class="btn-gold" onclick="saveAnalysis()">Enregistrer cette analyse</button>
+        <button class="btn-outline" onclick="newAnalysis()">Nouvelle analyse (vierge)</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="toast-msg"></span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  // ════════════════════════════════════════════
+  // AUTH — pattern identique à admin-ovc-secret.html
+  // (aucune vérification admin côté client — c'est la RLS/is_admin() qui protège dcf_analyses)
+  // ════════════════════════════════════════════
+  window.login = async function() {
+    var emailEl = el('admin-email');
+    var email   = emailEl ? emailEl.value.trim() : '';
+    var pwd     = el('pwd').value;
+    var btn     = document.querySelector('.login-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Connexion...'; }
+
+    function showApp() {
+      el('login-wrap').style.display = 'none';
+      el('app').classList.add('show');
+      loadPortfolioTickers();
+      newAnalysis();
+    }
+    function badCredentials() {
+      var i = el('pwd');
+      i.classList.add('shake'); i.value=''; i.placeholder='Identifiants incorrects...';
+      setTimeout(function(){ i.classList.remove('shake'); i.placeholder='Mot de passe...'; }, 500);
+      if (btn) { btn.disabled = false; btn.textContent = 'Accéder'; }
+    }
+
+    if (!window._db || !email) { badCredentials(); return; }
+    try {
+      var { data, error } = await _db.auth.signInWithPassword({ email:email, password:pwd });
+      if (data && data.session) { showApp(); if (btn) { btn.disabled=false; btn.textContent='Accéder'; } return; }
+    } catch(e) { console.warn('[Supabase] Auth error:', e); }
+    badCredentials();
+  };
+
+  window.logout = async function() {
+    if (window._db) await _db.auth.signOut().catch(function(){});
+    el('app').classList.remove('show');
+    el('login-wrap').style.display = 'flex';
+  };
+
+  // ════════════════════════════════════════════
+  // HELPERS
+  // ════════════════════════════════════════════
+  function el(id) { return document.getElementById(id); }
+  function num(id) { var v = parseFloat(el(id).value); return isNaN(v) ? 0 : v; }
+  function fmt(v, dec) { return (v==null || isNaN(v)) ? '—' : Number(v).toLocaleString('fr-FR', {minimumFractionDigits:dec||2, maximumFractionDigits:dec||2}); }
+
+  function toast(msg, type) {
+    var t = el('toast');
+    el('toast-msg').textContent = msg;
+    t.className = 'toast show' + (type === 'err' ? ' err' : '');
+    setTimeout(function(){ t.className = 'toast'; }, 3000);
+  }
+
+  var CURRENT_MODE = 'fcf';
+  window.setMode = function(m) {
+    CURRENT_MODE = m;
+    el('mode-fcf').classList.toggle('on', m === 'fcf');
+    el('mode-dividend').classList.toggle('on', m === 'dividend');
+    el('lbl-cf0').textContent = m === 'fcf' ? 'FCF de départ (FCF₀)' : 'Dividende par action de départ (DPS₀)';
+    el('field-netdebt').style.display = m === 'fcf' ? '' : 'none';
+    el('field-shares').style.display = m === 'fcf' ? '' : 'none';
+    recalcAll();
+  };
+
+  // ════════════════════════════════════════════
+  // MOTEUR DE CALCUL DCF (3 phases + Gordon-Shapiro)
+  // ════════════════════════════════════════════
+  // Projette les CF année par année : phase 1 (g1 constant, N1 ans),
+  // phase 2 (fade linéaire de g1 vers gTerminal, N2 ans).
+  function projectCashflows(cf0, g1, N1, N2, gTerminal) {
+    var cfs = [];
+    var cf = cf0;
+    for (var t = 1; t <= N1; t++) {
+      cf = cf * (1 + g1 / 100);
+      cfs.push({ year: t, cf: cf });
+    }
+    for (var k = 1; k <= N2; k++) {
+      var t2 = N1 + k;
+      var g = g1 + (gTerminal - g1) * (k / N2);
+      cf = cf * (1 + g / 100);
+      cfs.push({ year: t2, cf: cf });
+    }
+    return cfs;
+  }
+
+  function runDCF(inputs) {
+    // inputs: {cf0, g1, N1, N2, gTerminal, wacc, netDebt, shares, mode}
+    if (inputs.gTerminal >= inputs.wacc) return { error: 'G_GE_WACC' };
+    var N2 = Math.max(inputs.N2, 0);
+    var cfs = N2 > 0 ? projectCashflows(inputs.cf0, inputs.g1, inputs.N1, N2, inputs.gTerminal)
+                     : projectCashflows(inputs.cf0, inputs.g1, inputs.N1, 0, inputs.gTerminal);
+    if (!cfs.length) return { error: 'NO_PERIODS' };
+    var T = cfs[cfs.length - 1].year;
+
+    var pvSum = 0;
+    cfs.forEach(function(c) { pvSum += c.cf / Math.pow(1 + inputs.wacc / 100, c.year); });
+
+    var lastCF = cfs[cfs.length - 1].cf;
+    var tv = lastCF * (1 + inputs.gTerminal / 100) / (inputs.wacc / 100 - inputs.gTerminal / 100);
+    var pvTV = tv / Math.pow(1 + inputs.wacc / 100, T);
+
+    var ev = pvSum + pvTV;
+    var tvWeight = ev !== 0 ? (pvTV / ev) * 100 : 0;
+
+    var valuePerShare;
+    var equityValue;
+    if (inputs.mode === 'dividend') {
+      equityValue = ev;
+      valuePerShare = ev; // DPS déjà par action
+    } else {
+      equityValue = ev - (inputs.netDebt || 0);
+      if (!inputs.shares || inputs.shares <= 0) return { error: 'NO_SHARES' };
+      valuePerShare = equityValue / inputs.shares;
+    }
+
+    return { cfs:cfs, T:T, pvSum:pvSum, tv:tv, pvTV:pvTV, ev:ev, equityValue:equityValue, valuePerShare:valuePerShare, tvWeight:tvWeight };
+  }
+
+  function baseInputsFromForm() {
+    return {
+      cf0: num('in-cf0'), g1: num('in-g1'), N1: num('in-n1'), N2: num('in-n2'),
+      gTerminal: num('in-gterm'), wacc: num('in-wacc'),
+      netDebt: num('in-netdebt'), shares: num('in-shares'), mode: CURRENT_MODE
+    };
+  }
+
+  function scenarioInputs(base, g1Delta, waccDelta) {
+    var s = Object.assign({}, base);
+    s.g1 = base.g1 + g1Delta;
+    s.wacc = base.wacc + waccDelta;
+    return s;
+  }
+
+  // ════════════════════════════════════════════
+  // RECALCUL LIVE
+  // ════════════════════════════════════════════
+  window.recalcAll = function() {
+    var base = baseInputsFromForm();
+    var currentPrice = num('in-current-price');
+
+    var invalidG = base.gTerminal >= base.wacc;
+    el('err-gwacc').classList.toggle('show', invalidG);
+    var sharesInvalid = CURRENT_MODE === 'fcf' && (!base.shares || base.shares <= 0);
+    el('err-shares').classList.toggle('show', sharesInvalid);
+    el('in-shares').classList.toggle('field-err', sharesInvalid);
+
+    var bearInputs = scenarioInputs(base, num('in-bear-g1d'), num('in-bear-waccd'));
+    var bullInputs = scenarioInputs(base, num('in-bull-g1d'), num('in-bull-waccd'));
+
+    var rBear = runDCF(bearInputs);
+    var rBase = runDCF(base);
+    var rBull = runDCF(bullInputs);
+
+    renderScenario('bear', rBear, currentPrice);
+    renderScenario('base', rBase, currentPrice);
+    renderScenario('bull', rBull, currentPrice);
+
+    renderSensitivityMatrix(base);
+    renderExport(base, rBear, rBase, rBull, currentPrice);
+  };
+
+  function renderScenario(key, r, currentPrice) {
+    var valEl = el('res-' + key + '-val');
+    var upEl = el('res-' + key + '-upside');
+    var detEl = el('res-' + key + '-detail');
+    if (r.error) {
+      valEl.textContent = 'n.d.';
+      upEl.textContent = r.error === 'G_GE_WACC' ? 'g ≥ WACC' : 'données manquantes';
+      upEl.className = 'scen-upside';
+      detEl.textContent = '';
+      return;
+    }
+    valEl.textContent = fmt(r.valuePerShare, 2);
+    if (currentPrice > 0) {
+      var upside = (r.valuePerShare - currentPrice) / currentPrice * 100;
+      upEl.textContent = (upside >= 0 ? '+' : '') + upside.toFixed(1) + '% vs cours actuel';
+      upEl.className = 'scen-upside ' + (upside >= 0 ? 'up' : 'dn');
+    } else {
+      upEl.textContent = 'Cours actuel non renseigné';
+      upEl.className = 'scen-upside';
+    }
+    detEl.textContent = 'EV: ' + fmt(r.ev,1) + ' · VT: ' + r.tvWeight.toFixed(0) + '% de l\'EV';
+  }
+
+  function renderSensitivityMatrix(base) {
+    var waccVals = [-2,-1,0,1,2].map(function(d){ return base.wacc + d; });
+    var gVals = [-2,-1,0,1,2].map(function(d){ return base.gTerminal + d; });
+    var html = '<thead><tr><th>WACC \\ g</th>' + gVals.map(function(g){ return '<th>' + g.toFixed(1) + '%</th>'; }).join('') + '</tr></thead><tbody>';
+    waccVals.forEach(function(w) {
+      html += '<tr><td class="axis">' + w.toFixed(1) + '%</td>';
+      gVals.forEach(function(g) {
+        var isBaseCell = (w === base.wacc && g === base.gTerminal);
+        if (g >= w) {
+          html += '<td class="invalid">—</td>';
+        } else {
+          var r = runDCF(Object.assign({}, base, { wacc:w, gTerminal:g }));
+          var v = r.error ? '—' : fmt(r.valuePerShare, 1);
+          html += '<td' + (isBaseCell ? ' class="base-cell"' : '') + '>' + v + '</td>';
+        }
+      });
+      html += '</tr>';
+    });
+    html += '</tbody>';
+    el('matrix-table').innerHTML = html;
+  }
+
+  // ════════════════════════════════════════════
+  // SCORE DE CONVICTION
+  // ════════════════════════════════════════════
+  var CONV_CRITERIA = [
+    { key:'business',    label:'Qualité du business (moat, marges, position concurrentielle)', weight:25 },
+    { key:'valuation',   label:'Valorisation (P/E, EV/EBITDA vs historique et secteur)', weight:20 },
+    { key:'catalysts',   label:'Catalyseurs à 12 mois', weight:15 },
+    { key:'risks',       label:'Risques identifiés (10 = bien maîtrisés, 1 = élevés)', weight:15 },
+    { key:'momentum',    label:'Momentum / technique', weight:10 },
+    { key:'data',        label:'Qualité et fraîcheur des données', weight:10 },
+    { key:'strategy',    label:'Alignement stratégie du fonds', weight:5 }
+  ];
+
+  function buildConvictionTable() {
+    var tbody = el('conv-tbody');
+    tbody.innerHTML = CONV_CRITERIA.map(function(c) {
+      return '<tr>' +
+        '<td>' + c.label + '</td>' +
+        '<td>' + c.weight + '%</td>' +
+        '<td><input type="number" min="1" max="10" step="1" id="conv-' + c.key + '" value="5" oninput="recalcConviction()"></td>' +
+        '<td id="conv-contrib-' + c.key + '">—</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  window.recalcConviction = function() {
+    var total = 0;
+    CONV_CRITERIA.forEach(function(c) {
+      var note = parseFloat(el('conv-' + c.key).value) || 0;
+      var contrib = note * (c.weight / 100);
+      total += contrib;
+      el('conv-contrib-' + c.key).textContent = contrib.toFixed(2);
+    });
+    el('conv-total').textContent = total.toFixed(2);
+    var reco = total >= 7.5 ? 'BUY' : total >= 5.5 ? 'HOLD' : total >= 3.5 ? 'NEUTRAL' : 'SELL';
+    var pill = el('conv-reco-pill');
+    pill.textContent = reco;
+    pill.className = 'reco-pill ' + reco;
+    recalcAll(); // met à jour l'export avec le nouveau score
+  };
+
+  function getConvictionState() {
+    var criteria = CONV_CRITERIA.map(function(c) {
+      return { key:c.key, label:c.label, weight:c.weight, note: parseFloat(el('conv-' + c.key).value) || 0 };
+    });
+    var total = parseFloat(el('conv-total').textContent) || 0;
+    var reco = el('conv-reco-pill').textContent;
+    return { criteria:criteria, total:total, reco:reco };
+  }
+
+  // ════════════════════════════════════════════
+  // EXPORT — résumé copiable pour le CMS
+  // ════════════════════════════════════════════
+  function renderExport(base, rBear, rBase, rBull, currentPrice) {
+    var ticker = el('in-ticker').value || '(ticker non renseigné)';
+    var conv = (function(){ try { return getConvictionState(); } catch(e) { return {total:0, reco:'—'}; } })();
+    var lines = [];
+    lines.push('Ticker : ' + ticker + '  ·  Mode : ' + (CURRENT_MODE === 'fcf' ? 'DCF (FCF)' : 'Dividende (Gordon-Shapiro)'));
+    lines.push('Cours actuel : ' + fmt(currentPrice, 2));
+    lines.push('');
+    lines.push('Valeur intrinsèque / action :');
+    lines.push('  Bear : ' + (rBear.error ? 'n.d.' : fmt(rBear.valuePerShare, 2)));
+    lines.push('  Base : ' + (rBase.error ? 'n.d.' : fmt(rBase.valuePerShare, 2)));
+    lines.push('  Bull : ' + (rBull.error ? 'n.d.' : fmt(rBull.valuePerShare, 2)));
+    lines.push('');
+    lines.push('Score de conviction : ' + conv.total.toFixed(2) + '/10  →  Recommandation suggérée : ' + conv.reco);
+    el('export-box').textContent = lines.join('\n');
+  }
+
+  // ════════════════════════════════════════════
+  // PORTEFEUILLE — préremplissage
+  // ════════════════════════════════════════════
+  var PORTFOLIO_CACHE = [];
+  function loadPortfolioTickers() {
+    if (!window._db) return;
+    _db.from('portfolio').select('ticker,name,current_price,currency,sector,zone').order('ticker')
+      .then(function(res) {
+        if (!res || !res.data) return;
+        PORTFOLIO_CACHE = res.data;
+        var sel = el('sel-portfolio-ticker');
+        sel.innerHTML = '<option value="">— saisie libre —</option>' +
+          res.data.map(function(p){ return '<option value="' + p.ticker + '">' + p.ticker + ' — ' + p.name + '</option>'; }).join('');
+      })
+      .catch(function(){});
+  }
+
+  window.onPickPortfolioTicker = function(ticker) {
+    if (!ticker) return;
+    var p = PORTFOLIO_CACHE.find(function(x){ return x.ticker === ticker; });
+    if (!p) return;
+    el('in-ticker').value = p.ticker;
+    el('in-currency').value = p.currency || '';
+    el('in-current-price').value = p.current_price || '';
+    loadSavedAnalyses(ticker);
+    recalcAll();
+  };
+
+  // ════════════════════════════════════════════
+  // SAUVEGARDE / CHARGEMENT
+  // ════════════════════════════════════════════
+  function loadSavedAnalyses(ticker) {
+    var list = el('saved-list');
+    list.innerHTML = '';
+    if (!window._db || !ticker) return;
+    _db.from('dcf_analyses').select('id,ticker,mode,updated_at,results').eq('ticker', ticker).order('updated_at', {ascending:false}).limit(10)
+      .then(function(res) {
+        if (!res || !res.data || !res.data.length) { list.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Aucune analyse enregistrée pour ce ticker.</span>'; return; }
+        list.innerHTML = res.data.map(function(a) {
+          var d = new Date(a.updated_at).toLocaleDateString('fr-FR');
+          return '<span class="saved-item" onclick="loadAnalysis(' + a.id + ')">#' + a.id + ' · ' + d + '</span>';
+        }).join('');
+      })
+      .catch(function(){});
+  }
+
+  window.loadAnalysis = function(id) {
+    if (!window._db) return;
+    _db.from('dcf_analyses').select('*').eq('id', id).single()
+      .then(function(res) {
+        if (!res || !res.data) { toast('Analyse introuvable', 'err'); return; }
+        var a = res.data;
+        el('in-ticker').value = a.ticker || '';
+        setMode(a.mode || 'fcf');
+        var ib = a.inputs_base || {};
+        el('in-cf0').value = ib.cf0 != null ? ib.cf0 : 100;
+        el('in-g1').value = ib.g1 != null ? ib.g1 : 8;
+        el('in-n1').value = ib.N1 != null ? ib.N1 : 5;
+        el('in-n2').value = ib.N2 != null ? ib.N2 : 5;
+        el('in-gterm').value = ib.gTerminal != null ? ib.gTerminal : 3;
+        el('in-wacc').value = ib.wacc != null ? ib.wacc : 10;
+        el('in-netdebt').value = ib.netDebt != null ? ib.netDebt : 0;
+        el('in-shares').value = ib.shares != null ? ib.shares : 1000;
+        if (a.conviction && a.conviction.criteria) {
+          a.conviction.criteria.forEach(function(c) {
+            var i = el('conv-' + c.key);
+            if (i) i.value = c.note;
+          });
+        }
+        recalcConviction();
+        toast('Analyse #' + id + ' chargée', 'ok');
+      })
+      .catch(function(){ toast('Erreur de chargement', 'err'); });
+  };
+
+  window.saveAnalysis = async function() {
+    if (!window._db) { toast('Supabase non connecté', 'err'); return; }
+    var ticker = (el('in-ticker').value || '').trim().toUpperCase();
+    if (!ticker) { toast('Renseignez un ticker avant de sauvegarder', 'err'); return; }
+
+    var base = baseInputsFromForm();
+    var bear = scenarioInputs(base, num('in-bear-g1d'), num('in-bear-waccd'));
+    var bull = scenarioInputs(base, num('in-bull-g1d'), num('in-bull-waccd'));
+    var rBear = runDCF(bear), rBase = runDCF(base), rBull = runDCF(bull);
+    var currentPrice = num('in-current-price');
+
+    var payload = {
+      ticker: ticker,
+      mode: CURRENT_MODE,
+      inputs_base: base,
+      inputs_bull: { g1Delta: num('in-bull-g1d'), waccDelta: num('in-bull-waccd') },
+      inputs_bear: { g1Delta: num('in-bear-g1d'), waccDelta: num('in-bear-waccd') },
+      results: {
+        currentPrice: currentPrice,
+        bear: rBear.error ? null : { valuePerShare: rBear.valuePerShare, ev: rBear.ev },
+        base: rBase.error ? null : { valuePerShare: rBase.valuePerShare, ev: rBase.ev },
+        bull: rBull.error ? null : { valuePerShare: rBull.valuePerShare, ev: rBull.ev }
+      },
+      conviction: getConvictionState(),
+      updated_at: new Date().toISOString()
+    };
+
+    try {
+      var { error } = await _db.from('dcf_analyses').insert(payload);
+      if (error) throw error;
+      toast('Analyse enregistrée', 'ok');
+      loadSavedAnalyses(ticker);
+    } catch(e) {
+      toast('Erreur Supabase : ' + e.message, 'err');
+    }
+  };
+
+  window.newAnalysis = function() {
+    el('sel-portfolio-ticker').value = '';
+    el('in-ticker').value = '';
+    el('in-currency').value = '';
+    el('in-current-price').value = '';
+    el('in-cf0').value = 100;
+    el('in-g1').value = 8;
+    el('in-n1').value = 5;
+    el('in-n2').value = 5;
+    el('in-gterm').value = 3;
+    el('in-wacc').value = 10;
+    el('in-netdebt').value = 0;
+    el('in-shares').value = 1000;
+    el('in-bear-g1d').value = -4;
+    el('in-bear-waccd').value = 1.5;
+    el('in-bull-g1d').value = 4;
+    el('in-bull-waccd').value = -0.75;
+    setMode('fcf');
+    buildConvictionTable();
+    recalcConviction();
+    el('saved-list').innerHTML = '';
+  };
+
+  buildConvictionTable();
+  recalcConviction();
+});
+</script>
+</body>
+</html>
