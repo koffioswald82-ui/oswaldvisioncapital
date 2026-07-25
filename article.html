@@ -59,6 +59,8 @@ h1.ah-title em{font-style:italic;color:var(--gold-l)}
 .stamp-val.green{color:#4ade80}.stamp-val.gold{color:var(--gold-l)}.stamp-val.red{color:#f87171}.stamp-val.blue{color:#93c5fd}
 /* ARTICLE BODY */
 .article-body{max-width:900px;margin:0 auto;padding:4vh 5vw 8vh}
+.author-bio-top{margin-top:.85rem;padding-top:.85rem;border-top:1px solid rgba(255,255,255,.12);font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.6;max-width:60ch}
+.author-bio-bottom{margin-top:2.5rem;padding:1rem 1.3rem;background:var(--cream);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;font-size:.8rem;color:var(--body);line-height:1.7}
 .sec-wrap{margin:3rem 0 1.5rem}
 .sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
 .sec-eyebrow::after{content:'';width:20px;height:1px;background:var(--gold);display:inline-block}
@@ -203,6 +205,24 @@ document.addEventListener('DOMContentLoaded', function() {
   // ─────────────────────────────────────────────────────────
   var _charts = [];
 
+  // ── BIO AUTEUR (haut + bas d'article) ──────────────────────
+  var AUTHOR_BIOS = {
+    'oswald jaures koffi': {
+      fr: 'Oswald Jaûres KOFFI — Spécialiste en finance analytique et IA, passionné de finance, d\'économie, de stratégie et de développement durable.',
+      en: 'Oswald Jaûres KOFFI — Analytics & AI finance specialist, passionate about finance, economics, strategy and sustainable development.'
+    }
+  };
+  function normalizeAuthorKey(name) {
+    return (name || '').toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g, '') // retire les accents
+      .trim();
+  }
+  function authorBioHtml(author, variant) {
+    var bio = AUTHOR_BIOS[normalizeAuthorKey(author)];
+    if (!bio) return '';
+    return '<div class="author-bio-' + variant + '"><span data-fr>' + bio.fr + '</span><span data-en>' + bio.en + '</span></div>';
+  }
+
   function renderArticle(a) {
     var meta     = a.meta     || {};
     var sections = a.sections || [];
@@ -245,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '<h1 class="ah-title">' + (a.title||'') + '</h1>' +
         (a.lede ? '<p class="ah-lede">' + a.lede + '</p>' : '') +
         '<div class="ah-byline"><span class="ah-by-author">✦ ' + author + '</span><span class="ah-by-sep">·</span><span class="ah-by-rt">⏱ ' + rt + ' min de lecture</span>' + (a.views > 0 ? '<span class="ah-by-sep">·</span><span class="ah-by-views">' + a.views + ' vues</span>' : '') + '</div>' +
+        authorBioHtml(author, 'top') +
         tagsHtml +
         (stampHtml ? '<div class="stamp" style="' + stampStyle + '">' + stampHtml + '</div>' : '') +
       '</div>';
@@ -252,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
     _charts = [];
     var bodyHtml = sections.map(function(s,i){ return renderSection(s,i); }).join('');
 
-    var fullHtml = heroHtml + '<div class="article-body">' + bodyHtml + '</div>';
+    var fullHtml = heroHtml + '<div class="article-body">' + bodyHtml + authorBioHtml(author, 'bottom') + '</div>';
     document.getElementById('article-root').innerHTML = window.DOMPurify
       ? DOMPurify.sanitize(fullHtml, { ADD_TAGS: ['canvas'], ADD_ATTR: ['id'] })
       : fullHtml;
