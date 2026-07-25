@@ -173,6 +173,10 @@ CREATE TRIGGER articles_published_at
 
 -- ──────────────────────────────────────────────
 -- PUBLICATION PLANIFIÉE — pg_cron (auto-publish)
+-- ⚠️ Activée via supabase/migrations/2026-07-25-enable-scheduled-publish.sql
+-- (qui ajoute aussi la vue publique public_article_teasers pour annoncer
+-- les articles planifiés avant leur publication) — exécutez ce fichier
+-- plutôt que le bloc ci-dessous, gardé ici pour référence historique.
 -- Active l'extension dans Supabase :
 --   Dashboard → Extensions → pg_cron → Enable
 -- Puis exécute :
