@@ -871,9 +871,44 @@ function toggleMobileMenu() {
   body.classList.toggle('menu-open');
 }
 
+// ── TEASERS "à venir" — articles planifiés (scheduled_at futur, pas encore publiés)
+function relDate(dateStr) {
+  var d = new Date(dateStr);
+  var diffDays = Math.ceil((d - new Date()) / 86400000);
+  var fr = d.toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'});
+  var en = d.toLocaleDateString('en-US', {day:'numeric', month:'short', year:'numeric'});
+  if (diffDays === 1) return {fr:'Demain', en:'Tomorrow'};
+  if (diffDays > 1 && diffDays <= 13) return {fr:'Dans ' + diffDays + ' jours', en:'In ' + diffDays + ' days'};
+  return {fr:fr, en:en};
+}
+
+function loadArticleTeasers() {
+  if (!window._db) return;
+  window._db.from('public_article_teasers').select('*').eq('type', 'analyse').order('scheduled_at')
+    .then(function(res) {
+      if (!res || !res.data || !res.data.length) return;
+      var grid = document.getElementById('analyses-grid');
+      if (!grid) return;
+      var html = res.data.map(function(a) {
+        var rd = relDate(a.scheduled_at);
+        return '<div class="ac ac-soon" data-zone="' + (a.zone||'') + '" data-strategy="' + (a.strategy||'') + '" data-type="' + (a.type||'') + '" data-name="' + (a.slug||'') + '" data-date="' + a.scheduled_at + '" data-score="0">' +
+          '<div class="soon-inner">' +
+            '<div class="soon-num">' + (a.ticker||a.zone||'') + '</div>' +
+            '<div class="soon-title">' + (a.title||'') + '</div>' +
+            '<span class="soon-badge"><span data-fr>Disponible ' + rd.fr + '</span><span data-en>Available ' + rd.en + '</span></span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+      grid.insertAdjacentHTML('afterbegin', window.DOMPurify ? DOMPurify.sanitize(html) : html);
+    })
+    .catch(function(){});
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('mobile-toggle');
   if (toggle) toggle.addEventListener('click', toggleMobileMenu);
+
+  loadArticleTeasers();
 
   // Deep-link: ?zone=africa applique le filtre automatiquement
   const zoneParam = new URLSearchParams(location.search).get('zone');
@@ -893,6 +928,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 <script src="js/live.js"></script>
 </body>
 </html>

@@ -455,9 +455,45 @@ function toggleMobileMenu() {
   body.classList.toggle('menu-open');
 }
 
+// ── TEASERS "à venir" — articles macro planifiés (scheduled_at futur, pas encore publiés)
+function relDate(dateStr) {
+  var d = new Date(dateStr);
+  var diffDays = Math.ceil((d - new Date()) / 86400000);
+  var fr = d.toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'});
+  var en = d.toLocaleDateString('en-US', {day:'numeric', month:'short', year:'numeric'});
+  if (diffDays === 1) return {fr:'Demain', en:'Tomorrow'};
+  if (diffDays > 1 && diffDays <= 13) return {fr:'Dans ' + diffDays + ' jours', en:'In ' + diffDays + ' days'};
+  return {fr:fr, en:en};
+}
+
+function loadArticleTeasers() {
+  if (!window._db) return;
+  window._db.from('public_article_teasers').select('*').eq('type', 'macro').order('scheduled_at')
+    .then(function(res) {
+      if (!res || !res.data || !res.data.length) return;
+      res.data.forEach(function(a) {
+        var target = document.querySelector((a.zone === 'africa' ? '#cat-africa' : '#cat-macro') + ' .analyses-grid');
+        if (!target) return;
+        var rd = relDate(a.scheduled_at);
+        var catAttr = a.zone === 'africa' ? 'africa' : 'macro';
+        var html = '<div class="ac ac-soon" data-cat="' + catAttr + '" data-title="' + (a.slug||'') + '">' +
+          '<div class="soon-inner">' +
+            '<div class="soon-label">' + (a.ticker||'Macro') + '</div>' +
+            '<div class="soon-title">' + (a.title||'') + '</div>' +
+            '<span class="soon-badge"><span data-fr>Disponible ' + rd.fr + '</span><span data-en>Available ' + rd.en + '</span></span>' +
+          '</div>' +
+        '</div>';
+        target.insertAdjacentHTML('afterbegin', window.DOMPurify ? DOMPurify.sanitize(html) : html);
+      });
+    })
+    .catch(function(){});
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('mobile-toggle');
   if (toggle) toggle.addEventListener('click', toggleMobileMenu);
+
+  loadArticleTeasers();
 
   // Deep-link: ?cat=africa applique le filtre automatiquement
   const catParam = new URLSearchParams(location.search).get('cat');
@@ -477,6 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 <script src="js/live.js"></script>
 </body>
 </html>
