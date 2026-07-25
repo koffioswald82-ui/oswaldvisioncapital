@@ -36,6 +36,11 @@ h1.ph-title em{font-style:italic;color:var(--gold)}
 .ph-stat-num span{color:var(--gold)}
 .ph-stat-label{font-size:.72rem;color:var(--muted);margin-top:.2rem;line-height:1.4} /* ── LANG NOTICE */
 .lang-notice{background:var(--blue-bg);border-left:3px solid var(--blue);padding:.9rem 1.4rem;margin:2rem 8vw 0;border-radius:0 8px 8px 0;display:flex;align-items:flex-start;gap:.8rem}
+.hub-afrique{background:var(--purple-bg);border-left:3px solid var(--purple);padding:1.2rem 1.4rem;margin:1.2rem 8vw 0;border-radius:0 8px 8px 0}
+.hub-afrique-title{font-family:'Libre Baskerville',serif;font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:.5rem}
+.hub-afrique-links{display:flex;flex-wrap:wrap;gap:.6rem}
+.hub-afrique-links a{font-size:.78rem;font-weight:600;color:var(--purple);background:var(--white);border:1px solid var(--purple);border-radius:100px;padding:.4rem .9rem;text-decoration:none;transition:all .2s}
+.hub-afrique-links a:hover{background:var(--purple);color:#fff}
 .ln-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
 .ln-text{font-size:.82rem;color:var(--blue);line-height:1.6}
 .ln-text strong{font-weight:700} /* ── FILTERS */
@@ -344,6 +349,14 @@ html[data-lang=en] span[data-en]{display:inline} /* ── ANIMATIONS */
 <span data-fr><strong>Disponible en 2 langues.</strong>Chaque analyse est publiée en français et en anglais le même jour. Utilisez les boutons FR / EN sur chaque carte pour basculer entre les versions.</span>
 <span data-en><strong>Available in 2 languages.</strong>Each analysis is published in French and English on the same day. Use the FR / EN buttons on each card to switch between versions.</span>
 </p>
+</div><!-- HUB AFRIQUE -->
+<div class="hub-afrique" id="hub-afrique">
+<div class="hub-afrique-title"><span data-fr>🌍 Focus Afrique &amp; BRVM</span><span data-en>🌍 Africa &amp; BRVM focus</span></div>
+<div class="hub-afrique-links">
+<a href="Mcr/macro-uemoa.html"><span data-fr>La BRVM, sous-évaluée ou illiquide ?</span><span data-en>The BRVM, undervalued or illiquid?</span></a>
+<a href="macro.html?cat=africa"><span data-fr>Toute la macro Afrique &amp; Émergents →</span><span data-en>All Africa &amp; Emerging macro →</span></a>
+<a href="fund-simulator.html"><span data-fr>Comparatif OVC vs BRVM Composite</span><span data-en>OVC vs BRVM Composite comparison</span></a>
+</div>
 </div><!-- FILTERS -->
 <div class="filters-bar">
 <span class="filter-label"><span data-fr>Filtrer</span><span data-en>Filter</span></span><div class="filter-group">
@@ -861,6 +874,13 @@ function toggleMobileMenu() {
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('mobile-toggle');
   if (toggle) toggle.addEventListener('click', toggleMobileMenu);
+
+  // Deep-link: ?zone=africa applique le filtre automatiquement
+  const zoneParam = new URLSearchParams(location.search).get('zone');
+  if (zoneParam) {
+    const zoneBtn = document.querySelector('.fbtn-zone.' + zoneParam);
+    if (zoneBtn) filterBy(zoneParam, zoneBtn);
+  }
 
   document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
     link.addEventListener('click', () => {

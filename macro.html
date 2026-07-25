@@ -385,13 +385,15 @@ html[data-lang=en] span[data-en]{display:inline} /* RESPONSIVE */
 <p class="ac-excerpt"><span data-fr>6.5% de croissance structurelle, 145M habitants, âge médian 19 ans. Analyse des drivers durables, risques politiques, BRVM et implications OVC.</span><span data-en>6.5% structural growth, 145M people, median age 19. Analysis of durable drivers, political risks, BRVM and OVC implications.</span></p>
 </div>
 <div class="ac-footer"><span class="ac-read-time">15 min</span><span class="ac-arrow"></span></div>
-</a><div class="ac ac-soon" data-cat="africa" data-title="BRVM marchés capitaux afrique">
-<div class="soon-inner">
-<div class="soon-label">A-002 · Afrique</div>
-<div class="soon-title"><span data-fr>BRVM, Pourquoi le plus grand marché francophone africain reste sous-couvert</span><span data-en>BRVM, Why West Africa's largest francophone market stays undercovered</span></div>
-<span class="soon-badge"><span data-fr>Juin 2026</span><span data-en>June 2026</span></span>
+</a><a href="analyses.html?zone=africa#hub-afrique" class="ac" data-cat="africa" data-title="BRVM marchés capitaux afrique hub">
+<div class="ac-top"><div class="ac-badges-wrap"><span class="badge badge-cat-africa">Afrique</span></div><span class="ac-num">A-002</span></div>
+<div class="ac-body">
+<div class="ac-date"><span data-fr>Hub dédié</span><span data-en>Dedicated hub</span></div>
+<div class="ac-title"><span data-fr>BRVM, le plus grand marché francophone africain reste sous-couvert — notre couverture</span><span data-en>BRVM, West Africa's largest francophone market stays undercovered — our coverage</span></div>
+<p class="ac-excerpt"><span data-fr>Retrouvez notre analyse UEMOA, le comparatif OVC vs BRVM Composite et le suivi macro Afrique regroupés au même endroit.</span><span data-en>Our UEMOA analysis, the OVC vs BRVM Composite comparison and Africa macro coverage, all in one place.</span></p>
 </div>
-</div><div class="ac ac-soon" data-cat="africa" data-title="mobile money fintech afrique">
+<div class="ac-footer"><span class="ac-read-time"><span data-fr>Hub →</span><span data-en>Hub →</span></span><span class="ac-arrow"></span></div>
+</a><div class="ac ac-soon" data-cat="africa" data-title="mobile money fintech afrique">
 <div class="soon-inner">
 <div class="soon-label">A-003 · Afrique</div>
 <div class="soon-title"><span data-fr>Mobile Money en Afrique, La révolution financière que les marchés ne valorisent pas</span><span data-en>Mobile Money in Africa, The financial revolution markets don't price</span></div>
@@ -456,6 +458,13 @@ function toggleMobileMenu() {
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('mobile-toggle');
   if (toggle) toggle.addEventListener('click', toggleMobileMenu);
+
+  // Deep-link: ?cat=africa applique le filtre automatiquement
+  const catParam = new URLSearchParams(location.search).get('cat');
+  if (catParam) {
+    const catBtn = document.querySelector('.ftab[onclick*="\'' + catParam + '\'"]');
+    if (catBtn) filterCat(catParam, catBtn);
+  }
 
   document.querySelectorAll('.mno-link, .mno-sublink').forEach(link => {
     link.addEventListener('click', () => {
