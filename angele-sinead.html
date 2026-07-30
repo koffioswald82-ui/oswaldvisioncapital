@@ -739,11 +739,12 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   // ════════════════════════════════════════════
-  // VEILLE — fil Google News (Edge Function) + carnet manuel (veille_notes)
+  // VEILLE — fil d'actualités (news_cache, alimenté par scripts/update_prices.py)
+  // + carnet manuel (veille_notes). L'appel direct à l'Edge Function news-feed
+  // a été abandonné : Google News renvoie 503 depuis les serveurs Supabase
+  // (IP bloquée), même schéma que pour les fondamentaux — donc même
+  // contournement, un cache alimenté par le job GitHub Actions.
   // ════════════════════════════════════════════
-  var NEWS_FN_URL = 'https://bnmjhmijhgxpjbrtwbdv.supabase.co/functions/v1/news-feed';
-  var SUPABASE_ANON = 'sb_publishable_wGAN6IdcQOzPdvN7uEcn2w_yHQlh_RK';
-
   function fmtNewsDate(pubDate) {
     try { return new Date(pubDate).toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'}); }
     catch(e) { return pubDate || ''; }
@@ -753,16 +754,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var query = (el('in-news-query').value || '').trim();
     var listEl = el('news-list');
     if (!query) { listEl.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Entrez une requête (nom d\'entreprise, secteur, marché...).</span>'; return; }
-    listEl.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Recherche en cours...</span>';
+    if (!window._db) { listEl.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Supabase non connecté.</span>'; return; }
+    listEl.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Recherche dans le cache...</span>';
     try {
-      var r = await fetch(NEWS_FN_URL, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer ' + SUPABASE_ANON },
-        body: JSON.stringify({ query: query })
-      });
-      var d = await r.json();
-      if (!d.results || !d.results.length) { listEl.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Aucun résultat.</span>'; return; }
-      var newsHtml = d.results.map(function(item) {
+      var res = await _db.from('news_cache').select('*').eq('query', query).maybeSingle();
+      if (!res.data || !res.data.results || !res.data.results.length) {
+        listEl.innerHTML = '<span style="font-size:.72rem;color:var(--muted)">Pas encore en cache pour "' + query + '". Utilisez le nom exact de l\'entreprise (déjà suivi automatiquement), ou cliquez "Récupérer les fondamentaux" pour l\'ajouter à la liste d\'attente — les deux se mettent à jour ensemble au prochain passage.</span>';
+        return;
+      }
+      var age = res.data.updated_at ? fmtNewsDate(res.data.updated_at) : '?';
+      var newsHtml = '<div class="news-meta" style="margin-bottom:.3rem">Mis à jour le ' + age + '</div>' + res.data.results.map(function(item) {
         return '<div class="news-item">' +
           '<a href="' + item.link + '" target="_blank" rel="noopener">' + item.title + '</a>' +
           '<div class="news-meta">' + (item.source||'') + ' · ' + fmtNewsDate(item.pubDate) + '</div>' +

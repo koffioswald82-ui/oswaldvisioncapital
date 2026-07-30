@@ -1,11 +1,15 @@
 // Supabase Edge Function — Google News RSS proxy (veille A&S Terminal)
-// Déployer : npx supabase functions deploy news-feed --no-verify-jwt
 //
-// Testé en direct avant de choisir cette source : contrairement à l'endpoint
-// Yahoo quoteSummary (crumb/cookies fragiles), le flux RSS Google News est
-// public, sans authentification, et structuré de façon stable. Usage
-// interne/personnel uniquement — le flux porte une mention de copyright
-// Google restreignant à un usage de lecteur de flux personnel.
+// ⚠️ NON UTILISÉE PAR LE SITE — testée en direct après déploiement, Google
+// renvoie une erreur 503 depuis les serveurs Supabase (IP bloquée par
+// l'anti-bot de Google), alors que le même flux fonctionne normalement
+// depuis les serveurs GitHub Actions déjà utilisés pour les cours. A&S
+// Terminal lit désormais la table `news_cache`, alimentée par
+// scripts/update_prices.py (fonction fetch_news/store_news), pas cette
+// fonction. Laissée déployée pour référence/débogage futur — ne pas la
+// rebrancher sans retester la disponibilité depuis Supabase au préalable.
+//
+// Déployer : npx supabase functions deploy news-feed --no-verify-jwt
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 
 const CORS = {
@@ -31,6 +35,9 @@ serve(async (req: Request) => {
     const resp = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+        'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+        'Referer': 'https://news.google.com/',
       },
     });
     if (!resp.ok) throw new Error(`Google News HTTP ${resp.status}`);

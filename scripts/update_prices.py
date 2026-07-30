@@ -9,6 +9,7 @@ Required GitHub Secrets:
 """
 
 import os
+import re
 import sys
 import json
 import time
@@ -207,6 +208,63 @@ def store_fundamentals(data: dict, ticker_map: dict):
     else:
         print(f'  [Fundamentals] {len(rows)} tickers mis à jour')
 
+# ── Veille — actualités via Google News RSS (fiable depuis GitHub Actions,
+#    contrairement à Yahoo quoteSummary : testé, aucune authentification requise)
+def fetch_news(query: str) -> list:
+    """Retourne jusqu'à 10 items {title, link, pubDate, source} pour une requête."""
+    url = (f'https://news.google.com/rss/search?q={requests.utils.quote(query)}'
+           f'&hl=fr&gl=FR&ceid=FR:fr')
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+        'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+    }
+    try:
+        r = requests.get(url, headers=headers, timeout=15)
+        r.raise_for_status()
+        items = re.findall(r'<item>(.*?)</item>', r.text, re.S)
+        out = []
+        for it in items[:10]:
+            def grab(pattern):
+                m = re.search(pattern, it, re.S)
+                return m.group(1).strip() if m else ''
+            out.append({
+                'title':   grab(r'<title>(.*?)</title>'),
+                'link':    grab(r'<link>(.*?)</link>'),
+                'pubDate': grab(r'<pubDate>(.*?)</pubDate>'),
+                'source':  grab(r'<source url="[^"]*">(.*?)</source>'),
+            })
+        return out
+    except Exception as exc:
+        print(f'  [News ERR] {query}: {exc}')
+        return []
+
+def store_news(queries: list):
+    if not queries:
+        return
+    now_iso = datetime.now(timezone.utc).isoformat()
+    rows = []
+    for q in queries:
+        items = fetch_news(q)
+        if items:
+            rows.append({'query': q, 'results': items, 'updated_at': now_iso})
+        time.sleep(0.5)
+    if not rows:
+        print('  [News] Aucun résultat à stocker')
+        return
+    if DRY_RUN:
+        print(f'  [DRY] Would upsert news for {len(rows)} requêtes')
+        return
+    r = requests.post(
+        f'{SUPABASE_URL}/rest/v1/news_cache',
+        headers={**SB_HEADERS, 'Prefer': 'resolution=merge-duplicates'},
+        json=rows, timeout=30
+    )
+    if r.status_code not in (200, 201):
+        print(f'  [News ERR] {r.status_code}: {r.text[:200]}')
+    else:
+        print(f'  [News] {len(rows)} requêtes mises à jour')
+
 # ── Benchmark upsert ──────────────────────────────────────
 def store_benchmark(symbol: str, label: str):
     rows = yahoo_history(symbol)
@@ -337,6 +395,18 @@ def main():
 
     fund_data = fetch_fundamentals(fund_symbols)
     store_fundamentals(fund_data, fund_ticker_map)
+
+    # 6c. Veille — actualités par entreprise (A&S Terminal)
+    print('\n[News] Récupération des actualités…')
+    news_queries = [p['name'] for p in positions if p.get('name')]
+    for t in watchlist_tickers:
+        if t not in news_queries:
+            news_queries.append(t)
+    MAX_NEWS = 20
+    if len(news_queries) > MAX_NEWS:
+        print(f'  [WARN] {len(news_queries)} requêtes, plafonné à {MAX_NEWS} pour ce run')
+        news_queries = news_queries[:MAX_NEWS]
+    store_news(news_queries)
 
     # 6. FX rates → fund_settings.fx_rates
     print('\n[FX] Récupération des taux de change…')

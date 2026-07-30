@@ -42,3 +42,6 @@ node_modules/
 *.xlsm
 *.csv
 !template*.xlsx
+
+# Supabase CLI local cache
+supabase/.temp/
